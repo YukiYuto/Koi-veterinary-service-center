@@ -1589,6 +1589,7 @@
         "type": "project",
         "framework": ".NETCoreApp,Version=v8.0",
         "dependencies": {
+          "KoiVeterinaryServiceCenter.Utility": "1.0.0",
           "Microsoft.AspNetCore.Identity.EntityFrameworkCore": "8.0.6",
           "Microsoft.Extensions.Identity.Core": "8.0.6"
         },
@@ -1597,6 +1598,16 @@
         },
         "runtime": {
           "bin/placeholder/KoiVeterinaryServiceCenter.Model.dll": {}
+        }
+      },
+      "KoiVeterinaryServiceCenter.Utility/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v8.0",
+        "compile": {
+          "bin/placeholder/KoiVeterinaryServiceCenter.Utility.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/KoiVeterinaryServiceCenter.Utility.dll": {}
         }
       }
     }
@@ -4288,6 +4299,11 @@
       "type": "project",
       "path": "../KoiVeterinaryServiceCenter.Model/KoiVeterinaryServiceCenter.Model.csproj",
       "msbuildProject": "../KoiVeterinaryServiceCenter.Model/KoiVeterinaryServiceCenter.Model.csproj"
+    },
+    "KoiVeterinaryServiceCenter.Utility/1.0.0": {
+      "type": "project",
+      "path": "../KoiVeterinaryServiceCenter.Utility/KoiVeterinaryServiceCenter.Utility.csproj",
+      "msbuildProject": "../KoiVeterinaryServiceCenter.Utility/KoiVeterinaryServiceCenter.Utility.csproj"
     }
   },
   "projectFileDependencyGroups": {

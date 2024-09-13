@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("KoiVeterinaryServiceCenter.Services")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+2f7aa169eb021028c29e63da7d09e56759e91398")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+b329e7adcc020d4fe375a99fa945de9bb1e8d69a")]
 [assembly: System.Reflection.AssemblyProductAttribute("KoiVeterinaryServiceCenter.Services")]
 [assembly: System.Reflection.AssemblyTitleAttribute("KoiVeterinaryServiceCenter.Services")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

@@ -214,7 +214,11 @@
         "frameworks": {
           "net8.0": {
             "targetAlias": "net8.0",
-            "projectReferences": {}
+            "projectReferences": {
+              "D:\\SWP391\\Koi-veterinary-service-center\\KoiVeterinaryServiceCenter_Server\\KoiVeterinaryServiceCenter.Utility\\KoiVeterinaryServiceCenter.Utility.csproj": {
+                "projectPath": "D:\\SWP391\\Koi-veterinary-service-center\\KoiVeterinaryServiceCenter_Server\\KoiVeterinaryServiceCenter.Utility\\KoiVeterinaryServiceCenter.Utility.csproj"
+              }
+            }
           }
         },
         "warningProperties": {
