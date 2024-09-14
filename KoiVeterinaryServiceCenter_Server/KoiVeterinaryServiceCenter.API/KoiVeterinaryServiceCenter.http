@@ -1,0 +1,6 @@
+@KoiVeterinaryServiceCenter_HostAddress = http://localhost:5226
+
+GET {{KoiVeterinaryServiceCenter_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
