@@ -179,3 +179,9 @@ D:\SWP391\Koi-veterinary-service-center\KoiVeterinaryServiceCenter_Server\KoiVet
 D:\SWP391\Koi-veterinary-service-center\KoiVeterinaryServiceCenter_Server\KoiVeterinaryServiceCenter.API\bin\Debug\net8.0\KoiVeterinaryServiceCenter.Model.pdb
 D:\SWP391\Koi-veterinary-service-center\KoiVeterinaryServiceCenter_Server\KoiVeterinaryServiceCenter.API\bin\Debug\net8.0\KoiVeterinaryServiceCenter.Utility.dll
 D:\SWP391\Koi-veterinary-service-center\KoiVeterinaryServiceCenter_Server\KoiVeterinaryServiceCenter.API\bin\Debug\net8.0\KoiVeterinaryServiceCenter.Utility.pdb
+D:\SWP391\Koi-veterinary-service-center\KoiVeterinaryServiceCenter_Server\KoiVeterinaryServiceCenter.API\bin\Debug\net8.0\Microsoft.IdentityModel.Clients.ActiveDirectory.dll
+D:\SWP391\Koi-veterinary-service-center\KoiVeterinaryServiceCenter_Server\KoiVeterinaryServiceCenter.API\bin\Debug\net8.0\Newtonsoft.Json.dll
+D:\SWP391\Koi-veterinary-service-center\KoiVeterinaryServiceCenter_Server\KoiVeterinaryServiceCenter.API\bin\Debug\net8.0\KoiVeterinaryServiceCenter.Services.dll
+D:\SWP391\Koi-veterinary-service-center\KoiVeterinaryServiceCenter_Server\KoiVeterinaryServiceCenter.API\bin\Debug\net8.0\KoiVeterinaryServiceCenter.Services.pdb
+D:\SWP391\Koi-veterinary-service-center\KoiVeterinaryServiceCenter_Server\KoiVeterinaryServiceCenter.API\bin\Debug\net8.0\AutoMapper.dll
+D:\SWP391\Koi-veterinary-service-center\KoiVeterinaryServiceCenter_Server\KoiVeterinaryServiceCenter.API\bin\Debug\net8.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll

@@ -982,11 +982,17 @@
       },
       "KoiVeterinaryServiceCenter.Model/1.0.0": {
         "dependencies": {
+          "KoiVeterinaryServiceCenter.Utility": "1.0.0",
           "Microsoft.AspNetCore.Identity.EntityFrameworkCore": "8.0.6",
           "Microsoft.Extensions.Identity.Core": "8.0.6"
         },
         "runtime": {
           "KoiVeterinaryServiceCenter.Model.dll": {}
+        }
+      },
+      "KoiVeterinaryServiceCenter.Utility/1.0.0": {
+        "runtime": {
+          "KoiVeterinaryServiceCenter.Utility.dll": {}
         }
       }
     }
@@ -1565,6 +1571,11 @@
       "hashPath": "system.windows.extensions.6.0.0.nupkg.sha512"
     },
     "KoiVeterinaryServiceCenter.Model/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "KoiVeterinaryServiceCenter.Utility/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

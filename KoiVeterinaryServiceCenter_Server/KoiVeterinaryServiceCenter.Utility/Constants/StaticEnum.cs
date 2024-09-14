@@ -42,3 +42,4 @@ namespace KoiVeterinaryServiceCenter.Utility.Constants
             account_update
         }
     }
+}

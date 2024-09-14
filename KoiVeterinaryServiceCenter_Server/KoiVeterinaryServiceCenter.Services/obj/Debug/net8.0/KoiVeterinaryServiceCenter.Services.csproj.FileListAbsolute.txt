@@ -10,3 +10,11 @@ D:\SWP391\Koi-veterinary-service-center\KoiVeterinaryServiceCenter_Server\KoiVet
 D:\SWP391\Koi-veterinary-service-center\KoiVeterinaryServiceCenter_Server\KoiVeterinaryServiceCenter.Services\obj\Debug\net8.0\refint\KoiVeterinaryServiceCenter.Services.dll
 D:\SWP391\Koi-veterinary-service-center\KoiVeterinaryServiceCenter_Server\KoiVeterinaryServiceCenter.Services\obj\Debug\net8.0\KoiVeterinaryServiceCenter.Services.pdb
 D:\SWP391\Koi-veterinary-service-center\KoiVeterinaryServiceCenter_Server\KoiVeterinaryServiceCenter.Services\obj\Debug\net8.0\ref\KoiVeterinaryServiceCenter.Services.dll
+D:\SWP391\Koi-veterinary-service-center\KoiVeterinaryServiceCenter_Server\KoiVeterinaryServiceCenter.Services\bin\Debug\net8.0\KoiVeterinaryServiceCenter.DataAccess.dll
+D:\SWP391\Koi-veterinary-service-center\KoiVeterinaryServiceCenter_Server\KoiVeterinaryServiceCenter.Services\bin\Debug\net8.0\KoiVeterinaryServiceCenter.Model.dll
+D:\SWP391\Koi-veterinary-service-center\KoiVeterinaryServiceCenter_Server\KoiVeterinaryServiceCenter.Services\bin\Debug\net8.0\KoiVeterinaryServiceCenter.Utility.dll
+D:\SWP391\Koi-veterinary-service-center\KoiVeterinaryServiceCenter_Server\KoiVeterinaryServiceCenter.Services\bin\Debug\net8.0\KoiVeterinaryServiceCenter.DataAccess.pdb
+D:\SWP391\Koi-veterinary-service-center\KoiVeterinaryServiceCenter_Server\KoiVeterinaryServiceCenter.Services\bin\Debug\net8.0\KoiVeterinaryServiceCenter.Model.pdb
+D:\SWP391\Koi-veterinary-service-center\KoiVeterinaryServiceCenter_Server\KoiVeterinaryServiceCenter.Services\bin\Debug\net8.0\KoiVeterinaryServiceCenter.Utility.pdb
+D:\SWP391\Koi-veterinary-service-center\KoiVeterinaryServiceCenter_Server\KoiVeterinaryServiceCenter.Services\obj\Debug\net8.0\KoiVeterinaryServiceCenter.Services.csproj.AssemblyReference.cache
+D:\SWP391\Koi-veterinary-service-center\KoiVeterinaryServiceCenter_Server\KoiVeterinaryServiceCenter.Services\obj\Debug\net8.0\KoiVeter.487F177F.Up2Date

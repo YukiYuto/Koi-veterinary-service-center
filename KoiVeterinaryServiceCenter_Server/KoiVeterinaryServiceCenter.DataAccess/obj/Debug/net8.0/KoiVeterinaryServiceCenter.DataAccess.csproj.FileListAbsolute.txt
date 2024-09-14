@@ -16,3 +16,5 @@ D:\SWP391\Koi-veterinary-service-center\KoiVeterinaryServiceCenter_Server\KoiVet
 D:\SWP391\Koi-veterinary-service-center\KoiVeterinaryServiceCenter_Server\KoiVeterinaryServiceCenter.DataAccess\obj\Debug\net8.0\KoiVeterinaryServiceCenter.DataAccess.pdb
 D:\SWP391\Koi-veterinary-service-center\KoiVeterinaryServiceCenter_Server\KoiVeterinaryServiceCenter.DataAccess\obj\Debug\net8.0\KoiVeterinaryServiceCenter.DataAccess.genruntimeconfig.cache
 D:\SWP391\Koi-veterinary-service-center\KoiVeterinaryServiceCenter_Server\KoiVeterinaryServiceCenter.DataAccess\obj\Debug\net8.0\ref\KoiVeterinaryServiceCenter.DataAccess.dll
+D:\SWP391\Koi-veterinary-service-center\KoiVeterinaryServiceCenter_Server\KoiVeterinaryServiceCenter.DataAccess\bin\Debug\net8.0\KoiVeterinaryServiceCenter.Utility.dll
+D:\SWP391\Koi-veterinary-service-center\KoiVeterinaryServiceCenter_Server\KoiVeterinaryServiceCenter.DataAccess\bin\Debug\net8.0\KoiVeterinaryServiceCenter.Utility.pdb
