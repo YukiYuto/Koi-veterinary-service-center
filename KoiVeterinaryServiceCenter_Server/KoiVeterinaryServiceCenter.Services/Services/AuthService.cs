@@ -27,6 +27,11 @@ namespace KoiVeterinaryServiceCenter.Services.Services
             _unitOfWork = unitOfWork;
         }
 
+        public Task<ResponseDTO> SignUpCustomer(RegisterCustomerDTO registerCustomerDTO)
+        {
+            throw new NotImplementedException();
+        }
+
 
         //SignUpDoctor
         public async Task<ResponseDTO> SignUpDoctor(RegisterDoctorDTO registerDoctorDTO)

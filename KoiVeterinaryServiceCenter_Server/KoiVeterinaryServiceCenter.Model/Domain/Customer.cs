@@ -13,6 +13,5 @@ namespace KoiVeterinaryServiceCenter.Model.Domain
         [Key] public Guid CustomerId { get; set; }
         public string UserId { get; set; }
         [ForeignKey("UserId")] public virtual ApplicationUser ApplicationUser { get; set; }
-        public Guid Pet {  get; set; }
     }
 }

@@ -37,8 +37,8 @@ namespace KoiVeterinaryServiceCenter.DataAccess.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("BirthDate")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<DateTime?>("BirthDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
@@ -110,9 +110,6 @@ namespace KoiVeterinaryServiceCenter.DataAccess.Migrations
                 {
                     b.Property<Guid>("CustomerId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("Pet")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("UserId")
