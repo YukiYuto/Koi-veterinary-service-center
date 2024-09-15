@@ -1,19 +1,15 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "D:\\SWP391\\Koi-veterinary-service-center\\KoiVeterinaryServiceCenter_Server\\KoiVeterinaryServiceCenter.API\\",
-  "Documents": [
-    {
-      "AbsoluteMoniker": "D:0:0:{CD0A9FBF-F867-445B-916C-6696AD970D23}|..\\KoiVeterinaryServiceCenter.Services\\KoiVeterinaryServiceCenter.Services.csproj|d:\\swp391\\koi-veterinary-service-center\\koiveterinaryservicecenter_server\\koiveterinaryservicecenter.services\\services\\authservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    }
-  ],
+  "Documents": [],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
       "VerticalTabListWidth": 256,
       "DocumentGroups": [
         {
-          "DockedWidth": 237,
-          "SelectedChildIndex": 5,
+          "DockedWidth": 200,
+          "SelectedChildIndex": -1,
           "Children": [
             {
               "$type": "Bookmark",
@@ -34,19 +30,6 @@
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{99a11807-c5db-4877-ad35-09b56a044002}"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "AuthService.cs",
-              "DocumentMoniker": "D:\\SWP391\\Koi-veterinary-service-center\\KoiVeterinaryServiceCenter_Server\\KoiVeterinaryServiceCenter.Services\\Services\\AuthService.cs",
-              "RelativeDocumentMoniker": "..\\KoiVeterinaryServiceCenter.Services\\Services\\AuthService.cs",
-              "ToolTip": "D:\\SWP391\\Koi-veterinary-service-center\\KoiVeterinaryServiceCenter_Server\\KoiVeterinaryServiceCenter.Services\\Services\\AuthService.cs",
-              "RelativeToolTip": "..\\KoiVeterinaryServiceCenter.Services\\Services\\AuthService.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAJ0AAAAFAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-14T10:38:44.699Z",
-              "EditorCaption": ""
             }
           ]
         },

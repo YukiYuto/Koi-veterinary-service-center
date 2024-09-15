@@ -10,6 +10,7 @@ namespace KoiVeterinaryServiceCenter.Services.IServices
     public interface IAuthService
     {
         Task<ResponseDTO> SignUpDoctor(RegisterDoctorDTO registerDoctorDTO);
+        Task<ResponseDTO> SignUpCustomer(RegisterCustomerDTO registerCustomerDTO);
 
     }
 }
