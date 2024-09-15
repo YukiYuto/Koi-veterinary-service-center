@@ -9,6 +9,8 @@ namespace KoiVeterinaryServiceCenter.DataAccess.IRepository
     public interface IUnitOfWork
     {
         IDoctorRepository DoctorRepository { get; }
+        ICustomerRepository CustomerRepository { get; }
+        IRefreshTokenRepository RefreshTokens { get; }
         Task<int> SaveAsync();
     }
 }
