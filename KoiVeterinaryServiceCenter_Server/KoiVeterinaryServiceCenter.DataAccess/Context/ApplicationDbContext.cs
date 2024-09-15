@@ -24,5 +24,6 @@ namespace KoiVeterinaryServiceCenter.DataAccess.Context
         public DbSet<Pet> Pets { get; set; }
         public DbSet<PetDisease> PetsDiseases { get; set; }
         public DbSet<Disease> Diseases { get; set; }
+        public DbSet<RefreshTokens> RefreshTokens { get; set; }
     }
 }

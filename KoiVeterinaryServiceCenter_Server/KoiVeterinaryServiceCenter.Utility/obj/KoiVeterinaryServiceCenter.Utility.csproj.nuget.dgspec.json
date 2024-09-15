@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\SWP391\\Koi-veterinary-service-center\\KoiVeterinaryServiceCenter_Server\\KoiVeterinaryServiceCenter.Utility\\KoiVeterinaryServiceCenter.Utility.csproj": {}
+    "D:\\SWP391\\Develop\\Koi-veterinary-service-center\\KoiVeterinaryServiceCenter_Server\\KoiVeterinaryServiceCenter.Utility\\KoiVeterinaryServiceCenter.Utility.csproj": {}
   },
   "projects": {
-    "D:\\SWP391\\Koi-veterinary-service-center\\KoiVeterinaryServiceCenter_Server\\KoiVeterinaryServiceCenter.Utility\\KoiVeterinaryServiceCenter.Utility.csproj": {
+    "D:\\SWP391\\Develop\\Koi-veterinary-service-center\\KoiVeterinaryServiceCenter_Server\\KoiVeterinaryServiceCenter.Utility\\KoiVeterinaryServiceCenter.Utility.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\SWP391\\Koi-veterinary-service-center\\KoiVeterinaryServiceCenter_Server\\KoiVeterinaryServiceCenter.Utility\\KoiVeterinaryServiceCenter.Utility.csproj",
+        "projectUniqueName": "D:\\SWP391\\Develop\\Koi-veterinary-service-center\\KoiVeterinaryServiceCenter_Server\\KoiVeterinaryServiceCenter.Utility\\KoiVeterinaryServiceCenter.Utility.csproj",
         "projectName": "KoiVeterinaryServiceCenter.Utility",
-        "projectPath": "D:\\SWP391\\Koi-veterinary-service-center\\KoiVeterinaryServiceCenter_Server\\KoiVeterinaryServiceCenter.Utility\\KoiVeterinaryServiceCenter.Utility.csproj",
+        "projectPath": "D:\\SWP391\\Develop\\Koi-veterinary-service-center\\KoiVeterinaryServiceCenter_Server\\KoiVeterinaryServiceCenter.Utility\\KoiVeterinaryServiceCenter.Utility.csproj",
         "packagesPath": "C:\\Users\\ADMIN\\.nuget\\packages\\",
-        "outputPath": "D:\\SWP391\\Koi-veterinary-service-center\\KoiVeterinaryServiceCenter_Server\\KoiVeterinaryServiceCenter.Utility\\obj\\",
+        "outputPath": "D:\\SWP391\\Develop\\Koi-veterinary-service-center\\KoiVeterinaryServiceCenter_Server\\KoiVeterinaryServiceCenter.Utility\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -39,6 +39,11 @@
           "warnAsError": [
             "NU1605"
           ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
         }
       },
       "frameworks": {
