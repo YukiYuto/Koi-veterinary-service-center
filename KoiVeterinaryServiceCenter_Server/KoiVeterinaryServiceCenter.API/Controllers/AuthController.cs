@@ -53,5 +53,39 @@ namespace KoiVeterinaryServiceCenter.API.Controllers
             }
 
         }
+        
+        //Sign up customer
+        [HttpPost]
+        [Route("SignUpCustomer")]
+        public async Task<ActionResult<ResponseDTO>> SignUpCustomer([FromBody] RegisterCustomerDTO registerCustomerDTO)
+        {
+            var responseDto = new ResponseDTO();
+            if (!ModelState.IsValid)
+            {
+                responseDto.IsSuccess = false;
+                responseDto.Message = "Invalid input data.";
+                responseDto.Result = ModelState.Values.SelectMany(v => v.Errors.Select(e => e.ErrorMessage));
+                return BadRequest(responseDto);
+            }
+            try
+            {
+                var result = await _authService.SignUpCustomer(registerCustomerDTO);
+                if (result.IsSuccess)
+                {
+                    return Ok(result);
+                }
+                else
+                {
+                    return BadRequest(result);
+                }
+            }
+            catch (Exception e)
+            {
+                responseDto.IsSuccess = false;
+                responseDto.Message = e.Message;
+                return StatusCode(StatusCodes.Status500InternalServerError, responseDto);
+            }
+
+        }
     }
 }
