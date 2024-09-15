@@ -1,6 +1,7 @@
 ﻿using KoiVeterinaryServiceCenter.Model.Domain;
 using KoiVeterinaryServiceCenter.Model.DTO;
 using KoiVeterinaryServiceCenter.Services.IServices;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -20,9 +21,14 @@ namespace KoiVeterinaryServiceCenter.API.Controllers
             _authService = authService;
         }
 
-        //Sign up doctor
+        /// <summary>
+        /// This API for feature Sign Up For Doctor.
+        /// </summary>
+        /// <param name="registerDoctorDTO"></param>
+        /// <returns></returns>
         [HttpPost]
         [Route("SignUpDoctor")]
+        [Authorize]
         public async Task<ActionResult<ResponseDTO>> SignUpDoctor([FromBody] RegisterDoctorDTO registerDoctorDTO)
         {
             var responseDto = new ResponseDTO();
@@ -54,7 +60,11 @@ namespace KoiVeterinaryServiceCenter.API.Controllers
 
         }
         
-        //Sign up customer
+        /// <summary>
+        /// This API for feature Sign Up For Customer.
+        /// </summary>
+        /// <param name="registerCustomerDTO"></param>
+        /// <returns></returns>
         [HttpPost]
         [Route("SignUpCustomer")]
         public async Task<ActionResult<ResponseDTO>> SignUpCustomer([FromBody] RegisterCustomerDTO registerCustomerDTO)
@@ -85,7 +95,20 @@ namespace KoiVeterinaryServiceCenter.API.Controllers
                 responseDto.Message = e.Message;
                 return StatusCode(StatusCodes.Status500InternalServerError, responseDto);
             }
-
+        }
+        
+        
+        /// <summary>
+        /// his API for case sign in.
+        /// </summary>
+        /// <param name="signDto"></param>
+        /// <returns></returns>
+        [HttpPost]
+        [Route("sign-in")]
+        public async Task<ActionResult<ResponseDTO>> SignIn([FromBody] SignDTO signDto)
+        {
+            var responseDto = await _authService.SignIn(signDto);
+            return StatusCode(responseDto.StatusCode, responseDto);
         }
     }
 }

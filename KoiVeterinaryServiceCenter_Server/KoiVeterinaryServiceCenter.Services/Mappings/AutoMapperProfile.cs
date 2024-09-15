@@ -14,6 +14,7 @@ namespace KoiVeterinaryServiceCenter.Services.Mappings
         public AutoMapperProfile()
         {
             CreateMap<UserInfoDTO, ApplicationUser>().ReverseMap();
+
         }
     }
 }

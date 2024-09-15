@@ -14,19 +14,31 @@ namespace KoiVeterinaryServiceCenter.Services.Services
         private readonly IUserManagerRepository _userManagerRepository;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IUnitOfWork _unitOfWork;
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly ITokenService _tokenService;
 
         public AuthService
         (
             IUserManagerRepository userManagerRepository,
             RoleManager<IdentityRole> roleManager,
-            IUnitOfWork unitOfWork
+            IUnitOfWork unitOfWork,
+            UserManager<ApplicationUser> userManager,
+            ITokenService tokenService
         )
         {
             _userManagerRepository = userManagerRepository;
             _roleManager = roleManager;
             _unitOfWork = unitOfWork;
+            _userManager = userManager;
+            _tokenService = tokenService;
         }
 
+
+        /// <summary>
+        /// Registers a new Customer in the system.
+        /// </summary>
+        /// <param name="registerCustomerDTO"></param>
+        /// <returns></returns>
         public async Task<ResponseDTO> SignUpCustomer(RegisterCustomerDTO registerCustomerDTO)
         {
             try
@@ -95,7 +107,6 @@ namespace KoiVeterinaryServiceCenter.Services.Services
                 Customer customer = new Customer()
                 {
                     UserId = user.Id,
-                    
                 };
 
                 var isRoleExist = await _roleManager.RoleExistsAsync(StaticUserRoles.Doctor);
@@ -153,9 +164,13 @@ namespace KoiVeterinaryServiceCenter.Services.Services
                 };
             }
         }
-    
 
-        //SignUpDoctor
+
+        /// <summary>
+        /// Registers a new Doctor in the system.
+        /// </summary>
+        /// <param name="registerDoctorDTO"></param>
+        /// <returns></returns>
         public async Task<ResponseDTO> SignUpDoctor(RegisterDoctorDTO registerDoctorDTO)
         {
             try
@@ -175,7 +190,7 @@ namespace KoiVeterinaryServiceCenter.Services.Services
 
                 //Check phone number is exist
                 var isPhonenumerExit =
-               await _userManagerRepository.CheckIfPhoneNumberExistsAsync(registerDoctorDTO.PhoneNumber);
+                    await _userManagerRepository.CheckIfPhoneNumberExistsAsync(registerDoctorDTO.PhoneNumber);
                 if (isPhonenumerExit)
                 {
                     return new ResponseDTO()
@@ -217,6 +232,7 @@ namespace KoiVeterinaryServiceCenter.Services.Services
                         Result = registerDoctorDTO
                     };
                 }
+
                 var user = await _userManagerRepository.FindByPhoneAsync(registerDoctorDTO.PhoneNumber);
 
                 //Create new Doctor
@@ -261,6 +277,7 @@ namespace KoiVeterinaryServiceCenter.Services.Services
                         Result = registerDoctorDTO
                     };
                 }
+
                 // Save change to database
                 var isSuccess = await _unitOfWork.SaveAsync();
                 return new ResponseDTO()
@@ -279,6 +296,92 @@ namespace KoiVeterinaryServiceCenter.Services.Services
                     Result = registerDoctorDTO,
                     IsSuccess = false,
                     StatusCode = 500
+                };
+            }
+        }
+
+
+        /// <summary>
+        /// Sign in to the system
+        /// </summary>
+        /// <param name="signDto"></param>
+        /// <returns></returns>
+        public async Task<ResponseDTO> SignIn(SignDTO signDto)
+        {
+            try
+            {
+                var user = await _userManager.FindByEmailAsync(signDto.Email);
+                if (user == null)
+                {
+                    return new ResponseDTO()
+                    {
+                        Message = "User does not exist!",
+                        Result = null,
+                        IsSuccess = false,
+                        StatusCode = 404
+                    };
+                }
+
+                var isPasswordCorrect = await _userManager.CheckPasswordAsync(user, signDto.Password);
+
+                if (!isPasswordCorrect)
+                {
+                    return new ResponseDTO()
+                    {
+                        Message = "Incorrect email or password",
+                        Result = null,
+                        IsSuccess = false,
+                        StatusCode = 400
+                    };
+                }
+
+                if (!user.EmailConfirmed)
+                {
+                    return new ResponseDTO()
+                    {
+                        Message = "You need to confirm email!",
+                        Result = null,
+                        IsSuccess = false,
+                        StatusCode = 401
+                    };
+                }
+
+                if (user.LockoutEnd is not null)
+                {
+                    return new ResponseDTO()
+                    {
+                        Message = "User has been locked",
+                        IsSuccess = false,
+                        StatusCode = 403,
+                        Result = null
+                    };
+                }
+
+                var accessToken = await _tokenService.GenerateJwtAccessTokenAsync(user);
+                var refreshToken = await _tokenService.GenerateJwtRefreshTokenAsync(user);
+                //await _tokenService.StoreRefreshToken(user.Id, refreshToken);
+
+                return new ResponseDTO()
+                {
+                    Result = new SignResponseDTO()
+                    {
+                        AccessToken = accessToken,
+                        RefreshToken = refreshToken,
+                    },
+                    Message = "Sign in successfully",
+                    IsSuccess = true,
+                    StatusCode = 200
+                };
+            }
+            catch
+                (Exception e)
+            {
+                return new ResponseDTO()
+                {
+                    Message = e.Message,
+                    IsSuccess = false,
+                    StatusCode = 500,
+                    Result = null
                 };
             }
         }
