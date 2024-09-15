@@ -1,19 +1,18 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "D:\\SWP391\\Develop\\Koi-veterinary-service-center\\KoiVeterinaryServiceCenter_Server\\KoiVeterinaryServiceCenter.API\\",
+  "WorkspaceRootPath": "D:\\SWP391\\Koi-veterinary-service-center\\KoiVeterinaryServiceCenter_Server\\KoiVeterinaryServiceCenter.API\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{304B7144-73D0-452C-ACA9-6A386684FBCC}|..\\KoiVeterinaryServiceCenter.Model\\KoiVeterinaryServiceCenter.Model.csproj|d:\\swp391\\develop\\koi-veterinary-service-center\\koiveterinaryservicecenter_server\\koiveterinaryservicecenter.model\\domain\\refreshtokens.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{38C5C8BA-68B8-40D3-BC9A-91E8B9C31DD6}|KoiVeterinaryServiceCenter.API.csproj|d:\\swp391\\koi-veterinary-service-center\\koiveterinaryservicecenter_server\\koiveterinaryservicecenter.api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{38C5C8BA-68B8-40D3-BC9A-91E8B9C31DD6}|KoiVeterinaryServiceCenter.API.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{765E5D34-3F6E-4F0A-924D-89838C70D1E9}|..\\KoiVeterinaryServiceCenter.DataAccess\\KoiVeterinaryServiceCenter.DataAccess.csproj|d:\\swp391\\develop\\koi-veterinary-service-center\\koiveterinaryservicecenter_server\\koiveterinaryservicecenter.dataaccess\\context\\applicationdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{38C5C8BA-68B8-40D3-BC9A-91E8B9C31DD6}|KoiVeterinaryServiceCenter.API.csproj|d:\\swp391\\koi-veterinary-service-center\\koiveterinaryservicecenter_server\\koiveterinaryservicecenter.api\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{38C5C8BA-68B8-40D3-BC9A-91E8B9C31DD6}|KoiVeterinaryServiceCenter.API.csproj|solutionrelative:appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{38C5C8BA-68B8-40D3-BC9A-91E8B9C31DD6}|KoiVeterinaryServiceCenter.API.csproj|d:\\swp391\\develop\\koi-veterinary-service-center\\koiveterinaryservicecenter_server\\koiveterinaryservicecenter.api\\extension\\servicecollectionextensions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{38C5C8BA-68B8-40D3-BC9A-91E8B9C31DD6}|KoiVeterinaryServiceCenter.API.csproj|solutionrelative:extension\\servicecollectionextensions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{304B7144-73D0-452C-ACA9-6A386684FBCC}|..\\KoiVeterinaryServiceCenter.Model\\KoiVeterinaryServiceCenter.Model.csproj|d:\\swp391\\develop\\koi-veterinary-service-center\\koiveterinaryservicecenter_server\\koiveterinaryservicecenter.model\\domain\\doctor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{38C5C8BA-68B8-40D3-BC9A-91E8B9C31DD6}|KoiVeterinaryServiceCenter.API.csproj|d:\\swp391\\koi-veterinary-service-center\\koiveterinaryservicecenter_server\\koiveterinaryservicecenter.api\\properties\\launchsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{38C5C8BA-68B8-40D3-BC9A-91E8B9C31DD6}|KoiVeterinaryServiceCenter.API.csproj|solutionrelative:properties\\launchsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
     }
   ],
   "DocumentGroupContainers": [
@@ -23,7 +22,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 8,
+          "SelectedChildIndex": 7,
           "Children": [
             {
               "$type": "Bookmark",
@@ -47,54 +46,41 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "ServiceCollectionExtensions.cs",
-              "DocumentMoniker": "D:\\SWP391\\Develop\\Koi-veterinary-service-center\\KoiVeterinaryServiceCenter_Server\\KoiVeterinaryServiceCenter.API\\Extension\\ServiceCollectionExtensions.cs",
-              "RelativeDocumentMoniker": "Extension\\ServiceCollectionExtensions.cs",
-              "ToolTip": "D:\\SWP391\\Develop\\Koi-veterinary-service-center\\KoiVeterinaryServiceCenter_Server\\KoiVeterinaryServiceCenter.API\\Extension\\ServiceCollectionExtensions.cs",
-              "RelativeToolTip": "Extension\\ServiceCollectionExtensions.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA8AAAANAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-15T04:10:32.81Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "ApplicationDbContext.cs",
-              "DocumentMoniker": "D:\\SWP391\\Develop\\Koi-veterinary-service-center\\KoiVeterinaryServiceCenter_Server\\KoiVeterinaryServiceCenter.DataAccess\\Context\\ApplicationDbContext.cs",
-              "RelativeDocumentMoniker": "..\\KoiVeterinaryServiceCenter.DataAccess\\Context\\ApplicationDbContext.cs",
-              "ToolTip": "D:\\SWP391\\Develop\\Koi-veterinary-service-center\\KoiVeterinaryServiceCenter_Server\\KoiVeterinaryServiceCenter.DataAccess\\Context\\ApplicationDbContext.cs",
-              "RelativeToolTip": "..\\KoiVeterinaryServiceCenter.DataAccess\\Context\\ApplicationDbContext.cs",
-              "ViewState": "AQIAAA8AAAAAAAAAAAAswBoAAAA/AAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-15T04:09:31.815Z",
+              "Title": "appsettings.json",
+              "DocumentMoniker": "D:\\SWP391\\Koi-veterinary-service-center\\KoiVeterinaryServiceCenter_Server\\KoiVeterinaryServiceCenter.API\\appsettings.json",
+              "RelativeDocumentMoniker": "appsettings.json",
+              "ToolTip": "D:\\SWP391\\Koi-veterinary-service-center\\KoiVeterinaryServiceCenter_Server\\KoiVeterinaryServiceCenter.API\\appsettings.json",
+              "RelativeToolTip": "appsettings.json",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2024-09-15T13:22:08.43Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "Doctor.cs",
-              "DocumentMoniker": "D:\\SWP391\\Develop\\Koi-veterinary-service-center\\KoiVeterinaryServiceCenter_Server\\KoiVeterinaryServiceCenter.Model\\Domain\\Doctor.cs",
-              "RelativeDocumentMoniker": "..\\KoiVeterinaryServiceCenter.Model\\Domain\\Doctor.cs",
-              "ToolTip": "D:\\SWP391\\Develop\\Koi-veterinary-service-center\\KoiVeterinaryServiceCenter_Server\\KoiVeterinaryServiceCenter.Model\\Domain\\Doctor.cs",
-              "RelativeToolTip": "..\\KoiVeterinaryServiceCenter.Model\\Domain\\Doctor.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA4AAABbAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-15T04:01:55.744Z",
+              "DocumentIndex": 2,
+              "Title": "launchSettings.json",
+              "DocumentMoniker": "D:\\SWP391\\Koi-veterinary-service-center\\KoiVeterinaryServiceCenter_Server\\KoiVeterinaryServiceCenter.API\\Properties\\launchSettings.json",
+              "RelativeDocumentMoniker": "Properties\\launchSettings.json",
+              "ToolTip": "D:\\SWP391\\Koi-veterinary-service-center\\KoiVeterinaryServiceCenter_Server\\KoiVeterinaryServiceCenter.API\\Properties\\launchSettings.json",
+              "RelativeToolTip": "Properties\\launchSettings.json",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABoAAAAvAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2024-09-15T13:02:00.222Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "RefreshTokens.cs",
-              "DocumentMoniker": "D:\\SWP391\\Develop\\Koi-veterinary-service-center\\KoiVeterinaryServiceCenter_Server\\KoiVeterinaryServiceCenter.Model\\Domain\\RefreshTokens.cs",
-              "RelativeDocumentMoniker": "..\\KoiVeterinaryServiceCenter.Model\\Domain\\RefreshTokens.cs",
-              "ToolTip": "D:\\SWP391\\Develop\\Koi-veterinary-service-center\\KoiVeterinaryServiceCenter_Server\\KoiVeterinaryServiceCenter.Model\\Domain\\RefreshTokens.cs",
-              "RelativeToolTip": "..\\KoiVeterinaryServiceCenter.Model\\Domain\\RefreshTokens.cs",
-              "ViewState": "AQIAAAMAAAAAAAAAAAAiwBAAAAAtAAAA",
+              "Title": "Program.cs",
+              "DocumentMoniker": "D:\\SWP391\\Koi-veterinary-service-center\\KoiVeterinaryServiceCenter_Server\\KoiVeterinaryServiceCenter.API\\Program.cs",
+              "RelativeDocumentMoniker": "Program.cs",
+              "ToolTip": "D:\\SWP391\\Koi-veterinary-service-center\\KoiVeterinaryServiceCenter_Server\\KoiVeterinaryServiceCenter.API\\Program.cs",
+              "RelativeToolTip": "Program.cs",
+              "ViewState": "AQIAABwAAAAAAAAAAAAgwIsAAAABAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-15T04:00:37.696Z",
+              "WhenOpened": "2024-09-15T12:59:31.696Z",
               "EditorCaption": ""
             }
           ]
