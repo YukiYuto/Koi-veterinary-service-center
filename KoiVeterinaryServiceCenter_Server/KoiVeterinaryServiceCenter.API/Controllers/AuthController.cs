@@ -28,7 +28,6 @@ namespace KoiVeterinaryServiceCenter.API.Controllers
         /// <returns></returns>
         [HttpPost]
         [Route("SignUpDoctor")]
-        [Authorize]
         public async Task<ActionResult<ResponseDTO>> SignUpDoctor([FromBody] RegisterDoctorDTO registerDoctorDTO)
         {
             var responseDto = new ResponseDTO();
