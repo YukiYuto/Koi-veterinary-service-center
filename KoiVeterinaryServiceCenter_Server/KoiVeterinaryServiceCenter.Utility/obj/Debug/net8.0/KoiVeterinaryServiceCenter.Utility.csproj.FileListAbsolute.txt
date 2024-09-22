@@ -34,3 +34,15 @@ D:\SWP391\Develop\Koi-veterinary-service-center\KoiVeterinaryServiceCenter_Serve
 D:\SWP391\Develop\Koi-veterinary-service-center\KoiVeterinaryServiceCenter_Server\KoiVeterinaryServiceCenter.Utility\obj\Debug\net8.0\refint\KoiVeterinaryServiceCenter.Utility.dll
 D:\SWP391\Develop\Koi-veterinary-service-center\KoiVeterinaryServiceCenter_Server\KoiVeterinaryServiceCenter.Utility\obj\Debug\net8.0\KoiVeterinaryServiceCenter.Utility.pdb
 D:\SWP391\Develop\Koi-veterinary-service-center\KoiVeterinaryServiceCenter_Server\KoiVeterinaryServiceCenter.Utility\obj\Debug\net8.0\ref\KoiVeterinaryServiceCenter.Utility.dll
+D:\1_CourseFPT\5_SWP391\Project\Koi-veterinary-service-center\KoiVeterinaryServiceCenter_Server\KoiVeterinaryServiceCenter.Utility\obj\Debug\net8.0\KoiVeterinaryServiceCenter.Utility.GeneratedMSBuildEditorConfig.editorconfig
+D:\1_CourseFPT\5_SWP391\Project\Koi-veterinary-service-center\KoiVeterinaryServiceCenter_Server\KoiVeterinaryServiceCenter.Utility\obj\Debug\net8.0\KoiVeterinaryServiceCenter.Utility.AssemblyInfoInputs.cache
+D:\1_CourseFPT\5_SWP391\Project\Koi-veterinary-service-center\KoiVeterinaryServiceCenter_Server\KoiVeterinaryServiceCenter.Utility\obj\Debug\net8.0\KoiVeterinaryServiceCenter.Utility.AssemblyInfo.cs
+D:\1_CourseFPT\5_SWP391\Project\Koi-veterinary-service-center\KoiVeterinaryServiceCenter_Server\KoiVeterinaryServiceCenter.Utility\obj\Debug\net8.0\KoiVeterinaryServiceCenter.Utility.csproj.CoreCompileInputs.cache
+D:\1_CourseFPT\5_SWP391\Project\Koi-veterinary-service-center\KoiVeterinaryServiceCenter_Server\KoiVeterinaryServiceCenter.Utility\obj\Debug\net8.0\KoiVeterinaryServiceCenter.Utility.sourcelink.json
+D:\1_CourseFPT\5_SWP391\Project\Koi-veterinary-service-center\KoiVeterinaryServiceCenter_Server\KoiVeterinaryServiceCenter.Utility\obj\Debug\net8.0\KoiVeterinaryServiceCenter.Utility.dll
+D:\1_CourseFPT\5_SWP391\Project\Koi-veterinary-service-center\KoiVeterinaryServiceCenter_Server\KoiVeterinaryServiceCenter.Utility\obj\Debug\net8.0\refint\KoiVeterinaryServiceCenter.Utility.dll
+D:\1_CourseFPT\5_SWP391\Project\Koi-veterinary-service-center\KoiVeterinaryServiceCenter_Server\KoiVeterinaryServiceCenter.Utility\obj\Debug\net8.0\KoiVeterinaryServiceCenter.Utility.pdb
+D:\1_CourseFPT\5_SWP391\Project\Koi-veterinary-service-center\KoiVeterinaryServiceCenter_Server\KoiVeterinaryServiceCenter.Utility\bin\Debug\net8.0\KoiVeterinaryServiceCenter.Utility.deps.json
+D:\1_CourseFPT\5_SWP391\Project\Koi-veterinary-service-center\KoiVeterinaryServiceCenter_Server\KoiVeterinaryServiceCenter.Utility\bin\Debug\net8.0\KoiVeterinaryServiceCenter.Utility.dll
+D:\1_CourseFPT\5_SWP391\Project\Koi-veterinary-service-center\KoiVeterinaryServiceCenter_Server\KoiVeterinaryServiceCenter.Utility\bin\Debug\net8.0\KoiVeterinaryServiceCenter.Utility.pdb
+D:\1_CourseFPT\5_SWP391\Project\Koi-veterinary-service-center\KoiVeterinaryServiceCenter_Server\KoiVeterinaryServiceCenter.Utility\obj\Debug\net8.0\ref\KoiVeterinaryServiceCenter.Utility.dll

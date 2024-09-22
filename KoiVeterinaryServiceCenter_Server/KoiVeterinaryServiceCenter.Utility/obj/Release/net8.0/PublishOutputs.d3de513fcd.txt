@@ -1,0 +1,3 @@
+D:\1_CourseFPT\5_SWP391\Project\Koi-veterinary-service-center\KoiVeterinaryServiceCenter_Server\KoiVeterinaryServiceCenter.API\out\KoiVeterinaryServiceCenter.Utility.dll
+D:\1_CourseFPT\5_SWP391\Project\Koi-veterinary-service-center\KoiVeterinaryServiceCenter_Server\KoiVeterinaryServiceCenter.API\out\KoiVeterinaryServiceCenter.Utility.deps.json
+D:\1_CourseFPT\5_SWP391\Project\Koi-veterinary-service-center\KoiVeterinaryServiceCenter_Server\KoiVeterinaryServiceCenter.API\out\KoiVeterinaryServiceCenter.Utility.pdb

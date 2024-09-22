@@ -1,24 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "D:\\SWP391\\Koi-veterinary-service-center\\KoiVeterinaryServiceCenter_Server\\KoiVeterinaryServiceCenter.Services\\KoiVeterinaryServiceCenter.Services.csproj": {}
+    "D:\\1_CourseFPT\\5_SWP391\\Project\\Koi-veterinary-service-center\\KoiVeterinaryServiceCenter_Server\\KoiVeterinaryServiceCenter.Services\\KoiVeterinaryServiceCenter.Services.csproj": {}
   },
   "projects": {
-    "D:\\SWP391\\Koi-veterinary-service-center\\KoiVeterinaryServiceCenter_Server\\KoiVeterinaryServiceCenter.DataAccess\\KoiVeterinaryServiceCenter.DataAccess.csproj": {
+    "D:\\1_CourseFPT\\5_SWP391\\Project\\Koi-veterinary-service-center\\KoiVeterinaryServiceCenter_Server\\KoiVeterinaryServiceCenter.DataAccess\\KoiVeterinaryServiceCenter.DataAccess.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\SWP391\\Koi-veterinary-service-center\\KoiVeterinaryServiceCenter_Server\\KoiVeterinaryServiceCenter.DataAccess\\KoiVeterinaryServiceCenter.DataAccess.csproj",
+        "projectUniqueName": "D:\\1_CourseFPT\\5_SWP391\\Project\\Koi-veterinary-service-center\\KoiVeterinaryServiceCenter_Server\\KoiVeterinaryServiceCenter.DataAccess\\KoiVeterinaryServiceCenter.DataAccess.csproj",
         "projectName": "KoiVeterinaryServiceCenter.DataAccess",
-        "projectPath": "D:\\SWP391\\Koi-veterinary-service-center\\KoiVeterinaryServiceCenter_Server\\KoiVeterinaryServiceCenter.DataAccess\\KoiVeterinaryServiceCenter.DataAccess.csproj",
-        "packagesPath": "C:\\Users\\ADMIN\\.nuget\\packages\\",
-        "outputPath": "D:\\SWP391\\Koi-veterinary-service-center\\KoiVeterinaryServiceCenter_Server\\KoiVeterinaryServiceCenter.DataAccess\\obj\\",
+        "projectPath": "D:\\1_CourseFPT\\5_SWP391\\Project\\Koi-veterinary-service-center\\KoiVeterinaryServiceCenter_Server\\KoiVeterinaryServiceCenter.DataAccess\\KoiVeterinaryServiceCenter.DataAccess.csproj",
+        "packagesPath": "C:\\Users\\hoang\\.nuget\\packages\\",
+        "outputPath": "D:\\1_CourseFPT\\5_SWP391\\Project\\Koi-veterinary-service-center\\KoiVeterinaryServiceCenter_Server\\KoiVeterinaryServiceCenter.DataAccess\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\ADMIN\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Users\\hoang\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -26,15 +22,14 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "D:\\SWP391\\Koi-veterinary-service-center\\KoiVeterinaryServiceCenter_Server\\KoiVeterinaryServiceCenter.Model\\KoiVeterinaryServiceCenter.Model.csproj": {
-                "projectPath": "D:\\SWP391\\Koi-veterinary-service-center\\KoiVeterinaryServiceCenter_Server\\KoiVeterinaryServiceCenter.Model\\KoiVeterinaryServiceCenter.Model.csproj"
+              "D:\\1_CourseFPT\\5_SWP391\\Project\\Koi-veterinary-service-center\\KoiVeterinaryServiceCenter_Server\\KoiVeterinaryServiceCenter.Model\\KoiVeterinaryServiceCenter.Model.csproj": {
+                "projectPath": "D:\\1_CourseFPT\\5_SWP391\\Project\\Koi-veterinary-service-center\\KoiVeterinaryServiceCenter_Server\\KoiVeterinaryServiceCenter.Model\\KoiVeterinaryServiceCenter.Model.csproj"
               }
             }
           }
@@ -95,25 +90,21 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.304/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.400/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "D:\\SWP391\\Koi-veterinary-service-center\\KoiVeterinaryServiceCenter_Server\\KoiVeterinaryServiceCenter.Model\\KoiVeterinaryServiceCenter.Model.csproj": {
+    "D:\\1_CourseFPT\\5_SWP391\\Project\\Koi-veterinary-service-center\\KoiVeterinaryServiceCenter_Server\\KoiVeterinaryServiceCenter.Model\\KoiVeterinaryServiceCenter.Model.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\SWP391\\Koi-veterinary-service-center\\KoiVeterinaryServiceCenter_Server\\KoiVeterinaryServiceCenter.Model\\KoiVeterinaryServiceCenter.Model.csproj",
+        "projectUniqueName": "D:\\1_CourseFPT\\5_SWP391\\Project\\Koi-veterinary-service-center\\KoiVeterinaryServiceCenter_Server\\KoiVeterinaryServiceCenter.Model\\KoiVeterinaryServiceCenter.Model.csproj",
         "projectName": "KoiVeterinaryServiceCenter.Model",
-        "projectPath": "D:\\SWP391\\Koi-veterinary-service-center\\KoiVeterinaryServiceCenter_Server\\KoiVeterinaryServiceCenter.Model\\KoiVeterinaryServiceCenter.Model.csproj",
-        "packagesPath": "C:\\Users\\ADMIN\\.nuget\\packages\\",
-        "outputPath": "D:\\SWP391\\Koi-veterinary-service-center\\KoiVeterinaryServiceCenter_Server\\KoiVeterinaryServiceCenter.Model\\obj\\",
+        "projectPath": "D:\\1_CourseFPT\\5_SWP391\\Project\\Koi-veterinary-service-center\\KoiVeterinaryServiceCenter_Server\\KoiVeterinaryServiceCenter.Model\\KoiVeterinaryServiceCenter.Model.csproj",
+        "packagesPath": "C:\\Users\\hoang\\.nuget\\packages\\",
+        "outputPath": "D:\\1_CourseFPT\\5_SWP391\\Project\\Koi-veterinary-service-center\\KoiVeterinaryServiceCenter_Server\\KoiVeterinaryServiceCenter.Model\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\ADMIN\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Users\\hoang\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -121,15 +112,14 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "D:\\SWP391\\Koi-veterinary-service-center\\KoiVeterinaryServiceCenter_Server\\KoiVeterinaryServiceCenter.Utility\\KoiVeterinaryServiceCenter.Utility.csproj": {
-                "projectPath": "D:\\SWP391\\Koi-veterinary-service-center\\KoiVeterinaryServiceCenter_Server\\KoiVeterinaryServiceCenter.Utility\\KoiVeterinaryServiceCenter.Utility.csproj"
+              "D:\\1_CourseFPT\\5_SWP391\\Project\\Koi-veterinary-service-center\\KoiVeterinaryServiceCenter_Server\\KoiVeterinaryServiceCenter.Utility\\KoiVeterinaryServiceCenter.Utility.csproj": {
+                "projectPath": "D:\\1_CourseFPT\\5_SWP391\\Project\\Koi-veterinary-service-center\\KoiVeterinaryServiceCenter_Server\\KoiVeterinaryServiceCenter.Utility\\KoiVeterinaryServiceCenter.Utility.csproj"
               }
             }
           }
@@ -174,25 +164,21 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.304/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.400/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "D:\\SWP391\\Koi-veterinary-service-center\\KoiVeterinaryServiceCenter_Server\\KoiVeterinaryServiceCenter.Services\\KoiVeterinaryServiceCenter.Services.csproj": {
+    "D:\\1_CourseFPT\\5_SWP391\\Project\\Koi-veterinary-service-center\\KoiVeterinaryServiceCenter_Server\\KoiVeterinaryServiceCenter.Services\\KoiVeterinaryServiceCenter.Services.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\SWP391\\Koi-veterinary-service-center\\KoiVeterinaryServiceCenter_Server\\KoiVeterinaryServiceCenter.Services\\KoiVeterinaryServiceCenter.Services.csproj",
+        "projectUniqueName": "D:\\1_CourseFPT\\5_SWP391\\Project\\Koi-veterinary-service-center\\KoiVeterinaryServiceCenter_Server\\KoiVeterinaryServiceCenter.Services\\KoiVeterinaryServiceCenter.Services.csproj",
         "projectName": "KoiVeterinaryServiceCenter.Services",
-        "projectPath": "D:\\SWP391\\Koi-veterinary-service-center\\KoiVeterinaryServiceCenter_Server\\KoiVeterinaryServiceCenter.Services\\KoiVeterinaryServiceCenter.Services.csproj",
-        "packagesPath": "C:\\Users\\ADMIN\\.nuget\\packages\\",
-        "outputPath": "D:\\SWP391\\Koi-veterinary-service-center\\KoiVeterinaryServiceCenter_Server\\KoiVeterinaryServiceCenter.Services\\obj\\",
+        "projectPath": "D:\\1_CourseFPT\\5_SWP391\\Project\\Koi-veterinary-service-center\\KoiVeterinaryServiceCenter_Server\\KoiVeterinaryServiceCenter.Services\\KoiVeterinaryServiceCenter.Services.csproj",
+        "packagesPath": "C:\\Users\\hoang\\.nuget\\packages\\",
+        "outputPath": "D:\\1_CourseFPT\\5_SWP391\\Project\\Koi-veterinary-service-center\\KoiVeterinaryServiceCenter_Server\\KoiVeterinaryServiceCenter.Services\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\ADMIN\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Users\\hoang\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -200,18 +186,17 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "D:\\SWP391\\Koi-veterinary-service-center\\KoiVeterinaryServiceCenter_Server\\KoiVeterinaryServiceCenter.DataAccess\\KoiVeterinaryServiceCenter.DataAccess.csproj": {
-                "projectPath": "D:\\SWP391\\Koi-veterinary-service-center\\KoiVeterinaryServiceCenter_Server\\KoiVeterinaryServiceCenter.DataAccess\\KoiVeterinaryServiceCenter.DataAccess.csproj"
+              "D:\\1_CourseFPT\\5_SWP391\\Project\\Koi-veterinary-service-center\\KoiVeterinaryServiceCenter_Server\\KoiVeterinaryServiceCenter.DataAccess\\KoiVeterinaryServiceCenter.DataAccess.csproj": {
+                "projectPath": "D:\\1_CourseFPT\\5_SWP391\\Project\\Koi-veterinary-service-center\\KoiVeterinaryServiceCenter_Server\\KoiVeterinaryServiceCenter.DataAccess\\KoiVeterinaryServiceCenter.DataAccess.csproj"
               },
-              "D:\\SWP391\\Koi-veterinary-service-center\\KoiVeterinaryServiceCenter_Server\\KoiVeterinaryServiceCenter.Model\\KoiVeterinaryServiceCenter.Model.csproj": {
-                "projectPath": "D:\\SWP391\\Koi-veterinary-service-center\\KoiVeterinaryServiceCenter_Server\\KoiVeterinaryServiceCenter.Model\\KoiVeterinaryServiceCenter.Model.csproj"
+              "D:\\1_CourseFPT\\5_SWP391\\Project\\Koi-veterinary-service-center\\KoiVeterinaryServiceCenter_Server\\KoiVeterinaryServiceCenter.Model\\KoiVeterinaryServiceCenter.Model.csproj": {
+                "projectPath": "D:\\1_CourseFPT\\5_SWP391\\Project\\Koi-veterinary-service-center\\KoiVeterinaryServiceCenter_Server\\KoiVeterinaryServiceCenter.Model\\KoiVeterinaryServiceCenter.Model.csproj"
               }
             }
           }
@@ -260,25 +245,21 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.304/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.400/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "D:\\SWP391\\Koi-veterinary-service-center\\KoiVeterinaryServiceCenter_Server\\KoiVeterinaryServiceCenter.Utility\\KoiVeterinaryServiceCenter.Utility.csproj": {
+    "D:\\1_CourseFPT\\5_SWP391\\Project\\Koi-veterinary-service-center\\KoiVeterinaryServiceCenter_Server\\KoiVeterinaryServiceCenter.Utility\\KoiVeterinaryServiceCenter.Utility.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\SWP391\\Koi-veterinary-service-center\\KoiVeterinaryServiceCenter_Server\\KoiVeterinaryServiceCenter.Utility\\KoiVeterinaryServiceCenter.Utility.csproj",
+        "projectUniqueName": "D:\\1_CourseFPT\\5_SWP391\\Project\\Koi-veterinary-service-center\\KoiVeterinaryServiceCenter_Server\\KoiVeterinaryServiceCenter.Utility\\KoiVeterinaryServiceCenter.Utility.csproj",
         "projectName": "KoiVeterinaryServiceCenter.Utility",
-        "projectPath": "D:\\SWP391\\Koi-veterinary-service-center\\KoiVeterinaryServiceCenter_Server\\KoiVeterinaryServiceCenter.Utility\\KoiVeterinaryServiceCenter.Utility.csproj",
-        "packagesPath": "C:\\Users\\ADMIN\\.nuget\\packages\\",
-        "outputPath": "D:\\SWP391\\Koi-veterinary-service-center\\KoiVeterinaryServiceCenter_Server\\KoiVeterinaryServiceCenter.Utility\\obj\\",
+        "projectPath": "D:\\1_CourseFPT\\5_SWP391\\Project\\Koi-veterinary-service-center\\KoiVeterinaryServiceCenter_Server\\KoiVeterinaryServiceCenter.Utility\\KoiVeterinaryServiceCenter.Utility.csproj",
+        "packagesPath": "C:\\Users\\hoang\\.nuget\\packages\\",
+        "outputPath": "D:\\1_CourseFPT\\5_SWP391\\Project\\Koi-veterinary-service-center\\KoiVeterinaryServiceCenter_Server\\KoiVeterinaryServiceCenter.Utility\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\ADMIN\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Users\\hoang\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -286,7 +267,6 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -325,7 +305,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.304/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.400/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
