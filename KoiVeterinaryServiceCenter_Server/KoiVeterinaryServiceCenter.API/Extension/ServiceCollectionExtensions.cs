@@ -13,10 +13,12 @@ namespace KoiVeterinaryServiceCenter.API.Extension
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             // Registering IAuthService with its implementation AuthService
             services.AddScoped<IAuthService, AuthService>();
-            // Registering IDoctorService with its implementation DoctorService
+            // Registering IDoctorService with its implementation TokenService
             services.AddScoped<ITokenService, TokenService>();
             // Registering IUserManagerRepository its implementation UserManagerRepository
             services.AddScoped<IUserManagerRepository, UserManagerRepository>();
+            // Registering IUserManagerRepository its implementation DoctorService
+            services.AddScoped<IDoctorService, DoctorService>();
 
             return services;
         }

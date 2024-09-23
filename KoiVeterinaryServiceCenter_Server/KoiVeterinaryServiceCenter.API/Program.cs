@@ -1,7 +1,9 @@
 ﻿using KoiVeterinaryServiceCenter.API.Extension;
 using KoiVeterinaryServiceCenter.DataAccess.Context;
 using KoiVeterinaryServiceCenter.Model.Domain;
+using KoiVeterinaryServiceCenter.Services.IServices;
 using KoiVeterinaryServiceCenter.Services.Mappings;
+using KoiVeterinaryServiceCenter.Services.Services;
 using KoiVeterinaryServiceCenter.Utility.Constants;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
@@ -102,7 +104,6 @@ namespace KoiVeterinaryServiceCenter
             });
 
             var app = builder.Build();
-
             // Apply database migrations
             ApplyMigration(app);
 
