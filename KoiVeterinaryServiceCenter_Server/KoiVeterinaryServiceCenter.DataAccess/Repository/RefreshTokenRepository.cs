@@ -2,7 +2,6 @@
 using KoiVeterinaryServiceCenter.DataAccess.IRepository;
 using KoiVeterinaryServiceCenter.DataAccess.Repository;
 using KoiVeterinaryServiceCenter.Model.Domain;
-using KoiVeterinaryServiceCenter.Services.IServices;
 using Microsoft.EntityFrameworkCore;
 
 namespace KoiVeterinaryServiceCenter.DataAccess.Repository
