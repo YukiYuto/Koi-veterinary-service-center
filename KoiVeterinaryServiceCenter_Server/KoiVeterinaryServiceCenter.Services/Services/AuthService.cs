@@ -5,6 +5,9 @@ using KoiVeterinaryServiceCenter.Model.DTO;
 using KoiVeterinaryServiceCenter.Services.IServices;
 using KoiVeterinaryServiceCenter.Utility.Constants;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json.Linq;
+using System.Collections.Concurrent;
 
 
 namespace KoiVeterinaryServiceCenter.Services.Services
@@ -16,6 +19,10 @@ namespace KoiVeterinaryServiceCenter.Services.Services
         private readonly IUnitOfWork _unitOfWork;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly ITokenService _tokenService;
+
+
+        private static readonly ConcurrentDictionary<string, (int Count, DateTime LastRequest)> ResetPasswordAttempts =
+        new();
 
         public AuthService
         (
@@ -385,5 +392,162 @@ namespace KoiVeterinaryServiceCenter.Services.Services
                 };
             }
         }
+/*
+        //Forgot password
+        private string ip;
+        private string city;
+        private string region;
+        private string country;
+        private const int MaxAttemptsPerDay = 3;
+
+        public async Task<ResponseDTO> ForgotPassword(ForgotPasswordDTO forgotPasswordDto)
+        {
+            try
+            {
+                // Tìm người dùng theo Email/Số điện thoại
+                var user = await _userManager.FindByEmailAsync(forgotPasswordDto.EmailOrPhone);
+                if (user == null)
+                {
+                    user = await _userManager.Users.FirstOrDefaultAsync(
+                        u => u.PhoneNumber == forgotPasswordDto.EmailOrPhone);
+                }
+
+                if (user == null || !user.EmailConfirmed)
+                {
+                    return new ResponseDTO
+                    {
+                        IsSuccess = false,
+                        Message = "No user found or account not activated.",
+                        StatusCode = 400
+                    };
+                }
+
+                // Kiểm tra giới hạn gửi yêu cầu đặt lại mật khẩu
+                var email = user.Email;
+                var now = DateTime.Now;
+
+                if (ResetPasswordAttempts.TryGetValue(email, out var attempts))
+                {
+                    // Kiểm tra xem đã quá 1 ngày kể từ lần thử cuối cùng chưa
+                    if (now - attempts.LastRequest >= TimeSpan.FromSeconds(1))
+                    {
+                        // Reset số lần thử về 0 và cập nhật thời gian thử cuối cùng
+                        ResetPasswordAttempts[email] = (1, now);
+                    }
+                    else if (attempts.Count >= MaxAttemptsPerDay)
+                    {
+                        // Quá số lần reset cho phép trong vòng 1 ngày, gửi thông báo 
+                        await _emailService.SendEmailAsync(user.Email,
+                            "Password Reset Request Limit Exceeded",
+                            $"You have exceeded the daily limit for password reset requests. Please try again after 24 hours."
+                        );
+
+                        // Vẫn trong thời gian chặn, trả về lỗi
+                        return new ResponseDTO
+                        {
+                            IsSuccess = false,
+                            Message =
+                                "You have exceeded the daily limit for password reset requests. Please try again after 24 hours.",
+                            StatusCode = 429
+                        };
+                    }
+                    else
+                    {
+                        // Chưa vượt quá số lần thử và thời gian chờ, tăng số lần thử và cập nhật thời gian
+                        ResetPasswordAttempts[email] = (attempts.Count + 1, now);
+                    }
+                }
+                else
+                {
+                    // Email chưa có trong danh sách, thêm mới với số lần thử là 1 và thời gian hiện tại
+                    ResetPasswordAttempts.AddOrUpdate(email, (1, now), (key, old) => (old.Count + 1, now));
+                }
+
+                // Tạo mã token
+                var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+
+                // Gửi email chứa đường link đặt lại mật khẩu. //reset-password
+
+                var resetLink = $"https://nostran.w3spaces.com?token={token}&email={user.Email}";
+
+                // Lấy ngày hiện tại
+                var currentDate = DateTime.Now.ToString("MMMM d, yyyy");
+
+                var userAgent = _httpContextAccessor.HttpContext?.Request.Headers["User-Agent"];
+
+                // Lấy tên hệ điều hành
+                var operatingSystem = GetUserAgentOperatingSystem(userAgent);
+
+                // Lấy tên trình duyệt
+                var browser = GetUserAgentBrowser(userAgent);
+
+                // Lấy location
+                var url = "https://ipinfo.io/14.169.10.115/json?token=823e5c403c980f";
+                using (HttpClient client = new HttpClient())
+                {
+                    HttpResponseMessage response = await client.GetAsync(url);
+                    if (response.IsSuccessStatusCode)
+                    {
+                        string jsonContent = await response.Content.ReadAsStringAsync();
+                        JObject data = JObject.Parse(jsonContent);
+
+                        this.ip = data["ip"].ToString();
+                        this.city = data["city"].ToString();
+                        this.region = data["region"].ToString();
+                        this.country = data["country"].ToString();
+                    }
+                    else
+                    {
+                        return new ResponseDTO
+                        {
+                            IsSuccess = false,
+                            Message = "Error: Unable to retrieve data.",
+                            StatusCode = 400
+                        };
+                    }
+                }
+
+                // Gửi email chứa đường link đặt lại mật khẩu
+                await _emailService.SendEmailResetAsync(user.Email, "Reset password for your Cursus account", user,
+                    currentDate, resetLink, operatingSystem, browser, ip, region, city, country);
+
+                // Helper functions (you might need to refine these based on your User-Agent parsing logic)
+                string GetUserAgentOperatingSystem(string userAgent)
+                {
+                    // ... Logic to extract the operating system from the user-agent string
+                    // Example:
+                    if (userAgent.Contains("Windows")) return "Windows";
+                    else if (userAgent.Contains("Mac")) return "macOS";
+                    else if (userAgent.Contains("Linux")) return "Linux";
+                    else return "Unknown";
+                }
+
+                string GetUserAgentBrowser(string userAgent)
+                {
+                    // ... Logic to extract the browser from the user-agent string
+                    // Example:
+                    if (userAgent.Contains("Chrome")) return "Chrome";
+                    else if (userAgent.Contains("Firefox")) return "Firefox";
+                    else if (userAgent.Contains("Safari")) return "Safari";
+                    else return "Unknown";
+                }
+
+                return new ResponseDTO
+                {
+                    IsSuccess = true,
+                    Message = "The password reset link has been sent to your email.",
+                    StatusCode = 200
+                };
+            }
+            catch (Exception e)
+            {
+                return new ResponseDTO
+                {
+                    IsSuccess = false,
+                    Message = e.Message,
+                    StatusCode = 500
+                };
+            }
+        }*/
     }
 }

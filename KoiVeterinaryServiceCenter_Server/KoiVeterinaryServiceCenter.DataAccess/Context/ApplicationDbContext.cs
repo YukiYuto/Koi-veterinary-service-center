@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using KoiVeterinaryServiceCenter.DataAccess.Seeding;
 
 namespace KoiVeterinaryServiceCenter.DataAccess.Context
 {
@@ -39,6 +40,10 @@ namespace KoiVeterinaryServiceCenter.DataAccess.Context
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+            
+            // Seed data
+            ApplicationDbContextSeed.SeedAdminAccount(modelBuilder);
+
 
             // Thiết lập khóa chính hỗn hợp cho bảng trung gian DoctorService
             modelBuilder.Entity<DoctorService>()
