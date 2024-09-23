@@ -12,6 +12,6 @@ namespace KoiVeterinaryServiceCenter.Services.IServices
         Task<ResponseDTO> SignUpDoctor(RegisterDoctorDTO registerDoctorDTO);
         Task<ResponseDTO> SignUpCustomer(RegisterCustomerDTO registerCustomerDTO);
         Task<ResponseDTO> SignIn(SignDTO signDto);
-
+        //Task<ResponseDTO> ForgotPassword(ForgotPasswordDTO forgotPasswordDto);
     }
 }
