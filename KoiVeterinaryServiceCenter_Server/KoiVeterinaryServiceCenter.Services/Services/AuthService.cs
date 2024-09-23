@@ -103,21 +103,21 @@ namespace KoiVeterinaryServiceCenter.Services.Services
 
                 var user = await _userManagerRepository.FindByPhoneAsync(registerCustomerDTO.PhoneNumber);
 
-                //Create new Doctor
+                //Create new Customer
                 Customer customer = new Customer()
                 {
                     UserId = user.Id,
                 };
 
-                var isRoleExist = await _roleManager.RoleExistsAsync(StaticUserRoles.Doctor);
+                var isRoleExist = await _roleManager.RoleExistsAsync(StaticUserRoles.Customer);
 
                 if (isRoleExist is false)
                 {
-                    await _roleManager.CreateAsync(new IdentityRole(StaticUserRoles.Doctor));
+                    await _roleManager.CreateAsync(new IdentityRole(StaticUserRoles.Customer));
                 }
 
                 //Add role for the user 
-                var isRoledAdd = await _userManagerRepository.AddToRoleAsync(user, StaticUserRoles.Doctor);
+                var isRoledAdd = await _userManagerRepository.AddToRoleAsync(user, StaticUserRoles.Customer);
 
                 if (!isRoledAdd.Succeeded)
                 {
@@ -131,12 +131,12 @@ namespace KoiVeterinaryServiceCenter.Services.Services
                 }
 
                 //Create new Doctor relate with ApplicationUser
-                var isDoctorAdd = await _unitOfWork.CustomerRepository.AddAsync(customer);
-                if (isDoctorAdd == null)
+                var isCustomerAdd = await _unitOfWork.CustomerRepository.AddAsync(customer);
+                if (isCustomerAdd == null)
                 {
                     return new ResponseDTO()
                     {
-                        Message = "Failed to add doctor",
+                        Message = "Failed to add customer",
                         IsSuccess = false,
                         StatusCode = 500,
                         Result = registerCustomerDTO

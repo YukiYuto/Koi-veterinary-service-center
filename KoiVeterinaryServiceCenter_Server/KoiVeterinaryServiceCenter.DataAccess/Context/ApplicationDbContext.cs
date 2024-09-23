@@ -30,6 +30,12 @@ namespace KoiVeterinaryServiceCenter.DataAccess.Context
 
         public DbSet<Service> Services { get; set; }
 
+        public DbSet<Appointment> Appointments { get; set; }
+        public DbSet<Slot> Slots { get; set; }
+        public DbSet<Transaction> Transactions { get; set; }
+        public DbSet<PaymentMethod> PaymentMethods { get; set; }
+        
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -49,6 +55,7 @@ namespace KoiVeterinaryServiceCenter.DataAccess.Context
                 .HasOne(ds => ds.Service)
                 .WithMany(s => s.DoctorServices)
                 .HasForeignKey(ds => ds.ServiceId);
+            
         }
     }
 }
