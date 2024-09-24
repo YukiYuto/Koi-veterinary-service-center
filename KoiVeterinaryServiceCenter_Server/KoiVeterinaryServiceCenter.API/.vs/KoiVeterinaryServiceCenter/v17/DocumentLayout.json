@@ -3,11 +3,11 @@
   "WorkspaceRootPath": "D:\\SWP391\\Slot\\Koi-veterinary-service-center\\KoiVeterinaryServiceCenter_Server\\KoiVeterinaryServiceCenter.API\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{CD0A9FBF-F867-445B-916C-6696AD970D23}|..\\KoiVeterinaryServiceCenter.Services\\KoiVeterinaryServiceCenter.Services.csproj|d:\\swp391\\slot\\koi-veterinary-service-center\\koiveterinaryservicecenter_server\\koiveterinaryservicecenter.services\\services\\slotservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{38C5C8BA-68B8-40D3-BC9A-91E8B9C31DD6}|KoiVeterinaryServiceCenter.API.csproj|d:\\swp391\\slot\\koi-veterinary-service-center\\koiveterinaryservicecenter_server\\koiveterinaryservicecenter.api\\controllers\\slotcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{38C5C8BA-68B8-40D3-BC9A-91E8B9C31DD6}|KoiVeterinaryServiceCenter.API.csproj|solutionrelative:controllers\\slotcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CD0A9FBF-F867-445B-916C-6696AD970D23}|..\\KoiVeterinaryServiceCenter.Services\\KoiVeterinaryServiceCenter.Services.csproj|d:\\swp391\\slot\\koi-veterinary-service-center\\koiveterinaryservicecenter_server\\koiveterinaryservicecenter.services\\services\\slotservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{304B7144-73D0-452C-ACA9-6A386684FBCC}|..\\KoiVeterinaryServiceCenter.Model\\KoiVeterinaryServiceCenter.Model.csproj|d:\\swp391\\slot\\koi-veterinary-service-center\\koiveterinaryservicecenter_server\\koiveterinaryservicecenter.model\\dto\\createslotdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
@@ -20,21 +20,8 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 6,
+          "SelectedChildIndex": 7,
           "Children": [
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "CreateSlotDTO.cs",
-              "DocumentMoniker": "D:\\SWP391\\Slot\\Koi-veterinary-service-center\\KoiVeterinaryServiceCenter_Server\\KoiVeterinaryServiceCenter.Model\\DTO\\CreateSlotDTO.cs",
-              "RelativeDocumentMoniker": "..\\KoiVeterinaryServiceCenter.Model\\DTO\\CreateSlotDTO.cs",
-              "ToolTip": "D:\\SWP391\\Slot\\Koi-veterinary-service-center\\KoiVeterinaryServiceCenter_Server\\KoiVeterinaryServiceCenter.Model\\DTO\\CreateSlotDTO.cs",
-              "RelativeToolTip": "..\\KoiVeterinaryServiceCenter.Model\\DTO\\CreateSlotDTO.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-24T03:27:22.361Z",
-              "EditorCaption": ""
-            },
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{b1e99781-ab81-11d0-b683-00aa00a3ee26}"
@@ -57,26 +44,38 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 2,
+              "Title": "CreateSlotDTO.cs",
+              "DocumentMoniker": "D:\\SWP391\\Slot\\Koi-veterinary-service-center\\KoiVeterinaryServiceCenter_Server\\KoiVeterinaryServiceCenter.Model\\DTO\\CreateSlotDTO.cs",
+              "RelativeDocumentMoniker": "..\\KoiVeterinaryServiceCenter.Model\\DTO\\CreateSlotDTO.cs",
+              "ToolTip": "D:\\SWP391\\Slot\\Koi-veterinary-service-center\\KoiVeterinaryServiceCenter_Server\\KoiVeterinaryServiceCenter.Model\\DTO\\CreateSlotDTO.cs",
+              "RelativeToolTip": "..\\KoiVeterinaryServiceCenter.Model\\DTO\\CreateSlotDTO.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-24T03:27:22.361Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
               "Title": "SlotService.cs",
               "DocumentMoniker": "D:\\SWP391\\Slot\\Koi-veterinary-service-center\\KoiVeterinaryServiceCenter_Server\\KoiVeterinaryServiceCenter.Services\\Services\\SlotService.cs",
               "RelativeDocumentMoniker": "..\\KoiVeterinaryServiceCenter.Services\\Services\\SlotService.cs",
               "ToolTip": "D:\\SWP391\\Slot\\Koi-veterinary-service-center\\KoiVeterinaryServiceCenter_Server\\KoiVeterinaryServiceCenter.Services\\Services\\SlotService.cs",
               "RelativeToolTip": "..\\KoiVeterinaryServiceCenter.Services\\Services\\SlotService.cs",
-              "ViewState": "AQIAAHkAAAAAAAAAAAAswI8AAAAzAAAA",
+              "ViewState": "AQIAACkAAAAAAAAAAAAwwNAAAAAFAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-09-24T02:59:42.764Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 0,
               "Title": "SlotController.cs",
               "DocumentMoniker": "D:\\SWP391\\Slot\\Koi-veterinary-service-center\\KoiVeterinaryServiceCenter_Server\\KoiVeterinaryServiceCenter.API\\Controllers\\SlotController.cs",
               "RelativeDocumentMoniker": "Controllers\\SlotController.cs",
               "ToolTip": "D:\\SWP391\\Slot\\Koi-veterinary-service-center\\KoiVeterinaryServiceCenter_Server\\KoiVeterinaryServiceCenter.API\\Controllers\\SlotController.cs",
               "RelativeToolTip": "Controllers\\SlotController.cs",
-              "ViewState": "AQIAAAUAAAAAAAAAAAAAABMAAAARAAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAADcAAAAIAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-09-24T02:58:16.324Z",
               "EditorCaption": ""

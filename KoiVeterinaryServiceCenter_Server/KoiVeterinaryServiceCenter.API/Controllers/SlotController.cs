@@ -53,7 +53,7 @@ namespace KoiVeterinaryServiceCenter.API.Controllers
 
         [HttpDelete]
         [Route("{slotId:guid}")]
-        //[Authorize(Roles = StaticUserRoles.Doctor)]
+        [Authorize(Roles = StaticUserRoles.Doctor)]
         public async Task<ActionResult<ResponseDTO>> DeleteLevel
         (
             [FromRoute] Guid slotId
