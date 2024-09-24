@@ -7,6 +7,7 @@ namespace KoiVeterinaryServiceCenter.Model.DTO
 {
     public class DoctorInfoDTO
     {
+        public Guid? DoctorId { get; set; }
         public string UserId { get; set; }
         public string Specialization { get; set; }
         public string Experience { get; set; }

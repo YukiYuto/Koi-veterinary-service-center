@@ -1,5 +1,7 @@
 using KoiVeterinaryServiceCenter.Model.DTO;
 using KoiVeterinaryServiceCenter.Services.IServices;
+using KoiVeterinaryServiceCenter.Utility.Constants;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 
@@ -26,6 +28,13 @@ namespace KoiVeterinaryServiceCenter.API.Controllers
         public async Task<ActionResult<ResponseDTO>> GetDoctorById([FromRoute] Guid doctorId)
         {
             var responseDto = await _doctorService.GetDoctorById(doctorId);
+            return StatusCode(responseDto.StatusCode, responseDto);
+        }
+
+        [HttpPut]
+        public async Task<ActionResult<ResponseDTO>> UpdateDoctor([FromBody] UpdateDoctorDTO updateDoctorDTO)
+        {
+            var responseDto = await _doctorService.UpdateDoctorById(updateDoctorDTO);
             return StatusCode(responseDto.StatusCode, responseDto);
         }
     }

@@ -11,7 +11,7 @@ namespace KoiVeterinaryServiceCenter.Services.IServices
     public interface IDoctorService
     {
         Task<ResponseDTO> GetDoctorById(Guid id);
-        Task<ResponseDTO> UpdateDoctorAsync(UpdateDoctorDTO updateDoctorDTO);
-        Task<ResponseDTO> DeleteAsync(String id);
+        Task<ResponseDTO> UpdateDoctorById(UpdateDoctorDTO updateDoctorDTO);
+        Task<ResponseDTO> DeleteDoctorById(String id);
     }
 }
