@@ -1464,7 +1464,10 @@
           "Microsoft.EntityFrameworkCore.SqlServer": "8.0.6"
         },
         "runtime": {
-          "KoiVeterinaryServiceCenter.DataAccess.dll": {}
+          "KoiVeterinaryServiceCenter.DataAccess.dll": {
+            "assemblyVersion": "1.0.0",
+            "fileVersion": "1.0.0.0"
+          }
         }
       },
       "KoiVeterinaryServiceCenter.Model/1.0.0": {
@@ -1474,12 +1477,18 @@
           "Microsoft.Extensions.Identity.Core": "8.0.6"
         },
         "runtime": {
-          "KoiVeterinaryServiceCenter.Model.dll": {}
+          "KoiVeterinaryServiceCenter.Model.dll": {
+            "assemblyVersion": "1.0.0",
+            "fileVersion": "1.0.0.0"
+          }
         }
       },
       "KoiVeterinaryServiceCenter.Utility/1.0.0": {
         "runtime": {
-          "KoiVeterinaryServiceCenter.Utility.dll": {}
+          "KoiVeterinaryServiceCenter.Utility.dll": {
+            "assemblyVersion": "1.0.0",
+            "fileVersion": "1.0.0.0"
+          }
         }
       }
     }

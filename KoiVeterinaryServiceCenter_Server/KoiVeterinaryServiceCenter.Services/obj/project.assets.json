@@ -8188,24 +8188,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\ADMIN\\.nuget\\packages\\": {},
-    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
+    "C:\\Users\\ASUS\\.nuget\\packages\\": {},
+    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\SWP391\\Develop\\Koi-veterinary-service-center\\KoiVeterinaryServiceCenter_Server\\KoiVeterinaryServiceCenter.Services\\KoiVeterinaryServiceCenter.Services.csproj",
+      "projectUniqueName": "C:\\vsc\\ttt\\Koi-veterinary-service-center\\KoiVeterinaryServiceCenter_Server\\KoiVeterinaryServiceCenter.Services\\KoiVeterinaryServiceCenter.Services.csproj",
       "projectName": "KoiVeterinaryServiceCenter.Services",
-      "projectPath": "D:\\SWP391\\Develop\\Koi-veterinary-service-center\\KoiVeterinaryServiceCenter_Server\\KoiVeterinaryServiceCenter.Services\\KoiVeterinaryServiceCenter.Services.csproj",
-      "packagesPath": "C:\\Users\\ADMIN\\.nuget\\packages\\",
-      "outputPath": "D:\\SWP391\\Develop\\Koi-veterinary-service-center\\KoiVeterinaryServiceCenter_Server\\KoiVeterinaryServiceCenter.Services\\obj\\",
+      "projectPath": "C:\\vsc\\ttt\\Koi-veterinary-service-center\\KoiVeterinaryServiceCenter_Server\\KoiVeterinaryServiceCenter.Services\\KoiVeterinaryServiceCenter.Services.csproj",
+      "packagesPath": "C:\\Users\\ASUS\\.nuget\\packages\\",
+      "outputPath": "C:\\vsc\\ttt\\Koi-veterinary-service-center\\KoiVeterinaryServiceCenter_Server\\KoiVeterinaryServiceCenter.Services\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
-        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
       ],
       "configFilePaths": [
-        "C:\\Users\\ADMIN\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+        "C:\\Users\\ASUS\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -8220,11 +8219,11 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
-            "D:\\SWP391\\Develop\\Koi-veterinary-service-center\\KoiVeterinaryServiceCenter_Server\\KoiVeterinaryServiceCenter.DataAccess\\KoiVeterinaryServiceCenter.DataAccess.csproj": {
-              "projectPath": "D:\\SWP391\\Develop\\Koi-veterinary-service-center\\KoiVeterinaryServiceCenter_Server\\KoiVeterinaryServiceCenter.DataAccess\\KoiVeterinaryServiceCenter.DataAccess.csproj"
+            "C:\\vsc\\ttt\\Koi-veterinary-service-center\\KoiVeterinaryServiceCenter_Server\\KoiVeterinaryServiceCenter.DataAccess\\KoiVeterinaryServiceCenter.DataAccess.csproj": {
+              "projectPath": "C:\\vsc\\ttt\\Koi-veterinary-service-center\\KoiVeterinaryServiceCenter_Server\\KoiVeterinaryServiceCenter.DataAccess\\KoiVeterinaryServiceCenter.DataAccess.csproj"
             },
-            "D:\\SWP391\\Develop\\Koi-veterinary-service-center\\KoiVeterinaryServiceCenter_Server\\KoiVeterinaryServiceCenter.Model\\KoiVeterinaryServiceCenter.Model.csproj": {
-              "projectPath": "D:\\SWP391\\Develop\\Koi-veterinary-service-center\\KoiVeterinaryServiceCenter_Server\\KoiVeterinaryServiceCenter.Model\\KoiVeterinaryServiceCenter.Model.csproj"
+            "C:\\vsc\\ttt\\Koi-veterinary-service-center\\KoiVeterinaryServiceCenter_Server\\KoiVeterinaryServiceCenter.Model\\KoiVeterinaryServiceCenter.Model.csproj": {
+              "projectPath": "C:\\vsc\\ttt\\Koi-veterinary-service-center\\KoiVeterinaryServiceCenter_Server\\KoiVeterinaryServiceCenter.Model\\KoiVeterinaryServiceCenter.Model.csproj"
             }
           }
         }
@@ -8273,7 +8272,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.304/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.400/PortableRuntimeIdentifierGraph.json"
       }
     }
   }
