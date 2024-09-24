@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace KoiVeterinaryServiceCenter.Model.Domain
 {
-    public class Slot
+    public class Slot : BaseEntity<string, string, int>
     {
         [Key] public Guid SlotId { get; set; }
         public Guid DoctorId { get; set; }
@@ -17,6 +17,6 @@ namespace KoiVeterinaryServiceCenter.Model.Domain
         public DateTime AppointmentDate { get; set; }
         public bool IsBooked { get; set; }
 
-        [ForeignKey("DoctorId")] public virtual Doctor Doctor { get; set; }
+        [ForeignKey("DoctorId")] public virtual Doctor? Doctor { get; set; }
     }
 }
