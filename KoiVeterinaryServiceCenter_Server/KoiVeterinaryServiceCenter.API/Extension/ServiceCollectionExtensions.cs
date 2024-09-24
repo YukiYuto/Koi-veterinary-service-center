@@ -18,6 +18,8 @@ namespace KoiVeterinaryServiceCenter.API.Extension
             // Registering IUserManagerRepository its implementation UserManagerRepository
             services.AddScoped<IUserManagerRepository, UserManagerRepository>();
 
+            services.AddScoped<IPetRepository, PetRepository>();
+
             return services;
         }
     }

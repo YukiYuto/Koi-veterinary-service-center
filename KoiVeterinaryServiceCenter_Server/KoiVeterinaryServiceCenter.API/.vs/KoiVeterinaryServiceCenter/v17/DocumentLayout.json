@@ -3,6 +3,60 @@
   "WorkspaceRootPath": "C:\\vsc\\ttt\\Koi-veterinary-service-center\\KoiVeterinaryServiceCenter_Server\\KoiVeterinaryServiceCenter.API\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{38C5C8BA-68B8-40D3-BC9A-91E8B9C31DD6}|KoiVeterinaryServiceCenter.API.csproj|c:\\vsc\\ttt\\koi-veterinary-service-center\\koiveterinaryservicecenter_server\\koiveterinaryservicecenter.api\\extension\\servicecollectionextensions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{38C5C8BA-68B8-40D3-BC9A-91E8B9C31DD6}|KoiVeterinaryServiceCenter.API.csproj|solutionrelative:extension\\servicecollectionextensions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{38C5C8BA-68B8-40D3-BC9A-91E8B9C31DD6}|KoiVeterinaryServiceCenter.API.csproj|c:\\vsc\\ttt\\koi-veterinary-service-center\\koiveterinaryservicecenter_server\\koiveterinaryservicecenter.api\\controllers\\petcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{38C5C8BA-68B8-40D3-BC9A-91E8B9C31DD6}|KoiVeterinaryServiceCenter.API.csproj|solutionrelative:controllers\\petcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CD0A9FBF-F867-445B-916C-6696AD970D23}|..\\KoiVeterinaryServiceCenter.Services\\KoiVeterinaryServiceCenter.Services.csproj|c:\\vsc\\ttt\\koi-veterinary-service-center\\koiveterinaryservicecenter_server\\koiveterinaryservicecenter.services\\services\\petservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CD0A9FBF-F867-445B-916C-6696AD970D23}|..\\KoiVeterinaryServiceCenter.Services\\KoiVeterinaryServiceCenter.Services.csproj|c:\\vsc\\ttt\\koi-veterinary-service-center\\koiveterinaryservicecenter_server\\koiveterinaryservicecenter.services\\iservices\\ipetservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{765E5D34-3F6E-4F0A-924D-89838C70D1E9}|..\\KoiVeterinaryServiceCenter.DataAccess\\KoiVeterinaryServiceCenter.DataAccess.csproj|c:\\vsc\\ttt\\koi-veterinary-service-center\\koiveterinaryservicecenter_server\\koiveterinaryservicecenter.dataaccess\\repository\\unitofwork.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{765E5D34-3F6E-4F0A-924D-89838C70D1E9}|..\\KoiVeterinaryServiceCenter.DataAccess\\KoiVeterinaryServiceCenter.DataAccess.csproj|c:\\vsc\\ttt\\koi-veterinary-service-center\\koiveterinaryservicecenter_server\\koiveterinaryservicecenter.dataaccess\\repository\\repository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{765E5D34-3F6E-4F0A-924D-89838C70D1E9}|..\\KoiVeterinaryServiceCenter.DataAccess\\KoiVeterinaryServiceCenter.DataAccess.csproj|c:\\vsc\\ttt\\koi-veterinary-service-center\\koiveterinaryservicecenter_server\\koiveterinaryservicecenter.dataaccess\\irepository\\iunitofwork.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{765E5D34-3F6E-4F0A-924D-89838C70D1E9}|..\\KoiVeterinaryServiceCenter.DataAccess\\KoiVeterinaryServiceCenter.DataAccess.csproj|c:\\vsc\\ttt\\koi-veterinary-service-center\\koiveterinaryservicecenter_server\\koiveterinaryservicecenter.dataaccess\\context\\applicationdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{38C5C8BA-68B8-40D3-BC9A-91E8B9C31DD6}|KoiVeterinaryServiceCenter.API.csproj|c:\\vsc\\ttt\\koi-veterinary-service-center\\koiveterinaryservicecenter_server\\koiveterinaryservicecenter.api\\controllers\\authcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{38C5C8BA-68B8-40D3-BC9A-91E8B9C31DD6}|KoiVeterinaryServiceCenter.API.csproj|solutionrelative:controllers\\authcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{304B7144-73D0-452C-ACA9-6A386684FBCC}|..\\KoiVeterinaryServiceCenter.Model\\KoiVeterinaryServiceCenter.Model.csproj|c:\\vsc\\ttt\\koi-veterinary-service-center\\koiveterinaryservicecenter_server\\koiveterinaryservicecenter.model\\dto\\updatepetdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{304B7144-73D0-452C-ACA9-6A386684FBCC}|..\\KoiVeterinaryServiceCenter.Model\\KoiVeterinaryServiceCenter.Model.csproj|c:\\vsc\\ttt\\koi-veterinary-service-center\\koiveterinaryservicecenter_server\\koiveterinaryservicecenter.model\\dto\\updatepetdiseasedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{304B7144-73D0-452C-ACA9-6A386684FBCC}|..\\KoiVeterinaryServiceCenter.Model\\KoiVeterinaryServiceCenter.Model.csproj|c:\\vsc\\ttt\\koi-veterinary-service-center\\koiveterinaryservicecenter_server\\koiveterinaryservicecenter.model\\dto\\createpetdiseasedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{765E5D34-3F6E-4F0A-924D-89838C70D1E9}|..\\KoiVeterinaryServiceCenter.DataAccess\\KoiVeterinaryServiceCenter.DataAccess.csproj|c:\\vsc\\ttt\\koi-veterinary-service-center\\koiveterinaryservicecenter_server\\koiveterinaryservicecenter.dataaccess\\repository\\petrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CD0A9FBF-F867-445B-916C-6696AD970D23}|..\\KoiVeterinaryServiceCenter.Services\\KoiVeterinaryServiceCenter.Services.csproj|c:\\vsc\\ttt\\koi-veterinary-service-center\\koiveterinaryservicecenter_server\\koiveterinaryservicecenter.services\\iservices\\ipetdiseaseservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{304B7144-73D0-452C-ACA9-6A386684FBCC}|..\\KoiVeterinaryServiceCenter.Model\\KoiVeterinaryServiceCenter.Model.csproj|c:\\vsc\\ttt\\koi-veterinary-service-center\\koiveterinaryservicecenter_server\\koiveterinaryservicecenter.model\\dto\\createpetdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{765E5D34-3F6E-4F0A-924D-89838C70D1E9}|..\\KoiVeterinaryServiceCenter.DataAccess\\KoiVeterinaryServiceCenter.DataAccess.csproj|c:\\vsc\\ttt\\koi-veterinary-service-center\\koiveterinaryservicecenter_server\\koiveterinaryservicecenter.dataaccess\\repository\\petdiseaserepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{765E5D34-3F6E-4F0A-924D-89838C70D1E9}|..\\KoiVeterinaryServiceCenter.DataAccess\\KoiVeterinaryServiceCenter.DataAccess.csproj|c:\\vsc\\ttt\\koi-veterinary-service-center\\koiveterinaryservicecenter_server\\koiveterinaryservicecenter.dataaccess\\irepository\\ipetdiseaserepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{765E5D34-3F6E-4F0A-924D-89838C70D1E9}|..\\KoiVeterinaryServiceCenter.DataAccess\\KoiVeterinaryServiceCenter.DataAccess.csproj|c:\\vsc\\ttt\\koi-veterinary-service-center\\koiveterinaryservicecenter_server\\koiveterinaryservicecenter.dataaccess\\irepository\\ipetrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
@@ -16,7 +70,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 5,
+          "SelectedChildIndex": 7,
           "Children": [
             {
               "$type": "Bookmark",
@@ -40,7 +94,212 @@
             },
             {
               "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "Repository.cs",
+              "DocumentMoniker": "C:\\vsc\\ttt\\Koi-veterinary-service-center\\KoiVeterinaryServiceCenter_Server\\KoiVeterinaryServiceCenter.DataAccess\\Repository\\Repository.cs",
+              "RelativeDocumentMoniker": "..\\KoiVeterinaryServiceCenter.DataAccess\\Repository\\Repository.cs",
+              "ToolTip": "C:\\vsc\\ttt\\Koi-veterinary-service-center\\KoiVeterinaryServiceCenter_Server\\KoiVeterinaryServiceCenter.DataAccess\\Repository\\Repository.cs",
+              "RelativeToolTip": "..\\KoiVeterinaryServiceCenter.DataAccess\\Repository\\Repository.cs",
+              "ViewState": "AgIAABYAAAAAAAAAAAAQwAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-24T01:54:09.558Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "ApplicationDbContext.cs",
+              "DocumentMoniker": "C:\\vsc\\ttt\\Koi-veterinary-service-center\\KoiVeterinaryServiceCenter_Server\\KoiVeterinaryServiceCenter.DataAccess\\Context\\ApplicationDbContext.cs",
+              "RelativeDocumentMoniker": "..\\KoiVeterinaryServiceCenter.DataAccess\\Context\\ApplicationDbContext.cs",
+              "ToolTip": "C:\\vsc\\ttt\\Koi-veterinary-service-center\\KoiVeterinaryServiceCenter_Server\\KoiVeterinaryServiceCenter.DataAccess\\Context\\ApplicationDbContext.cs",
+              "RelativeToolTip": "..\\KoiVeterinaryServiceCenter.DataAccess\\Context\\ApplicationDbContext.cs",
+              "ViewState": "AgIAABYAAAAAAAAAAAAkwAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-24T01:53:59.181Z"
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "ServiceCollectionExtensions.cs",
+              "DocumentMoniker": "C:\\vsc\\ttt\\Koi-veterinary-service-center\\KoiVeterinaryServiceCenter_Server\\KoiVeterinaryServiceCenter.API\\Extension\\ServiceCollectionExtensions.cs",
+              "RelativeDocumentMoniker": "Extension\\ServiceCollectionExtensions.cs",
+              "ToolTip": "C:\\vsc\\ttt\\Koi-veterinary-service-center\\KoiVeterinaryServiceCenter_Server\\KoiVeterinaryServiceCenter.API\\Extension\\ServiceCollectionExtensions.cs",
+              "RelativeToolTip": "Extension\\ServiceCollectionExtensions.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABQAAAAyAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-24T01:51:32.903Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "PetController.cs",
+              "DocumentMoniker": "C:\\vsc\\ttt\\Koi-veterinary-service-center\\KoiVeterinaryServiceCenter_Server\\KoiVeterinaryServiceCenter.API\\Controllers\\PetController.cs",
+              "RelativeDocumentMoniker": "Controllers\\PetController.cs",
+              "ToolTip": "C:\\vsc\\ttt\\Koi-veterinary-service-center\\KoiVeterinaryServiceCenter_Server\\KoiVeterinaryServiceCenter.API\\Controllers\\PetController.cs",
+              "RelativeToolTip": "Controllers\\PetController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-24T01:45:02.297Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "IUnitOfWork.cs",
+              "DocumentMoniker": "C:\\vsc\\ttt\\Koi-veterinary-service-center\\KoiVeterinaryServiceCenter_Server\\KoiVeterinaryServiceCenter.DataAccess\\IRepository\\IUnitOfWork.cs",
+              "RelativeDocumentMoniker": "..\\KoiVeterinaryServiceCenter.DataAccess\\IRepository\\IUnitOfWork.cs",
+              "ToolTip": "C:\\vsc\\ttt\\Koi-veterinary-service-center\\KoiVeterinaryServiceCenter_Server\\KoiVeterinaryServiceCenter.DataAccess\\IRepository\\IUnitOfWork.cs",
+              "RelativeToolTip": "..\\KoiVeterinaryServiceCenter.DataAccess\\IRepository\\IUnitOfWork.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAtAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-24T01:43:46.795Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "UnitOfWork.cs",
+              "DocumentMoniker": "C:\\vsc\\ttt\\Koi-veterinary-service-center\\KoiVeterinaryServiceCenter_Server\\KoiVeterinaryServiceCenter.DataAccess\\Repository\\UnitOfWork.cs",
+              "RelativeDocumentMoniker": "..\\KoiVeterinaryServiceCenter.DataAccess\\Repository\\UnitOfWork.cs",
+              "ToolTip": "C:\\vsc\\ttt\\Koi-veterinary-service-center\\KoiVeterinaryServiceCenter_Server\\KoiVeterinaryServiceCenter.DataAccess\\Repository\\UnitOfWork.cs",
+              "RelativeToolTip": "..\\KoiVeterinaryServiceCenter.DataAccess\\Repository\\UnitOfWork.cs",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAABoAAAA4AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-24T01:41:32.019Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "IPetService.cs",
+              "DocumentMoniker": "C:\\vsc\\ttt\\Koi-veterinary-service-center\\KoiVeterinaryServiceCenter_Server\\KoiVeterinaryServiceCenter.Services\\IServices\\IPetService.cs",
+              "RelativeDocumentMoniker": "..\\KoiVeterinaryServiceCenter.Services\\IServices\\IPetService.cs",
+              "ToolTip": "C:\\vsc\\ttt\\Koi-veterinary-service-center\\KoiVeterinaryServiceCenter_Server\\KoiVeterinaryServiceCenter.Services\\IServices\\IPetService.cs",
+              "RelativeToolTip": "..\\KoiVeterinaryServiceCenter.Services\\IServices\\IPetService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABsAAABGAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-24T01:38:15.548Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "PetService.cs",
+              "DocumentMoniker": "C:\\vsc\\ttt\\Koi-veterinary-service-center\\KoiVeterinaryServiceCenter_Server\\KoiVeterinaryServiceCenter.Services\\Services\\PetService.cs",
+              "RelativeDocumentMoniker": "..\\KoiVeterinaryServiceCenter.Services\\Services\\PetService.cs",
+              "ToolTip": "C:\\vsc\\ttt\\Koi-veterinary-service-center\\KoiVeterinaryServiceCenter_Server\\KoiVeterinaryServiceCenter.Services\\Services\\PetService.cs",
+              "RelativeToolTip": "..\\KoiVeterinaryServiceCenter.Services\\Services\\PetService.cs",
+              "ViewState": "AgIAABsAAAAAAAAAAAAYwDIAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-24T01:39:48.205Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "AuthController.cs",
+              "DocumentMoniker": "C:\\vsc\\ttt\\Koi-veterinary-service-center\\KoiVeterinaryServiceCenter_Server\\KoiVeterinaryServiceCenter.API\\Controllers\\AuthController.cs",
+              "RelativeDocumentMoniker": "Controllers\\AuthController.cs",
+              "ToolTip": "C:\\vsc\\ttt\\Koi-veterinary-service-center\\KoiVeterinaryServiceCenter_Server\\KoiVeterinaryServiceCenter.API\\Controllers\\AuthController.cs",
+              "RelativeToolTip": "Controllers\\AuthController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-24T01:53:41.718Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "IPetDiseaseService.cs",
+              "DocumentMoniker": "C:\\vsc\\ttt\\Koi-veterinary-service-center\\KoiVeterinaryServiceCenter_Server\\KoiVeterinaryServiceCenter.Services\\IServices\\IPetDiseaseService.cs",
+              "RelativeDocumentMoniker": "..\\KoiVeterinaryServiceCenter.Services\\IServices\\IPetDiseaseService.cs",
+              "ToolTip": "C:\\vsc\\ttt\\Koi-veterinary-service-center\\KoiVeterinaryServiceCenter_Server\\KoiVeterinaryServiceCenter.Services\\IServices\\IPetDiseaseService.cs",
+              "RelativeToolTip": "..\\KoiVeterinaryServiceCenter.Services\\IServices\\IPetDiseaseService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-24T01:39:16.381Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "UpdatePetDTO.cs",
+              "DocumentMoniker": "C:\\vsc\\ttt\\Koi-veterinary-service-center\\KoiVeterinaryServiceCenter_Server\\KoiVeterinaryServiceCenter.Model\\DTO\\UpdatePetDTO.cs",
+              "RelativeDocumentMoniker": "..\\KoiVeterinaryServiceCenter.Model\\DTO\\UpdatePetDTO.cs",
+              "ToolTip": "C:\\vsc\\ttt\\Koi-veterinary-service-center\\KoiVeterinaryServiceCenter_Server\\KoiVeterinaryServiceCenter.Model\\DTO\\UpdatePetDTO.cs",
+              "RelativeToolTip": "..\\KoiVeterinaryServiceCenter.Model\\DTO\\UpdatePetDTO.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-24T01:36:43.801Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "UpdatePetDiseaseDTO.cs",
+              "DocumentMoniker": "C:\\vsc\\ttt\\Koi-veterinary-service-center\\KoiVeterinaryServiceCenter_Server\\KoiVeterinaryServiceCenter.Model\\DTO\\UpdatePetDiseaseDTO.cs",
+              "RelativeDocumentMoniker": "..\\KoiVeterinaryServiceCenter.Model\\DTO\\UpdatePetDiseaseDTO.cs",
+              "ToolTip": "C:\\vsc\\ttt\\Koi-veterinary-service-center\\KoiVeterinaryServiceCenter_Server\\KoiVeterinaryServiceCenter.Model\\DTO\\UpdatePetDiseaseDTO.cs",
+              "RelativeToolTip": "..\\KoiVeterinaryServiceCenter.Model\\DTO\\UpdatePetDiseaseDTO.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-24T01:37:01.447Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "CreatePetDiseaseDTO.cs",
+              "DocumentMoniker": "C:\\vsc\\ttt\\Koi-veterinary-service-center\\KoiVeterinaryServiceCenter_Server\\KoiVeterinaryServiceCenter.Model\\DTO\\CreatePetDiseaseDTO.cs",
+              "RelativeDocumentMoniker": "..\\KoiVeterinaryServiceCenter.Model\\DTO\\CreatePetDiseaseDTO.cs",
+              "ToolTip": "C:\\vsc\\ttt\\Koi-veterinary-service-center\\KoiVeterinaryServiceCenter_Server\\KoiVeterinaryServiceCenter.Model\\DTO\\CreatePetDiseaseDTO.cs",
+              "RelativeToolTip": "..\\KoiVeterinaryServiceCenter.Model\\DTO\\CreatePetDiseaseDTO.cs",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAAABYAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-24T01:36:00.74Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "PetRepository.cs",
+              "DocumentMoniker": "C:\\vsc\\ttt\\Koi-veterinary-service-center\\KoiVeterinaryServiceCenter_Server\\KoiVeterinaryServiceCenter.DataAccess\\Repository\\PetRepository.cs",
+              "RelativeDocumentMoniker": "..\\KoiVeterinaryServiceCenter.DataAccess\\Repository\\PetRepository.cs",
+              "ToolTip": "C:\\vsc\\ttt\\Koi-veterinary-service-center\\KoiVeterinaryServiceCenter_Server\\KoiVeterinaryServiceCenter.DataAccess\\Repository\\PetRepository.cs",
+              "RelativeToolTip": "..\\KoiVeterinaryServiceCenter.DataAccess\\Repository\\PetRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACUAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-24T01:34:20.239Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "CreatePetDTO.cs",
+              "DocumentMoniker": "C:\\vsc\\ttt\\Koi-veterinary-service-center\\KoiVeterinaryServiceCenter_Server\\KoiVeterinaryServiceCenter.Model\\DTO\\CreatePetDTO.cs",
+              "RelativeDocumentMoniker": "..\\KoiVeterinaryServiceCenter.Model\\DTO\\CreatePetDTO.cs",
+              "ToolTip": "C:\\vsc\\ttt\\Koi-veterinary-service-center\\KoiVeterinaryServiceCenter_Server\\KoiVeterinaryServiceCenter.Model\\DTO\\CreatePetDTO.cs",
+              "RelativeToolTip": "..\\KoiVeterinaryServiceCenter.Model\\DTO\\CreatePetDTO.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABUAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-24T01:35:37.68Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "PetDiseaseRepository.cs",
+              "DocumentMoniker": "C:\\vsc\\ttt\\Koi-veterinary-service-center\\KoiVeterinaryServiceCenter_Server\\KoiVeterinaryServiceCenter.DataAccess\\Repository\\PetDiseaseRepository.cs",
+              "RelativeDocumentMoniker": "..\\KoiVeterinaryServiceCenter.DataAccess\\Repository\\PetDiseaseRepository.cs",
+              "ToolTip": "C:\\vsc\\ttt\\Koi-veterinary-service-center\\KoiVeterinaryServiceCenter_Server\\KoiVeterinaryServiceCenter.DataAccess\\Repository\\PetDiseaseRepository.cs",
+              "RelativeToolTip": "..\\KoiVeterinaryServiceCenter.DataAccess\\Repository\\PetDiseaseRepository.cs",
+              "ViewState": "AgIAAAsAAAAAAAAAAAAxwCcAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-24T01:34:55.451Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "IPetDiseaseRepository.cs",
+              "DocumentMoniker": "C:\\vsc\\ttt\\Koi-veterinary-service-center\\KoiVeterinaryServiceCenter_Server\\KoiVeterinaryServiceCenter.DataAccess\\IRepository\\IPetDiseaseRepository.cs",
+              "RelativeDocumentMoniker": "..\\KoiVeterinaryServiceCenter.DataAccess\\IRepository\\IPetDiseaseRepository.cs",
+              "ToolTip": "C:\\vsc\\ttt\\Koi-veterinary-service-center\\KoiVeterinaryServiceCenter_Server\\KoiVeterinaryServiceCenter.DataAccess\\IRepository\\IPetDiseaseRepository.cs",
+              "RelativeToolTip": "..\\KoiVeterinaryServiceCenter.DataAccess\\IRepository\\IPetDiseaseRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-24T01:33:44.978Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
               "Title": "IPetRepository.cs",
               "DocumentMoniker": "C:\\vsc\\ttt\\Koi-veterinary-service-center\\KoiVeterinaryServiceCenter_Server\\KoiVeterinaryServiceCenter.DataAccess\\IRepository\\IPetRepository.cs",
               "RelativeDocumentMoniker": "..\\KoiVeterinaryServiceCenter.DataAccess\\IRepository\\IPetRepository.cs",
@@ -48,12 +307,11 @@
               "RelativeToolTip": "..\\KoiVeterinaryServiceCenter.DataAccess\\IRepository\\IPetRepository.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-24T01:22:21.469Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-09-24T01:22:21.469Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 18,
               "Title": "ICustomerRepository.cs",
               "DocumentMoniker": "C:\\vsc\\ttt\\Koi-veterinary-service-center\\KoiVeterinaryServiceCenter_Server\\KoiVeterinaryServiceCenter.DataAccess\\IRepository\\ICustomerRepository.cs",
               "RelativeDocumentMoniker": "..\\KoiVeterinaryServiceCenter.DataAccess\\IRepository\\ICustomerRepository.cs",
@@ -61,8 +319,7 @@
               "RelativeToolTip": "..\\KoiVeterinaryServiceCenter.DataAccess\\IRepository\\ICustomerRepository.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-24T01:21:03.029Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-09-24T01:21:03.029Z"
             }
           ]
         },

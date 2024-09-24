@@ -17,13 +17,14 @@ namespace KoiVeterinaryServiceCenter.DataAccess.Repository
         public ICustomerRepository CustomerRepository { get; set; }
         public IRefreshTokenRepository RefreshTokens { get; set; }
 
-
+        public IPetRepository PetRepository { get; set; }
         public UnitOfWork(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
             DoctorRepository = new DoctorRepository(_context);
             CustomerRepository = new CustomerRepository(_context);
             RefreshTokens = new RefreshTokenRepository(_context);
+            PetRepository = new PetRepository(_context);
 
         }
         public async Task<int> SaveAsync()
