@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using KoiVeterinaryServiceCenter.DataAccess.Seeding;
 
 namespace KoiVeterinaryServiceCenter.DataAccess.Context
 {
@@ -30,9 +31,19 @@ namespace KoiVeterinaryServiceCenter.DataAccess.Context
 
         public DbSet<Service> Services { get; set; }
 
+        public DbSet<Appointment> Appointments { get; set; }
+        public DbSet<Slot> Slots { get; set; }
+        public DbSet<Transaction> Transactions { get; set; }
+        public DbSet<PaymentMethod> PaymentMethods { get; set; }
+        
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+            
+            // Seed data
+            ApplicationDbContextSeed.SeedAdminAccount(modelBuilder);
+
 
             // Thiết lập khóa chính hỗn hợp cho bảng trung gian DoctorService
             modelBuilder.Entity<DoctorService>()
@@ -49,6 +60,7 @@ namespace KoiVeterinaryServiceCenter.DataAccess.Context
                 .HasOne(ds => ds.Service)
                 .WithMany(s => s.DoctorServices)
                 .HasForeignKey(ds => ds.ServiceId);
+            
         }
     }
 }

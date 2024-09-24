@@ -4,6 +4,7 @@ using KoiVeterinaryServiceCenter.DataAccess.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace KoiVeterinaryServiceCenter.DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240923130516_DB_Payment-Appointment")]
+    partial class DB_PaymentAppointment
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -104,31 +107,6 @@ namespace KoiVeterinaryServiceCenter.DataAccess.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "BestZedAndYasuo",
-                            AccessFailedCount = 0,
-                            Address = "123 Admin St",
-                            AvatarUrl = "https://example.com/avatar.png",
-                            BirthDate = new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ConcurrencyStamp = "759826d9-910a-40ea-8c5c-55d8e959457b",
-                            Country = "Country",
-                            Email = "admin@gmail.com",
-                            EmailConfirmed = true,
-                            FullName = "Admin User",
-                            Gender = "Male",
-                            LockoutEnabled = true,
-                            NormalizedEmail = "ADMIN@GMAIL.COM",
-                            NormalizedUserName = "ADMIN@GMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEGuKRsCn7sDfXet3cIY+nMLWxqTbCkzE72cTgavmgkNeYfWqlKkGyM1Ryx4WTh9ogw==",
-                            PhoneNumber = "1234567890",
-                            PhoneNumberConfirmed = true,
-                            SecurityStamp = "aee3ca2f-c8ca-4829-baec-cfa4dd4ec0f5",
-                            TwoFactorEnabled = false,
-                            UserName = "admin@gmail.com"
-                        });
                 });
 
             modelBuilder.Entity("KoiVeterinaryServiceCenter.Model.Domain.Appointment", b =>
@@ -550,29 +528,6 @@ namespace KoiVeterinaryServiceCenter.DataAccess.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "8fa7c7bb-b4dc-480d-a660-e07a90855d5d",
-                            ConcurrencyStamp = "CUSTOMER",
-                            Name = "CUSTOMER",
-                            NormalizedName = "CUSTOMER"
-                        },
-                        new
-                        {
-                            Id = "35446074-daa5-4973-bf02-82301a5eb327",
-                            ConcurrencyStamp = "DOCTOR",
-                            Name = "DOCTOR",
-                            NormalizedName = "DOCTOR"
-                        },
-                        new
-                        {
-                            Id = "8fa7c7bb-daa5-a660-bf02-82301a5eb327",
-                            ConcurrencyStamp = "ADMIN",
-                            Name = "ADMIN",
-                            NormalizedName = "ADMIN"
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -660,13 +615,6 @@ namespace KoiVeterinaryServiceCenter.DataAccess.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUserRoles", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            UserId = "BestZedAndYasuo",
-                            RoleId = "8fa7c7bb-daa5-a660-bf02-82301a5eb327"
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
