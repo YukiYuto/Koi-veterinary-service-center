@@ -18,6 +18,24 @@ namespace KoiVeterinaryServiceCenter.API.Controllers
             _doctorService = doctorService;
         }
 
+        [HttpGet]
+        public async Task<ActionResult<ResponseDTO>> GetAllDocTor(
+            [FromQuery] string? filterOn,
+
+            [FromQuery] string? filterQuery,
+
+            [FromQuery] string? sortBy,
+
+            [FromQuery] bool? isAscending,
+
+            [FromQuery] int pageNumber,
+
+            [FromQuery] int pageSize)
+        {
+            var responseDto = await _doctorService.GetAll(User, filterOn, filterQuery, sortBy, isAscending, pageNumber, pageSize);
+            return StatusCode(responseDto.StatusCode, responseDto);
+        }
+
         /// <summary>
         /// Get doctor by ID
         /// </summary>
@@ -32,6 +50,7 @@ namespace KoiVeterinaryServiceCenter.API.Controllers
         }
 
         [HttpPut]
+        [Authorize(Roles = StaticUserRoles.AdminDoctor)]
         public async Task<ActionResult<ResponseDTO>> UpdateDoctor([FromBody] UpdateDoctorDTO updateDoctorDTO)
         {
             var responseDto = await _doctorService.UpdateDoctorById(updateDoctorDTO);

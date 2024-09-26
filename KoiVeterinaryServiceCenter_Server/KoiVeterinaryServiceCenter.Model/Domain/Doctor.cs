@@ -14,7 +14,7 @@ namespace KoiVeterinaryServiceCenter.Model.Domain
         public string UserId { get; set; }
         [ForeignKey("UserId")] public virtual ApplicationUser ApplicationUser { get; set; }
         public string Specialization { get; set; }
-        public string Experience{ get; set; }
+        public string Experience { get; set; }
         public string Degree { get; set; }
     }
 }

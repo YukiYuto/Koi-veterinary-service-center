@@ -1,8 +1,10 @@
+using System.Security.Claims;
 using AutoMapper;
 using KoiVeterinaryServiceCenter.DataAccess.IRepository;
-using KoiVeterinaryServiceCenter.DataAccess.Repository;
+using KoiVeterinaryServiceCenter.Model.Domain;
 using KoiVeterinaryServiceCenter.Model.DTO;
 using KoiVeterinaryServiceCenter.Services.IServices;
+using Microsoft.IdentityModel.Tokens;
 
 namespace KoiVeterinaryServiceCenter.Services.Services;
 public class DoctorService : IDoctorService
@@ -16,10 +18,127 @@ public class DoctorService : IDoctorService
         _mapper = mapper;
     }
 
-    public Task<ResponseDTO> DeleteDoctorById(String id)
+    public async Task<ResponseDTO> GetAll(ClaimsPrincipal User, string? filterOn, string? filterQuery, string? sortBy, bool? isAscending, int pageNumber, int pageSize)
     {
-        throw new NotImplementedException();
+        #region Query Parameters
+        try
+        {
+            List<Doctor> doctors = new List<Doctor>();
+            //Filter Query
+            if (!string.IsNullOrEmpty(filterOn) && !string.IsNullOrEmpty(filterQuery))
+            {
+                switch (filterOn.Trim().ToLower())
+                {
+                    case "name":
+                        {
+                            doctors = _unitOfWork.DoctorRepository.GetAllAsync(includeProperties: "ApplicationUser")
+                            .GetAwaiter().GetResult().Where(x =>
+                            x.ApplicationUser.FullName.Contains(filterQuery, StringComparison.CurrentCultureIgnoreCase)).ToList();
+                            break;
+                        }
+                    case "phoneNumber":
+                        {
+                            doctors = _unitOfWork.DoctorRepository.GetAllAsync(includeProperties: "ApplicationUser")
+                            .GetAwaiter().GetResult().Where(x =>
+                            x.ApplicationUser.PhoneNumber.Contains(filterQuery, StringComparison.CurrentCultureIgnoreCase)).ToList();
+                            break;
+                        }
+                    case "email":
+                        {
+                            doctors = _unitOfWork.DoctorRepository.GetAllAsync(includeProperties: "ApplicationUser")
+                            .GetAwaiter().GetResult().Where(x =>
+                            x.ApplicationUser.Email.Contains(filterQuery, StringComparison.CurrentCultureIgnoreCase)).ToList();
+                            break;
+                        }
+                    default:
+                        {
+                            doctors = _unitOfWork.DoctorRepository.GetAllAsync(includeProperties: "ApplicationUser").
+                            GetAwaiter().GetResult().ToList();
+                            break;
+                        }
+                }
+            }
+            else
+            {
+                doctors = _unitOfWork.DoctorRepository.GetAllAsync(includeProperties: "ApplicationUser").
+                GetAwaiter().GetResult().ToList();
+            }
+
+            //Sort Query
+            if(!string.IsNullOrEmpty(sortBy))
+            {
+                switch (sortBy.Trim().ToLower())
+                {
+                    case "name":
+                    {
+                        doctors = isAscending == true
+                        ? [.. doctors.OrderBy(x => x.ApplicationUser.FullName)]
+                        : [.. doctors.OrderByDescending(x => x.ApplicationUser.FullName)];
+                        break;
+                    }
+                    case "phoneNumber":
+                    {
+                        doctors = isAscending == true
+                        ? [.. doctors.OrderBy(x => x.ApplicationUser.PhoneNumber)]
+                        : [.. doctors.OrderByDescending(x => x.ApplicationUser.PhoneNumber)];
+                        break;
+                    }
+                    case "email":
+                    {
+                        doctors = isAscending == true
+                        ? [.. doctors.OrderBy(x => x.ApplicationUser.Email)]
+                        : [.. doctors.OrderByDescending(x => x.ApplicationUser.Email)];
+                        break;
+                    }
+                    default:
+                    {
+                        break;
+                    }
+                }
+            }
+
+            //Pagination
+            if(pageNumber > 0 && pageSize > 0)
+            {
+                var skipResult = (pageNumber - 1) * pageSize;
+                doctors = doctors.Skip(skipResult).Take(pageSize).ToList();
+            }
+
+            #endregion Query Parameters
+
+            if(doctors.IsNullOrEmpty())
+            {
+                return new ResponseDTO()
+                {
+                    Message = "Doctor does not exist",
+                    IsSuccess = false,
+                    StatusCode = 404,
+                    Result = null
+                    
+                };
+            }
+
+            var doctorInfoDto = _mapper.Map<List<DoctorInfoDTO>>(doctors);
+            return new ResponseDTO()
+            {
+                Message = "Get all doctors successfully",
+                IsSuccess = true,
+                StatusCode = 200,
+                Result = doctorInfoDto
+            };
+        }
+        catch (Exception e)
+        {
+            return new ResponseDTO()
+            {
+                Message = e.Message,
+                IsSuccess = false,
+                StatusCode = 500,
+                Result = null
+            };
+        }
     }
+
 
     //Get doctor by id
     public async Task<ResponseDTO> GetDoctorById(Guid id)
@@ -74,6 +193,8 @@ public class DoctorService : IDoctorService
             };
         }
     }
+
+    //Use Doctor ID to find and update information's the Doctor
     public async Task<ResponseDTO> UpdateDoctorById(UpdateDoctorDTO updateDoctorDTO)
     {
         try
@@ -97,6 +218,7 @@ public class DoctorService : IDoctorService
             doctorToUpdate.ApplicationUser.AvatarUrl = updateDoctorDTO.AvatarUrl;
             doctorToUpdate.ApplicationUser.Country = updateDoctorDTO?.Country;
             doctorToUpdate.ApplicationUser.Address = updateDoctorDTO?.Address;
+
             doctorToUpdate.Specialization = updateDoctorDTO.Specialization;
             doctorToUpdate.Experience = updateDoctorDTO.Experience;
             doctorToUpdate.Degree = updateDoctorDTO.Degree;
@@ -122,6 +244,5 @@ public class DoctorService : IDoctorService
                 Result = null,
             };
         }
-
-        }
+    }
 }
