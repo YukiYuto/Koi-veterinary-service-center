@@ -84,10 +84,8 @@ public class SlotService : ISlotService
     {
         try
         {
-            var userId = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
-            
             //Map DTO qua entity Level
-            var slots = new Slot()
+            Slot slots = new Slot()
             {
                 DoctorId = createSlotDto.DoctorId ?? Guid.Empty,
                 StartTime = createSlotDto.StartTime,
@@ -100,9 +98,19 @@ public class SlotService : ISlotService
                 UpdatedBy = ""
             };
 
-            //thêm level mới
+            //thêm slot mới
             await _unitOfWork.SlotRepository.AddAsync(slots);
-            await _unitOfWork.SaveAsync();
+            var save = await _unitOfWork.SaveAsync();
+            if (save <= 0)
+            {
+                return new ResponseDTO
+                {
+                    Message = "Failed to save slot",
+                    Result = null,
+                    IsSuccess = false,
+                    StatusCode = 400
+                };
+            }
 
             return new ResponseDTO()
             {
@@ -178,7 +186,7 @@ public class SlotService : ISlotService
             {
                 return new ResponseDTO
                 {
-                    Message = "Failed to update level",
+                    Message = "Failed to update slot",
                     Result = null,
                     IsSuccess = false,
                     StatusCode = 400
@@ -187,7 +195,7 @@ public class SlotService : ISlotService
 
             return new ResponseDTO
             {
-                Message = "Level updated successfully",
+                Message = "Slot updated successfully",
                 Result = slotID,
                 IsSuccess = true,
                 StatusCode = 200
