@@ -5,7 +5,7 @@ namespace KoiVeterinaryServiceCenter.Services.IServices;
 
 public interface ISlotService
 {
-    Task<ResponseDTO> GetLevels
+    Task<ResponseDTO> GetSlots
     (
         ClaimsPrincipal User,
         string? filterOn,
