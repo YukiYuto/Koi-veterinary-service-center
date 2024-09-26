@@ -18,6 +18,24 @@ namespace KoiVeterinaryServiceCenter.API.Controllers
         }
 
         [HttpGet]
+        public async Task<ActionResult<ResponseDTO>> GetAllSlots
+        (
+            [FromQuery] string? filterOn,
+            [FromQuery] string? filterQuery,
+            [FromQuery] string? sortBy,
+            [FromQuery] bool? isAscending,
+            [FromQuery] int pageNumber = 1,
+            [FromQuery] int pageSize = 10
+        )
+        {
+            var responseDto =
+                await _slotService.GetSlots(User, filterOn, filterQuery, sortBy, isAscending, pageNumber,
+                    pageSize);
+            return StatusCode(responseDto.StatusCode, responseDto);
+        }
+
+
+        [HttpGet]
         [Route("{slotId:guid}")]
         public async Task<ActionResult<ResponseDTO>> GetSlot
         (

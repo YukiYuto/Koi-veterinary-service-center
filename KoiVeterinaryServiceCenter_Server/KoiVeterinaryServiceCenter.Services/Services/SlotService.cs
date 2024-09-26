@@ -17,11 +17,127 @@ public class SlotService : ISlotService
         _unitOfWork = unitOfWork;
         _mapper = mapper;
     }
-    
-    public Task<ResponseDTO> GetLevels(ClaimsPrincipal User, string? filterOn, string? filterQuery, string? sortBy, bool? isAscending,
-        int pageNumber = 0, int pageSize = 0)
+
+    public async Task<ResponseDTO> GetSlots
+    (
+        ClaimsPrincipal User,
+        string? filterOn,
+        string? filterQuery,
+        string? sortBy,
+        bool? isAscending,
+        int pageNumber = 0,
+        int pageSize = 0)
     {
-        throw new NotImplementedException();
+        try
+        {
+            List<Slot> slots = new List<Slot>();
+
+            // Lấy tất cả các Slot từ repository
+            var allSlots = await _unitOfWork.SlotRepository.GetAllAsync(includeProperties: "Doctor");
+
+            // Bộ lọc
+            if (!string.IsNullOrEmpty(filterOn) && !string.IsNullOrEmpty(filterQuery))
+            {
+                switch (filterOn.Trim().ToLower())
+                {
+                    case "appointmentdate":
+                        if (DateTime.TryParse(filterQuery, out DateTime appointmentDate))
+                        {
+                            slots = allSlots.Where(x => x.AppointmentDate.Date == appointmentDate.Date).ToList();
+                        }
+
+                        break;
+
+                    case "doctorid":
+                        if (Guid.TryParse(filterQuery, out Guid doctorId))
+                        {
+                            slots = allSlots.Where(x => x.DoctorId == doctorId).ToList();
+                        }
+
+                        break;
+
+                    case "isbooked":
+                        if (bool.TryParse(filterQuery, out bool isBooked))
+                        {
+                            slots = allSlots.Where(x => x.IsBooked == isBooked).ToList();
+                        }
+
+                        break;
+
+                    default:
+                        slots = allSlots.ToList(); // Nếu không có bộ lọc, lấy tất cả
+                        break;
+                }
+            }
+            else
+            {
+                slots = allSlots.ToList(); // Nếu không có bộ lọc, lấy tất cả
+            }
+
+            // Sắp xếp
+            if (!string.IsNullOrEmpty(sortBy))
+            {
+                switch (sortBy.Trim().ToLower())
+                {
+                    case "starttime":
+                        slots = isAscending == true
+                            ? slots.OrderBy(x => x.StartTime).ToList()
+                            : slots.OrderByDescending(x => x.StartTime).ToList();
+                        break;
+
+                    case "endtime":
+                        slots = isAscending == true
+                            ? slots.OrderBy(x => x.EndTime).ToList()
+                            : slots.OrderByDescending(x => x.EndTime).ToList();
+                        break;
+
+                    case "appointmentdate":
+                        slots = isAscending == true
+                            ? slots.OrderBy(x => x.AppointmentDate).ToList()
+                            : slots.OrderByDescending(x => x.AppointmentDate).ToList();
+                        break;
+
+                    default:
+                        break; // Không sắp xếp nếu không có trường hợp hợp lệ
+                }
+            }
+
+            // Phân trang
+            if (pageNumber > 0 && pageSize > 0)
+            {
+                var skipResult = (pageNumber - 1) * pageSize;
+                slots = slots.Skip(skipResult).Take(pageSize).ToList();
+            }
+
+            if (slots == null || !slots.Any())
+            {
+                return new ResponseDTO()
+                {
+                    Message = "No slots found.",
+                    Result = null,
+                    IsSuccess = false,
+                    StatusCode = 404
+                };
+            }
+
+            return new ResponseDTO()
+            {
+                Message = "Slots retrieved successfully.",
+                Result = slots,
+                IsSuccess = true,
+                StatusCode = 200
+            };
+        }
+        catch (Exception e)
+        {
+            return new ResponseDTO()
+            {
+                Message = e.Message,
+                Result = null,
+                IsSuccess = false,
+                StatusCode = 500
+            };
+        }
     }
 
     public async Task<ResponseDTO> GetSlot(ClaimsPrincipal User, Guid SlotId)
@@ -54,7 +170,7 @@ public class SlotService : ISlotService
                 return new ResponseDTO()
                 {
                     Result = null,
-                    Message = "Failed to map Level to GetLevelDTO",
+                    Message = "Failed to map slot to GetSlotDTO",
                     IsSuccess = false,
                     StatusCode = 500
                 };
@@ -150,11 +266,12 @@ public class SlotService : ISlotService
                     StatusCode = 404
                 };
             }
-            
+
             // Nếu có DoctorId, truy vấn Doctor từ database
             if (updateSlotDto.DoctorId.HasValue)
             {
-                var doctor = await _unitOfWork.DoctorRepository.GetAsync(d => d.DoctorId == updateSlotDto.DoctorId.Value);
+                var doctor =
+                    await _unitOfWork.DoctorRepository.GetAsync(d => d.DoctorId == updateSlotDto.DoctorId.Value);
 
                 if (doctor == null)
                 {
