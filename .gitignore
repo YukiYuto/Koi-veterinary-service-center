@@ -1,6 +1,11 @@
+# Build Folders
 bin/
 obj/
 .vs/
-/packages/
-riderModule.iml
-/_ReSharper.Caches/
+
+# User-specific files
+*.user
+*.rsuser
+*.suo
+*.userosscache
+*.userprefs
