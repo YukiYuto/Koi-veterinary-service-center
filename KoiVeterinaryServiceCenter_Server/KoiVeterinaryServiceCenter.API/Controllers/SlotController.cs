@@ -19,7 +19,7 @@ namespace KoiVeterinaryServiceCenter.API.Controllers
 
         [HttpGet]
         [Route("{slotId:guid}")]
-        public async Task<ActionResult<ResponseDTO>> GetLevel
+        public async Task<ActionResult<ResponseDTO>> GetSlot
         (
             [FromRoute] Guid slotId
         )
@@ -31,7 +31,7 @@ namespace KoiVeterinaryServiceCenter.API.Controllers
 
         [HttpPost]
         [Authorize(Roles = StaticUserRoles.Doctor)]
-        public async Task<ActionResult<ResponseDTO>> CreateLevel
+        public async Task<ActionResult<ResponseDTO>> CreateSlot
         (
             [FromBody] CreateSlotDTO createSlotDto
         )
@@ -42,7 +42,7 @@ namespace KoiVeterinaryServiceCenter.API.Controllers
 
         [HttpPut]
         [Authorize(Roles = StaticUserRoles.Doctor)]
-        public async Task<ActionResult<ResponseDTO>> UpdateLevel
+        public async Task<ActionResult<ResponseDTO>> UpdateSlot
         (
             [FromBody] UpdateSlotDTO updateSlotDto
         )
@@ -54,7 +54,7 @@ namespace KoiVeterinaryServiceCenter.API.Controllers
         [HttpDelete]
         [Route("{slotId:guid}")]
         [Authorize(Roles = StaticUserRoles.Doctor)]
-        public async Task<ActionResult<ResponseDTO>> DeleteLevel
+        public async Task<ActionResult<ResponseDTO>> DeleteSlot
         (
             [FromRoute] Guid slotId
         )
