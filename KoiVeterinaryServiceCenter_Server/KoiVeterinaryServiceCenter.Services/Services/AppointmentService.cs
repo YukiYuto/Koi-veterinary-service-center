@@ -26,126 +26,126 @@ namespace KoiVeterinaryServiceCenter.Services.Services
 
         // Lấy danh sách appointment
         public async Task<ResponseDTO> GetAppointments
-(
-    ClaimsPrincipal User,
-    string? filterOn,
-    string? filterQuery,
-    string? sortBy,
-    bool? isAscending,
-    int pageNumber = 0,
-    int pageSize = 0)
-{
-    try
-    {
-        // Lấy tất cả cuộc hẹn
-        var allAppointments = (await _unitOfWork.AppointmentRepository
-            .GetAllAsync(includeProperties: "DoctorRating")).ToList();
-
-        // Khởi tạo danh sách appointments
-        List<Appointment> appointments = allAppointments;
-
-        // Filter Query
-        if (!string.IsNullOrEmpty(filterOn) && !string.IsNullOrEmpty(filterQuery))
+        (
+            ClaimsPrincipal User,
+            string? filterOn,
+            string? filterQuery,
+            string? sortBy,
+            bool? isAscending,
+            int pageNumber = 0,
+            int pageSize = 0)
         {
-            appointments = appointments.Where(x =>
+            try
             {
-                switch (filterOn.Trim().ToLower())
+                // Lấy tất cả cuộc hẹn
+                var allAppointments = (await _unitOfWork.AppointmentRepository
+                    .GetAllAsync(includeProperties: "DoctorRating")).ToList();
+
+                // Khởi tạo danh sách appointments
+                List<Appointment> appointments = allAppointments;
+
+                // Filter Query
+                if (!string.IsNullOrEmpty(filterOn) && !string.IsNullOrEmpty(filterQuery))
                 {
-                    case "appointmentdate":
-                        if (DateTime.TryParse(filterQuery, out DateTime filterDate))
+                    appointments = appointments.Where(x =>
+                    {
+                        switch (filterOn.Trim().ToLower())
                         {
-                            return x.AppointmentDate.Date == filterDate.Date;
+                            case "appointmentdate":
+                                if (DateTime.TryParse(filterQuery, out DateTime filterDate))
+                                {
+                                    return x.AppointmentDate.Date == filterDate.Date;
+                                }
+
+                                return false;
+
+                            case "bookingstatus":
+                                if (int.TryParse(filterQuery, out int bookingStatus))
+                                {
+                                    return x.BookingStatus == bookingStatus;
+                                }
+
+                                return false;
+
+                            case "totalamount":
+                                if (double.TryParse(filterQuery, out double amount))
+                                {
+                                    return x.TotalAmount == amount;
+                                }
+
+                                return false;
+
+                            case "type":
+                                return x.Type.Contains(filterQuery, StringComparison.CurrentCultureIgnoreCase);
+
+                            default:
+                                return true; // Trả về tất cả nếu không có điều kiện khớp
                         }
-                        return false;
-
-                    case "bookingstatus":
-                        return x.BookingStatus.Contains(filterQuery, StringComparison.CurrentCultureIgnoreCase);
-
-                    case "appointmentstatus":
-                        return x.AppointmentStatus.Contains(filterQuery, StringComparison.CurrentCultureIgnoreCase);
-
-                    case "totalamount":
-                        if (double.TryParse(filterQuery, out double amount))
-                        {
-                            return x.TotalAmount == amount;
-                        }
-                        return false;
-
-                    case "type":
-                        return x.Type.Contains(filterQuery, StringComparison.CurrentCultureIgnoreCase);
-
-                    default:
-                        return true; // Trả về tất cả nếu không có điều kiện khớp
+                    }).ToList();
                 }
-            }).ToList();
-        }
 
-        // Sắp xếp nếu có yêu cầu
-        if (!string.IsNullOrEmpty(sortBy))
-        {
-            appointments = sortBy.Trim().ToLower() switch
+                // Sắp xếp nếu có yêu cầu
+                if (!string.IsNullOrEmpty(sortBy))
+                {
+                    appointments = sortBy.Trim().ToLower() switch
+                    {
+                        "appointmentdate" => isAscending == true
+                            ? appointments.OrderBy(x => x.AppointmentDate).ToList()
+                            : appointments.OrderByDescending(x => x.AppointmentDate).ToList(),
+
+                        "bookingstatus" => isAscending == true
+                            ? appointments.OrderBy(x => x.BookingStatus).ToList()
+                            : appointments.OrderByDescending(x => x.BookingStatus).ToList(),
+                        
+                        "totalamount" => isAscending == true
+                            ? appointments.OrderBy(x => x.TotalAmount).ToList()
+                            : appointments.OrderByDescending(x => x.TotalAmount).ToList(),
+
+                        "type" => isAscending == true
+                            ? appointments.OrderBy(x => x.Type).ToList()
+                            : appointments.OrderByDescending(x => x.Type).ToList(),
+
+                        _ => appointments // Nếu không có trường hợp nào khớp, giữ nguyên danh sách
+                    };
+                }
+
+                // Phân trang
+                if (pageNumber > 0 && pageSize > 0)
+                {
+                    var skipResult = (pageNumber - 1) * pageSize;
+                    appointments = appointments.Skip(skipResult).Take(pageSize).ToList();
+                }
+
+                if (appointments == null || !appointments.Any())
+                {
+                    return new ResponseDTO()
+                    {
+                        Message = "There are no appointments",
+                        Result = null,
+                        IsSuccess = false,
+                        StatusCode = 404
+                    };
+                }
+
+                return new ResponseDTO()
+                {
+                    Message = "Get appointments successfully",
+                    Result = appointments,
+                    IsSuccess = true,
+                    StatusCode = 200
+                };
+            }
+            catch (Exception e)
             {
-                "appointmentdate" => isAscending == true
-                    ? appointments.OrderBy(x => x.AppointmentDate).ToList()
-                    : appointments.OrderByDescending(x => x.AppointmentDate).ToList(),
-                
-                "bookingstatus" => isAscending == true
-                    ? appointments.OrderBy(x => x.BookingStatus).ToList()
-                    : appointments.OrderByDescending(x => x.BookingStatus).ToList(),
-
-                "appointmentstatus" => isAscending == true
-                    ? appointments.OrderBy(x => x.AppointmentStatus).ToList()
-                    : appointments.OrderByDescending(x => x.AppointmentStatus).ToList(),
-
-                "totalamount" => isAscending == true
-                    ? appointments.OrderBy(x => x.TotalAmount).ToList()
-                    : appointments.OrderByDescending(x => x.TotalAmount).ToList(),
-
-                "type" => isAscending == true
-                    ? appointments.OrderBy(x => x.Type).ToList()
-                    : appointments.OrderByDescending(x => x.Type).ToList(),
-
-                _ => appointments // Nếu không có trường hợp nào khớp, giữ nguyên danh sách
-            };
+                return new ResponseDTO()
+                {
+                    Message = e.Message,
+                    Result = null,
+                    IsSuccess = false,
+                    StatusCode = 500
+                };
+            }
         }
-
-        // Phân trang
-        if (pageNumber > 0 && pageSize > 0)
-        {
-            var skipResult = (pageNumber - 1) * pageSize;
-            appointments = appointments.Skip(skipResult).Take(pageSize).ToList();
-        }
-
-        if (appointments == null || !appointments.Any())
-        {
-            return new ResponseDTO()
-            {
-                Message = "There are no appointments",
-                Result = null,
-                IsSuccess = false,
-                StatusCode = 404
-            };
-        }
-
-        return new ResponseDTO()
-        {
-            Message = "Get appointments successfully",
-            Result = appointments,
-            IsSuccess = true,
-            StatusCode = 200
-        };
-    }
-    catch (Exception e)
-    {
-        return new ResponseDTO()
-        {
-            Message = e.Message,
-            Result = null,
-            IsSuccess = false,
-            StatusCode = 500
-        };
-    }
-}
 
         // Lấy danh sách appointment theo id
         public async Task<ResponseDTO> GetAppointment(ClaimsPrincipal User, Guid appointmentId)
@@ -218,8 +218,6 @@ namespace KoiVeterinaryServiceCenter.Services.Services
                     DoctorRatingId = createAppointmentDto.DoctorRatingId,
                     ServiceId = createAppointmentDto.ServiceId,
                     AppointmentDate = createAppointmentDto.AppointmentDate,
-                    BookingStatus = createAppointmentDto.BookingStatus,
-                    AppointmentStatus = createAppointmentDto.AppointmentStatus,
                     TotalAmount = createAppointmentDto.TotalAmount,
                     Type = createAppointmentDto.Type
                 };
@@ -278,7 +276,6 @@ namespace KoiVeterinaryServiceCenter.Services.Services
                 appointmentID.ServiceId = updateAppointmentDto.ServiceId;
                 appointmentID.AppointmentDate = updateAppointmentDto.AppointmentDate;
                 appointmentID.BookingStatus = updateAppointmentDto.BookingStatus;
-                appointmentID.AppointmentStatus = updateAppointmentDto.AppointmentStatus;
                 appointmentID.TotalAmount = updateAppointmentDto.TotalAmount;
                 appointmentID.Type = updateAppointmentDto.Type;
 
@@ -340,7 +337,7 @@ namespace KoiVeterinaryServiceCenter.Services.Services
                 }
 
                 // cập nhật status của appointment là 1
-                appointmentID.BookingStatus = "1";
+                appointmentID.BookingStatus = 1;
 
                 _unitOfWork.AppointmentRepository.Update(appointmentID);
                 await _unitOfWork.SaveAsync();

@@ -5,8 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace KoiVeterinaryServiceCenter.DataAccess.Repository
 {
-
-    public class CustomerRepository : Repository<Customer>, ICustomerRepository
+    public class CustomerRepository : Repository<ApplicationUser>, ICustomerRepository
     {
         private readonly ApplicationDbContext _context;
 
@@ -15,29 +14,24 @@ namespace KoiVeterinaryServiceCenter.DataAccess.Repository
             _context = context;
         }
 
-        public async Task<Customer?> GetById(Guid id)
+        public async Task<ApplicationUser?> GetById(string id)
         {
-            return await _context.Customers.Include("ApplicationUser").FirstOrDefaultAsync(x => x.CustomerId == id);
+            return await _context.ApplicationUsers.FirstOrDefaultAsync(x => x.Id == id);
         }
 
-        public async Task<Customer?> GetByUserId(string id)
+        public void Update(ApplicationUser customer)
         {
-            return await _context.Customers.Include("ApplicationUser").FirstOrDefaultAsync(x => x.UserId == id);
+            _context.ApplicationUsers.Update(customer);
         }
 
-        public void Update(Customer customer)
+        public void UpdateRange(IEnumerable<ApplicationUser> customers)
         {
-            _context.Customers.Update(customer);
-        }
-        
-        public void UpdateRange(IEnumerable<Customer> customers)
-        {
-            _context.Customers.UpdateRange(customers);
+            _context.ApplicationUsers.UpdateRange(customers);
         }
 
-        public async Task<Customer> AddAsync(Customer customer)
+        public async Task<ApplicationUser> AddAsync(ApplicationUser customer)
         {
-            var enityEntry = await _context.Customers.AddAsync(customer);
+            var enityEntry = await _context.ApplicationUsers.AddAsync(customer);
             return enityEntry.Entity;
         }
     }

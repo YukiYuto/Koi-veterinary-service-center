@@ -18,12 +18,11 @@ namespace KoiVeterinaryServiceCenter.DataAccess.Context
 
         public DbSet<ApplicationUser> ApplicationUsers { get; set; }
 
-        public DbSet<Doctor> Doctors { get; set; } 
-        public DbSet<DoctorRating> DoctorRatings { get; set; } 
+        public DbSet<Doctor> Doctors { get; set; }
+        public DbSet<DoctorRating> DoctorRatings { get; set; }
         public DbSet<DoctorSchedules> DoctorSchedules { get; set; }
         public DbSet<DoctorService> DoctorServices { get; set; }
 
-        public DbSet<Customer> Customers { get; set; }
         public DbSet<Pet> Pets { get; set; }
         public DbSet<PetDisease> PetsDiseases { get; set; }
         public DbSet<Disease> Diseases { get; set; }
@@ -32,15 +31,16 @@ namespace KoiVeterinaryServiceCenter.DataAccess.Context
         public DbSet<Service> Services { get; set; }
 
         public DbSet<Appointment> Appointments { get; set; }
+        public DbSet<AppointmentStatus> AppointmentStatuses { get; set; }
         public DbSet<Slot> Slots { get; set; }
         public DbSet<Transaction> Transactions { get; set; }
         public DbSet<PaymentMethod> PaymentMethods { get; set; }
-        
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            
+
             // Seed data
             ApplicationDbContextSeed.SeedAdminAccount(modelBuilder);
 
@@ -60,7 +60,6 @@ namespace KoiVeterinaryServiceCenter.DataAccess.Context
                 .HasOne(ds => ds.Service)
                 .WithMany(s => s.DoctorServices)
                 .HasForeignKey(ds => ds.ServiceId);
-            
         }
     }
 }

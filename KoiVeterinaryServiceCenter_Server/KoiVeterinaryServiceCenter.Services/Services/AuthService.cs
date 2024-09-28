@@ -22,7 +22,7 @@ namespace KoiVeterinaryServiceCenter.Services.Services
 
 
         private static readonly ConcurrentDictionary<string, (int Count, DateTime LastRequest)> ResetPasswordAttempts =
-        new();
+            new();
 
         public AuthService
         (
@@ -50,34 +50,34 @@ namespace KoiVeterinaryServiceCenter.Services.Services
         {
             try
             {
-                //Check email is exist
+                // Kiểm tra email đã tồn tại
                 var isEmailExit = await _userManagerRepository.FindByEmailAsync(registerCustomerDTO.Email);
                 if (isEmailExit is not null)
                 {
                     return new ResponseDTO()
                     {
-                        Message = "Email is using by another user",
+                        Message = "Email is being used by another user",
                         Result = registerCustomerDTO,
                         IsSuccess = false,
                         StatusCode = 400
                     };
                 }
 
-                //Check phone number is exist
-                var isPhonenumerExit =
+                // Kiểm tra số điện thoại đã tồn tại
+                var isPhoneNumberExit =
                     await _userManagerRepository.CheckIfPhoneNumberExistsAsync(registerCustomerDTO.PhoneNumber);
-                if (isPhonenumerExit)
+                if (isPhoneNumberExit)
                 {
                     return new ResponseDTO()
                     {
-                        Message = "Phone number is using by another user",
+                        Message = "Phone number is being used by another user",
                         Result = registerCustomerDTO,
                         IsSuccess = false,
                         StatusCode = 400
                     };
                 }
 
-                //Create new instance of ApplicationUser
+                // Tạo đối tượng ApplicationUser mới
                 ApplicationUser newUser = new ApplicationUser()
                 {
                     Email = registerCustomerDTO.Email,
@@ -92,13 +92,12 @@ namespace KoiVeterinaryServiceCenter.Services.Services
                     LockoutEnabled = false
                 };
 
-                //Create new User to db
+                // Thêm người dùng mới vào database
                 var createUserResult = await _userManagerRepository.CreateAsync(newUser, registerCustomerDTO.Password);
 
-                //Check if error occur
+                // Kiểm tra lỗi khi tạo
                 if (!createUserResult.Succeeded)
                 {
-                    //Return result internal service error 
                     return new ResponseDTO()
                     {
                         Message = "Create user failed",
@@ -108,25 +107,18 @@ namespace KoiVeterinaryServiceCenter.Services.Services
                     };
                 }
 
-                var user = await _userManagerRepository.FindByPhoneAsync(registerCustomerDTO.PhoneNumber);
-
-                //Create new Customer
-                Customer customer = new Customer()
-                {
-                    UserId = user.Id,
-                };
-
+                var user = newUser; 
                 var isRoleExist = await _roleManager.RoleExistsAsync(StaticUserRoles.Customer);
 
-                if (isRoleExist is false)
+                if (!isRoleExist)
                 {
                     await _roleManager.CreateAsync(new IdentityRole(StaticUserRoles.Customer));
                 }
 
-                //Add role for the user 
-                var isRoledAdd = await _userManagerRepository.AddToRoleAsync(user, StaticUserRoles.Customer);
+                // Thêm role "Customer" cho người dùng
+                var isRoleAdded = await _userManagerRepository.AddToRoleAsync(user, StaticUserRoles.Customer);
 
-                if (!isRoledAdd.Succeeded)
+                if (!isRoleAdded.Succeeded)
                 {
                     return new ResponseDTO()
                     {
@@ -137,24 +129,11 @@ namespace KoiVeterinaryServiceCenter.Services.Services
                     };
                 }
 
-                //Create new Doctor relate with ApplicationUser
-                var isCustomerAdd = await _unitOfWork.CustomerRepository.AddAsync(customer);
-                if (isCustomerAdd == null)
-                {
-                    return new ResponseDTO()
-                    {
-                        Message = "Failed to add customer",
-                        IsSuccess = false,
-                        StatusCode = 500,
-                        Result = registerCustomerDTO
-                    };
-                }
-
-                // Save change to database
+                // Lưu thay đổi vào cơ sở dữ liệu
                 var isSuccess = await _unitOfWork.SaveAsync();
                 return new ResponseDTO()
                 {
-                    Message = "Create new user successfully",
+                    Message = "User created successfully",
                     IsSuccess = true,
                     StatusCode = 200,
                     Result = registerCustomerDTO
@@ -436,7 +415,7 @@ namespace KoiVeterinaryServiceCenter.Services.Services
                     }
                     else if (attempts.Count >= MaxAttemptsPerDay)
                     {
-                        // Quá số lần reset cho phép trong vòng 1 ngày, gửi thông báo 
+                        // Quá số lần reset cho phép trong vòng 1 ngày, gửi thông báo
                         await _emailService.SendEmailAsync(user.Email,
                             "Password Reset Request Limit Exceeded",
                             $"You have exceeded the daily limit for password reset requests. Please try again after 24 hours."
