@@ -122,5 +122,33 @@ namespace KoiVeterinaryServiceCenter.API.Controllers
             var responseDto = await _authService.CheckEmailExist(email);
             return StatusCode(responseDto.StatusCode, responseDto);
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="avatarUploadDto"></param>
+        /// <returns></returns>
+        [HttpPost]
+        [Route("user/avatar")]
+        [Authorize]
+        public async Task<ActionResult<ResponseDTO>> UploadUserAvatar(AvatarUploadDTO avatarUploadDto)
+        {
+            var response = await _authService.UploadUserAvatar(avatarUploadDto.File, User);
+            return StatusCode(response.StatusCode, response);
+        }
+
+        [HttpGet]
+        [Route("user/avatar")]
+        [Authorize]
+        public async Task<IActionResult> GetUserAvatar()
+        {
+            var stream = await _authService.GetUserAvatar(User);
+            if (stream is null)
+            {
+                return NotFound("User avatar does not exist!");
+            }
+
+            return File(stream, "image/png");
+        }
     }
 }

@@ -1,7 +1,9 @@
 ﻿using KoiVeterinaryServiceCenter.Model.DTO;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -15,6 +17,8 @@ namespace KoiVeterinaryServiceCenter.Services.IServices
         //Task<ResponseDTO> ForgotPassword(ForgotPasswordDTO forgotPasswordDto);
         Task<ResponseDTO> SignInByGoogle(SignInByGoogleDTO signInByGoogleDto);
         Task<ResponseDTO> CheckEmailExist(string email);
+        Task<ResponseDTO> UploadUserAvatar(IFormFile file, ClaimsPrincipal user);
+        Task<MemoryStream> GetUserAvatar(ClaimsPrincipal user);
     }
 
 }

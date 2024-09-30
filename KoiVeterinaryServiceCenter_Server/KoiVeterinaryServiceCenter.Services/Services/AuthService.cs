@@ -5,10 +5,12 @@ using KoiVeterinaryServiceCenter.Model.Domain;
 using KoiVeterinaryServiceCenter.Model.DTO;
 using KoiVeterinaryServiceCenter.Services.IServices;
 using KoiVeterinaryServiceCenter.Utility.Constants;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json.Linq;
 using System.Collections.Concurrent;
+using System.Security.Claims;
 
 
 namespace KoiVeterinaryServiceCenter.Services.Services
@@ -20,6 +22,7 @@ namespace KoiVeterinaryServiceCenter.Services.Services
         private readonly IUnitOfWork _unitOfWork;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly ITokenService _tokenService;
+        private readonly IFirebaseService _firebaseService;
 
 
         private static readonly ConcurrentDictionary<string, (int Count, DateTime LastRequest)> ResetPasswordAttempts =
@@ -31,7 +34,8 @@ namespace KoiVeterinaryServiceCenter.Services.Services
             RoleManager<IdentityRole> roleManager,
             IUnitOfWork unitOfWork,
             UserManager<ApplicationUser> userManager,
-            ITokenService tokenService
+            ITokenService tokenService,
+            IFirebaseService firebaseService
         )
         {
             _userManagerRepository = userManagerRepository;
@@ -39,6 +43,7 @@ namespace KoiVeterinaryServiceCenter.Services.Services
             _unitOfWork = unitOfWork;
             _userManager = userManager;
             _tokenService = tokenService;
+            _firebaseService = firebaseService;
         }
 
 
@@ -504,7 +509,89 @@ namespace KoiVeterinaryServiceCenter.Services.Services
                 };
             }
         }
+        
+        /// <summary>
+        /// This API uploads the user's avatar to Firebase Storage.
+        /// </summary>
+        /// <param name="file"></param>
+        /// <param name="User"></param>
+        /// <returns></returns>
+        public async Task<ResponseDTO> UploadUserAvatar(IFormFile file, ClaimsPrincipal User)
+        {
+            try
+            {
+                var userId = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
 
+                if (userId is null)
+                {
+                    throw new Exception("Not authentication!");
+                }
+
+                var user = await _userManager.FindByIdAsync(userId);
+
+                if (user is null)
+                {
+                    throw new Exception("User does not exist");
+                }
+
+                var responseDto = await _firebaseService.UploadImage(file, StaticFirebaseFolders.UserAvatars);
+
+                if (!responseDto.IsSuccess)
+                {
+                    throw new Exception("Image upload fail!");
+                }
+
+                user.AvatarUrl = responseDto.Result?.ToString();
+
+                var updateResult = await _userManager.UpdateAsync(user);
+
+                if (!updateResult.Succeeded)
+                {
+                    throw new Exception("Update user avatar fail!");
+                }
+
+                return new ResponseDTO()
+                {
+                    Message = "Upload user avatar successfully!",
+                    Result = null,
+                    IsSuccess = true,
+                    StatusCode = 200
+                };
+            }
+            catch (Exception e)
+            {
+                return new ResponseDTO()
+                {
+                    Message = e.Message,
+                    Result = null,
+                    IsSuccess = false,
+                    StatusCode = 500
+                };
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="User"></param>
+        /// <returns></returns>
+        public async Task<MemoryStream> GetUserAvatar(ClaimsPrincipal User)
+        {
+            try
+            {
+                var userId = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
+
+                var user = await _userManager.FindByIdAsync(userId);
+
+                var stream = await _firebaseService.GetImage(user.AvatarUrl);
+
+                return stream;
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
+        }
 
         /*
                 //Forgot password
