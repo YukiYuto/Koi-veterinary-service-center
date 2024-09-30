@@ -109,5 +109,18 @@ namespace KoiVeterinaryServiceCenter.API.Controllers
             var responseDto = await _authService.SignIn(signDto);
             return StatusCode(responseDto.StatusCode, responseDto);
         }
+
+        /// <summary>
+        /// Sign in by google.
+        /// </summary>
+        /// <param name="signInByGoogleDto"></param>
+        /// <returns></returns>
+        [HttpPost]
+        [Route("google/sign-in")]
+        public async Task<ActionResult<ResponseDTO>> SignInByGoogle(SignInByGoogleDTO signInByGoogleDto)
+        {
+            var response = await _authService.SignInByGoogle(signInByGoogleDto);
+            return StatusCode(response.StatusCode, response);
+        }
     }
 }
