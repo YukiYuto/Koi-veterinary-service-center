@@ -1,5 +1,5 @@
-﻿using KoiVeterinaryServiceCenter.Model.Domain;
-using KoiVeterinaryServiceCenter.Services.IServices;
+﻿using KoiVeterinaryServiceCenter.DataAccess.IRepository;
+using KoiVeterinaryServiceCenter.Model.Domain;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace KoiVeterinaryServiceCenter.Services.Services
+namespace KoiVeterinaryServiceCenter.DataAccess.Repository
 {
     public class UserManagerRepository : IUserManagerRepository
     {
@@ -48,12 +48,12 @@ namespace KoiVeterinaryServiceCenter.Services.Services
             return await _userManager.Users.FirstOrDefaultAsync(u => u.PhoneNumber == phoneNumber);
         }
 
-        public Task<List<ApplicationUser>> GetInstructorUser()
+        public Task<List<ApplicationUser>> GetDoctorUser()
         {
             throw new NotImplementedException();
         }
 
-        public Task<List<ApplicationUser>> GetStudentUser()
+        public Task<List<ApplicationUser>> GetCustomerUser()
         {
             throw new NotImplementedException();
         }
