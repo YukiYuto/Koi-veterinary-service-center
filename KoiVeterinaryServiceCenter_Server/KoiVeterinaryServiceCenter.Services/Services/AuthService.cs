@@ -23,6 +23,7 @@ namespace KoiVeterinaryServiceCenter.Services.Services
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly ITokenService _tokenService;
         private readonly IFirebaseService _firebaseService;
+        private readonly IEmailService _emailService;
 
 
         private static readonly ConcurrentDictionary<string, (int Count, DateTime LastRequest)> ResetPasswordAttempts =
@@ -35,7 +36,8 @@ namespace KoiVeterinaryServiceCenter.Services.Services
             IUnitOfWork unitOfWork,
             UserManager<ApplicationUser> userManager,
             ITokenService tokenService,
-            IFirebaseService firebaseService
+            IFirebaseService firebaseService,
+            IEmailService emailService
         )
         {
             _userManagerRepository = userManagerRepository;
@@ -44,6 +46,7 @@ namespace KoiVeterinaryServiceCenter.Services.Services
             _userManager = userManager;
             _tokenService = tokenService;
             _firebaseService = firebaseService;
+            _emailService = emailService;
         }
 
 
@@ -591,6 +594,79 @@ namespace KoiVeterinaryServiceCenter.Services.Services
             {
                 return null;
             }
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="email"></param>
+        /// <param name="confirmationLink"></param>
+        /// <returns></returns>
+        public async Task<ResponseDTO> SendVerifyEmail(string email, string confirmationLink)
+        {
+            try
+            {
+                await _emailService.SendVerifyEmail(email, confirmationLink);
+                return new()
+                {
+                    Message = "Send verify email successfully",
+                    IsSuccess = true,
+                    StatusCode = 200,
+                    Result = null
+                };
+            }
+            catch (Exception e)
+            {
+                return new()
+                {
+                    Message = e.Message,
+                    IsSuccess = false,
+                    StatusCode = 500,
+                    Result = null
+                };
+            }
+        }
+        
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="token"></param>
+        /// <returns></returns>
+        public async Task<ResponseDTO> VerifyEmail(string userId, string token)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+
+            if (user.EmailConfirmed)
+            {
+                return new ResponseDTO()
+                {
+                    Message = "Your email has been confirmed!",
+                    IsSuccess = true,
+                    StatusCode = 200,
+                    Result = null
+                };
+            }
+
+            var confirmResult = await _userManager.ConfirmEmailAsync(user, token);
+
+            if (!confirmResult.Succeeded)
+            {
+                return new()
+                {
+                    Message = "Invalid token",
+                    StatusCode = 400,
+                    IsSuccess = false,
+                    Result = null
+                };
+            }
+
+            return new()
+            {
+                Message = "Confirm Email Successfully",
+                IsSuccess = true,
+                StatusCode = 200,
+                Result = null
+            };
         }
 
         /*

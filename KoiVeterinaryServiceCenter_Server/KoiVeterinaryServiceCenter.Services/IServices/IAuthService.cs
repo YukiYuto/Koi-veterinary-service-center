@@ -19,6 +19,8 @@ namespace KoiVeterinaryServiceCenter.Services.IServices
         Task<ResponseDTO> CheckEmailExist(string email);
         Task<ResponseDTO> UploadUserAvatar(IFormFile file, ClaimsPrincipal user);
         Task<MemoryStream> GetUserAvatar(ClaimsPrincipal user);
+        Task<ResponseDTO> SendVerifyEmail(string email, string confirmationLink);
+        Task<ResponseDTO> VerifyEmail(string userId, string token);
     }
 
 }

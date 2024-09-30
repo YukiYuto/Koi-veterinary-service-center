@@ -34,8 +34,9 @@ namespace KoiVeterinaryServiceCenter.API.Extension
 
             services.AddScoped<IPetDiseaseService, PetDiseaseService>();
             // Registering IUserManagerRepository its implementation DoctorService
-            services.AddScoped<IDoctorService, DoctorService>();
-          
+            services.AddScoped<IDoctorService, DoctorService>(); 
+            // Registering IEmailService with its implementation EmailService
+            services.AddScoped<IEmailService, EmailService>();
             return services;
         }
     }

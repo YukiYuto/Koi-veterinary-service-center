@@ -18,6 +18,7 @@ namespace KoiVeterinaryServiceCenter.DataAccess.Repository
         public IRefreshTokenRepository RefreshTokens { get; set; }
         public ISlotRepository SlotRepository { get; set; }
         public IAppointmentRepository AppointmentRepository { get; set; }
+        public IEmailTemplateRepository EmailTemplateRepository { get; set; }
 
         public IPetRepository PetRepository { get; set; }
 
@@ -35,6 +36,7 @@ namespace KoiVeterinaryServiceCenter.DataAccess.Repository
             PetRepository = new PetRepository(_context);
             DiseaseRepository = new DiseaseRepository(_context);
             PetDiseaseRepository = new PetDiseaseRepository(_context);
+            EmailTemplateRepository = new EmailTemplateRepository(_context);
 
         }
         public async Task<int> SaveAsync()
