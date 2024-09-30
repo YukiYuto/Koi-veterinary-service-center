@@ -14,6 +14,7 @@ namespace KoiVeterinaryServiceCenter.Services.IServices
         Task<ResponseDTO> SignIn(SignDTO signDto);
         //Task<ResponseDTO> ForgotPassword(ForgotPasswordDTO forgotPasswordDto);
         Task<ResponseDTO> SignInByGoogle(SignInByGoogleDTO signInByGoogleDto);
+        Task<ResponseDTO> CheckEmailExist(string email);
     }
 
 }

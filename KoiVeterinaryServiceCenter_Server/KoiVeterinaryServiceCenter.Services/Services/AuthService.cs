@@ -475,6 +475,35 @@ namespace KoiVeterinaryServiceCenter.Services.Services
             }
         }
 
+        /// <summary>
+        /// This method for check email exist or not
+        /// </summary>
+        /// <param name="email"></param>
+        /// <returns></returns>
+        public async Task<ResponseDTO> CheckEmailExist(string email)
+        {
+            try
+            {
+                var user = await _userManager.FindByEmailAsync(email);
+                return new()
+                {
+                    Result = user is not null,
+                    Message = user is null ? "Email does not exist" : "Email is existed",
+                    IsSuccess = true,
+                    StatusCode = 200
+                };
+            }
+            catch (Exception e)
+            {
+                return new()
+                {
+                    Message = e.Message,
+                    IsSuccess = false,
+                    StatusCode = 500,
+                    Result = null
+                };
+            }
+        }
 
 
         /*
