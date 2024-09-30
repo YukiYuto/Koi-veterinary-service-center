@@ -137,6 +137,10 @@ namespace KoiVeterinaryServiceCenter.API.Controllers
             return StatusCode(response.StatusCode, response);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         [Route("user/avatar")]
         [Authorize]
@@ -149,6 +153,47 @@ namespace KoiVeterinaryServiceCenter.API.Controllers
             }
 
             return File(stream, "image/png");
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="email"></param>
+        /// <returns></returns>
+        [HttpPost]
+        [Route("send-verify-email")]
+        public async Task<ActionResult<ResponseDTO>> SendVerifyEmail([FromBody] SendVerifyEmailDTO email)
+        {
+            var user = await _userManager.FindByEmailAsync(email.Email);
+            if (user.EmailConfirmed)
+            {
+                return new ResponseDTO()
+                {
+                    IsSuccess = true,
+                    Message = "Your email has been confirmed",
+                    StatusCode = 200,
+                    Result = email
+                };
+            }
+            var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+
+            var confirmationLink =
+                $"{Request.Scheme}://{Request.Host}/user/sign-in/verify-email?userId={Uri.EscapeDataString(user.Id)}&token={Uri.EscapeDataString(token)}";
+
+            var responseDto = await _authService.SendVerifyEmail(user.Email, confirmationLink);
+
+            return StatusCode(responseDto.StatusCode, responseDto);
+        }
+        
+        [HttpPost]
+        [Route("verify-email")]
+        [ActionName("verify-email")]
+        public async Task<ActionResult<ResponseDTO>> VerifyEmail(
+            [FromQuery] string userId,
+            [FromQuery] string token)
+        {
+            var responseDto = await _authService.VerifyEmail(userId, token);
+            return StatusCode(responseDto.StatusCode, responseDto);
         }
     }
 }
