@@ -50,7 +50,7 @@ namespace KoiVeterinaryServiceCenter.Services.Services
                     Result = doctorSchedules
                 };
             }
-            //Resolve all exception
+            //Solve all exception
             catch (Exception e)
             {
                 return new ResponseDTO()
@@ -70,7 +70,7 @@ namespace KoiVeterinaryServiceCenter.Services.Services
             {
                 //Get DoctorSchedules by doctorSchedulesId
                 var doctorSchedule = await _unitOfWork.DoctorSchedulesRepository.GetDocterScheduleById(doctorSchedulesId);
-                //Resolve doctorSchedules is null
+                //Solve doctorSchedules is null
                 if (doctorSchedule == null)
                 {
                     return new ResponseDTO()
@@ -88,7 +88,7 @@ namespace KoiVeterinaryServiceCenter.Services.Services
                     doctorSchedulesDTO = _mapper.Map<GetDoctorSchedulesDTO>(doctorSchedule);
 
                 }
-                //Resolve the mapping exception
+                //Solve the mapping exception
                 catch (AutoMapperMappingException e)
                 {
                     return new ResponseDTO()
@@ -108,7 +108,7 @@ namespace KoiVeterinaryServiceCenter.Services.Services
                     Result = doctorSchedule
                 };
             }
-            //Resolve all exception
+            //Solve all exception
             catch (Exception e)
             {
                 return new ResponseDTO()
@@ -121,6 +121,7 @@ namespace KoiVeterinaryServiceCenter.Services.Services
             }
         }
 
+        //Update doctor schedule
         public async Task<ResponseDTO> UpdateDoctorScheduleById(ClaimsPrincipal User, UpdateDoctorSchedulesDTO updateDoctorSchedulesDTO)
         {
             try
@@ -139,6 +140,8 @@ namespace KoiVeterinaryServiceCenter.Services.Services
                         Result = null
                     };
                 }
+
+                //Update data of doctor schedule
                 updateDoctorSchedules.DoctorId = updateDoctorSchedules.DoctorId;
                 updateDoctorSchedules.SchedulesDate = updateDoctorSchedulesDTO.SchedulesDate;
                 updateDoctorSchedules.StartTime = updateDoctorSchedulesDTO.StartTime;
@@ -146,14 +149,73 @@ namespace KoiVeterinaryServiceCenter.Services.Services
                 updateDoctorSchedules.UpdatedTime = DateTime.Now;
                 updateDoctorSchedules.UpdatedBy = User.Identity.Name;
 
+                //Update to database and save it
+                _unitOfWork.DoctorSchedulesRepository.Update(updateDoctorSchedules);
+                await _unitOfWork.SaveAsync();
+
+                //result of success
                 return new ResponseDTO()
                 {
-                    Message = "Update doctor schedule successful",
+                    Message = "Update doctor schedule successfully",
                     IsSuccess = true,
                     StatusCode = 200,
                     Result = updateDoctorSchedulesDTO
                 };
             }
+            //Solve exception when the function has error
+            catch (Exception e)
+            {
+                return new ResponseDTO()
+                {
+                    Message = e.Message,
+                    IsSuccess = false,
+                    StatusCode = 500,
+                    Result = null
+                };
+            }
+        }
+
+        //Use doctor schedule ID to find and then delete it by update status is 1
+        public async Task<ResponseDTO> DeleteDoctorScheduleById(ClaimsPrincipal User, Guid doctorScheduleId)
+        {
+            try
+            {
+                //Find doctor schedule from DataBase
+                var doctorScheduleToDelete = await _unitOfWork.DoctorSchedulesRepository.GetAsync(x => x.DoctorSchedulesId == doctorScheduleId);
+
+                //Resolve error if doctor is null
+                if (doctorScheduleToDelete is null)
+                {
+                    return new ResponseDTO()
+                    {
+                        Message = "Doctor schedule not exsit",
+                        IsSuccess = false,
+                        StatusCode = 404,
+                        Result = null
+                    };
+                }
+
+                //Update status is 1, this mean doctor schedule was deleted
+                doctorScheduleToDelete.Status = 1;
+                //Record time when someone who delete doctor schedule
+                doctorScheduleToDelete.UpdatedTime = DateTime.Now;
+                //Record name when someone who delete doctor schedule
+                doctorScheduleToDelete.UpdatedBy = User.Identity.Name;
+
+                //Update to database and save it
+                _unitOfWork.DoctorSchedulesRepository.Update(doctorScheduleToDelete);
+                await _unitOfWork.SaveAsync();
+
+                //result of a success
+                return new ResponseDTO()
+                {
+                    Message = "The doctor schedule was deleted successfully",
+                    IsSuccess = true,
+                    StatusCode = 200,
+                    Result = null
+                };
+            }
+            //Solve exception when the function has error
             catch (Exception e)
             {
                 return new ResponseDTO()

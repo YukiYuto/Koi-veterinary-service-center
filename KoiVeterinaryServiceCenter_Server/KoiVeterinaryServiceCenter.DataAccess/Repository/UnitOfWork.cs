@@ -22,12 +22,11 @@ namespace KoiVeterinaryServiceCenter.DataAccess.Repository
 
         public IPetRepository PetRepository { get; set; }
 
+        public IDoctorSchedulesRepository DoctorSchedulesRepository { get; set; }
+
         public IDiseaseRepository DiseaseRepository { get; set; }
 
         public IPetDiseaseRepository PetDiseaseRepository { get; set; }
-
-        public IDoctorSchedulesRepository DoctorSchedulesRepository { get; set; }
-
         public UnitOfWork(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
@@ -36,6 +35,10 @@ namespace KoiVeterinaryServiceCenter.DataAccess.Repository
             RefreshTokens = new RefreshTokenRepository(_context);
             SlotRepository = new SlotRepository(_context);
             AppointmentRepository = new AppointmentRepository(_context);
+            PetRepository = new PetRepository(_context);
+            DiseaseRepository = new DiseaseRepository(_context);
+            PetDiseaseRepository = new PetDiseaseRepository(_context);
+            EmailTemplateRepository = new EmailTemplateRepository(_context);
             DoctorSchedulesRepository = new DoctorSchedulesRepository(_context);
         }
         public async Task<int> SaveAsync()

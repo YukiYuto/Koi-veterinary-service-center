@@ -3,7 +3,10 @@ bin/
 obj/
 .vs/
 .vscode/
+<<<<<<< HEAD
 
+=======
+>>>>>>> 3e5213986520a148b8fe3534b885b83642e97429
 
 # User-specific files
 *.user
