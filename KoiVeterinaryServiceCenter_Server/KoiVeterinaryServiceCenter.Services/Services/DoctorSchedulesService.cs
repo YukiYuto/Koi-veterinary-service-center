@@ -139,7 +139,7 @@ namespace KoiVeterinaryServiceCenter.Services.Services
                         Result = null
                     };
                 }
-                updateDoctorSchedules.Doctor = updateDoctorSchedules.Doctor;
+                updateDoctorSchedules.DoctorId = updateDoctorSchedules.DoctorId;
                 updateDoctorSchedules.SchedulesDate = updateDoctorSchedulesDTO.SchedulesDate;
                 updateDoctorSchedules.StartTime = updateDoctorSchedulesDTO.StartTime;
                 updateDoctorSchedules.EndTime = updateDoctorSchedulesDTO.EndTime;
