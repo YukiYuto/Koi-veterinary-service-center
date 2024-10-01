@@ -4,6 +4,7 @@ using KoiVeterinaryServiceCenter.DataAccess.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace KoiVeterinaryServiceCenter.DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240930094946_ModifyDB_EmailTemplate")]
+    partial class ModifyDB_EmailTemplate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -113,7 +116,7 @@ namespace KoiVeterinaryServiceCenter.DataAccess.Migrations
                             Address = "123 Admin St",
                             AvatarUrl = "https://example.com/avatar.png",
                             BirthDate = new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ConcurrencyStamp = "e64eba6e-7f32-4d8b-96ed-ffc14e65fbb7",
+                            ConcurrencyStamp = "30fb0236-aa45-4f24-a8e7-58b8fc93a4d4",
                             Country = "Country",
                             Email = "admin@gmail.com",
                             EmailConfirmed = true,
@@ -122,10 +125,10 @@ namespace KoiVeterinaryServiceCenter.DataAccess.Migrations
                             LockoutEnabled = true,
                             NormalizedEmail = "ADMIN@GMAIL.COM",
                             NormalizedUserName = "ADMIN@GMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAECR8NEc45vweQri6cOLK5+PRRLS1uVpSuudaXLGiqHDlr8q90OscPEvmaXaDbeatdA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEIVu003cABcVRS9nDsswqE15QhOpYM6UOo3eiwBtymYhsvyabbU0VjEq8G54HSTlHQ==",
                             PhoneNumber = "1234567890",
                             PhoneNumberConfirmed = true,
-                            SecurityStamp = "d9a3fc5e-2a78-47ed-8f4a-2e2b2aa8507f",
+                            SecurityStamp = "036bb6e1-f9f0-459e-a2a0-1eb3aeff0b15",
                             TwoFactorEnabled = false,
                             UserName = "admin@gmail.com"
                         });
@@ -403,59 +406,6 @@ namespace KoiVeterinaryServiceCenter.DataAccess.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("EmailTemplates");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("0ff225d5-b2c2-4738-afba-cd1f1c051595"),
-                            BodyContent = "Dear [UserFullName],<br><br>Welcome to Cursus! We are excited to have you join our learning community.",
-                            CallToAction = "<a href=\"https://cursuslms.xyz/user/sign-in\">Login</a>",
-                            Category = "Welcome",
-                            FooterContent = "<p>Contact us at cursusservicetts@gmail.com</p>",
-                            Language = "English",
-                            PersonalizationTags = "{FirstName}, {LastName}",
-                            PreHeaderText = "Thank you for signing up!",
-                            RecipientType = "Customer",
-                            SenderEmail = "cursusservicetts@gmail.com",
-                            SenderName = "Cursus Team",
-                            Status = 1,
-                            SubjectLine = "Welcome to Cursus!",
-                            TemplateName = "WelcomeEmail"
-                        },
-                        new
-                        {
-                            Id = new Guid("4942919c-85fe-4da1-8b67-fb0d560d2814"),
-                            BodyContent = "Hi [UserFullName],<br><br>We received a request to reset your password. Click the link below to reset your password.",
-                            CallToAction = "https://cursuslms.xyz/sign-in/verify-email?userId=user.Id&token=Uri.EscapeDataString(token)",
-                            Category = "Security",
-                            FooterContent = "If you did not request a password reset, please ignore this email.",
-                            Language = "English",
-                            PersonalizationTags = "[UserFullName], [ResetPasswordLink]",
-                            PreHeaderText = "Reset your password to regain access",
-                            RecipientType = "Customer",
-                            SenderEmail = "cursusservicetts@gmail.com",
-                            SenderName = "Cursus Team",
-                            Status = 1,
-                            SubjectLine = "Reset Your Password",
-                            TemplateName = "ForgotPasswordEmail"
-                        },
-                        new
-                        {
-                            Id = new Guid("fa76da74-9bb1-42c5-b53f-5d1ccc072d0f"),
-                            BodyContent = "<p>Thank you for registering your Cursus account. Click here to go back the page</p>",
-                            CallToAction = "<a href=\"{{Login}}\">Login now</a>",
-                            Category = "Verify",
-                            FooterContent = "<p>Contact us at cursusservicetts@gmail.com</p>",
-                            Language = "English",
-                            PersonalizationTags = "{FirstName}, {LinkLogin}",
-                            PreHeaderText = "User Account Verified!",
-                            RecipientType = "Customer",
-                            SenderEmail = "cursusservicetts@gmail.com",
-                            SenderName = "Cursus Team",
-                            Status = 1,
-                            SubjectLine = "Cursus Verify Email",
-                            TemplateName = "SendVerifyEmail"
-                        });
                 });
 
             modelBuilder.Entity("KoiVeterinaryServiceCenter.Model.Domain.PaymentMethod", b =>

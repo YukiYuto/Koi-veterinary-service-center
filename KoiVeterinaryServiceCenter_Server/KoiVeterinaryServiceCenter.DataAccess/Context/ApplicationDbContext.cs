@@ -35,7 +35,8 @@ namespace KoiVeterinaryServiceCenter.DataAccess.Context
         public DbSet<Slot> Slots { get; set; }
         public DbSet<Transaction> Transactions { get; set; }
         public DbSet<PaymentMethod> PaymentMethods { get; set; }
-
+        
+        public DbSet<EmailTemplate> EmailTemplates { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -43,7 +44,9 @@ namespace KoiVeterinaryServiceCenter.DataAccess.Context
 
             // Seed data
             ApplicationDbContextSeed.SeedAdminAccount(modelBuilder);
-
+            
+            //Seed Email Template
+            ApplicationDbContextSeed.SeedEmailTemplate(modelBuilder);
 
             // Thiết lập khóa chính hỗn hợp cho bảng trung gian DoctorService
             modelBuilder.Entity<DoctorService>()
