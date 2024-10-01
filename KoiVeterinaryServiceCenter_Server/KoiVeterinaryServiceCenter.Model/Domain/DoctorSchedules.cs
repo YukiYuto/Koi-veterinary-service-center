@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace KoiVeterinaryServiceCenter.Model.Domain
 {
-    public class DoctorSchedules
+    public class DoctorSchedules : BaseEntity<string, string, int>
     {
         [Key] public Guid DoctorSchedulesId { get; set; }
         public Guid DoctorId { get; set; }

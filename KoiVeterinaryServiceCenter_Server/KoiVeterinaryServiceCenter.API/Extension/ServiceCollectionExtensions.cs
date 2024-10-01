@@ -17,7 +17,26 @@ namespace KoiVeterinaryServiceCenter.API.Extension
             services.AddScoped<ITokenService, TokenService>();
             // Registering IUserManagerRepository its implementation UserManagerRepository
             services.AddScoped<IUserManagerRepository, UserManagerRepository>();
+            // Registering ISlotService with its implementation SlotService
+            services.AddScoped<ISlotService, SlotService>();
+            // Registering IAppointmentService with its implementation AppointmentService
+            services.AddScoped<IAppointmentService, AppointmentService>();
 
+            services.AddScoped<IPetRepository, PetRepository>();
+
+            services.AddScoped<IPetService, PetService>();
+
+            services.AddScoped<IDiseaseRepository, DiseaseRepository>();
+
+            services.AddScoped<IDiseaseService, DiseaseService>();
+
+            services.AddScoped<IPetDiseaseRepository, PetDiseaseRepository>();
+
+            services.AddScoped<IPetDiseaseService, PetDiseaseService>();
+            // Registering IUserManagerRepository its implementation DoctorService
+            services.AddScoped<IDoctorService, DoctorService>(); 
+            // Registering IEmailService with its implementation EmailService
+            services.AddScoped<IEmailService, EmailService>();
             return services;
         }
     }

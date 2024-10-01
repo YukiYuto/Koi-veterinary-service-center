@@ -11,7 +11,7 @@ namespace KoiVeterinaryServiceCenter.Model.Domain
     public class Transaction
     {
         [Key] public Guid TransactionId { get; set; }
-        public Guid CustomerId { get; set; }
+        public string CustomerId { get; set; }
         public Guid? AppointmentId { get; set; }
         public Guid PaymentMethodId { get; set; }
         public double Amount { get; set; }
@@ -20,7 +20,7 @@ namespace KoiVeterinaryServiceCenter.Model.Domain
         public DateTime CreateTime { get; set; }
         public string Status { get; set; }
 
-        [ForeignKey("CustomerId")] public virtual Customer Customer { get; set; }
+        [ForeignKey("CustomerId")] public virtual ApplicationUser ApplicationUser { get; set; }
         [ForeignKey("AppointmentId")] public virtual Appointment Appointment { get; set; }
         [ForeignKey("PaymentMethodId")] public virtual PaymentMethod PaymentMethod { get; set; }
     }

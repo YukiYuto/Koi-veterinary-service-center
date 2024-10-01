@@ -34,6 +34,9 @@ namespace KoiVeterinaryServiceCenter
             // Register services life cycle
             builder.Services.RegisterServices(); // Ensure services are registered correctly
 
+            // Register Firebase Service
+            builder.Services.AddFirebaseService();
+
             // Configure Identity
             builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
