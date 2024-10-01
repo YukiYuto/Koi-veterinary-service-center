@@ -16,6 +16,7 @@ namespace KoiVeterinaryServiceCenter.Services.Mappings
             CreateMap<UserInfoDTO, ApplicationUser>().ReverseMap();
             CreateMap<Slot, GetSlotDTO>().ReverseMap();
             CreateMap<Appointment, GetAppointmentDTO>().ReverseMap();
+            CreateMap<DoctorSchedules, GetDoctorSchedulesDTO>().ReverseMap();
         }
     }
 }
