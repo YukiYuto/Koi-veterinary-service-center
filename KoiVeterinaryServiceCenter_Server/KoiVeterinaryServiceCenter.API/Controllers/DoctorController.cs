@@ -57,7 +57,7 @@ namespace KoiVeterinaryServiceCenter.API.Controllers
             return StatusCode(responseDto.StatusCode, responseDto);
         }
 
-        [HttpDelete("{doctorId:guid}")]
+        [HttpPut("{doctorId:guid}/soft-delete")]
         public async Task<ActionResult<ResponseDTO>> DeleteDoctorById([FromRoute] Guid doctorId)
         {
             var responseDto = await _doctorService.DeleteDoctorById(doctorId);
