@@ -22,6 +22,7 @@ namespace KoiVeterinaryServiceCenter.DataAccess.IRepository
         IPetDiseaseRepository PetDiseaseRepository { get; }
 
         IEmailTemplateRepository EmailTemplateRepository { get; }
+        IServiceRepository ServiceRepository { get; }
         Task<int> SaveAsync();
     }
 }
