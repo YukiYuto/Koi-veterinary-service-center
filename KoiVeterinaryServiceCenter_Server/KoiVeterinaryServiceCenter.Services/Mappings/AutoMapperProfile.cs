@@ -28,6 +28,7 @@ namespace KoiVeterinaryServiceCenter.Services.Mappings
             .ForMember(dest => dest.Specialization, opt => opt.MapFrom(src => src.Specialization))
             .ForMember(dest => dest.Degree, opt => opt.MapFrom(src => src.Degree))
             .ForMember(dest => dest.Experience, opt => opt.MapFrom(src => src.Experience)).ReverseMap();
+            CreateMap<Service, GetServiceDTO>().ReverseMap();
         }
     }
 }
