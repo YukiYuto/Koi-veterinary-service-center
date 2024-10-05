@@ -1,0 +1,16 @@
+version: '3.8'
+
+services:
+  api:
+    build:
+      context: .
+      dockerfile: KoiVeterinaryServiceCenter.API/Dockerfile
+    ports:
+      - "8080:80"
+    depends_on:
+      - services
+
+  services:
+    build:
+      context: .
+      dockerfile: KoiVeterinaryServiceCenter.Services/Dockerfile

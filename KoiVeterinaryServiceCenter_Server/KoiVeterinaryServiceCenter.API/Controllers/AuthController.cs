@@ -143,7 +143,7 @@ namespace KoiVeterinaryServiceCenter.API.Controllers
         /// <returns></returns>
         [HttpGet]
         [Route("user/avatar")]
-        [Authorize]
+        //[Authorize]
         public async Task<IActionResult> GetUserAvatar()
         {
             var stream = await _authService.GetUserAvatar(User);
