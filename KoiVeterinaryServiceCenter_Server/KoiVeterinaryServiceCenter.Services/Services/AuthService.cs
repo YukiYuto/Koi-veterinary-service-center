@@ -354,7 +354,7 @@ namespace KoiVeterinaryServiceCenter.Services.Services
 
                 var accessToken = await _tokenService.GenerateJwtAccessTokenAsync(user);
                 var refreshToken = await _tokenService.GenerateJwtRefreshTokenAsync(user);
-                //await _tokenService.StoreRefreshToken(user.Id, refreshToken);
+                await _tokenService.StoreRefreshToken(user.Id, refreshToken);
 
                 return new ResponseDTO()
                 {
