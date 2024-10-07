@@ -26,7 +26,6 @@ namespace KoiVeterinaryServiceCenter.DataAccess.Context
         public DbSet<Pet> Pets { get; set; }
         public DbSet<PetDisease> PetsDiseases { get; set; }
         public DbSet<Disease> Diseases { get; set; }
-        public DbSet<RefreshTokens> RefreshTokens { get; set; }
 
         public DbSet<Service> Services { get; set; }
 
@@ -35,7 +34,7 @@ namespace KoiVeterinaryServiceCenter.DataAccess.Context
         public DbSet<Slot> Slots { get; set; }
         public DbSet<Transaction> Transactions { get; set; }
         public DbSet<PaymentMethod> PaymentMethods { get; set; }
-        
+
         public DbSet<EmailTemplate> EmailTemplates { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -44,7 +43,7 @@ namespace KoiVeterinaryServiceCenter.DataAccess.Context
 
             // Seed data
             ApplicationDbContextSeed.SeedAdminAccount(modelBuilder);
-            
+
             //Seed Email Template
             ApplicationDbContextSeed.SeedEmailTemplate(modelBuilder);
 

@@ -15,7 +15,6 @@ namespace KoiVeterinaryServiceCenter.DataAccess.Repository
         private readonly ApplicationDbContext _context;
         public IDoctorRepository DoctorRepository { get; set; }
         public ICustomerRepository CustomerRepository { get; set; }
-        public IRefreshTokenRepository RefreshTokens { get; set; }
         public ISlotRepository SlotRepository { get; set; }
         public IAppointmentRepository AppointmentRepository { get; set; }
         public IEmailTemplateRepository EmailTemplateRepository { get; set; }
@@ -30,7 +29,6 @@ namespace KoiVeterinaryServiceCenter.DataAccess.Repository
             _context = context;
             DoctorRepository = new DoctorRepository(_context);
             CustomerRepository = new CustomerRepository(_context);
-            RefreshTokens = new RefreshTokenRepository(_context);
             SlotRepository = new SlotRepository(_context);
             AppointmentRepository = new AppointmentRepository(_context);
             PetRepository = new PetRepository(_context);
