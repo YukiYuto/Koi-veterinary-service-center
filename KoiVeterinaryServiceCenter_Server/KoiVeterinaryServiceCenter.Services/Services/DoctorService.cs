@@ -23,7 +23,8 @@ namespace KoiVeterinaryServiceCenter.Services.Services
             _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
-
+        
+        //Get all doctor then filter query and sort query after that pagination is excuted
         public async Task<ResponseDTO> GetAll(ClaimsPrincipal User, string? filterOn, string? filterQuery, string? sortBy, bool? isAscending, int pageNumber, int pageSize)
         {
             #region Query Parameters
@@ -112,6 +113,7 @@ namespace KoiVeterinaryServiceCenter.Services.Services
 
                 #endregion Query Parameters
 
+                //Check doctor list and solve error if doctor list is null or empty
                 if (doctors.IsNullOrEmpty())
                 {
                     return new ResponseDTO()
@@ -124,7 +126,10 @@ namespace KoiVeterinaryServiceCenter.Services.Services
                     };
                 }
 
+                //User map to mapping doctor to DoctorInfoDTO
                 var doctorInfoDto = _mapper.Map<List<DoctorInfoDTO>>(doctors);
+
+                //Return doctor list and message if the function successfully
                 return new ResponseDTO()
                 {
                     Message = "Get all doctors successfully",
@@ -133,6 +138,8 @@ namespace KoiVeterinaryServiceCenter.Services.Services
                     Result = doctorInfoDto
                 };
             }
+
+            //Solve exception if the function has any error
             catch (Exception e)
             {
                 return new ResponseDTO()
@@ -151,7 +158,10 @@ namespace KoiVeterinaryServiceCenter.Services.Services
         {
             try
             {
+                //Get doctor from database by GetById
                 var doctor = await _unitOfWork.DoctorRepository.GetById(id);
+
+                //Solve doctor is null
                 if (doctor is null)
                 {
                     return new ResponseDTO()
@@ -163,6 +173,8 @@ namespace KoiVeterinaryServiceCenter.Services.Services
                     };
                 }
 
+                //We has doctor, but not eough information that why we create a new DoctorFullInfoDTO
+                //which will get information from doctor and user('s doctor) to combine to full information
                 DoctorFullInfoDTO doctorInfoDto = new DoctorFullInfoDTO()
                 {
                     DoctorId = doctor.DoctorId,
@@ -180,6 +192,7 @@ namespace KoiVeterinaryServiceCenter.Services.Services
                     Degree = doctor.Degree,
                 };
 
+                //Solve return (has object doctorInfoDto) if the function successfully
                 return new ResponseDTO()
                 {
                     Message = "Get doctor successfully",
@@ -205,7 +218,10 @@ namespace KoiVeterinaryServiceCenter.Services.Services
         {
             try
             {
+                //Get object doctor from database by GetById
                 var doctorToUpdate = await _unitOfWork.DoctorRepository.GetById(updateDoctorDTO.DoctorId);
+
+                //Solve doctor is null
                 if (doctorToUpdate is null)
                 {
                     return new ResponseDTO()
@@ -216,6 +232,8 @@ namespace KoiVeterinaryServiceCenter.Services.Services
                         Result = null
                     };
                 }
+
+                //Set data update for doctor
                 doctorToUpdate.ApplicationUser.FullName = updateDoctorDTO?.FullName;
                 doctorToUpdate.ApplicationUser.Gender = updateDoctorDTO?.Gender;
                 doctorToUpdate.ApplicationUser.Email = updateDoctorDTO?.Email;
@@ -229,9 +247,11 @@ namespace KoiVeterinaryServiceCenter.Services.Services
                 doctorToUpdate.Experience = updateDoctorDTO.Experience;
                 doctorToUpdate.Degree = updateDoctorDTO.Degree;
 
+                //Update to database and save it
                 _unitOfWork.DoctorRepository.Update(doctorToUpdate);
                 await _unitOfWork.SaveAsync();
 
+                //Solve return if the function successfully
                 return new ResponseDTO()
                 {
                     Message = "Doctor updated successfully",
@@ -240,6 +260,8 @@ namespace KoiVeterinaryServiceCenter.Services.Services
                     Result = null
                 };
             }
+
+            //Solve exception if the function has any error
             catch (Exception e)
             {
                 return new ResponseDTO()
@@ -248,6 +270,57 @@ namespace KoiVeterinaryServiceCenter.Services.Services
                     IsSuccess = false,
                     StatusCode = 500,
                     Result = null,
+                };
+            }
+        }
+
+
+        //Use doctor ID to find then set lockoutEnabled is false (Its mean lockout account's doctor)
+        public async Task<ResponseDTO> DeleteDoctorById(Guid doctorId)
+        {
+            try
+            {
+                //Get object doctor by GetAsync
+                var doctorToDelete = await _unitOfWork.DoctorRepository.GetAsync(x => x.DoctorId == doctorId, includeProperties: "ApplicationUser");
+
+                //Solve doctor is null
+                if (doctorToDelete is null)
+                {
+                    return new ResponseDTO()
+                    {
+                        Message = "Doctor is not exist",
+                        IsSuccess = false,
+                        StatusCode = 404,
+                        Result = null
+                    };
+                }
+                
+                //Set lockEnabled is false (deleted)
+                doctorToDelete.ApplicationUser.LockoutEnabled = false;
+
+                //Update the database and save it
+                _unitOfWork.DoctorRepository.Update(doctorToDelete);
+                await _unitOfWork.SaveAsync();
+
+                //Solve return if the function successfully
+                return new ResponseDTO()
+                {
+                    Message = "Doctor was deleted",
+                    IsSuccess = true,
+                    StatusCode = 200,
+                    Result = null
+                };
+            }
+
+            //Solve exception if the function has any error
+            catch (Exception e)
+            {
+                return new ResponseDTO()
+                {
+                    Message = e.Message,
+                    IsSuccess = false,
+                    StatusCode = 500,
+                    Result = null
                 };
             }
         }
