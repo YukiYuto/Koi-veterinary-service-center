@@ -15,6 +15,6 @@ namespace KoiVeterinaryServiceCenter.Model.Domain
         public double Price { get; set; }
         public double TreavelFree { get; set; }
 
-        [NotMapped]public virtual ICollection<DoctorService> DoctorServices { get; set; }
+        [NotMapped]public virtual ICollection<DoctorServices> DoctorServices { get; set; }
     }
 }
