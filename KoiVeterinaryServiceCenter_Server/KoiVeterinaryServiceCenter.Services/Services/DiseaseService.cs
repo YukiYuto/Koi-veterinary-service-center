@@ -185,6 +185,40 @@ namespace KoiVeterinaryServiceCenter.Services.Services
                 };
             }
         }
+
+        public async Task<ResponseDTO> GetAllDisease()
+        {
+            try
+            {
+                var diseases = await _unitOfWork.DiseaseRepository.GetAllAsync();
+
+                if (diseases == null || !diseases.Any())
+                {
+                    return new ResponseDTO
+                    {
+                        IsSuccess = false,
+                        StatusCode = 404,
+                        Message = "No diseases found"
+                    };
+                }
+                return new ResponseDTO
+                {
+                    IsSuccess = true,
+                    StatusCode = 200,
+                    Result = diseases
+                };
+            }
+            catch (Exception ex)
+            {
+                // Handle any errors and return a response with an error message
+                return new ResponseDTO
+                {
+                    IsSuccess = false,
+                    StatusCode = 500,
+                    Message = ex.Message
+                };
+            }
+        }
     }
 }
 

@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using KoiVeterinaryServiceCenter.DataAccess.IRepository;
+using KoiVeterinaryServiceCenter.DataAccess.Migrations;
 using KoiVeterinaryServiceCenter.Model.Domain;
 using KoiVeterinaryServiceCenter.Model.DTO;
 using KoiVeterinaryServiceCenter.Services.IServices;
@@ -110,6 +111,8 @@ namespace KoiVeterinaryServiceCenter.Services.Services
             }
         }
 
+      
+
         public async Task<ResponseDTO> GetPet(ClaimsPrincipal User, Guid petId)
         {
             try
@@ -159,11 +162,99 @@ namespace KoiVeterinaryServiceCenter.Services.Services
                 };
             }
         }
-
-        public Task<ResponseDTO> GetPets(ClaimsPrincipal User, string? filterOn, string? filterQuery, string? sortBy, bool? isAscending, int pageNumber = 0, int pageSize = 0)
+        public async Task<ResponseDTO> GetAllPets()
         {
-            throw new NotImplementedException();
+            try
+            {
+                var pets = await _unitOfWork.PetRepository.GetAllAsync(includeProperties: "ApplicationUser");
+
+                if (pets == null || !pets.Any())
+                {
+                    return new ResponseDTO
+                    {
+                        IsSuccess = false,
+                        StatusCode = 404,
+                        Message = "No pets found"
+                    };
+                }
+
+                // Map to DTOs (GetPetDTO)
+                var petDTOs = pets.Select(pet => new GetPetDTO
+                {
+                    PetId = pet.PetId,
+                    Name = pet.Name,
+                    Age = pet.Age,
+                    Species = pet.Species,
+                    Breed = pet.Breed,
+                    Gender = pet.Gender,
+                   
+                }).ToList();
+
+                return new ResponseDTO
+                {
+                    IsSuccess = true,
+                    StatusCode = 200,
+                    Result = petDTOs
+                };
+            }
+            catch (Exception ex)
+            {
+                return new ResponseDTO
+                {
+                    IsSuccess = false,
+                    StatusCode = 500,
+                    Message = ex.Message
+                };
+            }
         }
+
+        public async Task<ResponseDTO> GetPetsByUserId(string userId)
+        {
+            try
+            {
+                // Assuming the CustomerId in your database corresponds to the userId here
+                var pets = await _unitOfWork.PetRepository.GetAllAsync(p => p.CustomerId == userId, includeProperties: "ApplicationUser");
+
+                if (pets == null || !pets.Any())
+                {
+                    return new ResponseDTO
+                    {
+                        IsSuccess = false,
+                        StatusCode = 404,
+                        Message = "No pets found for this customer"
+                    };
+                }
+
+                // Map to DTOs (GetPetDTO)
+                var petDTOs = pets.Select(pet => new GetPetsByCustomerIdDTO
+                {
+                    PetId = pet.PetId,
+                    Name = pet.Name,
+                    Age = pet.Age,
+                    Species = pet.Species,
+                    Breed = pet.Breed,
+                    Gender = pet.Gender,
+                    OwnerName = pet.ApplicationUser.UserName  // Assuming Customer has a Name property
+                }).ToList();
+
+                return new ResponseDTO
+                {
+                    IsSuccess = true,
+                    StatusCode = 200,
+                    Result = petDTOs
+                };
+            }
+            catch (Exception ex)
+            {
+                return new ResponseDTO
+                {
+                    IsSuccess = false,
+                    StatusCode = 500,
+                    Message = ex.Message
+                };
+            }
+        }
+
         public async Task<ResponseDTO> UpdatePet(Guid petId,  ClaimsPrincipal User, UpdatePetDTO updatePetDto)
         {
             try
