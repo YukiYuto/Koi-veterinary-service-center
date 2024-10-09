@@ -162,98 +162,9 @@ namespace KoiVeterinaryServiceCenter.Services.Services
                 };
             }
         }
-        public async Task<ResponseDTO> GetAllPets()
-        {
-            try
-            {
-                var pets = await _unitOfWork.PetRepository.GetAllAsync(includeProperties: "ApplicationUser");
+       
 
-                if (pets == null || !pets.Any())
-                {
-                    return new ResponseDTO
-                    {
-                        IsSuccess = false,
-                        StatusCode = 404,
-                        Message = "No pets found"
-                    };
-                }
-
-                // Map to DTOs (GetPetDTO)
-                var petDTOs = pets.Select(pet => new GetPetDTO
-                {
-                    PetId = pet.PetId,
-                    Name = pet.Name,
-                    Age = pet.Age,
-                    Species = pet.Species,
-                    Breed = pet.Breed,
-                    Gender = pet.Gender,
-                   
-                }).ToList();
-
-                return new ResponseDTO
-                {
-                    IsSuccess = true,
-                    StatusCode = 200,
-                    Result = petDTOs
-                };
-            }
-            catch (Exception ex)
-            {
-                return new ResponseDTO
-                {
-                    IsSuccess = false,
-                    StatusCode = 500,
-                    Message = ex.Message
-                };
-            }
-        }
-
-        public async Task<ResponseDTO> GetPetsByUserId(string userId)
-        {
-            try
-            {
-                // Assuming the CustomerId in your database corresponds to the userId here
-                var pets = await _unitOfWork.PetRepository.GetAllAsync(p => p.CustomerId == userId, includeProperties: "ApplicationUser");
-
-                if (pets == null || !pets.Any())
-                {
-                    return new ResponseDTO
-                    {
-                        IsSuccess = false,
-                        StatusCode = 404,
-                        Message = "No pets found for this customer"
-                    };
-                }
-
-                // Map to DTOs (GetPetDTO)
-                var petDTOs = pets.Select(pet => new GetPetsByCustomerIdDTO
-                {
-                    PetId = pet.PetId,
-                    Name = pet.Name,
-                    Age = pet.Age,
-                    Species = pet.Species,
-                    Breed = pet.Breed,
-                    Gender = pet.Gender,
-                    OwnerName = pet.ApplicationUser.UserName  // Assuming Customer has a Name property
-                }).ToList();
-
-                return new ResponseDTO
-                {
-                    IsSuccess = true,
-                    StatusCode = 200,
-                    Result = petDTOs
-                };
-            }
-            catch (Exception ex)
-            {
-                return new ResponseDTO
-                {
-                    IsSuccess = false,
-                    StatusCode = 500,
-                    Message = ex.Message
-                };
-            }
-        }
+     
 
         public async Task<ResponseDTO> UpdatePet(Guid petId,  ClaimsPrincipal User, UpdatePetDTO updatePetDto)
         {
@@ -308,7 +219,183 @@ namespace KoiVeterinaryServiceCenter.Services.Services
             }
         }
 
+        public async Task<ResponseDTO> GetAllPets(
+         
+        string? filterOn,
+        string? filterQuery,
+        string? sortBy,
+        bool? isAscending,
+        int pageNumber = 0,
+        int pageSize = 0)
+        {
+            try
+            {
+                var allPets = await _unitOfWork.PetRepository.GetAllAsync(includeProperties: "ApplicationUser");
+                List<Pet> pets = allPets.ToList();
 
+                
+                if (!string.IsNullOrEmpty(filterOn) && !string.IsNullOrEmpty(filterQuery))
+                {
+                    pets = filterOn.Trim().ToLower() switch
+                    {
+                        "species" => pets.Where(p => p.Species.ToLower() == filterQuery.ToLower()).ToList(),
+                        "breed" => pets.Where(p => p.Breed.ToLower() == filterQuery.ToLower()).ToList(),
+                        "gender" => pets.Where(p => p.Gender.ToLower() == filterQuery.ToLower()).ToList(),
+                        _ => pets
+                    };
+                }
+
+                
+                if (!string.IsNullOrEmpty(sortBy))
+                {
+                    pets = sortBy.Trim().ToLower() switch
+                    {
+                        "name" => isAscending == true
+                            ? pets.OrderBy(p => p.Name).ToList()
+                            : pets.OrderByDescending(p => p.Name).ToList(),
+                        "age" => isAscending == true
+                            ? pets.OrderBy(p => p.Age).ToList()
+                            : pets.OrderByDescending(p => p.Age).ToList(),
+                        _ => pets
+                    };
+                }
+
+        
+                if (pageNumber > 0 && pageSize > 0)
+                {
+                    var skipResult = (pageNumber - 1) * pageSize;
+                    pets = pets.Skip(skipResult).Take(pageSize).ToList();
+                }
+
+                if (!pets.Any())
+                {
+                    return new ResponseDTO
+                    {
+                        IsSuccess = false,
+                        StatusCode = 404,
+                        Message = "No pets found."
+                    };
+                }
+
+              
+                var petDTOs = pets.Select(p => new GetPetDTO
+                {
+                    PetId = p.PetId,
+                    CustomerId = p.CustomerId,
+                    Name = p.Name,
+                    Age = p.Age,
+                    Species = p.Species,
+                    Breed = p.Breed,
+                    Gender = p.Gender
+                }).ToList();
+
+                return new ResponseDTO
+                {
+                    IsSuccess = true,
+                    StatusCode = 200,
+                    Result = petDTOs
+                };
+            }
+            catch (Exception ex)
+            {
+                return new ResponseDTO
+                {
+                    IsSuccess = false,
+                    StatusCode = 500,
+                    Message = ex.Message
+                };
+            }
+        }
+
+
+        public async Task<ResponseDTO> GetPetsByUserId(
+        string userId,
+        string? filterOn,
+        string? filterQuery,
+        string? sortBy,
+        bool? isAscending,
+        int pageNumber = 0,
+        int pageSize = 0)
+        {
+            try
+            {
+                var allPets = await _unitOfWork.PetRepository.GetAllAsync(p => p.CustomerId == userId, includeProperties: "ApplicationUser");
+                List<Pet> pets = allPets.ToList();
+
+                // Filtering logic
+                if (!string.IsNullOrEmpty(filterOn) && !string.IsNullOrEmpty(filterQuery))
+                {
+                    pets = filterOn.Trim().ToLower() switch
+                    {
+                        "species" => pets.Where(p => p.Species.ToLower() == filterQuery.ToLower()).ToList(),
+                        "breed" => pets.Where(p => p.Breed.ToLower() == filterQuery.ToLower()).ToList(),
+                        "gender" => pets.Where(p => p.Gender.ToLower() == filterQuery.ToLower()).ToList(),
+                        _ => pets
+                    };
+                }
+
+                // Sorting logic
+                if (!string.IsNullOrEmpty(sortBy))
+                {
+                    pets = sortBy.Trim().ToLower() switch
+                    {
+                        "name" => isAscending == true
+                            ? pets.OrderBy(p => p.Name).ToList()
+                            : pets.OrderByDescending(p => p.Name).ToList(),
+                        "age" => isAscending == true
+                            ? pets.OrderBy(p => p.Age).ToList()
+                            : pets.OrderByDescending(p => p.Age).ToList(),
+                        _ => pets
+                    };
+                }
+
+                // Pagination logic
+                if (pageNumber > 0 && pageSize > 0)
+                {
+                    var skipResult = (pageNumber - 1) * pageSize;
+                    pets = pets.Skip(skipResult).Take(pageSize).ToList();
+                }
+
+                if (!pets.Any())
+                {
+                    return new ResponseDTO
+                    {
+                        IsSuccess = false,
+                        StatusCode = 404,
+                        Message = "No pets found for this customer."
+                    };
+                }
+
+                // Map to DTO
+                var petDTOs = pets.Select(p => new GetPetsByCustomerIdDTO
+                {
+                    PetId = p.PetId,
+                    CustomerId = p.CustomerId,
+                    Name = p.Name,
+                    Age = p.Age,
+                    Species = p.Species,
+                    Breed = p.Breed,
+                    Gender = p.Gender,
+                    OwnerName = p.ApplicationUser.UserName
+                }).ToList();
+
+                return new ResponseDTO
+                {
+                    IsSuccess = true,
+                    StatusCode = 200,
+                    Result = petDTOs
+                };
+            }
+            catch (Exception ex)
+            {
+                return new ResponseDTO
+                {
+                    IsSuccess = false,
+                    StatusCode = 500,
+                    Message = ex.Message
+                };
+            }
+        }
     }
 }
 

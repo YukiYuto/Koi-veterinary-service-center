@@ -21,9 +21,15 @@ namespace KoiVeterinaryServiceCenter.API.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<ResponseDTO>> GetAllPetDiseases()
+        public async Task<ActionResult<ResponseDTO>> GetAllPetDisease(
+      string? filterOn = null,
+      string? filterQuery = null,
+      string? sortBy = null,
+      bool? isAscending = true,
+      int pageNumber = 0,
+      int pageSize = 0)
         {
-            var responseDto = await _petDiseaseService.GetAllPetDisease();
+            var responseDto = await _petDiseaseService.GetAllPetDisease(filterOn, filterQuery, sortBy, isAscending, pageNumber, pageSize);
             return StatusCode(responseDto.StatusCode, responseDto);
         }
         [HttpPost]

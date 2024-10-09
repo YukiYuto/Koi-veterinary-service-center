@@ -44,17 +44,31 @@ namespace KoiVeterinaryServiceCenter.API.Controllers
             return StatusCode(responseDto.StatusCode, responseDto);
         }
         [HttpGet]
-        public async Task<ActionResult<ResponseDTO>> GetAllPets()
+        public async Task<ActionResult<ResponseDTO>> GetAllPets(
+          
+        string? filterOn = null,
+        string? filterQuery = null,
+        string? sortBy = null,
+        bool? isAscending = true,
+        int pageNumber = 0,
+        int pageSize = 0)
         {
-            var responseDto = await _petService.GetAllPets();
+            var responseDto = await _petService.GetAllPets(filterOn, filterQuery, sortBy, isAscending, pageNumber, pageSize);
             return StatusCode(responseDto.StatusCode, responseDto);
         }
 
         // Get pets by Customer ID
         [HttpGet("customer/{customerId}")]
-        public async Task<ActionResult<ResponseDTO>> GetPetsByUserId(string customerId)
+        public async Task<ActionResult<ResponseDTO>> GetPetsByUserId(
+            string customerId,
+            string? filterOn = null,
+            string? filterQuery = null,
+            string? sortBy = null,
+            bool? isAscending = true,
+            int pageNumber = 0,
+            int pageSize = 0)
         {
-            var responseDto = await _petService.GetPetsByUserId(customerId);
+            var responseDto = await _petService.GetPetsByUserId(customerId, filterOn, filterQuery, sortBy, isAscending, pageNumber, pageSize);
             return StatusCode(responseDto.StatusCode, responseDto);
         }
 

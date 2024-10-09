@@ -186,13 +186,68 @@ namespace KoiVeterinaryServiceCenter.Services.Services
             }
         }
 
-        public async Task<ResponseDTO> GetAllDisease()
+        public async Task<ResponseDTO> GetAllDisease(string? filterOn, string? filterQuery, string? sortBy, bool? isAscending, int pageNumber = 0, int pageSize = 0)
         {
             try
             {
-                var diseases = await _unitOfWork.DiseaseRepository.GetAllAsync();
+                // Get all diseases from the repository
+                var allDiseases = await _unitOfWork.DiseaseRepository.GetAllAsync();
 
-                if (diseases == null || !diseases.Any())
+                List<Disease> diseases = allDiseases.ToList();
+
+                // Filtering
+                if (!string.IsNullOrEmpty(filterOn) && !string.IsNullOrEmpty(filterQuery))
+                {
+                    switch (filterOn.Trim().ToLower())
+                    {
+                        case "diseasename":
+                            diseases = diseases.Where(d => d.DiseaseName.Contains(filterQuery, StringComparison.OrdinalIgnoreCase)).ToList();
+                            break;
+
+                        case "symptoms":
+                            diseases = diseases.Where(d => d.DiseaseSymptoms.Contains(filterQuery, StringComparison.OrdinalIgnoreCase)).ToList();
+                            break;
+
+                        case "treatment":
+                            diseases = diseases.Where(d => d.DiseaseTreatment.Contains(filterQuery, StringComparison.OrdinalIgnoreCase)).ToList();
+                            break;
+
+                        default:
+                            break; // No filtering if the provided field is invalid
+                    }
+                }
+
+                // Sorting
+                if (!string.IsNullOrEmpty(sortBy))
+                {
+                    switch (sortBy.Trim().ToLower())
+                    {
+                        case "diseasename":
+                            diseases = isAscending == true
+                                ? diseases.OrderBy(d => d.DiseaseName).ToList()
+                                : diseases.OrderByDescending(d => d.DiseaseName).ToList();
+                            break;
+
+                        case "diseaseid":
+                            diseases = isAscending == true
+                                ? diseases.OrderBy(d => d.DiseaseId).ToList()
+                                : diseases.OrderByDescending(d => d.DiseaseId).ToList();
+                            break;
+
+                        default:
+                            break; // No sorting if the provided field is invalid
+                    }
+                }
+
+                // Pagination
+                if (pageNumber > 0 && pageSize > 0)
+                {
+                    var skipResult = (pageNumber - 1) * pageSize;
+                    diseases = diseases.Skip(skipResult).Take(pageSize).ToList();
+                }
+
+                // If no diseases found, return 404
+                if (!diseases.Any())
                 {
                     return new ResponseDTO
                     {
@@ -201,6 +256,8 @@ namespace KoiVeterinaryServiceCenter.Services.Services
                         Message = "No diseases found"
                     };
                 }
+
+                // Return the list of diseases as the result
                 return new ResponseDTO
                 {
                     IsSuccess = true,
@@ -210,7 +267,6 @@ namespace KoiVeterinaryServiceCenter.Services.Services
             }
             catch (Exception ex)
             {
-                // Handle any errors and return a response with an error message
                 return new ResponseDTO
                 {
                     IsSuccess = false,

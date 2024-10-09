@@ -96,8 +96,14 @@ namespace KoiVeterinaryServiceCenter.Services.Services
                 var diseaseDTOs = petDiseases.Select(pd => new GetPetDiseaseDTO
                 {
                     PetId = pd.PetId,
+                    PetName = pd.Pet.Name,
+                    PetAge = pd.Pet.Age,
+                    PetSpecies = pd.Pet.Species,
+                    PetBreed = pd.Pet.Breed,
+                    PetGender = pd.Pet.Gender,
                     DiseaseId = pd.DiseaseId,
                     DiseaseName = pd.Disease.DiseaseName,
+                    Symptoms =pd.Disease.DiseaseSymptoms,
                     Description = pd.Description,
                     Date = pd.Date
                 }).ToList();
@@ -199,56 +205,107 @@ namespace KoiVeterinaryServiceCenter.Services.Services
             }
         }
 
-        public async Task<ResponseDTO> GetAllPetDisease()
+        public async Task<ResponseDTO> GetAllPetDisease(
+      string? filterOn,
+      string? filterQuery,
+      string? sortBy,
+      bool? isAscending,
+      int pageNumber = 1,
+      int pageSize = 10)
         {
             try
             {
-                // Fetch all pet diseases with related pet and disease data
-                var petDiseases = await _unitOfWork.PetDiseaseRepository.GetAllAsync(includeProperties: "Pet,Disease");
+                List<PetDisease> petDiseases = new List<PetDisease>();
 
-                // Check if there are any pet diseases
+                // Get all pet diseases from the repository
+                
+                var allPetDiseases = await _unitOfWork.PetDiseaseRepository.GetAllAsync(includeProperties: "Pet,Disease");
+
+                // Filtering
+                if (!string.IsNullOrEmpty(filterOn) && !string.IsNullOrEmpty(filterQuery))
+                {
+                    switch (filterOn.Trim().ToLower())
+                    {
+                        case "petid":
+                            if (Guid.TryParse(filterQuery, out Guid petId))
+                            {
+                                petDiseases = allPetDiseases.Where(pd => pd.PetId == petId).ToList();
+                            }
+                            break;
+
+                        case "diseaseid":
+                            if (Guid.TryParse(filterQuery, out Guid diseaseId))
+                            {
+                                petDiseases = allPetDiseases.Where(pd => pd.DiseaseId == diseaseId).ToList();
+                            }
+                            break;
+
+                        default:
+                            petDiseases = allPetDiseases.ToList(); // If no valid filter, return all
+                            break;
+                    }
+                }
+                else
+                {
+                    petDiseases = allPetDiseases.ToList(); // If no filters, return all
+                }
+
+                // Sorting
+                if (!string.IsNullOrEmpty(sortBy))
+                {
+                    switch (sortBy.Trim().ToLower())
+                    {
+                        case "petname":
+                            petDiseases = isAscending == true
+                                ? petDiseases.OrderBy(pd => pd.Pet.Name).ToList()
+                                : petDiseases.OrderByDescending(pd => pd.Pet.Name).ToList();
+                            break;
+
+                        case "diseasename":
+                            petDiseases = isAscending == true
+                                ? petDiseases.OrderBy(pd => pd.Disease.DiseaseName).ToList()
+                                : petDiseases.OrderByDescending(pd => pd.Disease.DiseaseName).ToList();
+                            break;
+
+                        default:
+                            break; // Do not sort if no valid sort parameter
+                    }
+                }
+
+                // Pagination
+                if (pageNumber > 0 && pageSize > 0)
+                {
+                    var skipResult = (pageNumber - 1) * pageSize;
+                    petDiseases = petDiseases.Skip(skipResult).Take(pageSize).ToList();
+                }
+
                 if (petDiseases == null || !petDiseases.Any())
                 {
-                    return new ResponseDTO
+                    return new ResponseDTO()
                     {
+                        Message = "No pet diseases found.",
+                        Result = null,
                         IsSuccess = false,
-                        StatusCode = 404,
-                        Message = "No pet diseases found"
+                        StatusCode = 404
                     };
                 }
 
-                // Map pet diseases to GetPetDiseaseDTO
-                var petDiseaseDTOs = petDiseases.Select(pd => new GetPetDiseaseDTO
+                return new ResponseDTO()
                 {
-                    PetId = pd.PetId,
-                    PetName = pd.Pet?.Name, 
-                    PetAge = pd.Pet?.Age ?? 0,
-                    PetSpecies = pd.Pet?.Species,
-                    PetBreed = pd.Pet?.Breed,
-                    PetGender = pd.Pet?.Gender,
-                    DiseaseId = pd.DiseaseId,
-                    DiseaseName = pd.Disease?.DiseaseName, 
-                    Symptoms = pd.Disease?.DiseaseSymptoms,
-                    Description = pd.Description,
-                    Date = pd.Date
-                }).ToList();
-
-                // Return success response with DTO list
-                return new ResponseDTO
-                {
+                    Message = "Pet diseases retrieved successfully.",
+                    Result = petDiseases,
                     IsSuccess = true,
-                    StatusCode = 200,
-                    Result = petDiseaseDTOs
+                    StatusCode = 200
                 };
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
-                // Handle any errors
-                return new ResponseDTO
+                return new ResponseDTO()
                 {
+                    Message = e.Message,
+                    Result = null,
                     IsSuccess = false,
-                    StatusCode = 500,
-                    Message = ex.Message
+                    StatusCode = 500
                 };
             }
         }

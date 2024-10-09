@@ -12,9 +12,25 @@ namespace KoiVeterinaryServiceCenter.Services.IServices
     {
 
 
-        Task<ResponseDTO> GetAllPets();
+        Task<ResponseDTO> GetAllPets(
+      
+       string? filterOn,
+       string? filterQuery,
+       string? sortBy,
+       bool? isAscending,
+       int pageNumber = 0,
+       int pageSize = 0
+   );
 
-        Task<ResponseDTO> GetPetsByUserId(string userId);
+        Task<ResponseDTO> GetPetsByUserId(
+           string UserId,
+       string? filterOn,
+       string? filterQuery,
+       string? sortBy,
+       bool? isAscending,
+       int pageNumber = 0,
+       int pageSize = 0
+   );
 
         Task<ResponseDTO> GetPet(ClaimsPrincipal User, Guid petId);
         Task<ResponseDTO> CreatePet(ClaimsPrincipal User, CreatePetDTO createPetDto);

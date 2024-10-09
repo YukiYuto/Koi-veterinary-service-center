@@ -19,6 +19,12 @@ namespace KoiVeterinaryServiceCenter.Services.IServices
    
         Task<ResponseDTO> DeletePetDisease(ClaimsPrincipal User, Guid petDiseaseId);
 
-        Task<ResponseDTO> GetAllPetDisease();
+        Task<ResponseDTO> GetAllPetDisease(
+              string? filterOn = null,
+        string? filterQuery = null,
+        string? sortBy = null,
+        bool? isAscending = true,
+        int pageNumber = 0,
+        int pageSize = 0);
     }
 }
