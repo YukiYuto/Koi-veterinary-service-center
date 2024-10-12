@@ -198,5 +198,61 @@ namespace KoiVeterinaryServiceCenter.Services.Services
                 };
             }
         }
+
+        public async Task<ResponseDTO> GetAllPetDisease()
+        {
+            try
+            {
+                // Fetch all pet diseases with related pet and disease data
+                var petDiseases = await _unitOfWork.PetDiseaseRepository.GetAllAsync(includeProperties: "Pet,Disease");
+
+                // Check if there are any pet diseases
+                if (petDiseases == null || !petDiseases.Any())
+                {
+                    return new ResponseDTO
+                    {
+                        IsSuccess = false,
+                        StatusCode = 404,
+                        Message = "No pet diseases found"
+                    };
+                }
+
+                // Map pet diseases to GetPetDiseaseDTO
+                var petDiseaseDTOs = petDiseases.Select(pd => new GetPetDiseaseDTO
+                {
+                    PetId = pd.PetId,
+                    PetName = pd.Pet?.Name, 
+                    PetAge = pd.Pet?.Age ?? 0,
+                    PetSpecies = pd.Pet?.Species,
+                    PetBreed = pd.Pet?.Breed,
+                    PetGender = pd.Pet?.Gender,
+                    DiseaseId = pd.DiseaseId,
+                    DiseaseName = pd.Disease?.DiseaseName, 
+                    Symptoms = pd.Disease?.DiseaseSymptoms,
+                    Description = pd.Description,
+                    Date = pd.Date
+                }).ToList();
+
+                // Return success response with DTO list
+                return new ResponseDTO
+                {
+                    IsSuccess = true,
+                    StatusCode = 200,
+                    Result = petDiseaseDTOs
+                };
+            }
+            catch (Exception ex)
+            {
+                // Handle any errors
+                return new ResponseDTO
+                {
+                    IsSuccess = false,
+                    StatusCode = 500,
+                    Message = ex.Message
+                };
+            }
+        }
+
+
     }
 }

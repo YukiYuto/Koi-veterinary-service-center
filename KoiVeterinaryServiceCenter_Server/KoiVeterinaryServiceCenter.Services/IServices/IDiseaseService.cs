@@ -13,5 +13,7 @@ namespace KoiVeterinaryServiceCenter.Services.IServices
         Task<ResponseDTO> UpdateDisease(Guid diseaseId, UpdateDiseaseDTO updateDiseaseDto);
         Task<ResponseDTO> GetDisease(Guid diseaseId);
         Task<ResponseDTO> DeleteDisease(Guid diseaseId);
+
+        Task<ResponseDTO> GetAllDisease();
     }
 }
