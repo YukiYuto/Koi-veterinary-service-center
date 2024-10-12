@@ -43,7 +43,20 @@ namespace KoiVeterinaryServiceCenter.API.Controllers
             var responseDto = await _petService.UpdatePet(petId,  User, updatePetDto);
             return StatusCode(responseDto.StatusCode, responseDto);
         }
+        [HttpGet]
+        public async Task<ActionResult<ResponseDTO>> GetAllPets()
+        {
+            var responseDto = await _petService.GetAllPets();
+            return StatusCode(responseDto.StatusCode, responseDto);
+        }
 
+        // Get pets by Customer ID
+        [HttpGet("customer/{customerId}")]
+        public async Task<ActionResult<ResponseDTO>> GetPetsByUserId(string customerId)
+        {
+            var responseDto = await _petService.GetPetsByUserId(customerId);
+            return StatusCode(responseDto.StatusCode, responseDto);
+        }
 
         [HttpDelete("{petId:guid}")]
        
