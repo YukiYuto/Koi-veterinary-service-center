@@ -18,10 +18,6 @@ namespace KoiVeterinaryServiceCenter.DataAccess.Context
         public DbSet<DoctorSchedules> DoctorSchedules { get; set; }
         public DbSet<DoctorServices> DoctorServices { get; set; }
 
-        public DbSet<Pet> Pets { get; set; }
-        public DbSet<PetDisease> PetsDiseases { get; set; }
-        public DbSet<Disease> Diseases { get; set; }
-
         public DbSet<Service> Services { get; set; }
 
         public DbSet<Appointment> Appointments { get; set; }
