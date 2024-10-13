@@ -13,5 +13,6 @@ namespace KoiVeterinaryServiceCenter.Model.DTO
         public Guid ServiceId { get; set; }
         public string ServiceName { get; set; }
         public double Price { get; set; }
+        public double TreavelFree { get; set; }
     }
 }

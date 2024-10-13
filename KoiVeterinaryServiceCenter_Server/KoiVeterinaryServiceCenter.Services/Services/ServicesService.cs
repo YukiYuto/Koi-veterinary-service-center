@@ -4,10 +4,11 @@ using KoiVeterinaryServiceCenter.DataAccess.IRepository;
 using KoiVeterinaryServiceCenter.Model.Domain;
 using KoiVeterinaryServiceCenter.Model.DTO;
 using KoiVeterinaryServiceCenter.Services.IServices;
+using Microsoft.IdentityModel.Tokens;
 
 namespace KoiVeterinaryServiceCenter.Services.Services
 {
-    public class ServiceService : IServiceService
+    public class ServiceService : IServicesService
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
@@ -16,14 +17,14 @@ namespace KoiVeterinaryServiceCenter.Services.Services
             _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
-        
+
         //The function create new service then save into database
         public async Task<ResponseDTO> CreateService(ClaimsPrincipal User, CreateServiceDTO createServiceDTO)
         {
             try
             {
                 //Create new service from createServiceDTO
-                Service service = new Service()
+                Model.Domain.Service service = new Model.Domain.Service()
                 {
                     ServiceName = createServiceDTO.ServiceName,
                     Price = createServiceDTO.Price,
@@ -217,6 +218,120 @@ namespace KoiVeterinaryServiceCenter.Services.Services
             }
 
             //Solve exception if the function has error
+            catch (Exception e)
+            {
+                return new ResponseDTO()
+                {
+                    Message = e.Message,
+                    IsSuccess = false,
+                    StatusCode = 500,
+                    Result = null
+                };
+            }
+        }
+
+        //Get all service with filter, sort query and pagination
+        public async Task<ResponseDTO> GetAll(ClaimsPrincipal User, string? filterOn, string? filterQuery, string? sortBy, bool? isAscending, int pageNumber, int pageSize)
+        {
+            try
+            {
+                //Create a service list and get all serivce
+                List<Service> services = _unitOfWork.ServiceRepository.GetAllAsync()
+                    .GetAwaiter().GetResult().ToList();
+                //Check input filterOn and filterQuery are null or empty
+                if (!string.IsNullOrEmpty(filterOn) && !string.IsNullOrEmpty(filterQuery))
+                {
+                    //Browse each service
+                    services = services.Where(s =>
+                    {
+                        //Remove space and lower to word
+                        switch (filterOn.Trim().ToLower())
+                        {
+
+                            //Case service name which has to contains filterQuery
+                            case "servicename":
+                                {
+                                    return s.ServiceName.Contains(filterQuery, StringComparison.CurrentCultureIgnoreCase);
+                                }
+                            //Case price which has to bigger than filterQuery
+                            case "price":
+                                {
+                                    if (double.TryParse(filterQuery, out double price))
+                                    {
+                                        return s.Price >= price;
+                                    }
+                                    return false;
+                                }
+                            //Case travel fee which has to bigger than filterQuery
+                            case "travelfee":
+                                {
+                                    if (double.TryParse(filterQuery, out double travelFee))
+                                    {
+                                        return s.TreavelFree >= travelFee;
+                                    }
+                                    return false;
+                                }
+                            //default return a service list without condition
+                            default:
+                                return true;
+                        }
+                    }).ToList();
+                }
+
+                //Check sortBy is null or empty
+                if (!string.IsNullOrEmpty(sortBy))
+                {
+                    //Remove space and lower word to sortBy
+                    services = sortBy.Trim().ToLower() switch
+                    {
+                        "servicename" => isAscending == true
+                        ? services.OrderBy(s => s.ServiceName).ToList()
+                        : services.OrderByDescending(s => s.ServiceName).ToList(),
+
+                        "price" => isAscending == true
+                        ? services.OrderBy(s => s.Price).ToList()
+                        : services.OrderByDescending(s => s.Price).ToList(),
+
+                        "travelfee" => isAscending == true
+                        ? services.OrderBy(s => s.TreavelFree).ToList()
+                        : services.OrderByDescending(s => s.TreavelFree).ToList(),
+
+                        //Default return a service list without condition
+                        _ => services
+                    };
+                }
+
+                //Pagination
+                //Check page number and page size have to bigger than 0
+                if (pageNumber > 0 && pageSize > 0)
+                {
+                    var skipResult = (pageNumber - 1) * pageSize;
+                    services = services.Skip(skipResult).Take(pageSize).ToList();
+                }
+
+                //Solve if service is null or empty
+                if (services.IsNullOrEmpty())
+                {
+                    return new ResponseDTO()
+                    {
+                        Message = "Service is not exist",
+                        IsSuccess = false,
+                        StatusCode = 404,
+                        Result = null
+                    };
+                }
+
+                //If the function successfully, return a service list
+                return new ResponseDTO()
+                {
+                    Message = "Get all services successfully",
+                    IsSuccess = true,
+                    StatusCode = 200,
+                    Result = services
+                };
+
+            }
+            //Solve all exception
             catch (Exception e)
             {
                 return new ResponseDTO()
