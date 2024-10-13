@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Security.Claims;
 using AutoMapper;
 using KoiVeterinaryServiceCenter.DataAccess.IRepository;
-using KoiVeterinaryServiceCenter.DataAccess.Repository;
 using KoiVeterinaryServiceCenter.Model.Domain;
 using KoiVeterinaryServiceCenter.Model.DTO;
 using KoiVeterinaryServiceCenter.Services.IServices;
+using Microsoft.IdentityModel.Tokens;
 
 namespace KoiVeterinaryServiceCenter.Services.Services
 {
@@ -41,7 +36,7 @@ namespace KoiVeterinaryServiceCenter.Services.Services
                 await _unitOfWork.DoctorSchedulesRepository.AddAsync(doctorSchedules);
                 await _unitOfWork.SaveAsync();
 
-                //If function successfuly, they will create object which is DoctorSchedules into database and message successfully
+                //If function successfuly, this will create object which is DoctorSchedules into database and message successfully
                 return new ResponseDTO()
                 {
                     Message = "Create schedule for the doctor successfully",
@@ -216,6 +211,147 @@ namespace KoiVeterinaryServiceCenter.Services.Services
                 };
             }
             //Solve exception when the function has error
+            catch (Exception e)
+            {
+                return new ResponseDTO()
+                {
+                    Message = e.Message,
+                    IsSuccess = false,
+                    StatusCode = 500,
+                    Result = null
+                };
+            }
+        }
+
+        //Get all doctor schedules by filter, sort query and pagination
+        public async Task<ResponseDTO> GetAll(ClaimsPrincipal User, string? filterOn, string? filterQuery, string? sortBy, bool? isAscending, int pageNumber, int pageSize)
+        {
+            try
+            {
+                #region Query Parameters
+                //Create a new doctor schedules list
+                List<DoctorSchedules> doctorSchedules = new List<DoctorSchedules>();
+
+                //check input filter is null or have a value
+                if (!string.IsNullOrEmpty(filterOn) && !string.IsNullOrEmpty(filterQuery))
+                {
+                    //remove space and lower to word
+                    switch (filterOn.Trim().ToLower())
+                    {
+                        case "doctorname":
+                            {
+                                //get all doctor schedules list with condition which is doctor name must match filterOn
+                                doctorSchedules = _unitOfWork.DoctorSchedulesRepository.GetAllAsync(includeProperties: "Doctor.ApplicationUser")
+                                    .GetAwaiter().GetResult().Where(x => x.Doctor.ApplicationUser.FullName.Contains(filterQuery, StringComparison.CurrentCultureIgnoreCase)).ToList();
+                                break;
+                            }
+                        //Just for admin
+                        case "createdby":
+                            {
+                                //get all doctor schedules list with condition which is created by must match filterOn
+                                doctorSchedules = _unitOfWork.DoctorSchedulesRepository.GetAllAsync(includeProperties: "Doctor.ApplicationUser")
+                                    .GetAwaiter().GetResult().Where(x => x.CreatedBy.Contains(filterQuery, StringComparison.CurrentCultureIgnoreCase)).ToList();
+                                break;
+                            }
+                        //Just for admin
+                        case "updateby":
+                            {
+                                //get all doctor schedules list with condition which is update by must match filterOn
+                                doctorSchedules = _unitOfWork.DoctorSchedulesRepository.GetAllAsync(includeProperties: "Doctor.ApplicationUser")
+                                    .GetAwaiter().GetResult().Where(x => x.UpdatedBy.Contains(filterQuery, StringComparison.CurrentCultureIgnoreCase)).ToList();
+                                break;
+                            }
+                        default:
+                            //get all doctor schedules list without condition
+                            doctorSchedules = _unitOfWork.DoctorSchedulesRepository.GetAllAsync(includeProperties: "Doctor.ApplicationUser")
+                                    .GetAwaiter().GetResult().ToList();
+                            break;
+                    }
+                }
+                else
+                {
+                    //get all doctor schedules list without condition
+                    doctorSchedules = _unitOfWork.DoctorSchedulesRepository.GetAllAsync(includeProperties: "Doctor.ApplicationUser")
+                            .GetAwaiter().GetResult().ToList();
+                }
+
+                //check sortBy is null or have a value
+                if (!string.IsNullOrEmpty(sortBy))
+                {
+                    //remove space and lower to word
+                    switch (sortBy.Trim().ToLower())
+                    {
+                        //sort doctor schedules list acsending by name
+                        case "name":
+                            {
+                                doctorSchedules = isAscending == true
+                                    ? [.. doctorSchedules.OrderBy(name => name.Doctor.ApplicationUser.FullName)]
+                                    : [.. doctorSchedules.OrderByDescending(name => name.Doctor.ApplicationUser.FullName)];
+                                break;
+                            }
+                        //sort doctor schedules list ascending by doctor schedules date and start time
+                        case "schedulesdatetime":
+                            {
+                                doctorSchedules = isAscending == true
+                                    ? [.. doctorSchedules.OrderBy(date => date.SchedulesDate).ThenBy(time => time.StartTime)]
+                                    : [.. doctorSchedules.OrderByDescending(date => date.SchedulesDate).ThenByDescending(time => time.StartTime)];
+                                break;
+                            }
+                        //defulat do not anything
+                        default:
+                            break;
+                    }
+                }
+
+                //Pagination
+                //Check page number and page size have to bigger than 0
+                if (pageNumber > 0 && pageSize > 0)
+                {
+                    //this is a number which is list will skip
+                    var skipResult = (pageNumber - 1) * pageSize;
+                    //list will skip with number above and take with number by page size
+                    doctorSchedules = doctorSchedules.Skip(skipResult).Take(pageSize).ToList();
+                }
+                #endregion Query Parameters
+                //Solve doctor schedules list is null or empty
+                if (doctorSchedules.IsNullOrEmpty())
+                {
+                    return new ResponseDTO()
+                    {
+                        Message = "Doctor schedule is not exsit",
+                        IsSuccess = false,
+                        StatusCode = 404,
+                        Result = null
+                    };
+                }
+                //Create a new list with object is GetDoctorSchedulesDTO
+                List<GetDoctorSchedulesDTO> getDoctorSchedulesDTO = new List<GetDoctorSchedulesDTO>();
+                try
+                {
+                    //Mapping the list doctorSchedules to GetDoctorSchedulesDTO
+                    getDoctorSchedulesDTO = _mapper.Map<List<GetDoctorSchedulesDTO>>(doctorSchedules);
+                }
+                //Solve auto mapping exception
+                catch (AutoMapperMappingException e)
+                {
+                    return new ResponseDTO()
+                    {
+                        Message = e.Message,
+                        IsSuccess = false,
+                        StatusCode = 500,
+                        Result = null
+                    };
+                }
+                //If function successfuly return doctor schedules list
+                return new ResponseDTO()
+                {
+                    Message = "Get doctor schedules list successfully",
+                    IsSuccess = true,
+                    StatusCode = 200,
+                    Result = getDoctorSchedulesDTO
+                };
+            }
+            //Solve all exception
             catch (Exception e)
             {
                 return new ResponseDTO()
