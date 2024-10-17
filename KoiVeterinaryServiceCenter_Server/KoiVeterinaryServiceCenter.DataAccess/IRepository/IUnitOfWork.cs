@@ -10,9 +10,12 @@ namespace KoiVeterinaryServiceCenter.DataAccess.IRepository
     {
         IDoctorRepository DoctorRepository { get; }
         ICustomerRepository CustomerRepository { get; }
-        IRefreshTokenRepository RefreshTokens { get; }
         ISlotRepository SlotRepository { get; }
         IAppointmentRepository AppointmentRepository { get; }
+        IDoctorSchedulesRepository DoctorSchedulesRepository { get; }
+        IEmailTemplateRepository EmailTemplateRepository { get; }
+        IServiceRepository ServiceRepository { get; }
+        IDoctorServicesRepository DoctorServicesRepository { get; }
         Task<int> SaveAsync();
     }
 }

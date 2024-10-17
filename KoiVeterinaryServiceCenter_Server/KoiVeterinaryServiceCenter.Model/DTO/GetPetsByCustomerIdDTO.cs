@@ -1,22 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace KoiVeterinaryServiceCenter.Model.Domain
+namespace KoiVeterinaryServiceCenter.Model.DTO
 {
-    public class Pet
+    public class GetPetsByCustomerIdDTO
     {
-        [Key] public Guid PetId { get; set; }
-        public Guid CustomerId { get; set; }
-        [ForeignKey("CustomerId")] public virtual Customer Customer { get; set; }
+        public Guid PetId { get; set; }
+        public string CustomerId { get; set; }
         public string Name { get; set; }
         public int Age { get; set; }
         public string Species { get; set; }
         public string Breed { get; set; }
         public string Gender { get; set; }
+
+        public string OwnerName { get; set; }
     }
 }

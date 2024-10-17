@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace KoiVeterinaryServiceCenter.Model.Domain
 {
-    public class DoctorService
+    public class DoctorServices
     {
         public Guid ServiceId { get; set; }
         public Guid DoctorId { get; set; }

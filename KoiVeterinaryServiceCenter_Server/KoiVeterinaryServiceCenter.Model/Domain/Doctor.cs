@@ -17,6 +17,6 @@ namespace KoiVeterinaryServiceCenter.Model.Domain
         public string Experience{ get; set; }
         public string Degree { get; set; }
 
-        public virtual ICollection<DoctorService> DoctorServices { get; set; }
+        [NotMapped]public virtual ICollection<DoctorServices> DoctorServices { get; set; }
     }
 }
