@@ -1,11 +1,10 @@
-﻿using KoiVeterinaryServiceCenter.Model.Domain;
+﻿using KoiVeterinaryServiceCenter.Models.Domain;
 
-namespace KoiVeterinaryServiceCenter.DataAccess.IRepository
+namespace KoiVeterinaryServiceCenter.DataAccess.IRepository;
+
+public interface ISlotRepository : IRepository<Slot>
 {
-    public interface ISlotRepository : IRepository<Slot>
-    {
-        void Update(Slot slot);
-        void UpdateRange(IEnumerable<Slot> slots);
-        Task<Slot> GetSlotById(Guid slotId);
-    }
+    void Update(Slot slot);
+    void UpdateRange(IEnumerable<Slot> slots);
+    Task<Slot> GetSlotById(Guid slotId);
 }

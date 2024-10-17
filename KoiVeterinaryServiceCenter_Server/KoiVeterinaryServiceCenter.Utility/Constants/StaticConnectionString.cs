@@ -1,15 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace KoiVeterinaryServiceCenter.Utility.Constants;
 
-namespace KoiVeterinaryServiceCenter.Utility.Constants
+public static class StaticConnectionString
 {
-    public static class StaticConnectionString
-    {
-        public const string SQLDB_DefaultConnection = "DefaultConnection";
+    public const string SQLDB_DefaultConnection = "DefaultConnection";
 
-        public const string REDIS_ConnectionString = "ConnectionString";
-    }
+    public const string REDIS_ConnectionString = "ConnectionString";
 }

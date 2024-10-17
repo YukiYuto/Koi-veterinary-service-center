@@ -1,16 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using KoiVeterinaryServiceCenter.Model.Domain;
+﻿using KoiVeterinaryServiceCenter.Models.Domain;
 
-namespace KoiVeterinaryServiceCenter.DataAccess.IRepository
+namespace KoiVeterinaryServiceCenter.DataAccess.IRepository;
+
+public interface IDoctorSchedulesRepository : IRepository<DoctorSchedules>
 {
-    public interface IDoctorSchedulesRepository : IRepository<DoctorSchedules>
-    {
-        void Update(DoctorSchedules doctorSchedules);
-        void UpdateRange(IEnumerable<DoctorSchedules> doctorSchedules);
-        Task<DoctorSchedules?> GetDocterScheduleById(Guid doctorScheduleId);
-    }
+    void Update(DoctorSchedules doctorSchedules);
+    void UpdateRange(IEnumerable<DoctorSchedules> doctorSchedules);
+    Task<DoctorSchedules?> GetDocterScheduleById(Guid doctorScheduleId);
 }

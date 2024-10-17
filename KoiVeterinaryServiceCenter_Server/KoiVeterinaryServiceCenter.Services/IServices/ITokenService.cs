@@ -1,5 +1,5 @@
 ﻿using System.Security.Claims;
-using KoiVeterinaryServiceCenter.Model.Domain;
+using KoiVeterinaryServiceCenter.Models.Domain;
 
 namespace KoiVeterinaryServiceCenter.Services.IServices;
 

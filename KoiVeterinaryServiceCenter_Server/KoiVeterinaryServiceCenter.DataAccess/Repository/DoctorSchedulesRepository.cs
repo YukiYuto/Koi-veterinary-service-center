@@ -1,30 +1,31 @@
 ﻿using KoiVeterinaryServiceCenter.DataAccess.Context;
 using KoiVeterinaryServiceCenter.DataAccess.IRepository;
-using KoiVeterinaryServiceCenter.Model.Domain;
+using KoiVeterinaryServiceCenter.Models.Domain;
 using Microsoft.EntityFrameworkCore;
 
-namespace KoiVeterinaryServiceCenter.DataAccess.Repository
+namespace KoiVeterinaryServiceCenter.DataAccess.Repository;
+
+public class DoctorSchedulesRepository : Repository<DoctorSchedules>, IDoctorSchedulesRepository
 {
-    public class DoctorSchedulesRepository : Repository<DoctorSchedules>, IDoctorSchedulesRepository
+    private readonly ApplicationDbContext _context;
+
+    public DoctorSchedulesRepository(ApplicationDbContext context) : base(context)
     {
-        private readonly ApplicationDbContext _context;
-        public DoctorSchedulesRepository(ApplicationDbContext context) : base(context)
-        {
-            _context = context;
-        }
-        public async Task<DoctorSchedules> GetDocterScheduleById(Guid doctorScheduleId)
-        {
-            return await _context.DoctorSchedules.FirstOrDefaultAsync(x => x.DoctorSchedulesId == doctorScheduleId);
-        }
+        _context = context;
+    }
 
-        public void Update(DoctorSchedules doctorSchedules)
-        {
-            _context.DoctorSchedules.Update(doctorSchedules);
-        }
+    public async Task<DoctorSchedules> GetDocterScheduleById(Guid doctorScheduleId)
+    {
+        return await _context.DoctorSchedules.FirstOrDefaultAsync(x => x.DoctorSchedulesId == doctorScheduleId);
+    }
 
-        public void UpdateRange(IEnumerable<DoctorSchedules> doctorSchedules)
-        {
-            _context.DoctorSchedules.UpdateRange(doctorSchedules);
-        }
+    public void Update(DoctorSchedules doctorSchedules)
+    {
+        _context.DoctorSchedules.Update(doctorSchedules);
+    }
+
+    public void UpdateRange(IEnumerable<DoctorSchedules> doctorSchedules)
+    {
+        _context.DoctorSchedules.UpdateRange(doctorSchedules);
     }
 }

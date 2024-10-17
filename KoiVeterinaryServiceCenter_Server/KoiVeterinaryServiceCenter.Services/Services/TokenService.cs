@@ -2,7 +2,7 @@
 using System.Security.Claims;
 using System.Text;
 using KoiVeterinaryServiceCenter.DataAccess.IRepository;
-using KoiVeterinaryServiceCenter.Model.Domain;
+using KoiVeterinaryServiceCenter.Models.Domain;
 using KoiVeterinaryServiceCenter.Services.IServices;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
@@ -16,12 +16,12 @@ public class TokenService : ITokenService
     private readonly IConfiguration _configuration;
     private readonly IRedisService _redisService;
 
-    public TokenService(UserManager<ApplicationUser> userManager, IConfiguration configuration, IUnitOfWork unitOfWork)
+    public TokenService(UserManager<ApplicationUser> userManager, IConfiguration configuration, IUnitOfWork unitOfWork, IRedisService redis)
     {
         _userManager = userManager;
         _configuration = configuration;
+        _redisService = redis;
     }
-
 
     /// <summary>
     /// This method for create Access token
