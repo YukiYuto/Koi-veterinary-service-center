@@ -12,5 +12,6 @@ namespace KoiVeterinaryServiceCenter.Services.IServices
     public interface IPaymentService
     {
         Task<ResponseDTO> CreatePaymentLink(ClaimsPrincipal User, CreatePaymentLinkDTO getPaymentLink);
+        Task<ResponseDTO> UpdatePaymentStatus(ClaimsPrincipal User, Guid paymentTransactionId);
     }
 }

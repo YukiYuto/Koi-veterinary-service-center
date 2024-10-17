@@ -5,6 +5,6 @@ namespace KoiVeterinaryServiceCenter.DataAccess.IRepository
     public interface IOrderItemsRepository : IRepository<OrderItems>
     {
         void Update(OrderItems orderItems);
-        Task<OrderItems> GetById(int id);
+        Task<OrderItems> GetById(long id);
     }
 }

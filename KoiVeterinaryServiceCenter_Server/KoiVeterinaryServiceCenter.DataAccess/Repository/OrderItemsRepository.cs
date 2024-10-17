@@ -18,7 +18,7 @@ namespace KoiVeterinaryServiceCenter.DataAccess.Repository
             _context = context;
         }
 
-        public async Task<OrderItems> GetById(int id)
+        public async Task<OrderItems> GetById(long id)
         {
             return await _context.OrderItems.FirstOrDefaultAsync(x => x.Id == id);
         }

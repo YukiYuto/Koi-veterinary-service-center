@@ -31,6 +31,13 @@ namespace KoiVeterinaryServiceCenter.API.Controllers
                 return BadRequest(new { message = ex.Message });
             }
         }
+
+        [HttpPut("{paymentTransactionId:guid}")]
+        public async Task<ActionResult<ResponseDTO>> UpdatePaymentStatus([FromRoute] Guid paymentTransactionId)
+        {
+            var responseDto = await _paymentService.UpdatePaymentStatus(User, paymentTransactionId);
+            return StatusCode(responseDto.StatusCode, responseDto);
+        }
     }
 
     //public class CreatePaymentRequest

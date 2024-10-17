@@ -8,6 +8,6 @@ namespace KoiVeterinaryServiceCenter.Utility.Constants
 {
     public static class StaticPayment
     {
-        public const string paymentStatusDefault = "Depending";
+        public const string paymentStatusDefault = "PENDING";
     }
 }

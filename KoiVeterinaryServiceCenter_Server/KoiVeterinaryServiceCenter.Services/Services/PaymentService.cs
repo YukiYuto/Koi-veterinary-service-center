@@ -8,6 +8,7 @@ using KoiVeterinaryServiceCenter.DataAccess.IRepository;
 using KoiVeterinaryServiceCenter.Model.Domain;
 using System.Security.Claims;
 using KoiVeterinaryServiceCenter.Utility.Constants;
+using StackExchange.Redis;
 
 public class PaymentService : IPaymentService
 {
@@ -100,6 +101,53 @@ public class PaymentService : IPaymentService
                 IsSuccess = true,
                 StatusCode = 200,
                 Result = result
+            };
+        }
+        catch (Exception e)
+        {
+            return new ResponseDTO()
+            {
+                Message = e.Message,
+                IsSuccess = false,
+                StatusCode = 500,
+                Result = null
+            };
+        }
+    }
+
+    public async Task<ResponseDTO> UpdatePaymentStatus(ClaimsPrincipal User, Guid paymentTransactionId)
+    {
+        try
+        {
+            PaymentTransactions paymentTransactions = await _unitOfWork.PaymentTransactionsRepository.GetById(paymentTransactionId);
+            if (paymentTransactions is null)
+            {
+                return new ResponseDTO()
+                {
+                    Message = "Payment transaction is not exist",
+                    IsSuccess = false,
+                    StatusCode = 404,
+                    Result = null
+                };
+            }
+
+            var paymentStatus = _payOS.getPaymentLinkInformation(paymentTransactions.OrderCode);
+
+            if (paymentStatus != null)
+            {
+                paymentTransactions.Status = paymentStatus.Result.status;
+            }
+
+            _unitOfWork.PaymentTransactionsRepository.Update(paymentTransactions);
+            await _unitOfWork.SaveAsync();
+
+            return new ResponseDTO()
+            {
+                Message = "Update status successfully",
+                IsSuccess = true,
+                StatusCode = 200,
+                Result = paymentStatus.Result
+
             };
         }
         catch (Exception e)
