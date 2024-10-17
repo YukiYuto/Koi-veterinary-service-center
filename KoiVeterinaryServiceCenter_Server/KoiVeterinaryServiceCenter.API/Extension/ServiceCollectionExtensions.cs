@@ -33,7 +33,6 @@ namespace KoiVeterinaryServiceCenter.API.Extension
             services.AddScoped<IDoctorServicesService, DoctorServicesService>();
             services.AddScoped<IPaymentService, PaymentService>();
 
-
             return services;
         }
     }

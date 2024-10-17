@@ -27,7 +27,8 @@ namespace KoiVeterinaryServiceCenter.DataAccess.Context
         public DbSet<PaymentMethod> PaymentMethods { get; set; }
 
         public DbSet<EmailTemplate> EmailTemplates { get; set; }
-
+        public DbSet<PaymentTransactions> PaymentTransactions { get; set; }
+        public DbSet<OrderItems> OrderItems { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

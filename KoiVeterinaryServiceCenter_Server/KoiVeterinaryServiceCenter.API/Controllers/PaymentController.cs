@@ -2,6 +2,7 @@
 using KoiVeterinaryServiceCenter.Services.IServices;
 using System.Threading.Tasks;
 using Net.payOS.Types;
+using KoiVeterinaryServiceCenter.Model.DTO;
 
 namespace KoiVeterinaryServiceCenter.API.Controllers
 {
@@ -17,26 +18,13 @@ namespace KoiVeterinaryServiceCenter.API.Controllers
         }
 
         [HttpPost("create-payment-link")]
-        public async Task<IActionResult> CreatePaymentLink([FromBody] CreatePaymentRequest request)
+        public async Task<ActionResult<ResponseDTO>> CreatePaymentLink([FromBody] CreatePaymentLinkDTO createPaymentLinkDTO)
         {
             try
             {
-                var items = new List<ItemData>
-                {
-                     new ItemData("Iphone", 2, 28000000)
-                };
+                var responseDto = await _paymentService.CreatePaymentLink(User, createPaymentLinkDTO);
 
-
-                var paymentResult = await _paymentService.CreatePaymentLink(
-                    orderCode: request.OrderCode,
-                    amount: request.Amount,
-                    description: request.Description,
-                    cancelUrl: request.CancelUrl,
-                    returnUrl: request.ReturnUrl,
-                    items: items
-                );
-
-                return Ok(paymentResult);
+                return StatusCode(responseDto.StatusCode, responseDto);
             }
             catch (Exception ex)
             {
@@ -45,12 +33,12 @@ namespace KoiVeterinaryServiceCenter.API.Controllers
         }
     }
 
-    public class CreatePaymentRequest
-    {
-        public int OrderCode { get; set; }
-        public int Amount { get; set; }
-        public string Description { get; set; }
-        public string CancelUrl { get; set; }
-        public string ReturnUrl { get; set; }
-    }
+    //public class CreatePaymentRequest
+    //{
+    //    public int OrderCode { get; set; }
+    //    public int Amount { get; set; }
+    //    public string Description { get; set; }
+    //    public string CancelUrl { get; set; }
+    //    public string ReturnUrl { get; set; }
+    //}
 }
