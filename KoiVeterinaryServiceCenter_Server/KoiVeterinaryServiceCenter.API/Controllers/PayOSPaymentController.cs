@@ -8,11 +8,11 @@ namespace KoiVeterinaryServiceCenter.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class PaymentController : ControllerBase
+    public class PayOSPaymentController : ControllerBase
     {
         private readonly IPaymentService _paymentService;
 
-        public PaymentController(IPaymentService paymentService)
+        public PayOSPaymentController(IPaymentService paymentService)
         {
             _paymentService = paymentService;
         }
@@ -22,7 +22,7 @@ namespace KoiVeterinaryServiceCenter.API.Controllers
         {
             try
             {
-                var responseDto = await _paymentService.CreatePaymentLink(User, createPaymentLinkDTO);
+                var responseDto = await _paymentService.CreatePayOSPaymentLink(User, createPaymentLinkDTO);
 
                 return StatusCode(responseDto.StatusCode, responseDto);
             }
@@ -32,20 +32,20 @@ namespace KoiVeterinaryServiceCenter.API.Controllers
             }
         }
 
-        [HttpPut("{paymentTransactionId:guid}")]
+        [HttpPut("{paymentTransactionId:guid}/update-payment-status")]
         public async Task<ActionResult<ResponseDTO>> UpdatePaymentStatus([FromRoute] Guid paymentTransactionId)
         {
-            var responseDto = await _paymentService.UpdatePaymentStatus(User, paymentTransactionId);
+            var responseDto = await _paymentService.UpdatePayOSPaymentStatus(User, paymentTransactionId);
             return StatusCode(responseDto.StatusCode, responseDto);
         }
-    }
 
-    //public class CreatePaymentRequest
-    //{
-    //    public int OrderCode { get; set; }
-    //    public int Amount { get; set; }
-    //    public string Description { get; set; }
-    //    public string CancelUrl { get; set; }
-    //    public string ReturnUrl { get; set; }
-    //}
+        [HttpPut("{paymentTrasactionId:guid}/cancel-payment-link")]
+        public async Task<ActionResult<ResponseDTO>> CancelPaymentLink([FromRoute] Guid paymentTrasactionId, [FromBody] string? cancellationReason)
+        {
+            var responsDto = await _paymentService.CancelPayOSPaymentLink(User, paymentTrasactionId, cancellationReason);
+            return StatusCode(responsDto.StatusCode, responsDto);
+        }
+
+
+    }
 }

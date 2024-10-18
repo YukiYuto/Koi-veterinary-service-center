@@ -9,6 +9,7 @@ using KoiVeterinaryServiceCenter.Model.Domain;
 using System.Security.Claims;
 using KoiVeterinaryServiceCenter.Utility.Constants;
 using StackExchange.Redis;
+using PayPal.v1.Orders;
 
 public class PaymentService : IPaymentService
 {
@@ -28,12 +29,12 @@ public class PaymentService : IPaymentService
     );
     }
 
-    public async Task<ResponseDTO> CreatePaymentLink(ClaimsPrincipal User, CreatePaymentLinkDTO createPaymentLink)
+    public async Task<ResponseDTO> CreatePayOSPaymentLink(ClaimsPrincipal User, CreatePaymentLinkDTO createPaymentLink)
     {
         try
         {
             OrderItems order = await _unitOfWork.OrderItemsRepository.GetById(createPaymentLink.OrderCode);
-            if(order is null)
+            if (order is null)
             {
                 return new ResponseDTO()
                 {
@@ -46,7 +47,7 @@ public class PaymentService : IPaymentService
 
 
             var items = new List<ItemData>()
-            {   
+            {
                 new ItemData( name: order.ProductName, quantity: 1, price: order.Price)
             };
 
@@ -115,7 +116,7 @@ public class PaymentService : IPaymentService
         }
     }
 
-    public async Task<ResponseDTO> UpdatePaymentStatus(ClaimsPrincipal User, Guid paymentTransactionId)
+    public async Task<ResponseDTO> UpdatePayOSPaymentStatus(ClaimsPrincipal User, Guid paymentTransactionId)
     {
         try
         {
@@ -160,5 +161,47 @@ public class PaymentService : IPaymentService
                 Result = null
             };
         }
+    }
+
+    public async Task<ResponseDTO> CancelPayOSPaymentLink(ClaimsPrincipal User, Guid paymentTransactionId, string cancellationReason)
+    {
+        try
+        {
+            PaymentTransactions paymentTransactions = await _unitOfWork.PaymentTransactionsRepository.GetById(paymentTransactionId);
+
+            if (paymentTransactions is null)
+            {
+                return new ResponseDTO()
+                {
+                    Message = "Cannot find payment transaction ID",
+                    IsSuccess = false,
+                    StatusCode = 404,
+                    Result = null
+                };
+            }
+
+            var paymentCancelInfor = await _payOS.cancelPaymentLink(paymentTransactions.OrderCode, cancellationReason);
+            paymentTransactions.Status = paymentCancelInfor.status + " - " + cancellationReason;
+            _unitOfWork.PaymentTransactionsRepository.Update(paymentTransactions);
+            await _unitOfWork.SaveAsync();
+            return new ResponseDTO()
+            {
+                Message = "Cancel success",
+                IsSuccess = true,
+                StatusCode = 200,
+                Result = paymentCancelInfor.status
+            };
+        }
+        catch (Exception e)
+        {
+            return new ResponseDTO()
+            {
+                Message = e.Message,
+                IsSuccess = false,
+                StatusCode = 500,
+                Result = null
+            };
+        }
+
     }
 }

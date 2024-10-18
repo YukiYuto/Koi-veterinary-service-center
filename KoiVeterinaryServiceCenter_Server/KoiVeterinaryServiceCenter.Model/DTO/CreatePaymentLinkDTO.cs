@@ -14,7 +14,6 @@ namespace KoiVeterinaryServiceCenter.Model.DTO
         public string? BuyerEmail { get; set; }
         public string BuyerPhone { get; set; }
         public string BuyerAddress { get; set; }
-        public string Description { get; set; }
         public string CancelUrl { get; set; }
         public string ReturnUrl { get; set; }
     }
