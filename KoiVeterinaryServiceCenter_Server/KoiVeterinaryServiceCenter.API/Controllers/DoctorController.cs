@@ -58,6 +58,7 @@ namespace KoiVeterinaryServiceCenter.API.Controllers
         }
 
         [HttpPut("{doctorId:guid}/soft-delete")]
+        [Authorize(Roles = StaticUserRoles.Admin)]
         public async Task<ActionResult<ResponseDTO>> DeleteDoctorById([FromRoute] Guid doctorId)
         {
             var responseDto = await _doctorService.DeleteDoctorById(doctorId);
