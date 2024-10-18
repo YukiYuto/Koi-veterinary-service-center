@@ -5,15 +5,15 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using KoiVeterinaryServiceCenter.Models.Domain;
+using KoiVeterinaryServiceCenter.Model.Domain;
 
-namespace KoiVeterinaryServiceCenter.Model.Domain
+namespace KoiVeterinaryServiceCenter.Model.DTO
 {
-    public class DoctorSchedules : BaseEntity<string, string, int>
+    public class GetDoctorSchedulesDTO
     {
-        [Key] public Guid DoctorSchedulesId { get; set; }
+        public Guid DoctorSchedulesId { get; set; }
         public Guid DoctorId { get; set; }
-        [ForeignKey("DoctorId")] public virtual Doctor Doctor { get; set; }
+        public string? DoctorName { get; set; }
         public DateTime SchedulesDate { get; set; }
         public TimeSpan StartTime { get; set; }
         public TimeSpan EndTime { get; set; }
