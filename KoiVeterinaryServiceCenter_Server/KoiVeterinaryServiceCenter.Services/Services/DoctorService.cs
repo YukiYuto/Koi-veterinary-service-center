@@ -43,7 +43,7 @@ namespace KoiVeterinaryServiceCenter.Services.Services
                                 x.ApplicationUser.FullName.Contains(filterQuery, StringComparison.CurrentCultureIgnoreCase)).ToList();
                                 break;
                             }
-                        case "phoneNumber":
+                        case "phonenumber":
                             {
                                 doctors = _unitOfWork.DoctorRepository.GetAllAsync(includeProperties: "ApplicationUser")
                                 .GetAwaiter().GetResult().Where(x =>
@@ -83,7 +83,7 @@ namespace KoiVeterinaryServiceCenter.Services.Services
                                 : [.. doctors.OrderByDescending(x => x.ApplicationUser.FullName)];
                                 break;
                             }
-                        case "phoneNumber":
+                        case "phonenumber":
                             {
                                 doctors = isAscending == true
                                 ? [.. doctors.OrderBy(x => x.ApplicationUser.PhoneNumber)]
