@@ -1,4 +1,5 @@
-﻿using KoiVeterinaryServiceCenter.DataAccess.IRepository;
+﻿using System.Security.Claims;
+using KoiVeterinaryServiceCenter.DataAccess.IRepository;
 using KoiVeterinaryServiceCenter.Model.Domain;
 using KoiVeterinaryServiceCenter.Model.DTO;
 using KoiVeterinaryServiceCenter.Services.IServices;
@@ -13,13 +14,31 @@ namespace KoiVeterinaryServiceCenter.API.Controllers
     [ApiController]
     public class ServiceController : ControllerBase
     {
-        public readonly IServiceService _serviceService;
-        public ServiceController(IServiceService serviceService)
+        public readonly IServicesService _serviceService;
+        public ServiceController(IServicesService serviceService)
         {
             _serviceService = serviceService;
         }
 
+        [HttpGet]
+        [Authorize(Roles = StaticUserRoles.AdminDoctor)]
+        public async Task<ActionResult<ResponseDTO>> GetAll
+            (
+               [FromQuery] ClaimsPrincipal User,
+               [FromQuery] string? filterOn,
+               [FromQuery] string? filterQuery,
+               [FromQuery] string? sortBy,
+               [FromQuery] bool? isAscending,
+               [FromQuery] int pageNumber,
+               [FromQuery] int pageSize
+            )
+        {
+            var responseDto = await _serviceService.GetAll(User, filterOn, filterQuery, sortBy, isAscending, pageNumber, pageSize);
+            return StatusCode(responseDto.StatusCode, responseDto);
+        }
+
         [HttpPost]
+        [Authorize(Roles = StaticUserRoles.Admin)]
         public async Task<ActionResult<ResponseDTO>> CreateService([FromBody] CreateServiceDTO createServiceDTO)
         {
             var responseDto = await _serviceService.CreateService(User, createServiceDTO);
@@ -27,6 +46,7 @@ namespace KoiVeterinaryServiceCenter.API.Controllers
         }
 
         [HttpGet("{serviceId:guid}")]
+        [Authorize(Roles = StaticUserRoles.AdminDoctor)]
         public async Task<ActionResult<ResponseDTO>> GetService([FromRoute] Guid serviceId)
         {
             var responseDto = await _serviceService.GetServiceById(User, serviceId);
@@ -35,6 +55,7 @@ namespace KoiVeterinaryServiceCenter.API.Controllers
 
         [HttpPut("{serviceId:guid}")]
         [Authorize(Roles = StaticUserRoles.AdminDoctor)]
+        [Authorize(Roles = StaticUserRoles.Admin)]
         public async Task<ActionResult<ResponseDTO>> UpdateService([FromRoute] Guid serviceId, [FromBody] UpdateServiceDTO updateServiceDTO)
         {
             updateServiceDTO.ServiceId = serviceId;
@@ -44,6 +65,7 @@ namespace KoiVeterinaryServiceCenter.API.Controllers
 
         [HttpPut("{serviceId:guid}/soft-delete")]
         [Authorize(Roles = StaticUserRoles.AdminDoctor)]
+        [Authorize(Roles = StaticUserRoles.Admin)]
         public async Task<ActionResult<ResponseDTO>> DeleteService([FromRoute] Guid serviceId)
         {
             var responseDto = await _serviceService.DeleteService(User, serviceId);

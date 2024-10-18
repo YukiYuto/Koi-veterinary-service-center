@@ -8,7 +8,7 @@ using KoiVeterinaryServiceCenter.Model.DTO;
 
 namespace KoiVeterinaryServiceCenter.Services.IServices
 {
-    public interface IDoctorSchedulesService
+    public interface IDoctorServicesService
     {
         Task<ResponseDTO> GetAll(
                 ClaimsPrincipal User,
@@ -19,9 +19,10 @@ namespace KoiVeterinaryServiceCenter.Services.IServices
                 int pageNumber,
                 int pageSize
             );
-        Task<ResponseDTO> GetDoctorScheduleById(ClaimsPrincipal User, Guid doctorSchedulesId);
-        Task<ResponseDTO> CreateDoctorSchedule(ClaimsPrincipal User, CreateDoctorSchedulesDTO createDoctorSchedulesDTO);
-        Task<ResponseDTO> UpdateDoctorScheduleById(ClaimsPrincipal User, UpdateDoctorSchedulesDTO updateDoctorSchedulesDTO);
-        Task<ResponseDTO> DeleteDoctorScheduleById(ClaimsPrincipal User, Guid doctorScheduleId);
+        Task<ResponseDTO> CreateDoctorService(ClaimsPrincipal User, CreateDoctorServicesDTO createDoctorServiceDTO);
+        Task<ResponseDTO> GetDoctorServiceById(ClaimsPrincipal User, Guid doctorServiceId);
+        Task<ResponseDTO> UpdateDoctorService(ClaimsPrincipal User, UpdateDoctorServicesDTO updateDoctorServiceDTO);
+        Task<ResponseDTO> DeleteDoctorService(ClaimsPrincipal User, Guid doctorServiceId);
+
     }
 }

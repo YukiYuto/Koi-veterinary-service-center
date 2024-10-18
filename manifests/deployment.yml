@@ -1,0 +1,19 @@
+apiVersion : apps/v1
+kind: Deployment
+metadata:
+  name: backendkoiservice 
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: backendkoiservice
+  template:
+    metadata:
+      labels:
+        app: backendkoiservice 
+    spec:
+      containers:
+        - name: backendkoiservice 
+          image: koicontainer.azurecr.io/backendkoiservice
+          ports:
+          - containerPort: 8080

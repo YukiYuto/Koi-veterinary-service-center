@@ -11,6 +11,7 @@ using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json.Linq;
 using System.Collections.Concurrent;
 using System.Security.Claims;
+using System.Web;
 
 
 namespace KoiVeterinaryServiceCenter.Services.Services
@@ -60,7 +61,7 @@ namespace KoiVeterinaryServiceCenter.Services.Services
             try
             {
                 // Kiểm tra email đã tồn tại
-                var isEmailExit = await _userManagerRepository.FindByEmailAsync(registerCustomerDTO.Email);
+                var isEmailExit = await _userManager.FindByEmailAsync(registerCustomerDTO.Email);
                 if (isEmailExit is not null)
                 {
                     return new ResponseDTO()
@@ -354,7 +355,7 @@ namespace KoiVeterinaryServiceCenter.Services.Services
 
                 var accessToken = await _tokenService.GenerateJwtAccessTokenAsync(user);
                 var refreshToken = await _tokenService.GenerateJwtRefreshTokenAsync(user);
-                //await _tokenService.StoreRefreshToken(user.Id, refreshToken);
+                await _tokenService.StoreRefreshToken(user.Id, refreshToken);
 
                 return new ResponseDTO()
                 {
@@ -647,7 +648,9 @@ namespace KoiVeterinaryServiceCenter.Services.Services
                 };
             }
 
-            var confirmResult = await _userManager.ConfirmEmailAsync(user, token);
+            string decodedToken = HttpUtility.UrlDecode(token);
+
+            var confirmResult = await _userManager.ConfirmEmailAsync(user, decodedToken);
 
             if (!confirmResult.Succeeded)
             {

@@ -3,15 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.10.35013.160
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KoiVeterinaryServiceCenter.API", "KoiVeterinaryServiceCenter.API.csproj", "{38C5C8BA-68B8-40D3-BC9A-91E8B9C31DD6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KoiVeterinaryServiceCenter.API", "KoiVeterinaryServiceCenter.API\KoiVeterinaryServiceCenter.API.csproj", "{38C5C8BA-68B8-40D3-BC9A-91E8B9C31DD6}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KoiVeterinaryServiceCenter.DataAccess", "..\KoiVeterinaryServiceCenter.DataAccess\KoiVeterinaryServiceCenter.DataAccess.csproj", "{765E5D34-3F6E-4F0A-924D-89838C70D1E9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KoiVeterinaryServiceCenter.DataAccess", "KoiVeterinaryServiceCenter.DataAccess\KoiVeterinaryServiceCenter.DataAccess.csproj", "{765E5D34-3F6E-4F0A-924D-89838C70D1E9}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KoiVeterinaryServiceCenter.Model", "..\KoiVeterinaryServiceCenter.Model\KoiVeterinaryServiceCenter.Model.csproj", "{304B7144-73D0-452C-ACA9-6A386684FBCC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KoiVeterinaryServiceCenter.Model", "KoiVeterinaryServiceCenter.Model\KoiVeterinaryServiceCenter.Model.csproj", "{304B7144-73D0-452C-ACA9-6A386684FBCC}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KoiVeterinaryServiceCenter.Services", "..\KoiVeterinaryServiceCenter.Services\KoiVeterinaryServiceCenter.Services.csproj", "{CD0A9FBF-F867-445B-916C-6696AD970D23}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KoiVeterinaryServiceCenter.Services", "KoiVeterinaryServiceCenter.Services\KoiVeterinaryServiceCenter.Services.csproj", "{CD0A9FBF-F867-445B-916C-6696AD970D23}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KoiVeterinaryServiceCenter.Utility", "..\KoiVeterinaryServiceCenter.Utility\KoiVeterinaryServiceCenter.Utility.csproj", "{A4348B12-AD7F-4794-8EC1-9DFDE49C5C4B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KoiVeterinaryServiceCenter.Utility", "KoiVeterinaryServiceCenter.Utility\KoiVeterinaryServiceCenter.Utility.csproj", "{A4348B12-AD7F-4794-8EC1-9DFDE49C5C4B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
