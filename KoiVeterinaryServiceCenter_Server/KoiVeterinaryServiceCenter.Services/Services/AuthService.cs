@@ -3,6 +3,7 @@ using System.Security.Claims;
 using System.Web;
 using FirebaseAdmin.Auth;
 using KoiVeterinaryServiceCenter.DataAccess.IRepository;
+using KoiVeterinaryServiceCenter.Model.Domain;
 using KoiVeterinaryServiceCenter.Models.Domain;
 using KoiVeterinaryServiceCenter.Models.DTO;
 using KoiVeterinaryServiceCenter.Models.DTO.Auth;
