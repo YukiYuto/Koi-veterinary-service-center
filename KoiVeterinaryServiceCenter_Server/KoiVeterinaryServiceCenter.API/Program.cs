@@ -25,14 +25,14 @@ namespace KoiVeterinaryServiceCenter
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
             {
                 options.UseSqlServer(
-                    builder.Configuration.GetConnectionString(StaticConnectionString.SQLDB_DefaultConnection));
+                    builder.Configuration.GetConnectionString(StaticConnectionString.SQLDB_DefaultConnectionAzure));
             });
 
             // Register AutoMapper
             builder.Services.AddAutoMapper(typeof(AutoMapperProfile));
 
             // Register services life cycle
-            builder.Services.RegisterServices(); // Ensure services are registered correctly
+            builder.Services.RegisterServices(builder.Configuration); // Ensure services are registered correctly
 
             // Register Firebase Service
             builder.Services.AddFirebaseService();
@@ -107,7 +107,7 @@ namespace KoiVeterinaryServiceCenter
             var app = builder.Build();
 
             // Apply database migrations
-            ApplyMigration(app);
+            //ApplyMigration(app);
 
             // Apply CORS policy
             app.UseCors("AllowSpecificOrigin");
@@ -118,6 +118,9 @@ namespace KoiVeterinaryServiceCenter
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
+
+            app.UseSwagger();
+            app.UseSwaggerUI();
 
             app.UseHttpsRedirection();
             app.UseAuthentication();

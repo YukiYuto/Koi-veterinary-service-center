@@ -111,6 +111,21 @@ namespace KoiVeterinaryServiceCenter.API.Controllers
             return StatusCode(response.StatusCode, response);
         }
 
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="token"></param>
+        /// <returns></returns>
+        [HttpGet("FetchUserByToken")]
+        public async Task<IActionResult> FetchUserByToken(string token)
+        {
+            var result = await _authService.FetchUserByToken(token);
+            var responseDto = await _authService.FetchUserByToken(token);
+            return StatusCode(responseDto.StatusCode, responseDto);
+        }
+
+
         /// <summary>
         /// Check if an email exists.
         /// </summary>
