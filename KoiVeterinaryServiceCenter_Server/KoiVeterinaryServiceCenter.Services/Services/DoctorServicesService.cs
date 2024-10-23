@@ -1,11 +1,11 @@
 ﻿using AutoMapper;
 using KoiVeterinaryServiceCenter.DataAccess.IRepository;
-using KoiVeterinaryServiceCenter.Model.DTO;
 using KoiVeterinaryServiceCenter.Model.Domain;
 using KoiVeterinaryServiceCenter.Services.IServices;
 using System.Security.Claims;
 using Microsoft.IdentityModel.Tokens;
 using KoiVeterinaryServiceCenter.Models.DTO;
+using KoiVeterinaryServiceCenter.Models.DTO.DoctorServices;
 
 
 namespace KoiVeterinaryServiceCenter.Services.Services

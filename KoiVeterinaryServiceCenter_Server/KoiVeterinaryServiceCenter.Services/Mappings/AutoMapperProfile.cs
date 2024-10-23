@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
 using KoiVeterinaryServiceCenter.Model.Domain;
-using KoiVeterinaryServiceCenter.Model.DTO;
 using KoiVeterinaryServiceCenter.Models.Domain;
+using KoiVeterinaryServiceCenter.Models.DTO.Doctor;
+using KoiVeterinaryServiceCenter.Models.DTO.DoctorSchedules;
+using KoiVeterinaryServiceCenter.Models.DTO.DoctorServices;
 
 namespace KoiVeterinaryServiceCenter.Services.Mappings;
 

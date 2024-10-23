@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace KoiVeterinaryServiceCenter.Model.DTO
+namespace KoiVeterinaryServiceCenter.Models.DTO.Doctor
 {
     public class UpdateDoctorDTO
     {

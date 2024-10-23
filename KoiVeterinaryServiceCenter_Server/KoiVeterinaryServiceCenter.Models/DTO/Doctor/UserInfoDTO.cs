@@ -4,12 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace KoiVeterinaryServiceCenter.Model.DTO
+namespace KoiVeterinaryServiceCenter.Models.DTO.Doctor
 {
     public class UserInfoDTO
     {
         public string Id { get; set; }
-        public Guid? Doctor {  get; set; }
+        public Guid? Doctor { get; set; }
         public string UserName { get; set; }
         public string FullName { get; set; }
         public string Gender { get; set; }

@@ -1,7 +1,7 @@
 ﻿using System.Security.Claims;
 using KoiVeterinaryServiceCenter.DataAccess.Repository;
-using KoiVeterinaryServiceCenter.Model.DTO;
 using KoiVeterinaryServiceCenter.Models.DTO;
+using KoiVeterinaryServiceCenter.Models.DTO.DoctorServices;
 using KoiVeterinaryServiceCenter.Services.IServices;
 using KoiVeterinaryServiceCenter.Services.Services;
 using KoiVeterinaryServiceCenter.Utility.Constants;

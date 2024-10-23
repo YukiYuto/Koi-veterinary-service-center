@@ -1,5 +1,5 @@
-﻿using KoiVeterinaryServiceCenter.Model.DTO;
-using KoiVeterinaryServiceCenter.Models.DTO;
+﻿using KoiVeterinaryServiceCenter.Models.DTO;
+using KoiVeterinaryServiceCenter.Models.DTO.Doctor;
 using KoiVeterinaryServiceCenter.Services.IServices;
 using KoiVeterinaryServiceCenter.Utility.Constants;
 using Microsoft.AspNetCore.Authorization;
