@@ -5,7 +5,10 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using KoiVeterinaryServiceCenter.Model.DTO;
+<<<<<<< HEAD
+=======
 using KoiVeterinaryServiceCenter.Models.DTO;
+>>>>>>> 61f9fcc6684779a3c22f7c4b2265172ff3dabef5
 using Net.payOS.Types;
 
 namespace KoiVeterinaryServiceCenter.Services.IServices

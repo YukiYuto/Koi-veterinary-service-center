@@ -3,7 +3,10 @@ using KoiVeterinaryServiceCenter.Services.IServices;
 using System.Threading.Tasks;
 using Net.payOS.Types;
 using KoiVeterinaryServiceCenter.Model.DTO;
+<<<<<<< HEAD:KoiVeterinaryServiceCenter_Server/KoiVeterinaryServiceCenter.API/Controllers/PayOSPaymentController.cs
+=======
 using KoiVeterinaryServiceCenter.Models.DTO;
+>>>>>>> 61f9fcc6684779a3c22f7c4b2265172ff3dabef5:KoiVeterinaryServiceCenter_Server/KoiVeterinaryServiceCenter.API/Controller/PayOSPaymentController.cs
 
 namespace KoiVeterinaryServiceCenter.API.Controllers
 {

@@ -18,10 +18,15 @@ public class ServiceRepository : Repository<Service>, IServiceRepository
         return await _context.Services.FirstOrDefaultAsync(x => x.ServiceId == serviceId);
     }
 
-    public void Update(Service service)
-    {
-        _context.Services.Update(service);
-    }
+        public async Task<Service> GetServiceByServiceNumber(long serviceNumber)
+        {
+            return await _context.Services.FirstOrDefaultAsync(x => x.ServiceNumber == serviceNumber);
+        }
+
+        public void Update(Service service)
+        {
+            _context.Services.Update(service);
+        }
 
     public void UpdateRange(IEnumerable<Service> services)
     {
