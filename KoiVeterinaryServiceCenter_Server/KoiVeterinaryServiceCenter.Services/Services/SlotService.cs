@@ -34,7 +34,7 @@ public class SlotService : ISlotService
             List<Slot> slots = new List<Slot>();
 
             // Lấy tất cả các Slot từ repository
-            var allSlots = await _unitOfWork.SlotRepository.GetAllAsync(includeProperties: "Doctor");
+            var allSlots = await _unitOfWork.SlotRepository.GetAllAsync();
 
             // Bộ lọc
             if (!string.IsNullOrEmpty(filterOn) && !string.IsNullOrEmpty(filterQuery))
