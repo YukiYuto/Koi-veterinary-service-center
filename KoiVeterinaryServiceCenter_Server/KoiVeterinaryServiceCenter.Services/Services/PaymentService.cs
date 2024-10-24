@@ -9,11 +9,7 @@ using KoiVeterinaryServiceCenter.Model.Domain;
 using System.Security.Claims;
 using KoiVeterinaryServiceCenter.Utility.Constants;
 using StackExchange.Redis;
-<<<<<<< HEAD
-using PayPal.v1.Orders;
-=======
 using KoiVeterinaryServiceCenter.Models.DTO;
->>>>>>> 61f9fcc6684779a3c22f7c4b2265172ff3dabef5
 
 public class PaymentService : IPaymentService
 {
@@ -35,16 +31,6 @@ public class PaymentService : IPaymentService
 
     public async Task<ResponseDTO> CreatePayOSPaymentLink(ClaimsPrincipal User, CreatePaymentLinkDTO createPaymentLink)
     {
-<<<<<<< HEAD
-        try
-        {
-            Service service = await _unitOfWork.ServiceRepository.GetServiceByServiceNumber(createPaymentLink.ServiceNumber);
-            if (service is null)
-            {
-                return new ResponseDTO()
-                {
-                    Message = "Service is not exist",
-=======
         /*try
         {
             OrderItems order = await _unitOfWork.OrderItemsRepository.GetById(createPaymentLink.OrderCode);
@@ -53,45 +39,27 @@ public class PaymentService : IPaymentService
                 return new ResponseDTO()
                 {
                     Message = "Order is not exist",
->>>>>>> 61f9fcc6684779a3c22f7c4b2265172ff3dabef5
                     IsSuccess = false,
                     StatusCode = 404,
                     Result = null
                 };
             }
 
-<<<<<<< HEAD
-            var servicePrice = Convert.ToInt32(service.Price);
-
-            var items = new List<ItemData>()
-            {
-                new ItemData( name: service.ServiceName, quantity: 1, price: servicePrice)
-=======
 
             var items = new List<ItemData>()
             {
                 new ItemData( name: order.ProductName, quantity: 1, price: order.Price)
->>>>>>> 61f9fcc6684779a3c22f7c4b2265172ff3dabef5
             };
 
 
             var paymentData = new PaymentData(
-<<<<<<< HEAD
-                orderCode: createPaymentLink.ServiceNumber,
-                amount: servicePrice,
-=======
                 orderCode: createPaymentLink.OrderCode,
                 amount: order.Price,
->>>>>>> 61f9fcc6684779a3c22f7c4b2265172ff3dabef5
                 buyerName: createPaymentLink.BuyerName,
                 buyerEmail: createPaymentLink.BuyerEmail,
                 buyerPhone: createPaymentLink.BuyerPhone,
                 buyerAddress: createPaymentLink.BuyerAddress,
-<<<<<<< HEAD
-                description: "",
-=======
                 description: order.Description,
->>>>>>> 61f9fcc6684779a3c22f7c4b2265172ff3dabef5
                 items: items,
                 cancelUrl: createPaymentLink.CancelUrl,
                 returnUrl: createPaymentLink.ReturnUrl
@@ -111,15 +79,9 @@ public class PaymentService : IPaymentService
 
             PaymentTransactions paymentTransactions = new PaymentTransactions()
             {
-<<<<<<< HEAD
-                OrderCode = createPaymentLink.ServiceNumber,
-                Amount = result.amount,
-                Description = result.description.Trim(),
-=======
                 OrderCode = createPaymentLink.OrderCode,
                 Amount = result.amount,
                 Description = result.description,
->>>>>>> 61f9fcc6684779a3c22f7c4b2265172ff3dabef5
                 BuyerName = createPaymentLink.BuyerName,
                 BuyerEmail = createPaymentLink.BuyerEmail,
                 BuyerPhone = createPaymentLink.BuyerPhone,
@@ -151,12 +113,8 @@ public class PaymentService : IPaymentService
                 StatusCode = 500,
                 Result = null
             };
-<<<<<<< HEAD
-        }
-=======
         }*/
         return null;
->>>>>>> 61f9fcc6684779a3c22f7c4b2265172ff3dabef5
     }
 
     public async Task<ResponseDTO> UpdatePayOSPaymentStatus(ClaimsPrincipal User, Guid paymentTransactionId)
