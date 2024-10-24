@@ -100,7 +100,7 @@ public class SlotService : ISlotService
                 var skipResult = (pageNumber - 1) * pageSize;
                 slots = slots.Skip(skipResult).Take(pageSize).ToList();
             }
-
+            
             if (slots == null || !slots.Any())
             {
                 return new ResponseDTO()

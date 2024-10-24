@@ -237,8 +237,7 @@ namespace KoiVeterinaryServiceCenter.Services.Services
             try
             {
                 //Create a service list and get all serivce
-                List<Service> services = _unitOfWork.ServiceRepository.GetAllAsync()
-                    .GetAwaiter().GetResult().ToList();
+                List<Service> services = new List<Service>();
                 //Check input filterOn and filterQuery are null or empty
                 if (!string.IsNullOrEmpty(filterOn) && !string.IsNullOrEmpty(filterQuery))
                 {
@@ -321,6 +320,8 @@ namespace KoiVeterinaryServiceCenter.Services.Services
                         Result = null
                     };
                 }
+                
+                var getServiceDTOs = _mapper.Map<List<GetServiceDTO>>(services);
 
                 //If the function successfully, return a service list
                 return new ResponseDTO()
@@ -328,7 +329,7 @@ namespace KoiVeterinaryServiceCenter.Services.Services
                     Message = "Get all services successfully",
                     IsSuccess = true,
                     StatusCode = 200,
-                    Result = services
+                    Result = getServiceDTOs
                 };
 
             }
