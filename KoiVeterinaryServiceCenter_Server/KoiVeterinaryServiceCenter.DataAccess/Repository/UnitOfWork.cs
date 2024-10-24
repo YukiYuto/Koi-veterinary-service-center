@@ -22,7 +22,6 @@ namespace KoiVeterinaryServiceCenter.DataAccess.Repository
         public IServiceRepository ServiceRepository { get; set; }
         public IDoctorServicesRepository DoctorServicesRepository { get; set; }
         public IPaymentTransactionsRepository PaymentTransactionsRepository { get; set; }
-        public IOrderItemsRepository OrderItemsRepository { get; set; }
         public UnitOfWork(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
@@ -35,7 +34,6 @@ namespace KoiVeterinaryServiceCenter.DataAccess.Repository
             ServiceRepository = new ServiceRepository(_context);
             DoctorServicesRepository = new DoctorServicesRepository(_context);
             PaymentTransactionsRepository = new PaymentTransactionsRepository(_context);
-            OrderItemsRepository = new OrderItemsRepository(_context);
         }
         public async Task<int> SaveAsync()
         {

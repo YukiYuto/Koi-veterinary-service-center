@@ -33,33 +33,34 @@ public class PaymentService : IPaymentService
     {
         try
         {
-            OrderItems order = await _unitOfWork.OrderItemsRepository.GetById(createPaymentLink.OrderCode);
-            if (order is null)
+            Service service = await _unitOfWork.ServiceRepository.GetServiceByServiceNumber(createPaymentLink.ServiceNumber);
+            if (service is null)
             {
                 return new ResponseDTO()
                 {
-                    Message = "Order is not exist",
+                    Message = "Service is not exist",
                     IsSuccess = false,
                     StatusCode = 404,
                     Result = null
                 };
             }
 
+            var servicePrice = Convert.ToInt32(service.Price);
 
             var items = new List<ItemData>()
             {
-                new ItemData( name: order.ProductName, quantity: 1, price: order.Price)
+                new ItemData( name: service.ServiceName, quantity: 1, price: servicePrice)
             };
 
 
             var paymentData = new PaymentData(
-                orderCode: createPaymentLink.OrderCode,
-                amount: order.Price,
+                orderCode: createPaymentLink.ServiceNumber,
+                amount: servicePrice,
                 buyerName: createPaymentLink.BuyerName,
                 buyerEmail: createPaymentLink.BuyerEmail,
                 buyerPhone: createPaymentLink.BuyerPhone,
                 buyerAddress: createPaymentLink.BuyerAddress,
-                description: order.Description,
+                description: "",
                 items: items,
                 cancelUrl: createPaymentLink.CancelUrl,
                 returnUrl: createPaymentLink.ReturnUrl
@@ -79,9 +80,9 @@ public class PaymentService : IPaymentService
 
             PaymentTransactions paymentTransactions = new PaymentTransactions()
             {
-                OrderCode = createPaymentLink.OrderCode,
+                OrderCode = createPaymentLink.ServiceNumber,
                 Amount = result.amount,
-                Description = result.description,
+                Description = result.description.Trim(),
                 BuyerName = createPaymentLink.BuyerName,
                 BuyerEmail = createPaymentLink.BuyerEmail,
                 BuyerPhone = createPaymentLink.BuyerPhone,
