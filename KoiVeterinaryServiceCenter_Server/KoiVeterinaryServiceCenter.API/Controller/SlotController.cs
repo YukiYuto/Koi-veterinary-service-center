@@ -60,7 +60,7 @@ namespace KoiVeterinaryServiceCenter.API.Controllers
         /// <param name="createSlotDto">The slot details.</param>
         /// <returns>The created slot details.</returns>
         [HttpPost]
-        [Authorize(Roles = StaticUserRoles.Doctor)]
+        //[Authorize(Roles = StaticUserRoles.Admin)]
         public async Task<ActionResult<ResponseDTO>> CreateSlot([FromBody] CreateSlotDTO createSlotDto)
         {
             var responseDto = await _slotService.CreateSlot(User, createSlotDto);

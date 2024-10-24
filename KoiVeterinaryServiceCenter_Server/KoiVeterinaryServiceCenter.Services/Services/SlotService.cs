@@ -31,23 +31,26 @@ public class SlotService : ISlotService
     {
         try
         {
-            List<Slot> slots = new List<Slot>();
+            var slots = await _unitOfWork.SlotRepository.GetAllSlotWithDoctor();
+            if (!slots.Any())
+            {
+                return new ResponseDTO()
+                {
+                    Message = "There are no slot",
+                    IsSuccess = true,
+                    StatusCode = 404,
+                    Result = null
+                };
+            }
 
             // Lấy tất cả các Slot từ repository
-            var allSlots = await _unitOfWork.SlotRepository.GetAllAsync();
+            var allSlots = slots.ToList();
 
             // Bộ lọc
             if (!string.IsNullOrEmpty(filterOn) && !string.IsNullOrEmpty(filterQuery))
             {
                 switch (filterOn.Trim().ToLower())
                 {
-                    case "appointmentdate":
-                        if (DateTime.TryParse(filterQuery, out DateTime appointmentDate))
-                        {
-                            slots = allSlots.Where(x => x.AppointmentDate.Date == appointmentDate.Date).ToList();
-                        }
-                        break;
-
                     case "isbooked":
                         if (bool.TryParse(filterQuery, out bool isBooked))
                         {
@@ -82,13 +85,6 @@ public class SlotService : ISlotService
                             ? slots.OrderBy(x => x.EndTime).ToList()
                             : slots.OrderByDescending(x => x.EndTime).ToList();
                         break;
-
-                    case "appointmentdate":
-                        slots = isAscending == true
-                            ? slots.OrderBy(x => x.AppointmentDate).ToList()
-                            : slots.OrderByDescending(x => x.AppointmentDate).ToList();
-                        break;
-
                     default:
                         break; // Không sắp xếp nếu không có trường hợp hợp lệ
                 }
@@ -195,9 +191,9 @@ public class SlotService : ISlotService
             //Map DTO qua entity Level
             Slot slots = new Slot()
             {
+                DoctorSchedulesId = createSlotDto.DoctorSchedulesId,
                 StartTime = createSlotDto.StartTime,
                 EndTime = createSlotDto.EndTime,
-                AppointmentDate = createSlotDto.AppointmentDate,
                 IsBooked = createSlotDto.IsBooked,
                 CreatedTime = DateTime.Now,
                 UpdatedTime = null,

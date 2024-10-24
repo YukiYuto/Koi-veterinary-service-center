@@ -4,6 +4,7 @@ using KoiVeterinaryServiceCenter.DataAccess.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace KoiVeterinaryServiceCenter.DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241024174502_ModifyDB_Slot")]
+    partial class ModifyDB_Slot
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -48,7 +51,7 @@ namespace KoiVeterinaryServiceCenter.DataAccess.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Doctors", (string)null);
+                    b.ToTable("Doctors");
                 });
 
             modelBuilder.Entity("KoiVeterinaryServiceCenter.Model.Domain.DoctorSchedules", b =>
@@ -82,7 +85,7 @@ namespace KoiVeterinaryServiceCenter.DataAccess.Migrations
 
                     b.HasIndex("DoctorId");
 
-                    b.ToTable("DoctorSchedules", (string)null);
+                    b.ToTable("DoctorSchedules");
                 });
 
             modelBuilder.Entity("KoiVeterinaryServiceCenter.Model.Domain.DoctorServices", b =>
@@ -97,7 +100,7 @@ namespace KoiVeterinaryServiceCenter.DataAccess.Migrations
 
                     b.HasIndex("ServiceId");
 
-                    b.ToTable("DoctorServices", (string)null);
+                    b.ToTable("DoctorServices");
                 });
 
             modelBuilder.Entity("KoiVeterinaryServiceCenter.Model.Domain.PaymentTransactions", b =>
@@ -153,7 +156,7 @@ namespace KoiVeterinaryServiceCenter.DataAccess.Migrations
 
                     b.HasKey("PaymentTransactionId");
 
-                    b.ToTable("PaymentTransactions", (string)null);
+                    b.ToTable("PaymentTransactions");
                 });
 
             modelBuilder.Entity("KoiVeterinaryServiceCenter.Models.Domain.ApplicationUser", b =>
@@ -295,7 +298,7 @@ namespace KoiVeterinaryServiceCenter.DataAccess.Migrations
 
                     b.HasIndex("SlotId");
 
-                    b.ToTable("Appointments", (string)null);
+                    b.ToTable("Appointments");
                 });
 
             modelBuilder.Entity("KoiVeterinaryServiceCenter.Models.Domain.DoctorRating", b =>
@@ -332,7 +335,7 @@ namespace KoiVeterinaryServiceCenter.DataAccess.Migrations
 
                     b.HasIndex("DoctorId");
 
-                    b.ToTable("DoctorRatings", (string)null);
+                    b.ToTable("DoctorRatings");
                 });
 
             modelBuilder.Entity("KoiVeterinaryServiceCenter.Models.Domain.EmailTemplate", b =>
@@ -399,7 +402,7 @@ namespace KoiVeterinaryServiceCenter.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("EmailTemplates", (string)null);
+                    b.ToTable("EmailTemplates");
 
                     b.HasData(
                         new
@@ -491,7 +494,7 @@ namespace KoiVeterinaryServiceCenter.DataAccess.Migrations
 
                     b.HasKey("ServiceId");
 
-                    b.ToTable("Services", (string)null);
+                    b.ToTable("Services");
                 });
 
             modelBuilder.Entity("KoiVeterinaryServiceCenter.Models.Domain.Slot", b =>
@@ -531,7 +534,7 @@ namespace KoiVeterinaryServiceCenter.DataAccess.Migrations
 
                     b.HasIndex("DoctorSchedulesId");
 
-                    b.ToTable("Slots", (string)null);
+                    b.ToTable("Slots");
                 });
 
             modelBuilder.Entity("KoiVeterinaryServiceCenter.Models.Domain.Transaction", b =>
@@ -575,7 +578,7 @@ namespace KoiVeterinaryServiceCenter.DataAccess.Migrations
 
                     b.HasIndex("PaymentTransactionId");
 
-                    b.ToTable("Transactions", (string)null);
+                    b.ToTable("Transactions");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
