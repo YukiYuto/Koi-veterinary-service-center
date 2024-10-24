@@ -100,6 +100,19 @@ public class AuthController : ControllerBase
     }
 
     /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="token"></param>
+    /// <returns></returns>
+    [HttpGet("FetchUserByToken")]
+    public async Task<IActionResult> FetchUserByToken(string token)
+    {
+        var result = await _authService.FetchUserByToken(token);
+        var responseDto = await _authService.FetchUserByToken(token);
+        return StatusCode(responseDto.StatusCode, responseDto);
+    }
+
+    /// <summary>
     /// Sign in with Google.
     /// </summary>
     /// <param name="signInByGoogleDto"></param>

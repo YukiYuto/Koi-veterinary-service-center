@@ -20,33 +20,34 @@ public class SlotService : ISlotService
     }
 
     public async Task<ResponseDTO> GetSlots
-    (
-        ClaimsPrincipal User,
-        string? filterOn,
-        string? filterQuery,
-        string? sortBy,
-        bool? isAscending,
-        int pageNumber = 0,
-        int pageSize = 0)
+(
+    ClaimsPrincipal User,
+    string? filterOn,
+    string? filterQuery,
+    string? sortBy,
+    bool? isAscending,
+    int pageNumber = 1,
+    int pageSize = 10)
     {
         try
         {
             var slots = await _unitOfWork.SlotRepository.GetAllSlotWithDoctor();
+
+            // Kiểm tra nếu danh sách slots là null hoặc rỗng  
             if (!slots.Any())
             {
                 return new ResponseDTO()
                 {
-                    Message = "There are no slot",
+                    Message = "There are no slots",
                     IsSuccess = true,
                     StatusCode = 404,
                     Result = null
                 };
             }
 
-            // Lấy tất cả các Slot từ repository
-            var allSlots = slots.ToList();
+            var listSlots = slots.ToList();
 
-            // Bộ lọc
+            // Filter Query  
             if (!string.IsNullOrEmpty(filterOn) && !string.IsNullOrEmpty(filterQuery))
             {
                 switch (filterOn.Trim().ToLower())
@@ -54,64 +55,69 @@ public class SlotService : ISlotService
                     case "isbooked":
                         if (bool.TryParse(filterQuery, out bool isBooked))
                         {
-                            slots = allSlots.Where(x => x.IsBooked == isBooked).ToList();
+                            listSlots = listSlots.Where(x => x.IsBooked == isBooked).ToList();
                         }
+                        break;
 
+                    case "starttime":
+                        if (TimeSpan.TryParse(filterQuery, out TimeSpan startTime))
+                        {
+                            listSlots = listSlots.Where(x => x.StartTime == startTime).ToList();
+                        }
+                        break;
+
+                    case "endtime":
+                        if (TimeSpan.TryParse(filterQuery, out TimeSpan endTime))
+                        {
+                            listSlots = listSlots.Where(x => x.EndTime == endTime).ToList();
+                        }
                         break;
 
                     default:
-                        slots = allSlots.ToList(); // Nếu không có bộ lọc, lấy tất cả
                         break;
                 }
             }
-            else
-            {
-                slots = allSlots.ToList(); // Nếu không có bộ lọc, lấy tất cả
-            }
 
-            // Sắp xếp
+            // Sort Query  
             if (!string.IsNullOrEmpty(sortBy))
             {
                 switch (sortBy.Trim().ToLower())
                 {
                     case "starttime":
-                        slots = isAscending == true
-                            ? slots.OrderBy(x => x.StartTime).ToList()
-                            : slots.OrderByDescending(x => x.StartTime).ToList();
+                        listSlots = isAscending == true
+                            ? listSlots.OrderBy(x => x.StartTime).ToList()
+                            : listSlots.OrderByDescending(x => x.StartTime).ToList();
                         break;
 
                     case "endtime":
-                        slots = isAscending == true
-                            ? slots.OrderBy(x => x.EndTime).ToList()
-                            : slots.OrderByDescending(x => x.EndTime).ToList();
+                        listSlots = isAscending == true
+                            ? listSlots.OrderBy(x => x.EndTime).ToList()
+                            : listSlots.OrderByDescending(x => x.EndTime).ToList();
                         break;
+
                     default:
-                        break; // Không sắp xếp nếu không có trường hợp hợp lệ
+                        // If no valid `sortBy` value is provided, default to sorting by StartTime descending  
+                        listSlots = listSlots.OrderByDescending(x => x.StartTime).ToList();
+                        break;
                 }
             }
+            else
+            {
+                // If no `sortBy` is specified, default to sorting by StartTime descending  
+                listSlots = listSlots.OrderByDescending(x => x.StartTime).ToList();
+            }
 
-            // Phân trang
+            // Pagination  
             if (pageNumber > 0 && pageSize > 0)
             {
                 var skipResult = (pageNumber - 1) * pageSize;
-                slots = slots.Skip(skipResult).Take(pageSize).ToList();
-            }
-
-            if (slots == null || !slots.Any())
-            {
-                return new ResponseDTO()
-                {
-                    Message = "No slots found.",
-                    Result = null,
-                    IsSuccess = false,
-                    StatusCode = 404
-                };
+                listSlots = listSlots.Skip(skipResult).Take(pageSize).ToList();
             }
 
             return new ResponseDTO()
             {
                 Message = "Slots retrieved successfully.",
-                Result = slots,
+                Result = listSlots,
                 IsSuccess = true,
                 StatusCode = 200
             };

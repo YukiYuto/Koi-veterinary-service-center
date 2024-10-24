@@ -33,10 +33,16 @@ public class TokenService : ITokenService
         var userRoles = await _userManager.GetRolesAsync(user);
 
         var authClaims = new List<Claim>
-        {
-            new Claim(ClaimTypes.Name, user.UserName),
-            new Claim(ClaimTypes.NameIdentifier, user.Id)
-        };
+    {
+        new Claim(ClaimTypes.Name, user.UserName),
+        new Claim(ClaimTypes.NameIdentifier, user.Id),
+        new Claim("FullName", user.FullName),  // Thêm FullName vào claims
+        new Claim("Email", user.Email),        // Thêm Email vào claims
+        new Claim("PhoneNumber", user.PhoneNumber), // Thêm PhoneNumber vào claims
+        new Claim("Address", user.Address),    // Thêm Address vào claims
+        new Claim("Country", user.Country),    // Thêm Country vào claims
+        new Claim("Gender", user.Gender.ToString()), // Thêm Gender vào claims
+    };
 
         foreach (var role in userRoles)
         {
@@ -51,7 +57,7 @@ public class TokenService : ITokenService
             audience: _configuration["JWT:ValidAudience"],
             notBefore: DateTime.Now,
             expires: DateTime.Now.AddMinutes(60), //Expiration time is 1h
-            claims: authClaims, //list of rights
+            claims: authClaims,
             signingCredentials: signingCredentials
         );
 
@@ -124,6 +130,9 @@ public class TokenService : ITokenService
             return null;
         }
     }
+
+
+
 
 
     /// <summary>

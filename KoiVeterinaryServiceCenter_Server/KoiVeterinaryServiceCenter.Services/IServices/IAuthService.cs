@@ -17,4 +17,5 @@ public interface IAuthService
     Task<MemoryStream> GetUserAvatar(ClaimsPrincipal user);
     Task<ResponseDTO> SendVerifyEmail(string email, string confirmationLink);
     Task<ResponseDTO> VerifyEmail(string userId, string token);
+    Task<ResponseDTO> FetchUserByToken(string token);
 }
