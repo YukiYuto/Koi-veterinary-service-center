@@ -10,7 +10,5 @@ namespace KoiVeterinaryServiceCenter.Models.DTO.DoctorSchedules
     {
         public Guid DoctorId { get; set; }
         public DateTime SchedulesDate { get; set; }
-        public TimeSpan StartTime { get; set; }
-        public TimeSpan EndTime { get; set; }
     }
 }

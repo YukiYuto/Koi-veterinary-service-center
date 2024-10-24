@@ -45,7 +45,7 @@ namespace KoiVeterinaryServiceCenter.Services.Services
                     Message = "Create service successfully",
                     IsSuccess = true,
                     StatusCode = 200,
-                    Result = null
+                    Result = service
                 };
             }
 
