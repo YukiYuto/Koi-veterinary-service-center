@@ -210,7 +210,8 @@ public class AuthService : IAuthService
                 BirthDate = registerDoctorDTO.BirthDate,
                 PhoneNumber = registerDoctorDTO.PhoneNumber,
                 AvatarUrl = "",
-                LockoutEnabled = false
+                LockoutEnabled = false,
+                EmailConfirmed = true
             };
 
             //Create new User to db
@@ -229,7 +230,7 @@ public class AuthService : IAuthService
                 };
             }
 
-            var user = await _userManager.FindByEmailAsync(registerDoctorDTO.PhoneNumber);
+            var user = await _userManager.FindByEmailAsync(registerDoctorDTO.Email);
 
             //Create new Doctor
             Doctor doctor = new Doctor()
