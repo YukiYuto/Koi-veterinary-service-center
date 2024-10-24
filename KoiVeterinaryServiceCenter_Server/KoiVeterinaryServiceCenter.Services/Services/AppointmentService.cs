@@ -1,12 +1,12 @@
 ﻿using AutoMapper;
 using KoiVeterinaryServiceCenter.DataAccess.IRepository;
-using KoiVeterinaryServiceCenter.Model.Domain;
-using KoiVeterinaryServiceCenter.Model.DTO;
+using KoiVeterinaryServiceCenter.Models.Domain;
+using KoiVeterinaryServiceCenter.Models.DTO.Appointment;
+using KoiVeterinaryServiceCenter.Models.DTO;
 using KoiVeterinaryServiceCenter.Services.IServices;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
@@ -51,13 +51,6 @@ namespace KoiVeterinaryServiceCenter.Services.Services
                     {
                         switch (filterOn.Trim().ToLower())
                         {
-                            case "appointmentdate":
-                                if (DateTime.TryParse(filterQuery, out DateTime filterDate))
-                                {
-                                    return x.AppointmentDate.Date == filterDate.Date;
-                                }
-
-                                return false;
 
                             case "bookingstatus":
                                 if (int.TryParse(filterQuery, out int bookingStatus))
@@ -75,9 +68,6 @@ namespace KoiVeterinaryServiceCenter.Services.Services
 
                                 return false;
 
-                            case "type":
-                                return x.Type.Contains(filterQuery, StringComparison.CurrentCultureIgnoreCase);
-
                             default:
                                 return true; // Trả về tất cả nếu không có điều kiện khớp
                         }
@@ -89,22 +79,13 @@ namespace KoiVeterinaryServiceCenter.Services.Services
                 {
                     appointments = sortBy.Trim().ToLower() switch
                     {
-                        "appointmentdate" => isAscending == true
-                            ? appointments.OrderBy(x => x.AppointmentDate).ToList()
-                            : appointments.OrderByDescending(x => x.AppointmentDate).ToList(),
-
                         "bookingstatus" => isAscending == true
                             ? appointments.OrderBy(x => x.BookingStatus).ToList()
                             : appointments.OrderByDescending(x => x.BookingStatus).ToList(),
-                        
+
                         "totalamount" => isAscending == true
                             ? appointments.OrderBy(x => x.TotalAmount).ToList()
                             : appointments.OrderByDescending(x => x.TotalAmount).ToList(),
-
-                        "type" => isAscending == true
-                            ? appointments.OrderBy(x => x.Type).ToList()
-                            : appointments.OrderByDescending(x => x.Type).ToList(),
-
                         _ => appointments // Nếu không có trường hợp nào khớp, giữ nguyên danh sách
                     };
                 }
@@ -213,13 +194,9 @@ namespace KoiVeterinaryServiceCenter.Services.Services
                 //Map DTO qua entity Level
                 Appointment appointments = new Appointment()
                 {
-                    PetId = createAppointmentDto.PetId,
                     SlotId = createAppointmentDto.SlotId,
-                    DoctorRatingId = createAppointmentDto.DoctorRatingId,
                     ServiceId = createAppointmentDto.ServiceId,
-                    AppointmentDate = createAppointmentDto.AppointmentDate,
                     TotalAmount = createAppointmentDto.TotalAmount,
-                    Type = createAppointmentDto.Type
                 };
 
                 //thêm appointment mới
@@ -270,14 +247,10 @@ namespace KoiVeterinaryServiceCenter.Services.Services
                 }
 
                 // cập nhật thông tin danh mục
-                appointmentID.PetId = updateAppointmentDto.PetId;
                 appointmentID.SlotId = updateAppointmentDto.SlotId;
-                appointmentID.DoctorRatingId = updateAppointmentDto.DoctorRatingId;
                 appointmentID.ServiceId = updateAppointmentDto.ServiceId;
-                appointmentID.AppointmentDate = updateAppointmentDto.AppointmentDate;
                 appointmentID.BookingStatus = updateAppointmentDto.BookingStatus;
                 appointmentID.TotalAmount = updateAppointmentDto.TotalAmount;
-                appointmentID.Type = updateAppointmentDto.Type;
 
 
                 // thay đổi dữ liệu

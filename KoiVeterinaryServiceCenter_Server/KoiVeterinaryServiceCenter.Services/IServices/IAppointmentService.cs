@@ -1,10 +1,7 @@
-﻿using KoiVeterinaryServiceCenter.Model.DTO;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using KoiVeterinaryServiceCenter.Models.DTO;
+using KoiVeterinaryServiceCenter.Models.DTO.Appointment;
 using System.Security.Claims;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace KoiVeterinaryServiceCenter.Services.IServices
 {

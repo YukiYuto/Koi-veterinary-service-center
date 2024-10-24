@@ -3,6 +3,8 @@ using AutoMapper;
 using KoiVeterinaryServiceCenter.DataAccess.IRepository;
 using KoiVeterinaryServiceCenter.Model.Domain;
 using KoiVeterinaryServiceCenter.Model.DTO;
+using KoiVeterinaryServiceCenter.Models.DTO;
+using KoiVeterinaryServiceCenter.Models.DTO.DoctorSchedules;
 using KoiVeterinaryServiceCenter.Services.IServices;
 using Microsoft.IdentityModel.Tokens;
 
@@ -28,8 +30,6 @@ namespace KoiVeterinaryServiceCenter.Services.Services
                 {
                     DoctorId = createDoctorSchedulesDTO.DoctorId,
                     SchedulesDate = createDoctorSchedulesDTO.SchedulesDate,
-                    StartTime = createDoctorSchedulesDTO.StartTime,
-                    EndTime = createDoctorSchedulesDTO.EndTime
                 };
 
                 //Add new schedule for doctor
@@ -139,8 +139,6 @@ namespace KoiVeterinaryServiceCenter.Services.Services
                 //Update data of doctor schedule
                 updateDoctorSchedules.DoctorId = updateDoctorSchedules.DoctorId;
                 updateDoctorSchedules.SchedulesDate = updateDoctorSchedulesDTO.SchedulesDate;
-                updateDoctorSchedules.StartTime = updateDoctorSchedulesDTO.StartTime;
-                updateDoctorSchedules.EndTime = updateDoctorSchedulesDTO.EndTime;
                 updateDoctorSchedules.UpdatedTime = DateTime.Now;
                 updateDoctorSchedules.UpdatedBy = User.Identity.Name;
 
@@ -287,14 +285,6 @@ namespace KoiVeterinaryServiceCenter.Services.Services
                                 doctorSchedules = isAscending == true
                                     ? [.. doctorSchedules.OrderBy(name => name.Doctor.ApplicationUser.FullName)]
                                     : [.. doctorSchedules.OrderByDescending(name => name.Doctor.ApplicationUser.FullName)];
-                                break;
-                            }
-                        //sort doctor schedules list ascending by doctor schedules date and start time
-                        case "schedulesdatetime":
-                            {
-                                doctorSchedules = isAscending == true
-                                    ? [.. doctorSchedules.OrderBy(date => date.SchedulesDate).ThenBy(time => time.StartTime)]
-                                    : [.. doctorSchedules.OrderByDescending(date => date.SchedulesDate).ThenByDescending(time => time.StartTime)];
                                 break;
                             }
                         //defulat do not anything

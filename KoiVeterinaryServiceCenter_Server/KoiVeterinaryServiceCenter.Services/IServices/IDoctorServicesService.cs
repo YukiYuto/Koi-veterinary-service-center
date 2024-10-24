@@ -4,7 +4,8 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
-using KoiVeterinaryServiceCenter.Model.DTO;
+using KoiVeterinaryServiceCenter.Models.DTO;
+using KoiVeterinaryServiceCenter.Models.DTO.DoctorServices;
 
 namespace KoiVeterinaryServiceCenter.Services.IServices
 {

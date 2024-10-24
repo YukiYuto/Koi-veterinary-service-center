@@ -1,5 +1,7 @@
 ﻿using System.Security.Claims;
 using KoiVeterinaryServiceCenter.Model.DTO;
+using KoiVeterinaryServiceCenter.Model.DTO.Slot;
+using KoiVeterinaryServiceCenter.Models.DTO;
 
 namespace KoiVeterinaryServiceCenter.Services.IServices;
 

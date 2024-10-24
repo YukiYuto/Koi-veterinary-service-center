@@ -1,27 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using KoiVeterinaryServiceCenter.DataAccess.Context;
+﻿using KoiVeterinaryServiceCenter.DataAccess.Context;
 using KoiVeterinaryServiceCenter.DataAccess.IRepository;
-using KoiVeterinaryServiceCenter.Model.Domain;
+using KoiVeterinaryServiceCenter.Models.Domain;
 using Microsoft.EntityFrameworkCore;
 
-namespace KoiVeterinaryServiceCenter.DataAccess.Repository
-{
-    public class ServiceRepository : Repository<Service>, IServiceRepository
-    {
-        public readonly ApplicationDbContext _context;
-        public ServiceRepository(ApplicationDbContext context) : base(context)
-        {
-            _context = context;
-        }
+namespace KoiVeterinaryServiceCenter.DataAccess.Repository;
 
-        public async Task<Service> GetServiceById(Guid serviceId)
-        {
-            return await _context.Services.FirstOrDefaultAsync(x => x.ServiceId == serviceId);
-        }
+public class ServiceRepository : Repository<Service>, IServiceRepository
+{
+    public readonly ApplicationDbContext _context;
+    public ServiceRepository(ApplicationDbContext context) : base(context)
+    {
+        _context = context;
+    }
+
+    public async Task<Service> GetServiceById(Guid serviceId)
+    {
+        return await _context.Services.FirstOrDefaultAsync(x => x.ServiceId == serviceId);
+    }
 
         public async Task<Service> GetServiceByServiceNumber(long serviceNumber)
         {
@@ -33,9 +28,8 @@ namespace KoiVeterinaryServiceCenter.DataAccess.Repository
             _context.Services.Update(service);
         }
 
-        public void UpdateRange(IEnumerable<Service> services)
-        {
-            _context.Services.UpdateRange(services);
-        }
+    public void UpdateRange(IEnumerable<Service> services)
+    {
+        _context.Services.UpdateRange(services);
     }
 }

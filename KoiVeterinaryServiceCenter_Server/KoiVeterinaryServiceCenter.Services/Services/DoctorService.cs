@@ -7,7 +7,8 @@ using System.Threading.Tasks;
 using AutoMapper;
 using KoiVeterinaryServiceCenter.DataAccess.IRepository;
 using KoiVeterinaryServiceCenter.Model.Domain;
-using KoiVeterinaryServiceCenter.Model.DTO;
+using KoiVeterinaryServiceCenter.Models.DTO;
+using KoiVeterinaryServiceCenter.Models.DTO.Doctor;
 using KoiVeterinaryServiceCenter.Services.IServices;
 using Microsoft.IdentityModel.Tokens;
 

@@ -5,6 +5,8 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using KoiVeterinaryServiceCenter.Model.DTO;
+using KoiVeterinaryServiceCenter.Models.DTO;
+using KoiVeterinaryServiceCenter.Models.DTO.DoctorSchedules;
 
 namespace KoiVeterinaryServiceCenter.Services.IServices
 {

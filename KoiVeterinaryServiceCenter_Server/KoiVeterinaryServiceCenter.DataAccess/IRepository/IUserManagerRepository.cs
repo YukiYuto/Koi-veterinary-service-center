@@ -1,4 +1,4 @@
-﻿using KoiVeterinaryServiceCenter.Model.Domain;
+﻿using KoiVeterinaryServiceCenter.Models.Domain;
 using Microsoft.AspNetCore.Identity;
 namespace KoiVeterinaryServiceCenter.DataAccess.IRepository
 {
