@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
@@ -9,7 +10,8 @@ namespace KoiVeterinaryServiceCenter.Model.Domain
 {
     public class PaymentTransactions
     {
-        public Guid Id { get; set; }
+        [Key]
+        public Guid PaymentTransactionId { get; set; }
         public long OrderCode { get; set; }
         public int Amount { get; set; }
         public string Description { get; set; }
@@ -23,7 +25,6 @@ namespace KoiVeterinaryServiceCenter.Model.Domain
         public string? Signature { get; set; }
         public DateTime? CreatedAt { get; set; }
         public string? Status { get; set; }
-
-        [NotMapped] public virtual ICollection<OrderItems> OrderItems { get; set; }
+        
     }
 }

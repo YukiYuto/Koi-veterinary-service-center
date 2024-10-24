@@ -11,6 +11,5 @@ public interface IUnitOfWork
     IServiceRepository ServiceRepository { get; }
     IDoctorServicesRepository DoctorServicesRepository { get; }
     IPaymentTransactionsRepository PaymentTransactionsRepository { get; }
-    IOrderItemsRepository OrderItemsRepository { get; }
     Task<int> SaveAsync();
 }

@@ -31,7 +31,7 @@ public class PaymentService : IPaymentService
 
     public async Task<ResponseDTO> CreatePayOSPaymentLink(ClaimsPrincipal User, CreatePaymentLinkDTO createPaymentLink)
     {
-        try
+        /*try
         {
             OrderItems order = await _unitOfWork.OrderItemsRepository.GetById(createPaymentLink.OrderCode);
             if (order is null)
@@ -113,7 +113,8 @@ public class PaymentService : IPaymentService
                 StatusCode = 500,
                 Result = null
             };
-        }
+        }*/
+        return null;
     }
 
     public async Task<ResponseDTO> UpdatePayOSPaymentStatus(ClaimsPrincipal User, Guid paymentTransactionId)

@@ -98,7 +98,8 @@ public class AuthService : IAuthService
                 BirthDate = registerCustomerDTO.BirthDate,
                 PhoneNumber = registerCustomerDTO.PhoneNumber,
                 AvatarUrl = "",
-                LockoutEnabled = false
+                LockoutEnabled = false,
+                EmailConfirmed = true
             };
 
             // Thêm người dùng mới vào database

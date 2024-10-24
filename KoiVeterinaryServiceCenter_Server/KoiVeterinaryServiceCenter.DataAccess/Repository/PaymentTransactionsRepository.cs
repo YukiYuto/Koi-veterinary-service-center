@@ -20,7 +20,7 @@ namespace KoiVeterinaryServiceCenter.DataAccess.Repository
 
         public async Task<PaymentTransactions> GetById(Guid transactionId)
         {
-            return await _context.PaymentTransactions.FirstOrDefaultAsync(x => x.Id == transactionId);
+            return await _context.PaymentTransactions.FirstOrDefaultAsync(x => x.PaymentTransactionId == transactionId);
         }
 
         public void Update(PaymentTransactions transaction)
