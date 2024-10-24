@@ -12,5 +12,9 @@ namespace KoiVeterinaryServiceCenter.DataAccess.IRepository
         Task<DoctorServices> GetById(Guid doctorServiceId);
         void Update (DoctorServices doctorService);
         void UpdateRange (DoctorServices doctorService);
+
+
+        Task<DoctorServices> GetDoctorServiceByDoctorAndServiceId(Guid doctorId, Guid serviceId);
+        Task<List<DoctorServices>> GetByServiceId(Guid serviceId);
     }
 }

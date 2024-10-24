@@ -23,7 +23,7 @@ namespace KoiVeterinaryServiceCenter.Services.IServices
         Task<ResponseDTO> CreateDoctorService(ClaimsPrincipal User, CreateDoctorServicesDTO createDoctorServiceDTO);
         Task<ResponseDTO> GetDoctorServiceById(ClaimsPrincipal User, Guid doctorServiceId);
         Task<ResponseDTO> UpdateDoctorService(ClaimsPrincipal User, UpdateDoctorServicesDTO updateDoctorServiceDTO);
-        Task<ResponseDTO> DeleteDoctorService(ClaimsPrincipal User, Guid doctorServiceId);
+        Task<ResponseDTO> DeleteDoctorService(ClaimsPrincipal User, Guid doctorId, Guid serviceId);
 
     }
 }
