@@ -22,7 +22,6 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     public DbSet<Service> Services { get; set; }
 
     public DbSet<Appointment> Appointments { get; set; }
-    public DbSet<AppointmentStatus> AppointmentStatuses { get; set; }
     public DbSet<Slot> Slots { get; set; }
     public DbSet<Transaction> Transactions { get; set; }
 

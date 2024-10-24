@@ -36,8 +36,6 @@ public class AutoMapperProfile : Profile
             .ForMember(dest => dest.DoctorSchedulesId, opt => opt.MapFrom(src => src.DoctorSchedulesId))
             .ForMember(dest => dest.DoctorId, opt => opt.MapFrom((src) => src.DoctorId))
             .ForMember(dest => dest.DoctorName, opt => opt.MapFrom(src => src.Doctor.ApplicationUser.FullName))
-            .ForMember(dest => dest.SchedulesDate, opt => opt.MapFrom(src => src.SchedulesDate))
-            .ForMember(dest => dest.StartTime, opt => opt.MapFrom(src => src.StartTime))
-            .ForMember(dest => dest.EndTime, opt => opt.MapFrom(src => src.EndTime)).ReverseMap();
+            .ForMember(dest => dest.SchedulesDate, opt => opt.MapFrom(src => src.SchedulesDate)).ReverseMap();
     }
 }

@@ -46,15 +46,6 @@ public class SlotService : ISlotService
                         {
                             slots = allSlots.Where(x => x.AppointmentDate.Date == appointmentDate.Date).ToList();
                         }
-
-                        break;
-
-                    case "doctorid":
-                        if (Guid.TryParse(filterQuery, out Guid doctorId))
-                        {
-                            slots = allSlots.Where(x => x.DoctorId == doctorId).ToList();
-                        }
-
                         break;
 
                     case "isbooked":
@@ -204,7 +195,6 @@ public class SlotService : ISlotService
             //Map DTO qua entity Level
             Slot slots = new Slot()
             {
-                DoctorId = createSlotDto.DoctorId ?? Guid.Empty,
                 StartTime = createSlotDto.StartTime,
                 EndTime = createSlotDto.EndTime,
                 AppointmentDate = createSlotDto.AppointmentDate,
@@ -287,7 +277,6 @@ public class SlotService : ISlotService
             }
 
             // cập nhật thông tin danh mục
-            slotID.DoctorId = updateSlotDto.DoctorId ?? Guid.Empty;
             slotID.StartTime = updateSlotDto.StartTime;
             slotID.EndTime = updateSlotDto.EndTime;
             slotID.IsBooked = updateSlotDto.IsBooked;

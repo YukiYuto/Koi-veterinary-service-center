@@ -6,18 +6,15 @@ namespace KoiVeterinaryServiceCenter.Models.Domain;
 public class Appointment
 {
     [Key] public Guid AppointmentId { get; set; }
-    public Guid PetId { get; set; }
     public Guid SlotId { get; set; }
-    public Guid DoctorRatingId { get; set; }
-    [ForeignKey("DoctorRatingId")] public virtual DoctorRating DoctorRating { get; set; } = null!;
+    [ForeignKey("SlotId")]
+    public virtual Slot Slot { get; set; } = null!; // Liên kết đến Slot
     public Guid ServiceId { get; set; }
-    public DateTime AppointmentDate { get; set; }
-
-
+    [ForeignKey("ServiceId")] // Đảm bảo có mối quan hệ với Service
+    public virtual Service Service { get; set; } = null!; // Liên kết đến Service
+    public string? Description { get; set; }
     public double TotalAmount { get; set; }
-    public string Type { get; set; } = null!;
     public DateTime CreateTime { get; set; } = DateTime.Now;
-
     public int BookingStatus { get; set; }
 
     public string BookingStatusDescription

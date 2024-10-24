@@ -15,7 +15,7 @@ namespace KoiVeterinaryServiceCenter.Model.Domain
         public Guid DoctorId { get; set; }
         [ForeignKey("DoctorId")] public virtual Doctor Doctor { get; set; }
         public DateTime SchedulesDate { get; set; }
-        public TimeSpan StartTime { get; set; }
-        public TimeSpan EndTime { get; set; }
+
+        public virtual ICollection<Slot> Slots { get; set; } = new List<Slot>();
     }
 }
