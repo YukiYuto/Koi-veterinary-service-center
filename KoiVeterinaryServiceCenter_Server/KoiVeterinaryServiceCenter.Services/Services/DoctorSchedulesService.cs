@@ -21,7 +21,8 @@ namespace KoiVeterinaryServiceCenter.Services.Services
         }
 
         //Create Schedule for doctor
-        public async Task<ResponseDTO> CreateDoctorSchedule(ClaimsPrincipal User, CreateDoctorSchedulesDTO createDoctorSchedulesDTO)
+        public async Task<ResponseDTO> CreateDoctorSchedule(ClaimsPrincipal User,
+        CreateDoctorSchedulesDTO createDoctorSchedulesDTO)
         {
             try
             {
@@ -30,6 +31,9 @@ namespace KoiVeterinaryServiceCenter.Services.Services
                 {
                     DoctorId = createDoctorSchedulesDTO.DoctorId,
                     SchedulesDate = createDoctorSchedulesDTO.SchedulesDate,
+                    CreatedBy = User.Identity.Name,
+                    CreatedTime = DateTime.Now,
+                    Status = 0
                 };
 
                 //Add new schedule for doctor

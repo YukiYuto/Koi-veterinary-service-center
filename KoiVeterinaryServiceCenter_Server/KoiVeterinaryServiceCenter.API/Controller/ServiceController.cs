@@ -22,10 +22,8 @@ namespace KoiVeterinaryServiceCenter.API.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = StaticUserRoles.AdminDoctor)]
         public async Task<ActionResult<ResponseDTO>> GetAll
             (
-               [FromQuery] ClaimsPrincipal User,
                [FromQuery] string? filterOn,
                [FromQuery] string? filterQuery,
                [FromQuery] string? sortBy,
