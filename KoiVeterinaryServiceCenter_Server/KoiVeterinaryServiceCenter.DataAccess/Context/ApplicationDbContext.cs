@@ -1,4 +1,5 @@
 ﻿using KoiVeterinaryServiceCenter.DataAccess.Seedings;
+using KoiVeterinaryServiceCenter.Model.Domain;
 using KoiVeterinaryServiceCenter.Models.Domain;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -21,13 +22,11 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     public DbSet<Service> Services { get; set; }
 
     public DbSet<Appointment> Appointments { get; set; }
-    public DbSet<AppointmentStatus> AppointmentStatuses { get; set; }
     public DbSet<Slot> Slots { get; set; }
     public DbSet<Transaction> Transactions { get; set; }
-    public DbSet<PaymentMethod> PaymentMethods { get; set; }
 
     public DbSet<EmailTemplate> EmailTemplates { get; set; }
-
+    public DbSet<PaymentTransactions> PaymentTransactions { get; set; }
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);

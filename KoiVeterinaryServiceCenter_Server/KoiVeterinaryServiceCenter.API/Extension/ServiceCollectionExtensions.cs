@@ -28,17 +28,20 @@ public static class ServiceCollectionExtensions
         //services.AddScoped<ISlotService, SlotService>();
         // Registering IAppointmentService with its implementation AppointmentService
         //services.AddScoped<IAppointmentService, AppointmentService>();
-        // Registering IUserManagerRepository its implementation DoctorService
-        //services.AddScoped<IDoctorService, DoctorService>(); 
+        // Registering IDoctorService its implementation DoctorService
+        services.AddScoped<IDoctorService, DoctorService>();
         // Registering IEmailService with its implementation EmailService
         services.AddScoped<IEmailService, EmailService>();
         // Registering IDoctorSchedulesService with its implementation DoctorSchedulesService
-        //services.AddScoped<IDoctorSchedulesService, DoctorSchedulesService>();
+        services.AddScoped<IDoctorSchedulesService, DoctorSchedulesService>();
         // Registering IServiceService with its implementation ServiceService
         //services.AddScoped<IServicesService, ServiceService>();
         // Registering IDoctorService with its implementation DoctorService
-        //services.AddScoped<IDoctorServicesService, DoctorServicesService>();
+        services.AddScoped<IDoctorServicesService, DoctorServicesService>();
+        // Registering IRedisService with its implementation RedisService
         services.AddScoped<IRedisService, RedisService>();
+        // Registering IPaymentService with its implementation PaymentService
+        services.AddScoped<IPaymentService, PaymentService>();
         return services;
     }
 }

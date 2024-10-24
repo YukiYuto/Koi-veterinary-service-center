@@ -3,6 +3,7 @@ using System.Security.Claims;
 using System.Web;
 using FirebaseAdmin.Auth;
 using KoiVeterinaryServiceCenter.DataAccess.IRepository;
+using KoiVeterinaryServiceCenter.Model.Domain;
 using KoiVeterinaryServiceCenter.Models.Domain;
 using KoiVeterinaryServiceCenter.Models.DTO;
 using KoiVeterinaryServiceCenter.Models.DTO.Auth;
@@ -97,7 +98,8 @@ public class AuthService : IAuthService
                 BirthDate = registerCustomerDTO.BirthDate,
                 PhoneNumber = registerCustomerDTO.PhoneNumber,
                 AvatarUrl = "",
-                LockoutEnabled = false
+                LockoutEnabled = false,
+                EmailConfirmed = true
             };
 
             // Thêm người dùng mới vào database

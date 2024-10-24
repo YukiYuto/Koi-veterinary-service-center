@@ -1,16 +1,23 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using KoiVeterinaryServiceCenter.Models.Domain;
 
-namespace KoiVeterinaryServiceCenter.Models.Domain;
-
-public class Doctor
+namespace KoiVeterinaryServiceCenter.Model.Domain
 {
-    [Key] public Guid DoctorId { get; set; }
-    public string UserId { get; set; } = null!;
-    [ForeignKey("UserId")] public virtual ApplicationUser ApplicationUser { get; set; } = null!;
-    public string Specialization { get; set; } = null!;
-    public string Experience{ get; set; } = null!;
-    public string Degree { get; set; } = null!;
+    public class Doctor
+    {
+        [Key] public Guid DoctorId { get; set; }
+        public string UserId { get; set; }
+        [ForeignKey("UserId")] public virtual ApplicationUser ApplicationUser { get; set; }
+        public string Specialization { get; set; }
+        public string Experience{ get; set; }
+        public string Degree { get; set; }
 
-    [NotMapped]public virtual ICollection<DoctorServices> DoctorServices { get; set; }
+        [NotMapped]public virtual ICollection<DoctorServices> DoctorServices { get; set; }
+    }
 }
