@@ -1,15 +1,12 @@
 ﻿using System.Security.Claims;
-using KoiVeterinaryServiceCenter.DataAccess.IRepository;
-using KoiVeterinaryServiceCenter.Model.DTO;
 using KoiVeterinaryServiceCenter.Model.DTO.Service;
 using KoiVeterinaryServiceCenter.Models.DTO;
 using KoiVeterinaryServiceCenter.Services.IServices;
 using KoiVeterinaryServiceCenter.Utility.Constants;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace KoiVeterinaryServiceCenter.API.Controllers
+namespace KoiVeterinaryServiceCenter.API.Controller
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -22,7 +19,7 @@ namespace KoiVeterinaryServiceCenter.API.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = StaticUserRoles.AdminDoctor)]
+        [Authorize(Roles = StaticUserRoles.Admin)]
         public async Task<ActionResult<ResponseDTO>> GetAll
             (
                [FromQuery] ClaimsPrincipal User,
