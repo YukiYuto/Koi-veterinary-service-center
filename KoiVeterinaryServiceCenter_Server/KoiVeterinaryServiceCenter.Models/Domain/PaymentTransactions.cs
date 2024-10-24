@@ -25,6 +25,5 @@ namespace KoiVeterinaryServiceCenter.Model.Domain
         public string? Signature { get; set; }
         public DateTime? CreatedAt { get; set; }
         public string? Status { get; set; }
-        
     }
 }

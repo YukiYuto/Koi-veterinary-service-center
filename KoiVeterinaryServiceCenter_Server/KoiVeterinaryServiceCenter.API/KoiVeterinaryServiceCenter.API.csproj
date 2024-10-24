@@ -6,6 +6,23 @@
         <ImplicitUsings>enable</ImplicitUsings>
     </PropertyGroup>
 
+<<<<<<< HEAD
+  <ItemGroup>
+    <PackageReference Include="Google.Cloud.Storage.V1" Version="4.10.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.8" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.6">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.21.0" />
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Kubernetes.Tools.Targets" Version="1.1.0" />
+    <PackageReference Include="payOS" Version="1.0.7" />
+    <PackageReference Include="PayPal" Version="2.0.0-rc2" />
+    <PackageReference Include="StackExchange.Redis" Version="2.8.16" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="6.6.2" />
+  </ItemGroup>
+=======
     <ItemGroup>
         <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.10" />
         <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.10" />
@@ -17,6 +34,7 @@
         <PackageReference Include="StackExchange.Redis" Version="2.8.16" />
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
     </ItemGroup>
+>>>>>>> 61f9fcc6684779a3c22f7c4b2265172ff3dabef5
 
     <ItemGroup>
       <ProjectReference Include="..\KoiVeterinaryServiceCenter.Models\KoiVeterinaryServiceCenter.Models.csproj" />
