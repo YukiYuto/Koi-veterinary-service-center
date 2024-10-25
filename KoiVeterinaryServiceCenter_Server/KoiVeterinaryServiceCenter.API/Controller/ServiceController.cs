@@ -18,6 +18,7 @@ namespace KoiVeterinaryServiceCenter.API.Controller
             _serviceService = serviceService;
         }
 
+        [HttpGet]
         public async Task<ActionResult<ResponseDTO>> GetAll
             (
                [FromQuery] string? filterOn,
