@@ -7,4 +7,5 @@ public interface ISlotRepository : IRepository<Slot>
     void Update(Slot slot);
     void UpdateRange(IEnumerable<Slot> slots);
     Task<Slot> GetSlotById(Guid slotId);
+    Task<IEnumerable<Slot>> GetAllSlotWithDoctor();
 }

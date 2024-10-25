@@ -9,6 +9,6 @@ namespace KoiVeterinaryServiceCenter.Models.DTO.DoctorSchedules
     public class CreateDoctorSchedulesDTO
     {
         public Guid DoctorId { get; set; }
-        public DateOnly SchedulesDate { get; set; }
+        public DateTime SchedulesDate { get; set; }
     }
 }

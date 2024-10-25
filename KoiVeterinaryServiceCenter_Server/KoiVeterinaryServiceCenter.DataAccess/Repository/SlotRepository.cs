@@ -28,4 +28,12 @@ public class SlotRepository : Repository<Slot>,ISlotRepository
     {
         return await _context.Slots.FirstOrDefaultAsync(x => x.SlotId == slotId);
     }
+
+    public async Task<IEnumerable<Slot>> GetAllSlotWithDoctor()
+    {
+        return await _context.Slots
+        .Include(s => s.DoctorSchedules)
+        .ThenInclude(ds => ds.Doctor)
+        .ToListAsync();
+    }
 }

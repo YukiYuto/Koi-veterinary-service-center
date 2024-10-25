@@ -20,22 +20,22 @@ public class DoctorSchedulesService : IDoctorSchedulesService
         _unitOfWork = unitOfWork;
         _mapper = mapper;
     }
-
-    //Create Schedule for doctor
-    public async Task<ResponseDTO> CreateDoctorSchedule(ClaimsPrincipal User,
+        //Create Schedule for doctor
+        public async Task<ResponseDTO> CreateDoctorSchedule(ClaimsPrincipal User,
         CreateDoctorSchedulesDTO createDoctorSchedulesDTO)
-    {
-        try
         {
             //Map DTO to entity
             DoctorSchedules doctorSchedules = new DoctorSchedules()
             {
-                DoctorId = createDoctorSchedulesDTO.DoctorId,
-                SchedulesDate = createDoctorSchedulesDTO.SchedulesDate,
-                CreatedBy = User.Identity.Name,
-                CreatedTime = DateTime.Now,
-                Status = 0
-            };
+                //Map DTO to entity
+                DoctorSchedules doctorSchedules = new DoctorSchedules()
+                {
+                    DoctorId = createDoctorSchedulesDTO.DoctorId,
+                    SchedulesDate = createDoctorSchedulesDTO.SchedulesDate,
+                    CreatedBy = User.Identity.Name,
+                    CreatedTime = DateTime.Now,
+                    Status = 0
+                };
 
             //Add new schedule for doctor
             await _unitOfWork.DoctorSchedulesRepository.AddAsync(doctorSchedules);

@@ -18,11 +18,8 @@ namespace KoiVeterinaryServiceCenter.API.Controller
             _serviceService = serviceService;
         }
 
-        [HttpGet]
-        [Authorize(Roles = StaticUserRoles.Admin)]
         public async Task<ActionResult<ResponseDTO>> GetAll
             (
-               [FromQuery] ClaimsPrincipal User,
                [FromQuery] string? filterOn,
                [FromQuery] string? filterQuery,
                [FromQuery] string? sortBy,
@@ -44,25 +41,22 @@ namespace KoiVeterinaryServiceCenter.API.Controller
         }
 
         [HttpGet("{serviceId:guid}")]
-        [Authorize(Roles = StaticUserRoles.AdminDoctor)]
+        [Authorize(Roles = StaticUserRoles.Admin)]
         public async Task<ActionResult<ResponseDTO>> GetService([FromRoute] Guid serviceId)
         {
             var responseDto = await _serviceService.GetServiceById(User, serviceId);
             return StatusCode(responseDto.StatusCode, responseDto);
         }
 
-        [HttpPut("{serviceId:guid}")]
-        [Authorize(Roles = StaticUserRoles.AdminDoctor)]
+        [HttpPut]
         [Authorize(Roles = StaticUserRoles.Admin)]
-        public async Task<ActionResult<ResponseDTO>> UpdateService([FromRoute] Guid serviceId, [FromBody] UpdateServiceDTO updateServiceDTO)
+        public async Task<ActionResult<ResponseDTO>> UpdateService(UpdateServiceDTO updateServiceDTO)
         {
-            updateServiceDTO.ServiceId = serviceId;
             var responseDto = await _serviceService.UpdateService(User, updateServiceDTO);
             return StatusCode(responseDto.StatusCode, responseDto);
         }
 
-        [HttpPut("{serviceId:guid}/soft-delete")]
-        [Authorize(Roles = StaticUserRoles.AdminDoctor)]
+        [HttpDelete("{serviceId:guid}/soft-delete")]
         [Authorize(Roles = StaticUserRoles.Admin)]
         public async Task<ActionResult<ResponseDTO>> DeleteService([FromRoute] Guid serviceId)
         {
