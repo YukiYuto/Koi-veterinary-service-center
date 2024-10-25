@@ -1,5 +1,4 @@
 ﻿using System.Collections.Concurrent;
-using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Web;
 using FirebaseAdmin.Auth;
@@ -13,7 +12,6 @@ using KoiVeterinaryServiceCenter.Utility.Constants;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
 
 namespace KoiVeterinaryServiceCenter.Services.Services;
 
@@ -26,7 +24,6 @@ public class AuthService : IAuthService
     private readonly ITokenService _tokenService;
     private readonly IFirebaseService _firebaseService;
     private readonly IEmailService _emailService;
-    private readonly JwtSecurityTokenHandler _tokenHandler;
 
 
     private static readonly ConcurrentDictionary<string, (int Count, DateTime LastRequest)> ResetPasswordAttempts =
@@ -50,7 +47,6 @@ public class AuthService : IAuthService
         _tokenService = tokenService;
         _firebaseService = firebaseService;
         _emailService = emailService;
-        _tokenHandler = new JwtSecurityTokenHandler();
     }
 
 
@@ -488,65 +484,6 @@ public class AuthService : IAuthService
             };
         }
     }
-
-
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="token"></param>
-    /// <returns></returns>
-    public async Task<ResponseDTO> FetchUserByToken(string token)
-    {
-        try
-        {
-            var jwtToken = _tokenHandler.ReadJwtToken(token);
-            var userId = jwtToken.Claims.First(claim => claim.Type == ClaimTypes.NameIdentifier).Value;
-
-            var user = await _userManager.FindByIdAsync(userId);
-            if (user == null)
-            {
-                return new ResponseDTO()
-                {
-                    Message = "Invalid user",
-                    StatusCode = 400,
-                    IsSuccess = false,
-                    Result = null
-                };
-            }
-
-            // Lấy thông tin từ claims
-            var userDto = new GetUserDTO
-            {
-                Id = user.Id,
-                FullName = jwtToken.Claims.First(claim => claim.Type == "FullName").Value,
-                Email = jwtToken.Claims.First(claim => claim.Type == "Email").Value,
-                PhoneNumber = jwtToken.Claims.First(claim => claim.Type == "PhoneNumber").Value,
-                Address = jwtToken.Claims.First(claim => claim.Type == "Address").Value,
-                Country = jwtToken.Claims.First(claim => claim.Type == "Country").Value,
-                UserName = user.UserName,
-                Gender = jwtToken.Claims.First(claim => claim.Type == "Gender").Value,
-            };
-
-            return new ResponseDTO()
-            {
-                Message = "Get info successfully",
-                StatusCode = 200,
-                IsSuccess = true, // Chỉnh lại giá trị IsSuccess thành true
-                Result = userDto // Trả về userDto
-            };
-        }
-        catch (Exception ex)
-        {
-            return new()
-            {
-                Message = ex.Message,
-                IsSuccess = false,
-                StatusCode = 500,
-                Result = null
-            };
-        }
-    }
-
 
     /// <summary>
     /// This method for check email exist or not

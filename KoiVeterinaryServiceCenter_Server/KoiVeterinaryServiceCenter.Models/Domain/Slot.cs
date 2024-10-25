@@ -12,5 +12,6 @@ public class Slot : BaseEntity<string, string, int>
     public DateOnly SchedulesDate { get; set; }
     public TimeSpan StartTime { get; set; }
     public TimeSpan EndTime { get; set; }
+    public DateTime AppointmentDate { get; set; }
     public bool IsBooked { get; set; }
 }

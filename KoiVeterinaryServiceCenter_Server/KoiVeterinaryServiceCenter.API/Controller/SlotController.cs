@@ -60,7 +60,7 @@ namespace KoiVeterinaryServiceCenter.API.Controllers
         /// <param name="createSlotDto">The slot details.</param>
         /// <returns>The created slot details.</returns>
         [HttpPost]
-        //[Authorize(Roles = StaticUserRoles.Admin)]
+        [Authorize(Roles = StaticUserRoles.Doctor)]
         public async Task<ActionResult<ResponseDTO>> CreateSlot([FromBody] CreateSlotDTO createSlotDto)
         {
             var responseDto = await _slotService.CreateSlot(User, createSlotDto);
@@ -72,11 +72,13 @@ namespace KoiVeterinaryServiceCenter.API.Controllers
         /// </summary>
         /// <param name="updateSlotDto">The updated slot details.</param>
         /// <returns>The updated slot details.</returns>
-        [HttpPut]
+        [HttpPut("{slotId:guid}")]
         [Authorize(Roles = StaticUserRoles.Doctor)]
         public async Task<ActionResult<ResponseDTO>> UpdateSlot(
+            [FromRoute] Guid slotId,
             [FromBody] UpdateSlotDTO updateSlotDto)
         {
+            updateSlotDto.SlotId = slotId; // Assigning the route ID to the DTO
             var responseDto = await _slotService.UpdateSlot(User, updateSlotDto);
             return StatusCode(responseDto.StatusCode, responseDto);
         }

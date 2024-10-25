@@ -45,7 +45,7 @@ namespace KoiVeterinaryServiceCenter.API.Controllers
         }
 
         [HttpGet("{serviceId:guid}")]
-       
+        [Authorize]
         public async Task<ActionResult<ResponseDTO>> GetDoctorSeriveById([FromRoute] Guid serviceId)
         {
             var responseDto = await _doctorServicesService.GetDoctorServiceById(User, serviceId);
@@ -61,11 +61,11 @@ namespace KoiVeterinaryServiceCenter.API.Controllers
             return StatusCode(responseDto.StatusCode, responseDto);
         }
 
-        [HttpDelete("{doctorId:guid}/{serviceId:guid}")]
+        [HttpDelete("{doctorServiceId:guid}")]
         [Authorize(Roles = StaticUserRoles.Admin)]
-        public async Task<ActionResult<ResponseDTO>> DeleteDoctorService([FromRoute] Guid doctorId, [FromRoute] Guid serviceId)
+        public async Task<ActionResult<ResponseDTO>> DeleteDoctorService([FromRoute] Guid doctorServiceId)
         {
-            var responseDto = await _doctorServicesService.DeleteDoctorService(User, doctorId, serviceId);
+            var responseDto = await _doctorServicesService.DeleteDoctorService(User, doctorServiceId);
             return StatusCode(responseDto.StatusCode, responseDto);
         }
     }

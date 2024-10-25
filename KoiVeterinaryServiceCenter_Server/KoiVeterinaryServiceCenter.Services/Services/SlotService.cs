@@ -20,104 +20,102 @@ public class SlotService : ISlotService
     }
 
     public async Task<ResponseDTO> GetSlots
-(
-    ClaimsPrincipal User,
-    string? filterOn,
-    string? filterQuery,
-    string? sortBy,
-    bool? isAscending,
-    int pageNumber = 1,
-    int pageSize = 10)
+    (
+        ClaimsPrincipal User,
+        string? filterOn,
+        string? filterQuery,
+        string? sortBy,
+        bool? isAscending,
+        int pageNumber = 0,
+        int pageSize = 0)
     {
         try
         {
-            var slots = await _unitOfWork.SlotRepository.GetAllSlotWithDoctor();
+            List<Slot> slots = new List<Slot>();
 
-            // Kiểm tra nếu danh sách slots là null hoặc rỗng  
-            if (!slots.Any())
-            {
-                return new ResponseDTO()
-                {
-                    Message = "There are no slots",
-                    IsSuccess = true,
-                    StatusCode = 404,
-                    Result = null
-                };
-            }
+            // Lấy tất cả các Slot từ repository
+            var allSlots = await _unitOfWork.SlotRepository.GetAllAsync(includeProperties: "Doctor");
 
-            var listSlots = slots.ToList();
-
-            // Filter Query  
+            // Bộ lọc
             if (!string.IsNullOrEmpty(filterOn) && !string.IsNullOrEmpty(filterQuery))
             {
                 switch (filterOn.Trim().ToLower())
                 {
+                    case "appointmentdate":
+                        if (DateTime.TryParse(filterQuery, out DateTime appointmentDate))
+                        {
+                            slots = allSlots.Where(x => x.AppointmentDate.Date == appointmentDate.Date).ToList();
+                        }
+                        break;
+
                     case "isbooked":
                         if (bool.TryParse(filterQuery, out bool isBooked))
                         {
-                            listSlots = listSlots.Where(x => x.IsBooked == isBooked).ToList();
+                            slots = allSlots.Where(x => x.IsBooked == isBooked).ToList();
                         }
-                        break;
 
-                    case "starttime":
-                        if (TimeSpan.TryParse(filterQuery, out TimeSpan startTime))
-                        {
-                            listSlots = listSlots.Where(x => x.StartTime == startTime).ToList();
-                        }
-                        break;
-
-                    case "endtime":
-                        if (TimeSpan.TryParse(filterQuery, out TimeSpan endTime))
-                        {
-                            listSlots = listSlots.Where(x => x.EndTime == endTime).ToList();
-                        }
                         break;
 
                     default:
-                        break;
-                }
-            }
-
-            // Sort Query  
-            if (!string.IsNullOrEmpty(sortBy))
-            {
-                switch (sortBy.Trim().ToLower())
-                {
-                    case "starttime":
-                        listSlots = isAscending == true
-                            ? listSlots.OrderBy(x => x.StartTime).ToList()
-                            : listSlots.OrderByDescending(x => x.StartTime).ToList();
-                        break;
-
-                    case "endtime":
-                        listSlots = isAscending == true
-                            ? listSlots.OrderBy(x => x.EndTime).ToList()
-                            : listSlots.OrderByDescending(x => x.EndTime).ToList();
-                        break;
-
-                    default:
-                        // If no valid `sortBy` value is provided, default to sorting by StartTime descending  
-                        listSlots = listSlots.OrderByDescending(x => x.StartTime).ToList();
+                        slots = allSlots.ToList(); // Nếu không có bộ lọc, lấy tất cả
                         break;
                 }
             }
             else
             {
-                // If no `sortBy` is specified, default to sorting by StartTime descending  
-                listSlots = listSlots.OrderByDescending(x => x.StartTime).ToList();
+                slots = allSlots.ToList(); // Nếu không có bộ lọc, lấy tất cả
             }
 
-            // Pagination  
+            // Sắp xếp
+            if (!string.IsNullOrEmpty(sortBy))
+            {
+                switch (sortBy.Trim().ToLower())
+                {
+                    case "starttime":
+                        slots = isAscending == true
+                            ? slots.OrderBy(x => x.StartTime).ToList()
+                            : slots.OrderByDescending(x => x.StartTime).ToList();
+                        break;
+
+                    case "endtime":
+                        slots = isAscending == true
+                            ? slots.OrderBy(x => x.EndTime).ToList()
+                            : slots.OrderByDescending(x => x.EndTime).ToList();
+                        break;
+
+                    case "appointmentdate":
+                        slots = isAscending == true
+                            ? slots.OrderBy(x => x.AppointmentDate).ToList()
+                            : slots.OrderByDescending(x => x.AppointmentDate).ToList();
+                        break;
+
+                    default:
+                        break; // Không sắp xếp nếu không có trường hợp hợp lệ
+                }
+            }
+
+            // Phân trang
             if (pageNumber > 0 && pageSize > 0)
             {
                 var skipResult = (pageNumber - 1) * pageSize;
-                listSlots = listSlots.Skip(skipResult).Take(pageSize).ToList();
+                slots = slots.Skip(skipResult).Take(pageSize).ToList();
+            }
+
+            if (slots == null || !slots.Any())
+            {
+                return new ResponseDTO()
+                {
+                    Message = "No slots found.",
+                    Result = null,
+                    IsSuccess = false,
+                    StatusCode = 404
+                };
             }
 
             return new ResponseDTO()
             {
                 Message = "Slots retrieved successfully.",
-                Result = listSlots,
+                Result = slots,
                 IsSuccess = true,
                 StatusCode = 200
             };
@@ -197,9 +195,9 @@ public class SlotService : ISlotService
             //Map DTO qua entity Level
             Slot slots = new Slot()
             {
-                DoctorSchedulesId = createSlotDto.DoctorSchedulesId,
                 StartTime = createSlotDto.StartTime,
                 EndTime = createSlotDto.EndTime,
+                AppointmentDate = createSlotDto.AppointmentDate,
                 IsBooked = createSlotDto.IsBooked,
                 CreatedTime = DateTime.Now,
                 UpdatedTime = null,

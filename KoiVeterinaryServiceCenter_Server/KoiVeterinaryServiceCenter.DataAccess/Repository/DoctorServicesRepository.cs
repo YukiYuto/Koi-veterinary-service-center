@@ -18,26 +18,10 @@ namespace KoiVeterinaryServiceCenter.DataAccess.Repository
             return await _context.DoctorServices.Include(ds => ds.Doctor).ThenInclude(d => d.ApplicationUser).Include(ds => ds.Service).FirstOrDefaultAsync(x => x.ServiceId == doctorServiceId);
         }
 
-        public async Task<List<DoctorServices>> GetByServiceId(Guid serviceId)
-        {
-      
-                return await _context.DoctorServices.Include(ds => ds.Doctor).ThenInclude(d => d.ApplicationUser).Include(ds => ds.Service).Where(ds => ds.ServiceId == serviceId) // Filter by ServiceId
-.ToListAsync(); // Execute the query and return the results as a List
-            }
-
-            public void Update(DoctorServices doctorService)
+        public void Update(DoctorServices doctorService)
         {
             _context.DoctorServices.Update(doctorService);
         }
-        public async Task<DoctorServices> GetDoctorServiceByDoctorAndServiceId(Guid doctorId, Guid serviceId)
-        {
-            return await _context.DoctorServices
-                .Include(ds => ds.Doctor)
-                .ThenInclude(d => d.ApplicationUser)
-                .Include(ds => ds.Service)
-                .FirstOrDefaultAsync(ds => ds.DoctorId == doctorId && ds.ServiceId == serviceId);
-        }
-
 
         public void UpdateRange(DoctorServices doctorService)
         {

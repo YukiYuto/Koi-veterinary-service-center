@@ -54,34 +54,46 @@ namespace KoiVeterinaryServiceCenter.Services.Services
             }
 
         }
-        public async Task<ResponseDTO> GetDoctorServiceById(ClaimsPrincipal user, Guid serviceId)
+        public async Task<ResponseDTO> GetDoctorServiceById(ClaimsPrincipal User, Guid doctorServiceId)
         {
             try
             {
-                // Retrieve all doctors that provide the specified service ID
-                var doctors = await _unitOfWork.DoctorServicesRepository.GetByServiceId(serviceId);
+                var doctorService = await _unitOfWork.DoctorServicesRepository.GetById(doctorServiceId);
 
-                // Check if any doctors exist
-                if (doctors == null || !doctors.Any())
+                if (doctorService is null)
                 {
-                    return new ResponseDTO
+                    return new ResponseDTO()
                     {
-                        Message = "No doctors found for the specified service ID",
+                        Message = "Doctor service is not exist",
                         IsSuccess = false,
                         StatusCode = 404,
                         Result = null
                     };
                 }
 
-                // Map the list of doctors to the DTO
-                var getDoctorServicesDTO = _mapper.Map<List<GetDoctorServicesDTO>>(doctors);
-
-                return new ResponseDTO
+                GetDoctorServicesDTO getDoctorServiceDTO;
+                try
                 {
-                    Message = "Retrieved doctors successfully for the specified service ID",
+                    getDoctorServiceDTO = _mapper.Map<GetDoctorServicesDTO>(doctorService);
+                }
+
+                catch (AutoMapperMappingException e)
+                {
+                    return new ResponseDTO()
+                    {
+                        Message = e.Message,
+                        IsSuccess = false,
+                        StatusCode = 500,
+                        Result = null
+                    };
+                }
+
+                return new ResponseDTO()
+                {
+                    Message = "Get doctor service successfully",
                     IsSuccess = true,
                     StatusCode = 200,
-                    Result = getDoctorServicesDTO
+                    Result = getDoctorServiceDTO
                 };
             }
             catch (Exception e)
@@ -95,6 +107,9 @@ namespace KoiVeterinaryServiceCenter.Services.Services
                 };
             }
         }
+
+
+
         public async Task<ResponseDTO> UpdateDoctorService(ClaimsPrincipal User, UpdateDoctorServicesDTO updateDoctorServiceDTO)
         {
             try
@@ -147,32 +162,28 @@ namespace KoiVeterinaryServiceCenter.Services.Services
             }
         }
 
-        public async Task<ResponseDTO> DeleteDoctorService(ClaimsPrincipal User,  Guid doctorId, Guid serviceId)
+        public async Task<ResponseDTO> DeleteDoctorService(ClaimsPrincipal User, Guid doctorServiceId)
         {
             try
             {
-                // Retrieve the DoctorServices entity that matches both the doctorId and serviceId
-                var doctorServiceToDelete = await _unitOfWork.DoctorServicesRepository
-                    .GetDoctorServiceByDoctorAndServiceId(doctorId, serviceId);
-
+                var doctorServiceToDelete = await _unitOfWork.DoctorServicesRepository.GetById(doctorServiceId);
                 if (doctorServiceToDelete is null)
                 {
-                    return new ResponseDTO
+                    return new ResponseDTO()
                     {
-                        Message = "Doctor service does not exist for the provided doctorId and serviceId",
+                        Message = "Doctor service is not exist",
                         IsSuccess = false,
                         StatusCode = 404,
                         Result = null
                     };
                 }
 
-                // Remove the association between the doctor and service
                 _unitOfWork.DoctorServicesRepository.Remove(doctorServiceToDelete);
                 await _unitOfWork.SaveAsync();
 
-                return new ResponseDTO
+                return new ResponseDTO()
                 {
-                    Message = "Doctor service deleted successfully",
+                    Message = "Delete doctor service successfully",
                     IsSuccess = true,
                     StatusCode = 200,
                     Result = null
@@ -180,7 +191,7 @@ namespace KoiVeterinaryServiceCenter.Services.Services
             }
             catch (Exception e)
             {
-                return new ResponseDTO
+                return new ResponseDTO()
                 {
                     Message = e.Message,
                     IsSuccess = false,
