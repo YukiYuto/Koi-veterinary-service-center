@@ -8,7 +8,7 @@ namespace KoiVeterinaryServiceCenter.Model.DTO
 {
     public class CreatePaymentLinkDTO
     {
-        public int OrderCode { get; set; }
+        public long OrderCode { get; set; }
         public string BuyerName { get; set; }
         public string? BuyerEmail { get; set; }
         public string BuyerPhone { get; set; }
