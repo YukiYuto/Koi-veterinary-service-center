@@ -6,6 +6,7 @@ namespace KoiVeterinaryServiceCenter.Models.Domain;
 public class Appointment
 {
     [Key] public Guid AppointmentId { get; set; }
+    public string CustomerId { get; set; } = null!;
     public Guid SlotId { get; set; }
     [ForeignKey("SlotId")]
     public virtual Slot Slot { get; set; } = null!; // Liên kết đến Slot

@@ -24,6 +24,8 @@ public static class ServiceCollectionExtensions
         services.AddScoped<IAuthService, AuthService>();
         // Registering IDoctorService with its implementation DoctorService
         services.AddScoped<ITokenService, TokenService>();
+        // Registering IDoctorSchedulesService with its implementation DoctorService
+        services.AddScoped<IDoctorSchedulesService, DoctorSchedulesService>();
         // Registering ISlotService with its implementation SlotService
         services.AddScoped<ISlotService, SlotService>();
         // Registering IAppointmentService with its implementation AppointmentService
@@ -32,8 +34,6 @@ public static class ServiceCollectionExtensions
         services.AddScoped<IDoctorService, DoctorService>();
         // Registering IEmailService with its implementation EmailService
         services.AddScoped<IEmailService, EmailService>();
-        // Registering IDoctorSchedulesService with its implementation DoctorSchedulesService
-        services.AddScoped<IDoctorSchedulesService, DoctorSchedulesService>();
         // Registering IServiceService with its implementation ServiceService
         services.AddScoped<IServicesService, ServiceService>();
         // Registering IDoctorService with its implementation DoctorService
