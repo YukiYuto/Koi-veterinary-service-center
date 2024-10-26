@@ -1,4 +1,4 @@
-﻿namespace KoiVeterinaryServiceCenter.Model.DTO.Slot;
+﻿namespace KoiVeterinaryServiceCenter.Models.DTO.Slot;
 
 public class CreateSlotDTO
 {
@@ -6,5 +6,4 @@ public class CreateSlotDTO
     public Guid DoctorSchedulesId { get; set; }
     public TimeSpan StartTime { get; set; }
     public TimeSpan EndTime { get; set; }
-    public bool IsBooked { get; set; }
 }

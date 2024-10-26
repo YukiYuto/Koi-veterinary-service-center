@@ -602,6 +602,8 @@ public class AuthService : IAuthService
                 throw new Exception("User does not exist");
             }
 
+            //var responseDto = await _firebaseService.UploadImage(file, StaticFirebaseFolders.UserAvatars);
+
             var responseDto = await _firebaseService.UploadImage(file, StaticFirebaseFolders.UserAvatars);
 
             if (!responseDto.IsSuccess)

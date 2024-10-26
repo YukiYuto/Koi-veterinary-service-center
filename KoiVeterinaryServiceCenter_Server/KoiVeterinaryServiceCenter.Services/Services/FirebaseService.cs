@@ -56,23 +56,35 @@ public class FirebaseService : IFirebaseService
             };
         }
 
-        var fileName = $"{Guid.NewGuid()}_{file.FileName}";
+        var fileName = $"{Guid.NewGuid()}_{file.FileName}"; // Tạo tên file duy nhất
+        var filePath = $"{folder}/{fileName}"; // Đường dẫn đầy đủ cho tệp trong Firebase
 
-        var filePath = $"{folder}/{fileName}";
-
-        string url;
-
+        // Khởi tạo luồng đọc từ file
         await using (var stream = file.OpenReadStream())
         {
-            var result = await _storageClient.UploadObjectAsync(_bucketName, filePath, null, stream);
+            // Upload file lên Firebase
+            var result = await _storageClient.UploadObjectAsync(
+                _bucketName,
+                filePath,
+                file.ContentType, // Loại MIME của tệp
+                stream,
+                new UploadObjectOptions
+                {
+                    PredefinedAcl = PredefinedObjectAcl.PublicRead // Để tệp có thể truy cập công khai
+                }
+            );
         }
+
+        // Tạo URL công khai cho hình ảnh vừa tải lên
+        string publicUrl = $"https://storage.googleapis.com/{_bucketName}/{filePath}";
 
         return new ResponseDTO()
         {
             IsSuccess = true,
             StatusCode = 200,
-            Result = filePath,
+            Result = publicUrl, // Trả về URL công khai
             Message = "Upload image successfully!"
         };
     }
+
 }

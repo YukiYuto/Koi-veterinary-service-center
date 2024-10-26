@@ -45,7 +45,6 @@ namespace KoiVeterinaryServiceCenter.API.Controllers
         }
 
         [HttpGet("{serviceId:guid}")]
-        [Authorize(Roles = StaticUserRoles.Admin)]
         public async Task<ActionResult<ResponseDTO>> GetService([FromRoute] Guid serviceId)
         {
             var responseDto = await _serviceService.GetServiceById(User, serviceId);

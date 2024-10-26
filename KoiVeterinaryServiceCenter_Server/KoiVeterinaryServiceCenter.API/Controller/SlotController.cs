@@ -1,6 +1,6 @@
-﻿using KoiVeterinaryServiceCenter.Model.DTO;
-using KoiVeterinaryServiceCenter.Model.DTO.Slot;
+﻿using KoiVeterinaryServiceCenter.Model.DTO.Slot;
 using KoiVeterinaryServiceCenter.Models.DTO;
+using KoiVeterinaryServiceCenter.Models.DTO.Slot;
 using KoiVeterinaryServiceCenter.Services.IServices;
 using KoiVeterinaryServiceCenter.Utility.Constants;
 using Microsoft.AspNetCore.Authorization;
