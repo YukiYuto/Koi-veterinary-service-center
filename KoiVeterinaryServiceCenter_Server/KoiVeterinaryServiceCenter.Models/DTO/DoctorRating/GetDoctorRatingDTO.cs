@@ -7,8 +7,12 @@ using System.Threading.Tasks;
 
 namespace KoiVeterinaryServiceCenter.Models.DTO.DoctorRating
 {
-    public class UpdateDoctorRatingDTO
+    public class GetDoctorRatingDTO
     {
+        public Guid DoctorRatingId { get; set; }
+
+        public Guid DoctorId { get; set; }
+
         [Range(1, 5)]
         public int Rating { get; set; }
 
