@@ -243,6 +243,7 @@ public class AuthService : IAuthService
                 Specialization = registerDoctorDTO.Specialization,
                 Experience = registerDoctorDTO.Experience,
                 Degree = registerDoctorDTO.Degree,
+                Position = registerDoctorDTO.Position
             };
 
             var isRoleExist = await _roleManager.RoleExistsAsync(StaticUserRoles.Doctor);
@@ -285,7 +286,7 @@ public class AuthService : IAuthService
             {
                 Message = "Create new user successfully",
                 IsSuccess = true,
-                StatusCode = 200,
+                StatusCode = 201,
                 Result = registerDoctorDTO
             };
         }

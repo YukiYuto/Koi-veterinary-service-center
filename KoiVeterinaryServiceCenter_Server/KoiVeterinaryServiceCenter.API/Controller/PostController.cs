@@ -33,7 +33,7 @@ namespace KoiVeterinaryServiceCenter.API.Controllers
         }
 
         [HttpPost]
-      
+        [Authorize(Roles = StaticUserRoles.AdminStaff)]
         public async Task<ActionResult<ResponseDTO>> CreatePost([FromBody] CreatePostDTO createPostDTO)
         {
             var responseDto = await _postService.CreatePost(User, createPostDTO);
@@ -41,6 +41,7 @@ namespace KoiVeterinaryServiceCenter.API.Controllers
         }
 
         [HttpGet("{postId:guid}")]
+        [Authorize(Roles = StaticUserRoles.AdminStaff)]
         public async Task<ActionResult<ResponseDTO>> GetPostById([FromRoute] Guid postId)
         {
             var responseDto = await _postService.GetPostById(postId);
@@ -48,7 +49,7 @@ namespace KoiVeterinaryServiceCenter.API.Controllers
         }
 
         [HttpPut("{postId:guid}")]
-      
+        [Authorize(Roles = StaticUserRoles.AdminStaff)]
         public async Task<ActionResult<ResponseDTO>> UpdatePost([FromRoute] Guid postId, [FromBody] UpdatePostDTO updatePostDTO)
         {
            
@@ -57,10 +58,18 @@ namespace KoiVeterinaryServiceCenter.API.Controllers
         }
 
         [HttpDelete("{postId:guid}")]
-       
+        [Authorize(Roles = StaticUserRoles.AdminStaff)]
         public async Task<ActionResult<ResponseDTO>> DeletePost([FromRoute] Guid postId)
         {
             var responseDto = await _postService.DeletePost(User, postId);
+            return StatusCode(responseDto.StatusCode, responseDto);
+        }
+
+        [HttpPost("avatar")]
+        [Authorize(Roles = StaticUserRoles.AdminStaff)]
+        public async Task<ActionResult<ResponseDTO>> UploadPostAvatar(IFormFile file)
+        {
+            var responseDto = await _postService.UploadPostAvatar(file, User);
             return StatusCode(responseDto.StatusCode, responseDto);
         }
     }
