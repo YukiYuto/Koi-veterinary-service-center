@@ -8,7 +8,7 @@ using KoiVeterinaryServiceCenter.Models.DTO;
 
 namespace KoiVeterinaryServiceCenter.Services.IServices
 {
-    public interface ITransactionService
+    public interface ITransactionsService
     {
         Task<ResponseDTO> GetAll();
         Task<ResponseDTO> GetById(Guid transactionId);

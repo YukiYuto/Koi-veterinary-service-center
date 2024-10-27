@@ -11,11 +11,11 @@ using StackExchange.Redis;
 
 namespace KoiVeterinaryServiceCenter.Services.Services
 {
-    public class TransactionService : ITransactionService
+    public class TransactionsService : ITransactionsService
     {
         private readonly IUnitOfWork _unitOfWork;
         
-        public TransactionService(IUnitOfWork unitOfWork)
+        public TransactionsService(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
         }
