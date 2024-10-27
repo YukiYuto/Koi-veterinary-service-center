@@ -133,7 +133,7 @@ public class PaymentService : IPaymentService
                 };
             }
 
-            var paymentStatus = _payOS.getPaymentLinkInformation(paymentTransactions.OrderCode);
+            var paymentStatus = _payOS.getPaymentLinkInformation(paymentTransactions.AppointmentNumber);
 
             if (paymentStatus != null)
             {
@@ -181,7 +181,7 @@ public class PaymentService : IPaymentService
                 };
             }
 
-            var paymentCancelInfor = await _payOS.cancelPaymentLink(paymentTransactions.OrderCode, cancellationReason);
+            var paymentCancelInfor = await _payOS.cancelPaymentLink(paymentTransactions.AppointmentNumber, cancellationReason);
             paymentTransactions.Status = paymentCancelInfor.status + " - " + cancellationReason;
             _unitOfWork.PaymentTransactionsRepository.Update(paymentTransactions);
             await _unitOfWork.SaveAsync();
