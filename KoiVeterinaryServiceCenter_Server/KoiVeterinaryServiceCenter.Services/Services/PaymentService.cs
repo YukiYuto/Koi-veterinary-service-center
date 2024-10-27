@@ -10,6 +10,7 @@ using System.Security.Claims;
 using KoiVeterinaryServiceCenter.Utility.Constants;
 using StackExchange.Redis;
 using KoiVeterinaryServiceCenter.Models.DTO;
+using KoiVeterinaryServiceCenter.Models.Domain;
 
 public class PaymentService : IPaymentService
 {
@@ -31,35 +32,31 @@ public class PaymentService : IPaymentService
 
     public async Task<ResponseDTO> CreatePayOSPaymentLink(ClaimsPrincipal User, CreatePaymentLinkDTO createPaymentLink)
     {
-        /*try
+        try
         {
-            OrderItems order = await _unitOfWork.OrderItemsRepository.GetById(createPaymentLink.OrderCode);
-            if (order is null)
+            var appointment = await _unitOfWork.AppointmentRepository.GetAppointmentByAppmointNumer(createPaymentLink.AppointmentNumber);
+            if (appointment is null)
             {
                 return new ResponseDTO()
                 {
-                    Message = "Order is not exist",
+                    Message = "Appointment is not exist",
                     IsSuccess = false,
                     StatusCode = 404,
                     Result = null
                 };
             }
-
+            var totalPrice = Convert.ToInt32(appointment.TotalAmount);
 
             var items = new List<ItemData>()
             {
-                new ItemData( name: order.ProductName, quantity: 1, price: order.Price)
+                new ItemData( name: appointment.Service.ServiceName, quantity: 1, price: totalPrice)
             };
 
 
             var paymentData = new PaymentData(
-                orderCode: createPaymentLink.OrderCode,
-                amount: order.Price,
-                buyerName: createPaymentLink.BuyerName,
-                buyerEmail: createPaymentLink.BuyerEmail,
-                buyerPhone: createPaymentLink.BuyerPhone,
-                buyerAddress: createPaymentLink.BuyerAddress,
-                description: order.Description,
+                orderCode: createPaymentLink.AppointmentNumber,
+                amount: totalPrice,
+                description: "",
                 items: items,
                 cancelUrl: createPaymentLink.CancelUrl,
                 returnUrl: createPaymentLink.ReturnUrl
@@ -79,13 +76,9 @@ public class PaymentService : IPaymentService
 
             PaymentTransactions paymentTransactions = new PaymentTransactions()
             {
-                OrderCode = createPaymentLink.OrderCode,
+                AppointmentNumber = createPaymentLink.AppointmentNumber,
                 Amount = result.amount,
-                Description = result.description,
-                BuyerName = createPaymentLink.BuyerName,
-                BuyerEmail = createPaymentLink.BuyerEmail,
-                BuyerPhone = createPaymentLink.BuyerPhone,
-                BuyerAddress = createPaymentLink.BuyerAddress,
+                Description = result.description.Trim(),
                 CancelUrl = paymentData.cancelUrl,
                 ReturnUrl = paymentData.returnUrl,
                 ExpiredAt = paymentData.expiredAt,
@@ -113,8 +106,7 @@ public class PaymentService : IPaymentService
                 StatusCode = 500,
                 Result = null
             };
-        }*/
-        return null;
+        }
     }
 
     public async Task<ResponseDTO> UpdatePayOSPaymentStatus(ClaimsPrincipal User, Guid paymentTransactionId)

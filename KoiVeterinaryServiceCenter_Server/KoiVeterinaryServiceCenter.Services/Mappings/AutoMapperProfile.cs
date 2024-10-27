@@ -5,6 +5,7 @@ using KoiVeterinaryServiceCenter.Models.Domain;
 using KoiVeterinaryServiceCenter.Models.DTO.Doctor;
 using KoiVeterinaryServiceCenter.Models.DTO.DoctorSchedules;
 using KoiVeterinaryServiceCenter.Models.DTO.DoctorServices;
+using KoiVeterinaryServiceCenter.Models.DTO.Transaction;
 
 namespace KoiVeterinaryServiceCenter.Services.Mappings;
 
@@ -43,5 +44,6 @@ public class AutoMapperProfile : Profile
             .ForMember(dest => dest.SchedulesDate, opt => opt.MapFrom(src => src.SchedulesDate)).ReverseMap();
         CreateMap<Service, GetServiceDTO>().ReverseMap();
         CreateMap<DoctorSchedules, GetDoctorSchedulesIdDTO>().ReverseMap();
+        CreateMap<Transaction, GetTransactionDTO>().ReverseMap();
     }
 }
