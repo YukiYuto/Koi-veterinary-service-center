@@ -42,7 +42,9 @@ public static class ServiceCollectionExtensions
         services.AddScoped<IRedisService, RedisService>();
         // Registering IPaymentService with its implementation PaymentService
         services.AddScoped<IPaymentService, PaymentService>();
-
+        // Regis
+        services.AddScoped<IPostService, PostService>();
+        //Regis
         services.AddScoped<IDoctorRatingService, DoctorRatingService>();
         return services;
     }

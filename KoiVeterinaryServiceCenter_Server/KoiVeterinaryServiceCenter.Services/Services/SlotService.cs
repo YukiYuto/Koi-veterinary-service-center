@@ -1,5 +1,4 @@
-﻿using System.Runtime.CompilerServices;
-using System.Security.Claims;
+﻿using System.Security.Claims;
 using AutoMapper;
 using KoiVeterinaryServiceCenter.DataAccess.IRepository;
 using KoiVeterinaryServiceCenter.Model.DTO.Slot;

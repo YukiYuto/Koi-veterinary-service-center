@@ -20,5 +20,6 @@ namespace KoiVeterinaryServiceCenter.Models.DTO.Doctor
         public string Address { get; set; }
         public string AvatarUrl { get; set; }
         public IEnumerable<string> Roles { get; set; }
+
     }
 }
