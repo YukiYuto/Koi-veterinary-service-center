@@ -34,6 +34,7 @@ namespace KoiVeterinaryServiceCenter.API.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles =StaticUserRoles.Customer)]
         public async Task<ActionResult<ResponseDTO>> CreateRating([FromBody] CreateDoctorRatingDTO createDoctorRatingDTO)
         {
             var responseDto = await _doctorRatingService.CreateRating(User, createDoctorRatingDTO);
@@ -61,6 +62,7 @@ namespace KoiVeterinaryServiceCenter.API.Controllers
         }
 
         [HttpPut]
+        [Authorize(Roles = StaticUserRoles.Customer)]
         public async Task<ActionResult<ResponseDTO>> UpdateRating([FromBody] UpdateDoctorRatingDTO updateDoctorRatingDTO)
         {
             var responseDto = await _doctorRatingService.UpdateRating(User, updateDoctorRatingDTO);
