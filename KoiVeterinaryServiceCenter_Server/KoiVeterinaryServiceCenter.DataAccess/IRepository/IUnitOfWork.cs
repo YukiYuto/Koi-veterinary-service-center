@@ -14,5 +14,6 @@ public interface IUnitOfWork
     IDoctorRatingRepository DoctorRatingRepository { get; }
 
     IPaymentTransactionsRepository PaymentTransactionsRepository { get; }
+    ITransactionsRepository TransactionsRepository { get; }
     Task<int> SaveAsync();
 }
