@@ -10,6 +10,9 @@ public interface IUnitOfWork
     IEmailTemplateRepository EmailTemplateRepository { get; }
     IServiceRepository ServiceRepository { get; }
     IDoctorServicesRepository DoctorServicesRepository { get; }
+
+    IDoctorRatingRepository DoctorRatingRepository { get; }
+
     IPaymentTransactionsRepository PaymentTransactionsRepository { get; }
     Task<int> SaveAsync();
 }
