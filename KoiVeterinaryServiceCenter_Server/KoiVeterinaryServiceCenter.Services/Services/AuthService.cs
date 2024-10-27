@@ -243,6 +243,7 @@ public class AuthService : IAuthService
                 Specialization = registerDoctorDTO.Specialization,
                 Experience = registerDoctorDTO.Experience,
                 Degree = registerDoctorDTO.Degree,
+                Position = registerDoctorDTO.Position
             };
 
             var isRoleExist = await _roleManager.RoleExistsAsync(StaticUserRoles.Doctor);
