@@ -4,6 +4,7 @@ using KoiVeterinaryServiceCenter.DataAccess.IRepository;
 using KoiVeterinaryServiceCenter.Model.DTO.Slot;
 using KoiVeterinaryServiceCenter.Models.Domain;
 using KoiVeterinaryServiceCenter.Models.DTO;
+using KoiVeterinaryServiceCenter.Models.DTO.Slot;
 using KoiVeterinaryServiceCenter.Services.IServices;
 
 namespace KoiVeterinaryServiceCenter.Services.Services;
@@ -20,14 +21,15 @@ public class SlotService : ISlotService
     }
 
     public async Task<ResponseDTO> GetSlots
-(
+    (
     ClaimsPrincipal User,
     string? filterOn,
     string? filterQuery,
     string? sortBy,
     bool? isAscending,
     int pageNumber = 1,
-    int pageSize = 10)
+    int pageSize = 10
+    )
     {
         try
         {
@@ -114,10 +116,22 @@ public class SlotService : ISlotService
                 listSlots = listSlots.Skip(skipResult).Take(pageSize).ToList();
             }
 
+            var slotDto = listSlots.Select(slots => new GetSlotDTO()
+            {
+                SlotId = slots.SlotId,
+                DoctorId = slots.DoctorSchedules.DoctorId,
+                DoctorSchedulesId = slots.DoctorSchedulesId,
+                StartTime = slots.StartTime,
+                EndTime = slots.EndTime,
+                IsBooked = slots.IsBooked,
+                CreatedTime = slots.CreatedTime,
+                CreatedBy = slots.CreatedBy,
+            }).ToList();
+
             return new ResponseDTO()
             {
                 Message = "Slots retrieved successfully.",
-                Result = listSlots,
+                Result = slotDto,
                 IsSuccess = true,
                 StatusCode = 200
             };
@@ -200,7 +214,7 @@ public class SlotService : ISlotService
                 DoctorSchedulesId = createSlotDto.DoctorSchedulesId,
                 StartTime = createSlotDto.StartTime,
                 EndTime = createSlotDto.EndTime,
-                IsBooked = createSlotDto.IsBooked,
+                IsBooked = true,
                 CreatedTime = DateTime.Now,
                 UpdatedTime = null,
                 CreatedBy = User.Identity.Name,
@@ -340,6 +354,7 @@ public class SlotService : ISlotService
                 };
             }
 
+            slotID.IsBooked = false;
             _unitOfWork.SlotRepository.Remove(slotID);
             await _unitOfWork.SaveAsync();
 

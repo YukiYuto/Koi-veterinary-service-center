@@ -64,5 +64,21 @@ namespace KoiVeterinaryServiceCenter.API.Controllers
             var responseDto = await _doctorService.DeleteDoctorById(doctorId);
             return StatusCode(responseDto.StatusCode, responseDto);
         }
+
+        [HttpPost("google-meet-links")]
+        [Authorize(Roles = StaticUserRoles.AdminStaff)]
+        public async Task<ActionResult<ResponseDTO>> CreateGoogleMeetLink([FromBody] GoogleMeetLinkDTO googleMeetLinkDTO)
+        {
+            var responseDto = await _doctorService.CreateGoogleMeetLink(googleMeetLinkDTO);
+            return StatusCode(responseDto.StatusCode, responseDto);
+        }
+
+        [HttpPut("google-meet-links")]
+        [Authorize(Roles = StaticUserRoles.AdminStaff)]
+        public async Task<ActionResult<ResponseDTO>> UpdateGoogleMeetLink([FromBody] GoogleMeetLinkDTO googleMeetLinkDTO)
+        {
+            var responseDto = await _doctorService.UpdateGoogleMeetLink(googleMeetLinkDTO);
+            return StatusCode(responseDto.StatusCode, responseDto);
+        }
     }
 }

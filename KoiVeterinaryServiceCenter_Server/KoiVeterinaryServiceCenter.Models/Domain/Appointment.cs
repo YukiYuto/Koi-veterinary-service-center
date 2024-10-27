@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.EntityFrameworkCore;
 
 namespace KoiVeterinaryServiceCenter.Models.Domain;
 
@@ -16,6 +17,8 @@ public class Appointment
     public string? Description { get; set; }
     public double TotalAmount { get; set; }
     public DateTime CreateTime { get; set; } = DateTime.Now;
+    
+    public long AppointmentNumber { get; set; }
     public int BookingStatus { get; set; }
 
     public string BookingStatusDescription

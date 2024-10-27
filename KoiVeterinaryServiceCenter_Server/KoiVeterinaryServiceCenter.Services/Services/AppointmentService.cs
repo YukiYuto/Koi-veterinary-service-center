@@ -208,9 +208,14 @@ namespace KoiVeterinaryServiceCenter.Services.Services
                 {
                     SlotId = createAppointmentDto.SlotId,
                     ServiceId = createAppointmentDto.ServiceId,
+<<<<<<< HEAD
                     TotalAmount = service.Price + service.TreavelFree,
                     BookingStatus = 0,
                     Description = createAppointmentDto.Description
+=======
+                    TotalAmount = createAppointmentDto.TotalAmount,
+
+>>>>>>> 91783fbb9ac994c7a727f9e0f57d94870be001b9
                 };
 
                 //thêm appointment mới
@@ -222,7 +227,7 @@ namespace KoiVeterinaryServiceCenter.Services.Services
                     Message = "Appointment created successfully",
                     Result = appointments,
                     IsSuccess = true,
-                    StatusCode = 200,
+                    StatusCode = 201,
                 };
             }
             catch (Exception e)

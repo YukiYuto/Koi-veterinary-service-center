@@ -34,32 +34,54 @@ public class PaymentService : IPaymentService
     {
         try
         {
+<<<<<<< HEAD
             Service service = await _unitOfWork.ServiceRepository.GetServiceByServiceNumber(createPaymentLink.OrderCode);
             if (service is null)
             {
                 return new ResponseDTO()
                 {
                     Message = "Service is not exist",
+=======
+            var appointment = await _unitOfWork.AppointmentRepository.GetAppointmentByAppmointNumer(createPaymentLink.AppointmentNumber);
+            if (appointment is null)
+            {
+                return new ResponseDTO()
+                {
+                    Message = "Appointment is not exist",
+>>>>>>> 91783fbb9ac994c7a727f9e0f57d94870be001b9
                     IsSuccess = false,
                     StatusCode = 404,
                     Result = null
                 };
             }
+<<<<<<< HEAD
             var servicePrice = Convert.ToInt32(service.Price);
 
             var items = new List<ItemData>()
             {
                 new ItemData( name: service.ServiceName, quantity: 1, price: servicePrice)
+=======
+            var totalPrice = Convert.ToInt32(appointment.TotalAmount);
+
+            var items = new List<ItemData>()
+            {
+                new ItemData( name: appointment.Service.ServiceName, quantity: 1, price: totalPrice)
+>>>>>>> 91783fbb9ac994c7a727f9e0f57d94870be001b9
             };
 
 
             var paymentData = new PaymentData(
+<<<<<<< HEAD
                 orderCode: createPaymentLink.OrderCode,
                 amount: servicePrice,
                 buyerName: createPaymentLink.BuyerName,
                 buyerEmail: createPaymentLink.BuyerEmail,
                 buyerPhone: createPaymentLink.BuyerPhone,
                 buyerAddress: createPaymentLink.BuyerAddress,
+=======
+                orderCode: createPaymentLink.AppointmentNumber,
+                amount: totalPrice,
+>>>>>>> 91783fbb9ac994c7a727f9e0f57d94870be001b9
                 description: "",
                 items: items,
                 cancelUrl: createPaymentLink.CancelUrl,
@@ -80,13 +102,16 @@ public class PaymentService : IPaymentService
 
             PaymentTransactions paymentTransactions = new PaymentTransactions()
             {
-                OrderCode = createPaymentLink.OrderCode,
+                AppointmentNumber = createPaymentLink.AppointmentNumber,
                 Amount = result.amount,
                 Description = result.description.Trim(),
+<<<<<<< HEAD
                 BuyerName = createPaymentLink.BuyerName,
                 BuyerEmail = createPaymentLink.BuyerEmail,
                 BuyerPhone = createPaymentLink.BuyerPhone,
                 BuyerAddress = createPaymentLink.BuyerAddress,
+=======
+>>>>>>> 91783fbb9ac994c7a727f9e0f57d94870be001b9
                 CancelUrl = paymentData.cancelUrl,
                 ReturnUrl = paymentData.returnUrl,
                 ExpiredAt = paymentData.expiredAt,
@@ -133,7 +158,7 @@ public class PaymentService : IPaymentService
                 };
             }
 
-            var paymentStatus = _payOS.getPaymentLinkInformation(paymentTransactions.OrderCode);
+            var paymentStatus = _payOS.getPaymentLinkInformation(paymentTransactions.AppointmentNumber);
 
             if (paymentStatus != null)
             {
@@ -181,7 +206,7 @@ public class PaymentService : IPaymentService
                 };
             }
 
-            var paymentCancelInfor = await _payOS.cancelPaymentLink(paymentTransactions.OrderCode, cancellationReason);
+            var paymentCancelInfor = await _payOS.cancelPaymentLink(paymentTransactions.AppointmentNumber, cancellationReason);
             paymentTransactions.Status = paymentCancelInfor.status + " - " + cancellationReason;
             _unitOfWork.PaymentTransactionsRepository.Update(paymentTransactions);
             await _unitOfWork.SaveAsync();

@@ -1,9 +1,11 @@
 ﻿using AutoMapper;
 using KoiVeterinaryServiceCenter.Model.Domain;
+using KoiVeterinaryServiceCenter.Model.DTO.Service;
 using KoiVeterinaryServiceCenter.Models.Domain;
 using KoiVeterinaryServiceCenter.Models.DTO.Doctor;
 using KoiVeterinaryServiceCenter.Models.DTO.DoctorSchedules;
 using KoiVeterinaryServiceCenter.Models.DTO.DoctorServices;
+using KoiVeterinaryServiceCenter.Models.DTO.Transaction;
 
 namespace KoiVeterinaryServiceCenter.Services.Mappings;
 
@@ -25,10 +27,13 @@ public class AutoMapperProfile : Profile
         .ForMember(dest => dest.Degree, opt => opt.MapFrom(src => src.Degree))
         .ForMember(dest => dest.Experience, opt => opt.MapFrom(src => src.Experience)).ReverseMap();
         CreateMap<DoctorServices, GetDoctorServicesDTO>()
-        .ForMember(dest => dest.DoctorServiceId, opt => opt.MapFrom(src => src.ServiceId))
         .ForMember(dest => dest.DoctorId, opt => opt.MapFrom(src => src.DoctorId))
         .ForMember(dest => dest.ServiceName, opt => opt.MapFrom(src => src.Service.ServiceName))
         .ForMember(dest => dest.DoctorFullName, opt => opt.MapFrom(src => src.Doctor.ApplicationUser.FullName))
+        .ForMember(dest => dest.DoctorUrl, opt => opt.MapFrom(src => src.Doctor.ApplicationUser.AvatarUrl))
+        .ForMember(dest => dest.Specialization, opt => opt.MapFrom(src => src.Doctor.Specialization))
+        .ForMember(dest => dest.Experience, opt => opt.MapFrom(src => src.Doctor.Experience))
+        .ForMember(dest => dest.Degree, opt => opt.MapFrom(src => src.Doctor.Degree))
         .ForMember(dest => dest.Price, opt => opt.MapFrom(src => src.Service.Price))
         .ForMember(dest => dest.TravelFee, opt => opt.MapFrom(src => src.Service.TreavelFree))
         .ForMember(dest => dest.CreatedTime, opt => opt.MapFrom(src => src.Service.CreatedTime)).ReverseMap();
@@ -37,5 +42,8 @@ public class AutoMapperProfile : Profile
             .ForMember(dest => dest.DoctorId, opt => opt.MapFrom((src) => src.DoctorId))
             .ForMember(dest => dest.DoctorName, opt => opt.MapFrom(src => src.Doctor.ApplicationUser.FullName))
             .ForMember(dest => dest.SchedulesDate, opt => opt.MapFrom(src => src.SchedulesDate)).ReverseMap();
+        CreateMap<Service, GetServiceDTO>().ReverseMap();
+        CreateMap<DoctorSchedules, GetDoctorSchedulesIdDTO>().ReverseMap();
+        CreateMap<Transaction, GetTransactionDTO>().ReverseMap();
     }
 }
