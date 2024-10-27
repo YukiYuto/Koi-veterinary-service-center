@@ -27,7 +27,7 @@ namespace KoiVeterinaryServiceCenter.Services.Services
             _mapper = mapper;
         }
 
-        public async Task<ResponseDTO> CreateTransaction(ClaimsIdentity User, CreateTransactionDTO createTransactionDTO)
+        public async Task<ResponseDTO> CreateTransaction(ClaimsPrincipal User, CreateTransactionDTO createTransactionDTO)
         {
             try
             {
