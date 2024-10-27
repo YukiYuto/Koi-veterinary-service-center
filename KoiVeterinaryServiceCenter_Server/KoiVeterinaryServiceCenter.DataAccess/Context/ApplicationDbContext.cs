@@ -27,6 +27,8 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
 
     public DbSet<EmailTemplate> EmailTemplates { get; set; }
     public DbSet<PaymentTransactions> PaymentTransactions { get; set; }
+    
+    public DbSet<Post> Posts { get; set; }
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
@@ -52,5 +54,18 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
             .HasOne(ds => ds.Service)
             .WithMany(s => s.DoctorServices)
             .HasForeignKey(ds => ds.ServiceId);
+        
+        // Cấu hình index trên cột AppointmentNumber và chỉ định tính duy nhất
+        modelBuilder.Entity<Appointment>()
+            .HasIndex(a => a.AppointmentNumber)
+            .IsUnique();
+
+        // Cấu hình quan hệ giữa PaymentTransactions và Appointment qua AppointmentNumber
+        modelBuilder.Entity<PaymentTransactions>()
+            .HasOne(pt => pt.Appointment)
+            .WithMany()
+            .HasForeignKey(pt => pt.AppointmentNumber)
+            .HasPrincipalKey(a => a.AppointmentNumber)
+            .OnDelete(DeleteBehavior.Restrict); // Hoặc DeleteBehavior.NoAction
     }
 }
