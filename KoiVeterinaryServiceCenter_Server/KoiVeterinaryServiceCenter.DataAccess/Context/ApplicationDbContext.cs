@@ -32,7 +32,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     public DbSet<EmailTemplate> EmailTemplates { get; set; }
     public DbSet<PaymentTransactions> PaymentTransactions { get; set; }
     
-    public DbSet<Post> Posts { get; set; }
+ 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);

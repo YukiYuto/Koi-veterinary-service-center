@@ -48,16 +48,16 @@ namespace KoiVeterinaryServiceCenter.API.Controllers
         }
 
         [HttpPut("{postId:guid}")]
-        [Authorize(Roles = StaticUserRoles.Admin)]
+      
         public async Task<ActionResult<ResponseDTO>> UpdatePost([FromRoute] Guid postId, [FromBody] UpdatePostDTO updatePostDTO)
         {
-            updatePostDTO.Id = postId; // Assuming you have an Id property in your UpdatePostDTO
+           
             var responseDto = await _postService.UpdatePost(User, updatePostDTO);
             return StatusCode(responseDto.StatusCode, responseDto);
         }
 
         [HttpDelete("{postId:guid}")]
-        [Authorize(Roles = StaticUserRoles.Admin)]
+       
         public async Task<ActionResult<ResponseDTO>> DeletePost([FromRoute] Guid postId)
         {
             var responseDto = await _postService.DeletePost(User, postId);
