@@ -16,5 +16,6 @@ public interface IUnitOfWork
     IPostRepository PostRepository { get; }
 
     IPaymentTransactionsRepository PaymentTransactionsRepository { get; }
+    ITransactionsRepository TransactionsRepository { get; }
     Task<int> SaveAsync();
 }
