@@ -4,9 +4,9 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
-using System.Transactions;
 using AutoMapper;
 using KoiVeterinaryServiceCenter.DataAccess.IRepository;
+using KoiVeterinaryServiceCenter.Models.Domain;
 using KoiVeterinaryServiceCenter.Models.DTO;
 using KoiVeterinaryServiceCenter.Models.DTO.Transaction;
 using KoiVeterinaryServiceCenter.Services.IServices;
@@ -25,9 +25,43 @@ namespace KoiVeterinaryServiceCenter.Services.Services
             _mapper = mapper;
         }
 
-        public Task<ResponseDTO> CreateTransaction(ClaimsIdentity User, CreateTransactionDTO createTransactionDTO)
+        public async Task<ResponseDTO> CreateTransaction(ClaimsIdentity User, CreateTransactionDTO createTransactionDTO)
         {
-            throw new NotImplementedException();
+            try
+            {
+                Transaction transaction = new Transaction()
+                {
+                    CustomerId = createTransactionDTO.CustomerId,
+                    AppointmentId = createTransactionDTO.AppointmentId,
+                    PaymentTransactionId = createTransactionDTO.PaymentTransactionId,
+                    Amount = createTransactionDTO.Amount,
+                    TransactionDateTime = DateTime.Now,
+                    TransactionStatus = createTransactionDTO.TransactionStatus,
+                    Status = createTransactionDTO.Status
+                };
+
+                await _unitOfWork.TransactionsRepository.AddAsync(transaction);
+                await _unitOfWork.SaveAsync();
+
+                return new ResponseDTO
+                {
+                    Message = "Add transaction successfully",
+                    IsSuccess = true,
+                    StatusCode = 200,
+                    Result = null
+                };
+            }
+            catch (Exception e) 
+            {
+                return new ResponseDTO()
+                {
+                    Message = e.Message,
+                    IsSuccess = false,
+                    StatusCode = 500,
+                    Result = null
+                };
+            }
+
         }
 
         public Task<ResponseDTO> GetAll(ClaimsPrincipal User, string? filterOn, string? filterQuery, string? sortBy, bool? isAscending, int pageNumber, int pageSize)
@@ -70,7 +104,7 @@ namespace KoiVeterinaryServiceCenter.Services.Services
 
                 return new ResponseDTO()
                 {
-                    Message = "Add transaction successfully",
+                    Message = "Get transaction successfully",
                     IsSuccess = true,
                     StatusCode = 200,
                     Result = getTransactionDTO
