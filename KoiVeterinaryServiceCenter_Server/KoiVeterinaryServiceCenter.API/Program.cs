@@ -24,7 +24,7 @@ builder.Services.AddHttpClient();
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
 {
     options.UseSqlServer(
-        builder.Configuration.GetConnectionString(StaticConnectionString.SQLDB_DefaultConnectionAzure));
+        builder.Configuration.GetConnectionString(StaticConnectionString.SQLDB_DefaultConnection));
 });
 
 // Register AutoMapper
