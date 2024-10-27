@@ -5,11 +5,13 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
+using FirebaseAdmin.Messaging;
 using KoiVeterinaryServiceCenter.DataAccess.IRepository;
 using KoiVeterinaryServiceCenter.Models.Domain;
 using KoiVeterinaryServiceCenter.Models.DTO;
 using KoiVeterinaryServiceCenter.Models.DTO.Transaction;
 using KoiVeterinaryServiceCenter.Services.IServices;
+using Microsoft.IdentityModel.Tokens;
 using StackExchange.Redis;
 
 namespace KoiVeterinaryServiceCenter.Services.Services
@@ -51,7 +53,7 @@ namespace KoiVeterinaryServiceCenter.Services.Services
                     Result = null
                 };
             }
-            catch (Exception e) 
+            catch (Exception e)
             {
                 return new ResponseDTO()
                 {
@@ -64,9 +66,98 @@ namespace KoiVeterinaryServiceCenter.Services.Services
 
         }
 
-        public Task<ResponseDTO> GetAll(ClaimsPrincipal User, string? filterOn, string? filterQuery, string? sortBy, bool? isAscending, int pageNumber, int pageSize)
+        public async Task<ResponseDTO> GetAll(ClaimsPrincipal User, string? filterOn, string? filterQuery, string? sortBy, bool? isAscending, int pageNumber, int pageSize)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var transactions = await _unitOfWork.TransactionsRepository.GetAllAsync();
+                if (transactions is null)
+                {
+                    return new ResponseDTO()
+                    {
+                        Message = "Not have any transaction",
+                        IsSuccess = false,
+                        StatusCode = 404,
+                        Result = null
+                    };
+                }
+
+                if (!string.IsNullOrEmpty(filterOn) && !string.IsNullOrEmpty(filterQuery))
+                {
+                    switch (filterOn.Trim().ToLower())
+                    {
+                        case "amount":
+                            if (double.TryParse(filterQuery, out double amount))
+                            {
+                                transactions = transactions.Where(x => x.Amount >= amount).ToList();
+                            }
+                            break;
+
+                        case "transactiondatetime":
+                            if (DateTime.TryParse(filterQuery, out DateTime transactionDateTime))
+                            {
+                                transactions = transactions.Where(x => x.TransactionDateTime == transactionDateTime).ToList();
+                            }
+                            break;
+                        case "transactionstatus":
+                            transactions = transactions.Where(x => x.TransactionStatus == filterQuery).ToList();
+                            break;
+                        default:
+                            break;
+                    }
+                }
+
+                if (!string.IsNullOrEmpty(sortBy))
+                {
+                    transactions = sortBy.Trim().ToLower() switch
+                    {
+                        "amount" => isAscending == true
+                        ? transactions.OrderBy(tr => tr.Amount).ToList()
+                        : transactions.OrderByDescending(or => or.Amount).ToList(),
+
+                        "transactiondatetime" => isAscending == true
+                        ? transactions.OrderBy(tr => tr.TransactionDateTime).ToList()
+                        : transactions.OrderByDescending(tr => tr.TransactionDateTime).ToList(),
+
+                        _ => transactions
+                    };
+                }
+
+                if (pageNumber > 0 && pageSize > 0)
+                {
+                    var skipResult = (pageNumber - 1) * pageSize;
+                    transactions = transactions.Skip(skipResult).Take(pageSize);
+                }
+
+                if (transactions.IsNullOrEmpty())
+                {
+                    return new ResponseDTO()
+                    {
+                        Message = "Cannot found transactions",
+                        IsSuccess = false,
+                        StatusCode = 404,
+                        Result = null
+                    };
+                }
+
+                return new ResponseDTO()
+                {
+                    Message = "Get all transactions successfully",
+                    IsSuccess = true,
+                    StatusCode = 200,
+                    Result = transactions
+                };
+            }
+            catch (Exception e)
+            {
+                return new ResponseDTO()
+                {
+                    Message = e.Message,
+                    IsSuccess = false,
+                    StatusCode = 500,
+                    Result = null
+                };
+            }
         }
 
         public async Task<ResponseDTO> GetById(ClaimsPrincipal User, Guid transactionId)
