@@ -11,7 +11,6 @@ public class Slot : BaseEntity<string, string, int>
     [ForeignKey("DoctorSchedulesId")] public virtual DoctorSchedules DoctorSchedules { get; set; }
     public TimeSpan StartTime { get; set; }
     public TimeSpan EndTime { get; set; }
-    public DateTime AppointmentDate { get; set; }
     public bool IsBooked { get; set; }
 
 }

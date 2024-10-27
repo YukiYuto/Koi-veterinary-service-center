@@ -357,5 +357,44 @@ namespace KoiVeterinaryServiceCenter.Services.Services
                 };
             }
         }
+
+        public async Task<ResponseDTO> GetDoctorScheduleByDoctorId(ClaimsPrincipal User, Guid doctorId)
+        {
+            try
+            {
+                var doctor = await _unitOfWork.DoctorSchedulesRepository.GetAsync(d => d.DoctorId == doctorId);
+                if (doctor == null)
+                {
+                    return new ResponseDTO()
+                    {
+                        Message = "Doctor not found",
+                        IsSuccess = false,
+                        StatusCode = 404,
+                        Result = null
+                    };
+                }
+
+                GetDoctorSchedulesIdDTO doctorSchedulesIdDTO;
+                doctorSchedulesIdDTO = _mapper.Map<GetDoctorSchedulesIdDTO>(doctor);
+
+                return new ResponseDTO()
+                {
+                    Message = "Get doctor schedule successfully",
+                    IsSuccess = true,
+                    StatusCode = 200,
+                    Result = doctorSchedulesIdDTO
+                };
+            }
+            catch (Exception e)
+            {
+                return new ResponseDTO()
+                {
+                    Message = e.Message,
+                    IsSuccess = false,
+                    StatusCode = 500,
+                    Result = null
+                };
+            }
+        }
     }
 }

@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace KoiVeterinaryServiceCenter.DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20241024161327_ModifyDB_DoctorRating")]
-    partial class ModifyDB_DoctorRating
+    [Migration("20241027063002_ModifyDB_Doctor")]
+    partial class ModifyDB_Doctor
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -25,22 +25,25 @@ namespace KoiVeterinaryServiceCenter.DataAccess.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("KoiVeterinaryServiceCenter.Models.Domain.Doctor", b =>
+            modelBuilder.Entity("KoiVeterinaryServiceCenter.Model.Domain.Doctor", b =>
                 {
                     b.Property<Guid>("DoctorId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Degree")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Experience")
-                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("GoogleMeetLink")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Position")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Specialization")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UserId")
@@ -54,7 +57,7 @@ namespace KoiVeterinaryServiceCenter.DataAccess.Migrations
                     b.ToTable("Doctors");
                 });
 
-            modelBuilder.Entity("KoiVeterinaryServiceCenter.Models.Domain.DoctorSchedules", b =>
+            modelBuilder.Entity("KoiVeterinaryServiceCenter.Model.Domain.DoctorSchedules", b =>
                 {
                     b.Property<Guid>("DoctorSchedulesId")
                         .ValueGeneratedOnAdd()
@@ -88,7 +91,7 @@ namespace KoiVeterinaryServiceCenter.DataAccess.Migrations
                     b.ToTable("DoctorSchedules");
                 });
 
-            modelBuilder.Entity("KoiVeterinaryServiceCenter.Models.Domain.DoctorServices", b =>
+            modelBuilder.Entity("KoiVeterinaryServiceCenter.Model.Domain.DoctorServices", b =>
                 {
                     b.Property<Guid>("DoctorId")
                         .HasColumnType("uniqueidentifier");
@@ -103,7 +106,7 @@ namespace KoiVeterinaryServiceCenter.DataAccess.Migrations
                     b.ToTable("DoctorServices");
                 });
 
-            modelBuilder.Entity("KoiVeterinaryServiceCenter.Models.Domain.PaymentTransactions", b =>
+            modelBuilder.Entity("KoiVeterinaryServiceCenter.Model.Domain.PaymentTransactions", b =>
                 {
                     b.Property<Guid>("PaymentTransactionId")
                         .ValueGeneratedOnAdd()
@@ -250,7 +253,7 @@ namespace KoiVeterinaryServiceCenter.DataAccess.Migrations
                             Address = "123 Admin St",
                             AvatarUrl = "https://example.com/avatar.png",
                             BirthDate = new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ConcurrencyStamp = "7586887e-2ae9-4c47-a7bd-981db0c60e8d",
+                            ConcurrencyStamp = "614be94a-b863-4d72-8eb3-821bbdae3ebb",
                             Country = "Country",
                             Email = "admin@gmail.com",
                             EmailConfirmed = true,
@@ -259,10 +262,10 @@ namespace KoiVeterinaryServiceCenter.DataAccess.Migrations
                             LockoutEnabled = true,
                             NormalizedEmail = "ADMIN@GMAIL.COM",
                             NormalizedUserName = "ADMIN@GMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEETM//NTtbjY9R5COt42pU3TsoQa+jGAbe5yOk2yVQV2RRg6MtgtMzc2Yxhnq1HVjA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEM/C8AExhsgoLxAn3Z9crNvzjbI+fev7rO2vtYgxR7hyWEPbR+lPsKNAaFAFjebNjQ==",
                             PhoneNumber = "1234567890",
                             PhoneNumberConfirmed = true,
-                            SecurityStamp = "159f6112-4a77-4073-919d-f30195cb4440",
+                            SecurityStamp = "37708464-4024-41e2-9091-56db691c5d06",
                             TwoFactorEnabled = false,
                             UserName = "admin@gmail.com"
                         });
@@ -407,7 +410,7 @@ namespace KoiVeterinaryServiceCenter.DataAccess.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("52aaa1d4-2d04-4b0f-8e95-2d73796d8333"),
+                            Id = new Guid("9a5ce45d-b48f-4774-b2e3-354d6562aed9"),
                             BodyContent = "Dear [UserFullName],<br><br>Welcome to Koi Veterinary Service Center! We are thrilled to have you as part of our community dedicated to the care and well-being of your beloved pets.",
                             CallToAction = "<a href=\"{{VerificationLink}}\">Verify Your Email</a>",
                             Category = "Welcome",
@@ -424,7 +427,7 @@ namespace KoiVeterinaryServiceCenter.DataAccess.Migrations
                         },
                         new
                         {
-                            Id = new Guid("a554d440-ac6a-4afa-868a-78ef5a2e2876"),
+                            Id = new Guid("b41d3544-1db5-4ae7-8874-7f3cf937aa39"),
                             BodyContent = "Hi [UserFullName],<br><br>We received a request to reset your password. Click the link below to reset your password.",
                             CallToAction = "https://cursuslms.xyz/sign-in/verify-email?userId=user.Id&token=Uri.EscapeDataString(token)",
                             Category = "Security",
@@ -441,7 +444,7 @@ namespace KoiVeterinaryServiceCenter.DataAccess.Migrations
                         },
                         new
                         {
-                            Id = new Guid("ae566d7f-5930-4f76-928d-f1c97658bd87"),
+                            Id = new Guid("49b1b8af-c881-4370-8c50-df7c3b3f2cf0"),
                             BodyContent = "<p>Thank you for registering your Cursus account. Click here to go back the page</p>",
                             CallToAction = "<a href=\"{{Login}}\">Login now</a>",
                             Category = "Verify",
@@ -480,6 +483,9 @@ namespace KoiVeterinaryServiceCenter.DataAccess.Migrations
                     b.Property<long>("ServiceNumber")
                         .HasColumnType("bigint");
 
+                    b.Property<string>("ServiceUrl")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("Status")
                         .HasColumnType("int");
 
@@ -502,9 +508,6 @@ namespace KoiVeterinaryServiceCenter.DataAccess.Migrations
                     b.Property<Guid>("SlotId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("AppointmentDate")
-                        .HasColumnType("datetime2");
 
                     b.Property<string>("CreatedBy")
                         .HasColumnType("nvarchar(max)");
@@ -747,7 +750,7 @@ namespace KoiVeterinaryServiceCenter.DataAccess.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("KoiVeterinaryServiceCenter.Models.Domain.Doctor", b =>
+            modelBuilder.Entity("KoiVeterinaryServiceCenter.Model.Domain.Doctor", b =>
                 {
                     b.HasOne("KoiVeterinaryServiceCenter.Models.Domain.ApplicationUser", "ApplicationUser")
                         .WithMany()
@@ -758,9 +761,9 @@ namespace KoiVeterinaryServiceCenter.DataAccess.Migrations
                     b.Navigation("ApplicationUser");
                 });
 
-            modelBuilder.Entity("KoiVeterinaryServiceCenter.Models.Domain.DoctorSchedules", b =>
+            modelBuilder.Entity("KoiVeterinaryServiceCenter.Model.Domain.DoctorSchedules", b =>
                 {
-                    b.HasOne("KoiVeterinaryServiceCenter.Models.Domain.Doctor", "Doctor")
+                    b.HasOne("KoiVeterinaryServiceCenter.Model.Domain.Doctor", "Doctor")
                         .WithMany()
                         .HasForeignKey("DoctorId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -769,9 +772,9 @@ namespace KoiVeterinaryServiceCenter.DataAccess.Migrations
                     b.Navigation("Doctor");
                 });
 
-            modelBuilder.Entity("KoiVeterinaryServiceCenter.Models.Domain.DoctorServices", b =>
+            modelBuilder.Entity("KoiVeterinaryServiceCenter.Model.Domain.DoctorServices", b =>
                 {
-                    b.HasOne("KoiVeterinaryServiceCenter.Models.Domain.Doctor", "Doctor")
+                    b.HasOne("KoiVeterinaryServiceCenter.Model.Domain.Doctor", "Doctor")
                         .WithMany("DoctorServices")
                         .HasForeignKey("DoctorId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -809,7 +812,7 @@ namespace KoiVeterinaryServiceCenter.DataAccess.Migrations
 
             modelBuilder.Entity("KoiVeterinaryServiceCenter.Models.Domain.DoctorRating", b =>
                 {
-                    b.HasOne("KoiVeterinaryServiceCenter.Models.Domain.Doctor", "Doctor")
+                    b.HasOne("KoiVeterinaryServiceCenter.Model.Domain.Doctor", "Doctor")
                         .WithMany()
                         .HasForeignKey("DoctorId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -820,7 +823,7 @@ namespace KoiVeterinaryServiceCenter.DataAccess.Migrations
 
             modelBuilder.Entity("KoiVeterinaryServiceCenter.Models.Domain.Slot", b =>
                 {
-                    b.HasOne("KoiVeterinaryServiceCenter.Models.Domain.DoctorSchedules", "DoctorSchedules")
+                    b.HasOne("KoiVeterinaryServiceCenter.Model.Domain.DoctorSchedules", "DoctorSchedules")
                         .WithMany("Slots")
                         .HasForeignKey("DoctorSchedulesId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -841,7 +844,7 @@ namespace KoiVeterinaryServiceCenter.DataAccess.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("KoiVeterinaryServiceCenter.Models.Domain.PaymentTransactions", "PaymentTransactions")
+                    b.HasOne("KoiVeterinaryServiceCenter.Model.Domain.PaymentTransactions", "PaymentTransactions")
                         .WithMany()
                         .HasForeignKey("PaymentTransactionId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -905,12 +908,12 @@ namespace KoiVeterinaryServiceCenter.DataAccess.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("KoiVeterinaryServiceCenter.Models.Domain.Doctor", b =>
+            modelBuilder.Entity("KoiVeterinaryServiceCenter.Model.Domain.Doctor", b =>
                 {
                     b.Navigation("DoctorServices");
                 });
 
-            modelBuilder.Entity("KoiVeterinaryServiceCenter.Models.Domain.DoctorSchedules", b =>
+            modelBuilder.Entity("KoiVeterinaryServiceCenter.Model.Domain.DoctorSchedules", b =>
                 {
                     b.Navigation("Slots");
                 });

@@ -25,7 +25,7 @@ namespace KoiVeterinaryServiceCenter.DataAccess.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("KoiVeterinaryServiceCenter.Model.Domain.Doctor", b =>
+            modelBuilder.Entity("KoiVeterinaryServiceCenter.Models.Domain.Doctor", b =>
                 {
                     b.Property<Guid>("DoctorId")
                         .ValueGeneratedOnAdd()
@@ -54,7 +54,7 @@ namespace KoiVeterinaryServiceCenter.DataAccess.Migrations
                     b.ToTable("Doctors");
                 });
 
-            modelBuilder.Entity("KoiVeterinaryServiceCenter.Model.Domain.DoctorSchedules", b =>
+            modelBuilder.Entity("KoiVeterinaryServiceCenter.Models.Domain.DoctorSchedules", b =>
                 {
                     b.Property<Guid>("DoctorSchedulesId")
                         .ValueGeneratedOnAdd()
@@ -94,7 +94,7 @@ namespace KoiVeterinaryServiceCenter.DataAccess.Migrations
                     b.ToTable("DoctorSchedules");
                 });
 
-            modelBuilder.Entity("KoiVeterinaryServiceCenter.Model.Domain.DoctorServices", b =>
+            modelBuilder.Entity("KoiVeterinaryServiceCenter.Models.Domain.DoctorServices", b =>
                 {
                     b.Property<Guid>("DoctorId")
                         .HasColumnType("uniqueidentifier");
@@ -109,7 +109,7 @@ namespace KoiVeterinaryServiceCenter.DataAccess.Migrations
                     b.ToTable("DoctorServices");
                 });
 
-            modelBuilder.Entity("KoiVeterinaryServiceCenter.Model.Domain.PaymentTransactions", b =>
+            modelBuilder.Entity("KoiVeterinaryServiceCenter.Models.Domain.PaymentTransactions", b =>
                 {
                     b.Property<Guid>("PaymentTransactionId")
                         .ValueGeneratedOnAdd()
@@ -779,7 +779,7 @@ namespace KoiVeterinaryServiceCenter.DataAccess.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("KoiVeterinaryServiceCenter.Model.Domain.Doctor", b =>
+            modelBuilder.Entity("KoiVeterinaryServiceCenter.Models.Domain.Doctor", b =>
                 {
                     b.HasOne("KoiVeterinaryServiceCenter.Models.Domain.ApplicationUser", "ApplicationUser")
                         .WithMany()
@@ -790,9 +790,9 @@ namespace KoiVeterinaryServiceCenter.DataAccess.Migrations
                     b.Navigation("ApplicationUser");
                 });
 
-            modelBuilder.Entity("KoiVeterinaryServiceCenter.Model.Domain.DoctorSchedules", b =>
+            modelBuilder.Entity("KoiVeterinaryServiceCenter.Models.Domain.DoctorSchedules", b =>
                 {
-                    b.HasOne("KoiVeterinaryServiceCenter.Model.Domain.Doctor", "Doctor")
+                    b.HasOne("KoiVeterinaryServiceCenter.Models.Domain.Doctor", "Doctor")
                         .WithMany()
                         .HasForeignKey("DoctorId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -801,9 +801,9 @@ namespace KoiVeterinaryServiceCenter.DataAccess.Migrations
                     b.Navigation("Doctor");
                 });
 
-            modelBuilder.Entity("KoiVeterinaryServiceCenter.Model.Domain.DoctorServices", b =>
+            modelBuilder.Entity("KoiVeterinaryServiceCenter.Models.Domain.DoctorServices", b =>
                 {
-                    b.HasOne("KoiVeterinaryServiceCenter.Model.Domain.Doctor", "Doctor")
+                    b.HasOne("KoiVeterinaryServiceCenter.Models.Domain.Doctor", "Doctor")
                         .WithMany("DoctorServices")
                         .HasForeignKey("DoctorId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -842,7 +842,7 @@ namespace KoiVeterinaryServiceCenter.DataAccess.Migrations
 
             modelBuilder.Entity("KoiVeterinaryServiceCenter.Models.Domain.DoctorRating", b =>
                 {
-                    b.HasOne("KoiVeterinaryServiceCenter.Model.Domain.Doctor", "Doctor")
+                    b.HasOne("KoiVeterinaryServiceCenter.Models.Domain.Doctor", "Doctor")
                         .WithMany()
                         .HasForeignKey("DoctorId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -853,7 +853,7 @@ namespace KoiVeterinaryServiceCenter.DataAccess.Migrations
 
             modelBuilder.Entity("KoiVeterinaryServiceCenter.Models.Domain.Slot", b =>
                 {
-                    b.HasOne("KoiVeterinaryServiceCenter.Model.Domain.Doctor", "Doctor")
+                    b.HasOne("KoiVeterinaryServiceCenter.Models.Domain.Doctor", "Doctor")
                         .WithMany()
                         .HasForeignKey("DoctorId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -874,7 +874,7 @@ namespace KoiVeterinaryServiceCenter.DataAccess.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("KoiVeterinaryServiceCenter.Model.Domain.PaymentTransactions", "PaymentTransactions")
+                    b.HasOne("KoiVeterinaryServiceCenter.Models.Domain.PaymentTransactions", "PaymentTransactions")
                         .WithMany()
                         .HasForeignKey("PaymentTransactionId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -938,7 +938,7 @@ namespace KoiVeterinaryServiceCenter.DataAccess.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("KoiVeterinaryServiceCenter.Model.Domain.Doctor", b =>
+            modelBuilder.Entity("KoiVeterinaryServiceCenter.Models.Domain.Doctor", b =>
                 {
                     b.Navigation("DoctorServices");
                 });
