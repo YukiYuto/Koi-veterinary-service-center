@@ -31,7 +31,6 @@ namespace KoiVeterinaryServiceCenter.Services.Services
             string? filterOn,
             string? filterQuery,
             string? sortBy,
-            bool? isAscending,
             int pageNumber = 0,
             int pageSize = 0)
         {
@@ -39,10 +38,10 @@ namespace KoiVeterinaryServiceCenter.Services.Services
             {
                 // Lấy tất cả cuộc hẹn
                 var allAppointments = (await _unitOfWork.AppointmentRepository
-                    .GetAllAsync(includeProperties: "DoctorRating")).ToList();
+                    .GetAllAsync());
 
                 // Khởi tạo danh sách appointments
-                List<Appointment> appointments = allAppointments;
+                List<Appointment> appointments = allAppointments.ToList();
 
                 // Filter Query
                 if (!string.IsNullOrEmpty(filterOn) && !string.IsNullOrEmpty(filterQuery))
@@ -77,17 +76,20 @@ namespace KoiVeterinaryServiceCenter.Services.Services
                 // Sắp xếp nếu có yêu cầu
                 if (!string.IsNullOrEmpty(sortBy))
                 {
-                    appointments = sortBy.Trim().ToLower() switch
+                    sortBy = sortBy.Trim().ToLower();
+                    switch (sortBy)
                     {
-                        "bookingstatus" => isAscending == true
-                            ? appointments.OrderBy(x => x.BookingStatus).ToList()
-                            : appointments.OrderByDescending(x => x.BookingStatus).ToList(),
+                        case "bookingstatus":
+                            appointments = appointments.OrderBy(x => x.BookingStatus).ToList();
+                            break;
 
-                        "totalamount" => isAscending == true
-                            ? appointments.OrderBy(x => x.TotalAmount).ToList()
-                            : appointments.OrderByDescending(x => x.TotalAmount).ToList(),
-                        _ => appointments // Nếu không có trường hợp nào khớp, giữ nguyên danh sách
-                    };
+                        case "totalamount":
+                            appointments = appointments.OrderBy(x => x.TotalAmount).ToList();
+                            break;
+
+                        default:
+                            break; // Nếu không có trường hợp nào khớp, giữ nguyên danh sách
+                    }
                 }
 
                 // Phân trang
@@ -208,14 +210,9 @@ namespace KoiVeterinaryServiceCenter.Services.Services
                 {
                     SlotId = createAppointmentDto.SlotId,
                     ServiceId = createAppointmentDto.ServiceId,
-<<<<<<< HEAD
                     TotalAmount = service.Price + service.TreavelFree,
                     BookingStatus = 0,
                     Description = createAppointmentDto.Description
-=======
-                    TotalAmount = createAppointmentDto.TotalAmount,
-
->>>>>>> 91783fbb9ac994c7a727f9e0f57d94870be001b9
                 };
 
                 //thêm appointment mới
@@ -353,5 +350,6 @@ namespace KoiVeterinaryServiceCenter.Services.Services
                 };
             }
         }
+
     }
 }

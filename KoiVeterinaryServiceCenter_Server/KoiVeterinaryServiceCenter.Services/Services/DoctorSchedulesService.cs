@@ -59,6 +59,7 @@ public class DoctorSchedulesService : IDoctorSchedulesService
                 Result = null
             };
         }
+    }
 
         public async Task<ResponseDTO> GetDoctorScheduleByDoctorId(ClaimsPrincipal User, Guid doctorId)
         {
@@ -98,7 +99,6 @@ public class DoctorSchedulesService : IDoctorSchedulesService
                 };
             }
         }
-    }
 
     //Get doctor schedule by ID
     public async Task<ResponseDTO> GetDoctorScheduleById(ClaimsPrincipal User, Guid doctorSchedulesId)

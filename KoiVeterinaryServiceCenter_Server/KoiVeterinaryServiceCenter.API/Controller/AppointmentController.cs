@@ -36,7 +36,7 @@ namespace KoiVeterinaryServiceCenter.API.Controller
             [FromQuery] int pageNumber = 1,
             [FromQuery] int pageSize = 10)
         {
-            var responseDto = await _appointmentService.GetAppointments(User, filterOn, filterQuery, sortBy, isAscending, pageNumber, pageSize);
+            var responseDto = await _appointmentService.GetAppointments(User, filterOn, filterQuery, sortBy, pageNumber, pageSize);
             return StatusCode(responseDto.StatusCode, responseDto);
         }
 
