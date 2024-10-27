@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace KoiVeterinaryServiceCenter.Models.DTO.DoctorRating
 {
-    public class DoctorRatingGetDTO
+    public class UpdateDoctorRatingDTO
     {
         public Guid DoctorRatingId { get; set; }
         public Guid DoctorId { get; set; }
@@ -17,5 +17,7 @@ namespace KoiVeterinaryServiceCenter.Models.DTO.DoctorRating
         public int Rating { get; set; }
 
         public string? Feedback { get; set; }
+
+        public DateTime CreatedAt { get; set; }
     }
 }
