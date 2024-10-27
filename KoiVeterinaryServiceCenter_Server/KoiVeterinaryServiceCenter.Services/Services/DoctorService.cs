@@ -325,5 +325,56 @@ namespace KoiVeterinaryServiceCenter.Services.Services
                 };
             }
         }
+
+        public async Task<ResponseDTO> CreateGoogleMeetLink(GoogleMeetLinkDTO googleMeetLinkDTO)
+        {
+            var doctor = await _unitOfWork.DoctorRepository.GetAsync(d => d.DoctorId == googleMeetLinkDTO.doctorId);
+            if (doctor is null)
+            {
+                return new ResponseDTO()
+                {
+                    IsSuccess = false,
+                    StatusCode = 404,
+                    Message = "Doctor not found"
+                };
+            }
+
+            doctor.GoogleMeetLink = googleMeetLinkDTO.GoogleMeetLink;
+            _unitOfWork.DoctorRepository.Update(doctor);
+            await _unitOfWork.SaveAsync();
+
+            return new ResponseDTO() {
+                IsSuccess = true,
+                StatusCode = 201,
+                Result = doctor,
+                Message = "Google meet link created successfully"
+            };
+        }
+
+        public async Task<ResponseDTO> UpdateGoogleMeetLink(GoogleMeetLinkDTO googleMeetLinkDTO)
+        {
+            var doctor = await _unitOfWork.DoctorRepository.GetAsync(d => d.DoctorId == googleMeetLinkDTO.doctorId);
+            if (doctor is null)
+            {
+                return new ResponseDTO()
+                {
+                    IsSuccess = false,
+                    StatusCode = 404,
+                    Message = "Doctor not found"
+                };
+            }
+
+            doctor.GoogleMeetLink = googleMeetLinkDTO.GoogleMeetLink;
+            _unitOfWork.DoctorRepository.Update(doctor);
+            await _unitOfWork.SaveAsync();
+
+            return new ResponseDTO()
+            {
+                IsSuccess = true,
+                StatusCode = 200,
+                Result = doctor,
+                Message = "Google meet link updated successfully"
+            };
+        }
     }
 }

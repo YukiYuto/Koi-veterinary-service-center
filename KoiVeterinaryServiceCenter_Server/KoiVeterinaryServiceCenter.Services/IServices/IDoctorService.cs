@@ -23,5 +23,7 @@ namespace KoiVeterinaryServiceCenter.Services.IServices
         Task<ResponseDTO> GetDoctorById(Guid id);
         Task<ResponseDTO> UpdateDoctorById(UpdateDoctorDTO updateDoctorDTO);
         Task<ResponseDTO> DeleteDoctorById(Guid id);
+        Task<ResponseDTO> CreateGoogleMeetLink(GoogleMeetLinkDTO googleMeetLinkDTO);
+        Task<ResponseDTO> UpdateGoogleMeetLink(GoogleMeetLinkDTO googleMeetLinkDTO);
     }
 }
