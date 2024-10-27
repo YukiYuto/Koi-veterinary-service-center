@@ -38,7 +38,7 @@ namespace KoiVeterinaryServiceCenter.API.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = StaticUserRoles.Admin)]
+        [Authorize]
         public async Task<ActionResult<ResponseDTO>> CreateDoctorSchedule([FromBody] CreateDoctorSchedulesDTO createDoctorSchedulesDTO)
         {
             var responseDto = await _doctorSchedulesService.CreateDoctorSchedule(User, createDoctorSchedulesDTO);
@@ -53,7 +53,7 @@ namespace KoiVeterinaryServiceCenter.API.Controllers
             return StatusCode(responseDto.StatusCode, responseDto);
         }
         [HttpPut]
-        [Authorize(Roles = StaticUserRoles.Admin)]
+        [Authorize]
         public async Task<ActionResult<ResponseDTO>> UpdateDoctorSchedule([FromBody] UpdateDoctorSchedulesDTO updateDoctorSchedulesDTO)
         {
             var responseDto = await _doctorSchedulesService.UpdateDoctorScheduleById(User, updateDoctorSchedulesDTO);
@@ -61,7 +61,7 @@ namespace KoiVeterinaryServiceCenter.API.Controllers
         }
 
         [HttpPut("{doctorScheduleId:Guid}/soft-delete")]
-        [Authorize(Roles = StaticUserRoles.Admin)]
+        [Authorize]
         public async Task<ActionResult<ResponseDTO>> DeleteDoctorSchedule([FromRoute] Guid doctorScheduleId)
         {
             var responseDto = await _doctorSchedulesService.DeleteDoctorScheduleById(User, doctorScheduleId);
