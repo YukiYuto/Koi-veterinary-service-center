@@ -55,7 +55,7 @@ public class FirebaseService : IFirebaseService
                 Message = "File is empty!"
             };
         }
-
+                                                                    
         var fileName = $"{Guid.NewGuid()}_{file.FileName}"; // Tạo tên file duy nhất
         var filePath = $"{folder}/{fileName}"; // Đường dẫn đầy đủ cho tệp trong Firebase
 

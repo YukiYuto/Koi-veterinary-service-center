@@ -208,7 +208,7 @@ namespace KoiVeterinaryServiceCenter.Services.Services
                     Message = "Appointment created successfully",
                     Result = appointments,
                     IsSuccess = true,
-                    StatusCode = 200,
+                    StatusCode = 201,
                 };
             }
             catch (Exception e)

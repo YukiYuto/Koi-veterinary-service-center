@@ -7,4 +7,5 @@ public static class StaticUserRoles
     public const string Customer = "CUSTOMER";
     public const string Staff = "STAFF";
     public const string AdminDoctor = "ADMIN, DOCTOR";
+    public const string AdminStaff = "ADMIN, STAFF";
 }
