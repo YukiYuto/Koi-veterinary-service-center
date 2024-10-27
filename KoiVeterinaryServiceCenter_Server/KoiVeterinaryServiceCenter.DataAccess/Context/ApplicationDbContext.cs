@@ -14,10 +14,14 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
 
     public DbSet<ApplicationUser> ApplicationUsers { get; set; }
 
+    
+
     public DbSet<Doctor> Doctors { get; set; }
     public DbSet<DoctorRating> DoctorRatings { get; set; }
     public DbSet<DoctorSchedules> DoctorSchedules { get; set; }
     public DbSet<DoctorServices> DoctorServices { get; set; }
+
+    public DbSet<Post> Posts { get; set; }
 
     public DbSet<Service> Services { get; set; }
 
@@ -28,7 +32,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     public DbSet<EmailTemplate> EmailTemplates { get; set; }
     public DbSet<PaymentTransactions> PaymentTransactions { get; set; }
     
-    public DbSet<Post> Posts { get; set; }
+ 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
