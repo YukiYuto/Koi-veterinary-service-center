@@ -1,5 +1,6 @@
 ﻿using KoiVeterinaryServiceCenter.Models.DTO;
 using KoiVeterinaryServiceCenter.Models.DTO.Post; // Ensure you have a DTO for Post
+using Microsoft.AspNetCore.Http;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
@@ -21,5 +22,6 @@ namespace KoiVeterinaryServiceCenter.Services.IServices
         Task<ResponseDTO> CreatePost(ClaimsPrincipal user, CreatePostDTO createPostDTO); // Create a new post
         Task<ResponseDTO> UpdatePost(ClaimsPrincipal user, UpdatePostDTO updatePostDTO); // Update an existing post
         Task<ResponseDTO> DeletePost(ClaimsPrincipal user, Guid postId); // Delete a post by ID
+        Task<ResponseDTO> UploadPostAvatar(IFormFile file, ClaimsPrincipal user);
     }
 }
