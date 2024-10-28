@@ -45,6 +45,16 @@ public class AutoMapperProfile : Profile
         CreateMap<Service, GetServiceDTO>().ReverseMap();
         CreateMap<DoctorSchedules, GetDoctorSchedulesIdDTO>().ReverseMap();
         CreateMap<Transaction, GetTransactionDTO>().ReverseMap();
-        CreateMap<Transaction, GetFullInforTransactionDTO>().ReverseMap();
+        CreateMap<Transaction, GetFullInforTransactionDTO>()
+            .ForMember(dest => dest.DoctorName, opt => opt.MapFrom(src => src.Appointment.Slot.DoctorSchedules.Doctor.ApplicationUser.FullName))
+            .ForMember(dest => dest.Position, opt => opt.MapFrom(src => src.Appointment.Slot.DoctorSchedules.Doctor.Position))
+            .ForMember(dest => dest.DoctorAvatarUrl, opt => opt.MapFrom(src => src.Appointment.Slot.DoctorSchedules.Doctor.ApplicationUser.AvatarUrl))
+            .ForMember(dest => dest.NameService, opt => opt.MapFrom(src => src.Appointment.Service.ServiceName))
+            .ForMember(dest => dest.Price, opt => opt.MapFrom(src => src.Appointment.Service.Price))
+            .ForMember(dest => dest.TravelFee, opt => opt.MapFrom(src => src.Appointment.Service.TreavelFree))
+            .ForMember(dest => dest.ScheduleDate, opt => opt.MapFrom(src => src.Appointment.Slot.SchedulesDate))
+            .ForMember(dest => dest.StartTime, opt => opt.MapFrom(src => src.Appointment.Slot.StartTime))
+            .ForMember(dest => dest.EndTime, opt => opt.MapFrom(src => src.Appointment.Slot.EndTime))
+            .ForMember(dest => dest.TransactionDateTime, opt => opt.MapFrom(src => src.TransactionDateTime)).ReverseMap();
     }
 }
