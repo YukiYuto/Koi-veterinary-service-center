@@ -355,8 +355,23 @@ namespace KoiVeterinaryServiceCenter.Services.Services
                     };
                 }
 
-                // Chuyển đổi danh sách cuộc hẹn thành DTO (nếu cần)
-                var appointmentDtos = _mapper.Map<IEnumerable<GetAppointmentDTO>>(appointments);
+                // Tạo danh sách các DTO
+                var appointmentDtos = new List<GetAppointmentDTO>();
+
+                foreach (var appointment in appointments)
+                {
+                    var customer = await _userManager.FindByIdAsync(appointment.CustomerId);
+                    var appointmentDto = _mapper.Map<GetAppointmentDTO>(appointment);
+
+                    // Nếu tìm thấy customer, gán thêm CustomerName vào DTO
+                    if (customer != null)
+                    {
+                        appointmentDto.CustomerName = customer.FullName; // Gán FullName vào DTO
+                    }
+
+                    // Thêm DTO vào danh sách
+                    appointmentDtos.Add(appointmentDto);
+                }
 
                 return new ResponseDTO()
                 {
