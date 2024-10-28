@@ -43,7 +43,9 @@ public class AutoMapperProfile : Profile
         CreateMap<DoctorSchedules, GetDoctorSchedulesIdDTO>().ReverseMap();
         CreateMap<Transaction, GetTransactionDTO>().ReverseMap();
         CreateMap<Appointment, CreateAppointmentDTO>().ReverseMap();
+        CreateMap<Appointment, GetAppointmentDTO>().ReverseMap();
         CreateMap<Transaction, GetFullInforTransactionDTO>().ReverseMap();
+
 
     }
 }

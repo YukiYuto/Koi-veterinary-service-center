@@ -249,7 +249,7 @@ namespace KoiVeterinaryServiceCenter.Services.Services
                     BookingStatus = 0,
                     Description = createAppointmentDto.Description,
                     CustomerId = createAppointmentDto.CustomerId,
-                    CreateTime = DateTime.Now,
+                    CreateTime = createAppointmentDto.CreateTime,
                     AppointmentNumber = maxAppointmentNumber + 1
                 };
 
