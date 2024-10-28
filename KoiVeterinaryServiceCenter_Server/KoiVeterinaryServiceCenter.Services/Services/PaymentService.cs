@@ -11,6 +11,7 @@ using KoiVeterinaryServiceCenter.Utility.Constants;
 using StackExchange.Redis;
 using KoiVeterinaryServiceCenter.Models.DTO;
 using KoiVeterinaryServiceCenter.Models.Domain;
+using Transaction = KoiVeterinaryServiceCenter.Models.Domain.Transaction;
 
 public class PaymentService : IPaymentService
 {
@@ -94,7 +95,7 @@ public class PaymentService : IPaymentService
                 Message = "Create payment link successfully",
                 IsSuccess = true,
                 StatusCode = 200,
-                Result = result
+                Result = result + paymentTransactions.PaymentTransactionId.ToString()
             };
         }
         catch (Exception e)
@@ -135,6 +136,21 @@ public class PaymentService : IPaymentService
             _unitOfWork.PaymentTransactionsRepository.Update(paymentTransactions);
             await _unitOfWork.SaveAsync();
 
+            if(paymentTransactions.Status.Equals(StaticPayment.paymentStatusSucess))
+            {
+                var appointment = await _unitOfWork.AppointmentRepository.GetAppointmentByAppmointNumer(paymentTransactions.AppointmentNumber);
+                Transaction transaction = new Transaction()
+                {
+                    CustomerId = appointment.CustomerId,
+                    AppointmentId = appointment.AppointmentId,
+                    PaymentTransactionId = paymentTransactionId,
+                    Amount = paymentTransactions.Amount,
+                    TransactionDateTime = DateTime.Now
+                };
+
+                await _unitOfWork.TransactionsRepository.AddAsync(transaction);
+                await _unitOfWork.SaveAsync();
+            }
             return new ResponseDTO()
             {
                 Message = "Update status successfully",

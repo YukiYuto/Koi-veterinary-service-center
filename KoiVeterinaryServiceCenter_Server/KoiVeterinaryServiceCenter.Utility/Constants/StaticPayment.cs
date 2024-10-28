@@ -9,5 +9,6 @@ namespace KoiVeterinaryServiceCenter.Utility.Constants
     public static class StaticPayment
     {
         public const string paymentStatusDefault = "PENDING";
+        public const string paymentStatusSucess = "SUCCESS";
     }
 }
