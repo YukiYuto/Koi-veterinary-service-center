@@ -10,5 +10,5 @@ public class GetSlotDTO : BaseEntity<string, string, int>
     public Guid DoctorSchedulesId { get; set; }
     public TimeSpan StartTime { get; set; }
     public TimeSpan EndTime { get; set; }
-    public bool IsBooked { get; set; }
+    public int IsBooked { get; set; }
 }

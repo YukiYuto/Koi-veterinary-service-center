@@ -1,6 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using KoiVeterinaryServiceCenter.Model.Domain;
 
 namespace KoiVeterinaryServiceCenter.Models.Domain;
 
@@ -12,5 +11,24 @@ public class Slot : BaseEntity<string, string, int>
     public DateOnly SchedulesDate { get; set; }
     public TimeSpan StartTime { get; set; }
     public TimeSpan EndTime { get; set; }
-    public bool IsBooked { get; set; }
+    public int IsBooked { get; set; }
+
+    public string BookingStatusDescription
+    {
+        get
+        {
+            switch (IsBooked)
+            {
+                case 0:
+                    return "Free";
+                case 1:
+                    return "Pending";
+                case 2:
+                    return "Booked";
+                default:
+                    return "Free";
+            }
+        }
+    }
+
 }

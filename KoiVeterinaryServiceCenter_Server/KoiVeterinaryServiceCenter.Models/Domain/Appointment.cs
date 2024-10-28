@@ -28,13 +28,13 @@ public class Appointment
             switch (BookingStatus)
             {
                 case 0:
-                    return "Peding"; // Đã book
+                    return "Peding"; 
                 case 1:
-                    return "Booked"; // Đã hủy
+                    return "Booked";
                 case 2:
                     return "Cancel";
                 default:
-                    return "Peding"; // Default là Booked
+                    return "Peding"; 
             }
         }
     }

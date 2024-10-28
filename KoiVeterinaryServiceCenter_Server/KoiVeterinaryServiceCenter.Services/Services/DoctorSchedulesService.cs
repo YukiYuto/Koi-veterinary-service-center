@@ -8,11 +8,14 @@ using KoiVeterinaryServiceCenter.Models.DTO;
 using KoiVeterinaryServiceCenter.Models.DTO.DoctorSchedules;
 using KoiVeterinaryServiceCenter.Services.IServices;
 using Microsoft.IdentityModel.Tokens;
+
 namespace KoiVeterinaryServiceCenter.Services.Services;
+
 public class DoctorSchedulesService : IDoctorSchedulesService
 {
     public readonly IUnitOfWork _unitOfWork;
     public readonly IMapper _mapper;
+
     public DoctorSchedulesService(IUnitOfWork unitOfWork, IMapper mapper)
     {
         _unitOfWork = unitOfWork;
@@ -21,7 +24,7 @@ public class DoctorSchedulesService : IDoctorSchedulesService
 
     //Create Schedule for doctor
     public async Task<ResponseDTO> CreateDoctorSchedule(ClaimsPrincipal User,
-    CreateDoctorSchedulesDTO createDoctorSchedulesDTO)
+        CreateDoctorSchedulesDTO createDoctorSchedulesDTO)
     {
         try
         {
@@ -61,46 +64,45 @@ public class DoctorSchedulesService : IDoctorSchedulesService
         }
     }
 
-        public async Task<ResponseDTO> GetDoctorScheduleByDoctorId(ClaimsPrincipal User, Guid doctorId)
+    public async Task<ResponseDTO> GetDoctorScheduleByDoctorId(ClaimsPrincipal User, Guid doctorId)
+    {
+        try
         {
-            try
-            {
-                var doctor = await _unitOfWork.DoctorSchedulesRepository.GetAsync(d => d.DoctorId == doctorId);
-                if (doctor == null)
-                {
-                    return new ResponseDTO()
-                    {
-                        Message = "Doctor not found",
-                        IsSuccess = false,
-                        StatusCode = 404,
-                        Result = null
-                    };
-                }
-
-                GetDoctorSchedulesIdDTO doctorSchedulesIdDTO;
-                doctorSchedulesIdDTO = _mapper.Map<GetDoctorSchedulesIdDTO>(doctor);
-
-                return new ResponseDTO()
-                {
-                    Message = "Get doctor schedule successfully",
-                    IsSuccess = true,
-                    StatusCode = 200,
-                    Result = doctorSchedulesIdDTO
-                };
-            }
-            catch (Exception e)
+            var doctor = await _unitOfWork.DoctorSchedulesRepository.GetAsync(d => d.DoctorId == doctorId);
+            if (doctor == null)
             {
                 return new ResponseDTO()
                 {
-                    Message = e.Message,
+                    Message = "Doctor not found",
                     IsSuccess = false,
-                    StatusCode = 500,
+                    StatusCode = 404,
                     Result = null
                 };
             }
-        }
 
-    //Get doctor schedule by ID
+            GetDoctorSchedulesIdDTO doctorSchedulesIdDTO;
+            doctorSchedulesIdDTO = _mapper.Map<GetDoctorSchedulesIdDTO>(doctor);
+
+            return new ResponseDTO()
+            {
+                Message = "Get doctor schedule successfully",
+                IsSuccess = true,
+                StatusCode = 200,
+                Result = doctorSchedulesIdDTO
+            };
+        }
+        catch (Exception e)
+        {
+            return new ResponseDTO()
+            {
+                Message = e.Message,
+                IsSuccess = false,
+                StatusCode = 500,
+                Result = null
+            };
+        }
+    }
+    
     public async Task<ResponseDTO> GetDoctorScheduleById(ClaimsPrincipal User, Guid doctorSchedulesId)
     {
         try
@@ -118,12 +120,12 @@ public class DoctorSchedulesService : IDoctorSchedulesService
                     Result = null
                 };
             }
+
             //Use mapping from DoctorSchedules to GetDoctorSchedulesDTO
             try
             {
                 GetDoctorSchedulesDTO doctorSchedulesDTO;
                 doctorSchedulesDTO = _mapper.Map<GetDoctorSchedulesDTO>(doctorSchedule);
-
             }
             //Solve the mapping exception
             catch (AutoMapperMappingException e)
@@ -136,6 +138,7 @@ public class DoctorSchedulesService : IDoctorSchedulesService
                     Result = null
                 };
             }
+
             //If function successfuly, they will return object which is DoctorSchedules and message successfully
             return new ResponseDTO()
             {
@@ -160,12 +163,14 @@ public class DoctorSchedulesService : IDoctorSchedulesService
 
     //Update doctor schedule
     //Update doctor schedule
-    public async Task<ResponseDTO> UpdateDoctorScheduleById(ClaimsPrincipal User, UpdateDoctorSchedulesDTO updateDoctorSchedulesDTO)
+    public async Task<ResponseDTO> UpdateDoctorScheduleById(ClaimsPrincipal User,
+        UpdateDoctorSchedulesDTO updateDoctorSchedulesDTO)
     {
         try
         {
             //Use ID to find the doctor schedule
-            var updateDoctorSchedules = await _unitOfWork.DoctorSchedulesRepository.GetAsync(x => x.DoctorSchedulesId == updateDoctorSchedulesDTO.DoctorSchedulesId);
+            var updateDoctorSchedules = await _unitOfWork.DoctorSchedulesRepository.GetAsync(x =>
+                x.DoctorSchedulesId == updateDoctorSchedulesDTO.DoctorSchedulesId);
 
             //check doctor schedule is exist or not if this not exist return not exist form
             if (updateDoctorSchedules is null)
@@ -217,7 +222,8 @@ public class DoctorSchedulesService : IDoctorSchedulesService
         try
         {
             //Find doctor schedule from DataBase
-            var doctorScheduleToDelete = await _unitOfWork.DoctorSchedulesRepository.GetAsync(x => x.DoctorSchedulesId == doctorScheduleId);
+            var doctorScheduleToDelete =
+                await _unitOfWork.DoctorSchedulesRepository.GetAsync(x => x.DoctorSchedulesId == doctorScheduleId);
 
             //Resolve error if doctor is null
             if (doctorScheduleToDelete is null)
@@ -263,136 +269,113 @@ public class DoctorSchedulesService : IDoctorSchedulesService
             };
         }
     }
-
+    
     //Get all doctor schedules by filter, sort query and pagination
-    public async Task<ResponseDTO> GetAll(ClaimsPrincipal User, string? filterOn, string? filterQuery, string? sortBy, bool? isAscending, int pageNumber, int pageSize)
+    public async Task<ResponseDTO> GetAll
+    (
+        ClaimsPrincipal User,
+        string? filterOn,
+        string? filterQuery,
+        string? sortBy,
+        bool? isAscending,
+        int pageNumber = 0,
+        int pageSize = 0
+    )
     {
         try
         {
-            #region Query Parameters
-            //Create a new doctor schedules list
-            List<DoctorSchedules> doctorSchedules = new List<DoctorSchedules>();
+            // Lấy tất cả lịch trình của bác sĩ
+            var allDoctorSchedules =
+                (await _unitOfWork.DoctorSchedulesRepository.GetAllAsync(includeProperties: "Doctor.ApplicationUser"));
 
-            //check input filter is null or have a value
+            // Khởi tạo danh sách doctorSchedules
+            List<DoctorSchedules> doctorSchedules = allDoctorSchedules.ToList();
+
+            // Filter Query
             if (!string.IsNullOrEmpty(filterOn) && !string.IsNullOrEmpty(filterQuery))
             {
-                //remove space and lower to word
-                switch (filterOn.Trim().ToLower())
+                doctorSchedules = doctorSchedules.Where(x =>
                 {
-                    case "doctorname":
-                        {
-                            //get all doctor schedules list with condition which is doctor name must match filterOn
-                            doctorSchedules = _unitOfWork.DoctorSchedulesRepository.GetAllAsync(includeProperties: "Doctor.ApplicationUser")
-                                .GetAwaiter().GetResult().Where(x => x.Doctor.ApplicationUser.FullName.Contains(filterQuery, StringComparison.CurrentCultureIgnoreCase)).ToList();
-                            break;
-                        }
-                    //Just for admin
-                    case "createdby":
-                        {
-                            //get all doctor schedules list with condition which is created by must match filterOn
-                            doctorSchedules = _unitOfWork.DoctorSchedulesRepository.GetAllAsync(includeProperties: "Doctor.ApplicationUser")
-                                .GetAwaiter().GetResult().Where(x => x.CreatedBy.Contains(filterQuery, StringComparison.CurrentCultureIgnoreCase)).ToList();
-                            break;
-                        }
-                    //Just for admin
-                    case "updateby":
-                        {
-                            //get all doctor schedules list with condition which is update by must match filterOn
-                            doctorSchedules = _unitOfWork.DoctorSchedulesRepository.GetAllAsync(includeProperties: "Doctor.ApplicationUser")
-                                .GetAwaiter().GetResult().Where(x => x.UpdatedBy.Contains(filterQuery, StringComparison.CurrentCultureIgnoreCase)).ToList();
-                            break;
-                        }
-                    default:
-                        //get all doctor schedules list without condition
-                        doctorSchedules = _unitOfWork.DoctorSchedulesRepository.GetAllAsync(includeProperties: "Doctor.ApplicationUser")
-                                .GetAwaiter().GetResult().ToList();
-                        break;
-                }
-            }
-            else
-            {
-                //get all doctor schedules list without condition
-                doctorSchedules = _unitOfWork.DoctorSchedulesRepository.GetAllAsync(includeProperties: "Doctor.ApplicationUser")
-                        .GetAwaiter().GetResult().ToList();
+                    switch (filterOn.Trim().ToLower())
+                    {
+                        case "doctorname":
+                            return x.Doctor.ApplicationUser.FullName.Contains(filterQuery,
+                                StringComparison.CurrentCultureIgnoreCase);
+
+                        case "createdby":
+                            return x.CreatedBy.Contains(filterQuery, StringComparison.CurrentCultureIgnoreCase);
+
+                        case "updateby":
+                            return x.UpdatedBy.Contains(filterQuery, StringComparison.CurrentCultureIgnoreCase);
+
+                        default:
+                            return true; // Trả về tất cả nếu không có điều kiện khớp
+                    }
+                }).ToList();
             }
 
-            //check sortBy is null or have a value
+            // Sắp xếp nếu có yêu cầu
             if (!string.IsNullOrEmpty(sortBy))
             {
-                //remove space and lower to word
-                switch (sortBy.Trim().ToLower())
+                sortBy = sortBy.Trim().ToLower();
+                switch (sortBy)
                 {
-                    //sort doctor schedules list acsending by name
-                    case "name":
-                        {
-                            doctorSchedules = isAscending == true
-                                ? [.. doctorSchedules.OrderBy(name => name.Doctor.ApplicationUser.FullName)]
-                                : [.. doctorSchedules.OrderByDescending(name => name.Doctor.ApplicationUser.FullName)];
-                            break;
-                        }
-                    //defulat do not anything
-                    default:
+                    case "doctorname":
+                        doctorSchedules = doctorSchedules.OrderBy(x => x.Doctor.ApplicationUser.FullName).ToList();
                         break;
+
+                    case "createdby":
+                        doctorSchedules = doctorSchedules.OrderBy(x => x.CreatedBy).ToList();
+                        break;
+
+                    case "updateby":
+                        doctorSchedules = doctorSchedules.OrderBy(x => x.UpdatedBy).ToList();
+                        break;
+
+                    default:
+                        break; // Nếu không có trường hợp nào khớp, giữ nguyên danh sách
                 }
             }
 
-            //Pagination
-            //Check page number and page size have to bigger than 0
+            // Phân trang
             if (pageNumber > 0 && pageSize > 0)
             {
-                //this is a number which is list will skip
                 var skipResult = (pageNumber - 1) * pageSize;
-                //list will skip with number above and take with number by page size
                 doctorSchedules = doctorSchedules.Skip(skipResult).Take(pageSize).ToList();
             }
-            #endregion Query Parameters
-            //Solve doctor schedules list is null or empty
-            if (doctorSchedules.IsNullOrEmpty())
+
+            // Kiểm tra xem danh sách có trống không
+            if (doctorSchedules == null || !doctorSchedules.Any())
             {
                 return new ResponseDTO()
                 {
-                    Message = "Doctor schedule is not exsit",
+                    Message = "No doctor schedules found",
+                    Result = null,
                     IsSuccess = false,
-                    StatusCode = 404,
-                    Result = null
+                    StatusCode = 404
                 };
             }
-            //Create a new list with object is GetDoctorSchedulesDTO
-            List<GetDoctorSchedulesDTO> getDoctorSchedulesDTO = new List<GetDoctorSchedulesDTO>();
-            try
-            {
-                //Mapping the list doctorSchedules to GetDoctorSchedulesDTO
-                getDoctorSchedulesDTO = _mapper.Map<List<GetDoctorSchedulesDTO>>(doctorSchedules);
-            }
-            //Solve auto mapping exception
-            catch (AutoMapperMappingException e)
-            {
-                return new ResponseDTO()
-                {
-                    Message = e.Message,
-                    IsSuccess = false,
-                    StatusCode = 500,
-                    Result = null
-                };
-            }
-            //If function successfuly return doctor schedules list
+
+            // Chuyển đổi sang DTO (nếu cần)
+            List<GetDoctorSchedulesDTO> getDoctorSchedulesDTO =
+                _mapper.Map<List<GetDoctorSchedulesDTO>>(doctorSchedules);
+
             return new ResponseDTO()
             {
-                Message = "Get doctor schedules list successfully",
+                Message = "Doctor schedules retrieved successfully",
+                Result = getDoctorSchedulesDTO,
                 IsSuccess = true,
-                StatusCode = 200,
-                Result = getDoctorSchedulesDTO
+                StatusCode = 200
             };
         }
-        //Solve all exception
         catch (Exception e)
         {
             return new ResponseDTO()
             {
                 Message = e.Message,
+                Result = null,
                 IsSuccess = false,
-                StatusCode = 500,
-                Result = null
+                StatusCode = 500
             };
         }
     }
