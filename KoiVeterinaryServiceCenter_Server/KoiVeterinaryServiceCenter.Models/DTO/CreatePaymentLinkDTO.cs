@@ -11,7 +11,6 @@ namespace KoiVeterinaryServiceCenter.Model.DTO
     {
         public long AppointmentNumber { get; set; }
         public string CustomerId { get; set; }
-        public Guid AppointmentId { get; set; }
         public string CancelUrl { get; set; }
         public string ReturnUrl { get; set; }
     }

@@ -95,7 +95,7 @@ public class PaymentService : IPaymentService
                 Message = "Create payment link successfully",
                 IsSuccess = true,
                 StatusCode = 200,
-                Result = result + paymentTransactions.PaymentTransactionId.ToString()
+                Result = result
             };
         }
         catch (Exception e)
