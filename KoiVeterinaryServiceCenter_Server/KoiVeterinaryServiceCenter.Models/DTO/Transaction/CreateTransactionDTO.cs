@@ -9,7 +9,6 @@ namespace KoiVeterinaryServiceCenter.Models.DTO.Transaction
 {
     public class CreateTransactionDTO
     {
-        public Guid TransactionId { get; set; }
         public string CustomerId { get; set; } = null!;
         public Guid? AppointmentId { get; set; }
         public Guid PaymentTransactionId { get; set; }
