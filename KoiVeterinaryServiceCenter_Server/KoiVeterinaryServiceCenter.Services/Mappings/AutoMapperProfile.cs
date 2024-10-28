@@ -43,6 +43,7 @@ public class AutoMapperProfile : Profile
         CreateMap<DoctorSchedules, GetDoctorSchedulesIdDTO>().ReverseMap();
         CreateMap<Transaction, GetTransactionDTO>().ReverseMap();
         CreateMap<Appointment, CreateAppointmentDTO>().ReverseMap();
+        CreateMap<Appointment, GetAppointmentDTO>().ReverseMap();
         CreateMap<Transaction, GetFullInforTransactionDTO>()
             .ForMember(dest => dest.DoctorName, opt => opt.MapFrom(src => src.Appointment.Slot.DoctorSchedules.Doctor.ApplicationUser.FullName))
             .ForMember(dest => dest.Position, opt => opt.MapFrom(src => src.Appointment.Slot.DoctorSchedules.Doctor.Position))
