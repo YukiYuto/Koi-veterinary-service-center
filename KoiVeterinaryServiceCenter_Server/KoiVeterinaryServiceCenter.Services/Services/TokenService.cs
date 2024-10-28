@@ -42,6 +42,7 @@ public class TokenService : ITokenService
         new Claim("Address", user.Address),    // Thêm Address vào claims
         new Claim("Country", user.Country),    // Thêm Country vào claims
         new Claim("Gender", user.Gender.ToString()), // Thêm Gender vào claims
+        new Claim("AvatarUrl", user.AvatarUrl)
     };
 
         foreach (var role in userRoles)

@@ -210,7 +210,7 @@ namespace KoiVeterinaryServiceCenter.Services.Services
                 {
                     SlotId = createAppointmentDto.SlotId,
                     ServiceId = createAppointmentDto.ServiceId,
-                    TotalAmount = service.Price + service.TreavelFree,
+                    TotalAmount = createAppointmentDto.TotalAmount,
                     BookingStatus = 0,
                     Description = createAppointmentDto.Description
                 };
