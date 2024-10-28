@@ -526,6 +526,7 @@ public class AuthService : IAuthService
                 Country = jwtToken.Claims.First(claim => claim.Type == "Country").Value,
                 UserName = user.UserName,
                 Gender = jwtToken.Claims.First(claim => claim.Type == "Gender").Value,
+                AvatarUrl = jwtToken.Claims.First(claim =>claim.Type == "AvatarUrl").Value
             };
 
             return new ResponseDTO()
