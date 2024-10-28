@@ -193,14 +193,26 @@ namespace KoiVeterinaryServiceCenter.Services.Services
         {
             try
             {
+                var service = await _unitOfWork.ServiceRepository.GetAsync(c => c.ServiceId == createAppointmentDto.ServiceId);
+                if (service == null)
+                {
+                    return new ResponseDTO()
+                    {
+                        Result = "",
+                        Message = "service was not found",
+                        IsSuccess = true,
+                        StatusCode = 404
+                    };
+                }
+                
                 //Map DTO qua entity Level
                 Appointment appointments = new Appointment()
                 {
                     SlotId = createAppointmentDto.SlotId,
                     ServiceId = createAppointmentDto.ServiceId,
                     TotalAmount = createAppointmentDto.TotalAmount,
-                    
-
+                    BookingStatus = 0,
+                    Description = createAppointmentDto.Description
                 };
 
                 //thêm appointment mới

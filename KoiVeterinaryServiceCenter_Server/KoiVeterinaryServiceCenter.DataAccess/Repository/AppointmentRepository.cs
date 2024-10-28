@@ -26,4 +26,9 @@ public class AppointmentRepository : Repository<Appointment>, IAppointmentReposi
     {
         return await _context.Appointments.FirstOrDefaultAsync(x => x.AppointmentId == appointmentId);
     }
+
+    public async Task<Appointment> GetAppointmentByAppmointNumer(long appointmentNumber)
+    {
+        return await _context.Appointments.FirstOrDefaultAsync(x => x.AppointmentNumber == appointmentNumber);
+    }
 }
