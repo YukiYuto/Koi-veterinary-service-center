@@ -40,5 +40,11 @@ namespace KoiVeterinaryServiceCenter.DataAccess.Repository
             var enityEntry = await _context.Doctors.AddAsync(doctor);
             return enityEntry.Entity;
         }
+
+        public async Task<Doctor> GetDoctorById(Guid doctorId)
+        {
+            return await _context.Doctors
+                .FirstOrDefaultAsync(d => d.DoctorId == doctorId);
+        }
     }
 }

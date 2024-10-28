@@ -392,5 +392,88 @@ namespace KoiVeterinaryServiceCenter.Services.Services
                 };
             }
         }
+
+        public async Task<ResponseDTO> GetAppointmentMeetLinkByUserId(ClaimsPrincipal User)
+        {
+            try
+            {
+                var loggedInUserId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+                if (string.IsNullOrEmpty(loggedInUserId))
+                {
+                    return new ResponseDTO()
+                    {
+                        Message = "User is not authenticated.",
+                        Result = null,
+                        IsSuccess = false,
+                        StatusCode = 403
+                    };
+                }
+
+                // Lấy danh sách các cuộc hẹn của người dùng
+                var appointments = await _unitOfWork.AppointmentRepository.GetAppointmentsByUserId(loggedInUserId);
+
+                if (appointments == null || !appointments.Any())
+                {
+                    return new ResponseDTO()
+                    {
+                        Message = "No appointments found for this user.",
+                        Result = null,
+                        IsSuccess = false,
+                        StatusCode = 404
+                    };
+                }
+
+                var meetLinks = new List<string>();
+
+                foreach (var appointment in appointments)
+                {
+                    // Lấy SlotId từ Appointments
+                    var slot = await _unitOfWork.SlotRepository.GetSlotById(appointment.SlotId);
+
+                    if (slot == null)
+                    {
+                        continue;
+                    }
+
+                    // Lấy DoctorSchedulesId từ Slot
+                    var doctorSchedule = await _unitOfWork.DoctorSchedulesRepository.GetDoctorScheduleById(slot.DoctorSchedulesId);
+
+                    if (doctorSchedule == null)
+                    {
+                        continue;
+                    }
+
+                    // Lấy DoctorId từ DoctorSchedules
+                    var doctor = await _unitOfWork.DoctorRepository.GetDoctorById(doctorSchedule.DoctorId);
+
+                    if (doctor == null || string.IsNullOrEmpty(doctor.GoogleMeetLink))
+                    {
+                        continue;
+                    }
+
+                    // Thêm GoogleMeetLink vào danh sách
+                    meetLinks.Add(doctor.GoogleMeetLink);
+                }
+
+                return new ResponseDTO()
+                {
+                    Message = "Google Meet links retrieved successfully.",
+                    Result = meetLinks,
+                    IsSuccess = true,
+                    StatusCode = 200
+                };
+            }
+            catch (Exception e)
+            {
+                return new ResponseDTO()
+                {
+                    Message = e.Message,
+                    Result = null,
+                    IsSuccess = false,
+                    StatusCode = 500
+                };
+            }
+        }
     }
 }

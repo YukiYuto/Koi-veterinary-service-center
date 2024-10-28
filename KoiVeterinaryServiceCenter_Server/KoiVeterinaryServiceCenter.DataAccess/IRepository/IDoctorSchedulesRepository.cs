@@ -7,5 +7,6 @@ namespace KoiVeterinaryServiceCenter.DataAccess.IRepository
         void Update(DoctorSchedules doctorSchedules);
         void UpdateRange(IEnumerable<DoctorSchedules> doctorSchedules);
         Task<DoctorSchedules?> GetDocterScheduleById(Guid doctorScheduleId);
+        Task<DoctorSchedules> GetDoctorScheduleById(Guid doctorSchedulesId);
     }
 }
