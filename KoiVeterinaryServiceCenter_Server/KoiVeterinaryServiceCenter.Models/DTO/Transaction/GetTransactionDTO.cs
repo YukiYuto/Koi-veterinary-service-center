@@ -8,14 +8,11 @@ namespace KoiVeterinaryServiceCenter.Models.DTO.Transaction
 {
     public class GetTransactionDTO
     {
-        public Guid transactionId { get; set; }
-        public Guid CustomerId { get; set; }
-        public Guid AppointmentId { get; set; }
-        public Guid PayementTransactionId { get; set; }
+        public Guid TransactionId { get; set; }
+        public string CustomerId { get; set; }
+        public Guid? AppointmentId { get; set; }
+        public Guid PaymentTransactionId { get; set; }
         public double Amount { get; set; }
-        public DateOnly TrasactionDate { get; set; }
-        public string TransactionStatus { get; set; }
-        public TimeSpan CreateTime { get; set; }
-        public string Status { get; set; }
+        public DateTime TransactionDateTime { get; set; }
     }
 }
