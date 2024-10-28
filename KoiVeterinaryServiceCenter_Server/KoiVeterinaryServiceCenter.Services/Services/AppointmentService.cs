@@ -10,6 +10,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 
 namespace KoiVeterinaryServiceCenter.Services.Services
 {
@@ -17,11 +18,13 @@ namespace KoiVeterinaryServiceCenter.Services.Services
     {
         private readonly IUnitOfWork _unitOfWork;
         private IMapper _mapper;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public AppointmentService(IUnitOfWork unitOfWork, IMapper mapper)
+        public AppointmentService(IUnitOfWork unitOfWork, IMapper mapper, UserManager<ApplicationUser> userManager)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
+            _userManager = userManager;
         }
 
         // Lấy danh sách appointment
@@ -50,7 +53,6 @@ namespace KoiVeterinaryServiceCenter.Services.Services
                     {
                         switch (filterOn.Trim().ToLower())
                         {
-
                             case "bookingstatus":
                                 if (int.TryParse(filterQuery, out int bookingStatus))
                                 {
@@ -193,13 +195,41 @@ namespace KoiVeterinaryServiceCenter.Services.Services
         {
             try
             {
-                var service = await _unitOfWork.ServiceRepository.GetAsync(c => c.ServiceId == createAppointmentDto.ServiceId);
+                // Lấy ID người dùng đã đăng nhập từ Claims
+                var loggedInUserId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+                // Kiểm tra xem ID người dùng đã đăng nhập có trùng với CustomerId không
+                if (loggedInUserId != createAppointmentDto.CustomerId)
+                {
+                    return new ResponseDTO()
+                    {
+                        Result = "",
+                        Message = "You do not have permission to create this appointment.",
+                        IsSuccess = false,
+                        StatusCode = 403
+                    };
+                }
+
+                var service =
+                    await _unitOfWork.ServiceRepository.GetAsync(c => c.ServiceId == createAppointmentDto.ServiceId);
                 if (service == null)
                 {
                     return new ResponseDTO()
                     {
                         Result = "",
                         Message = "service was not found",
+                        IsSuccess = true,
+                        StatusCode = 404
+                    };
+                }
+
+                var slot = await _unitOfWork.SlotRepository.GetAsync(c => c.SlotId == createAppointmentDto.SlotId);
+                if (slot == null)
+                {
+                    return new ResponseDTO()
+                    {
+                        Result = "",
+                        Message = "slot was not found",
                         IsSuccess = true,
                         StatusCode = 404
                     };
@@ -247,71 +277,6 @@ namespace KoiVeterinaryServiceCenter.Services.Services
             }
         }
 
-        // Cập nhật appointment
-        public async Task<ResponseDTO> UpdateAppointment(ClaimsPrincipal User,
-            UpdateAppointmentDTO updateAppointmentDto)
-        {
-            try
-            {
-                // kiểm tra xem có 
-                var appointmentID =
-                    await _unitOfWork.AppointmentRepository.GetAsync(c =>
-                        c.AppointmentId == updateAppointmentDto.AppointmentId);
-
-                // kiểm tra xem có null không
-                if (appointmentID == null)
-                {
-                    return new ResponseDTO
-                    {
-                        Message = "Appointment not found",
-                        Result = null,
-                        IsSuccess = false,
-                        StatusCode = 404
-                    };
-                }
-
-                // cập nhật thông tin danh mục
-                appointmentID.SlotId = updateAppointmentDto.SlotId;
-                appointmentID.ServiceId = updateAppointmentDto.ServiceId;
-                appointmentID.BookingStatus = updateAppointmentDto.BookingStatus;
-                appointmentID.TotalAmount = updateAppointmentDto.TotalAmount;
-
-
-                // thay đổi dữ liệu
-                _unitOfWork.AppointmentRepository.Update(appointmentID);
-
-                // lưu thay đổi vào cơ sở dữ liệu
-                var save = await _unitOfWork.SaveAsync();
-                if (save <= 0)
-                {
-                    return new ResponseDTO
-                    {
-                        Message = "Failed to update appointment",
-                        Result = null,
-                        IsSuccess = false,
-                        StatusCode = 400
-                    };
-                }
-
-                return new ResponseDTO
-                {
-                    Message = "Appointment updated successfully",
-                    Result = appointmentID,
-                    IsSuccess = true,
-                    StatusCode = 200
-                };
-            }
-            catch (Exception e)
-            {
-                return new ResponseDTO
-                {
-                    Message = e.Message,
-                    Result = null,
-                    IsSuccess = false,
-                    StatusCode = 500
-                };
-            }
-        }
 
         // Xóa appointment
         public async Task<ResponseDTO> DeleteAppointment(ClaimsPrincipal User, Guid appointmentId)
@@ -359,5 +324,58 @@ namespace KoiVeterinaryServiceCenter.Services.Services
             }
         }
 
+        public async Task<ResponseDTO> GetAppointmentByUserId(ClaimsPrincipal User)
+        {
+            try
+            {
+                var loggedInUserId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+                if (string.IsNullOrEmpty(loggedInUserId))
+                {
+                    return new ResponseDTO()
+                    {
+                        Message = "User is not authenticated.",
+                        Result = null,
+                        IsSuccess = false,
+                        StatusCode = 403
+                    };
+                }
+
+                // Lấy danh sách các cuộc hẹn của người dùng
+                var appointments = await _unitOfWork.AppointmentRepository.GetAppointmentsByUserId(loggedInUserId);
+
+                if (appointments == null || !appointments.Any())
+                {
+                    return new ResponseDTO()
+                    {
+                        Message = "No appointments found for this user.",
+                        Result = null,
+                        IsSuccess = false,
+                        StatusCode = 404
+                    };
+                }
+
+                // Chuyển đổi danh sách cuộc hẹn thành DTO (nếu cần)
+                var appointmentDtos = _mapper.Map<IEnumerable<GetAppointmentDTO>>(appointments);
+
+                return new ResponseDTO()
+                {
+                    Message = "Appointments retrieved successfully.",
+                    Result = appointmentDtos,
+                    IsSuccess = true,
+                    StatusCode = 200
+                };
+            }
+            catch (Exception e)
+            {
+                return new ResponseDTO()
+                {
+                    Message = e.Message,
+                    Result = null,
+                    IsSuccess = false,
+                    StatusCode = 500
+                };
+            }
+        }
     }
 }

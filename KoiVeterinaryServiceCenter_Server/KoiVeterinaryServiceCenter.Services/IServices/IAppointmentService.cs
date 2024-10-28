@@ -19,7 +19,7 @@ namespace KoiVeterinaryServiceCenter.Services.IServices
 
         Task<ResponseDTO> GetAppointment(ClaimsPrincipal User, Guid appointmentId);
         Task<ResponseDTO> CreateAppointment(ClaimsPrincipal User, CreateAppointmentDTO createAppointmentDto);
-        Task<ResponseDTO> UpdateAppointment(ClaimsPrincipal User, UpdateAppointmentDTO updateAppointmentDto);
         Task<ResponseDTO> DeleteAppointment(ClaimsPrincipal User, Guid appointmentId);
+        Task<ResponseDTO> GetAppointmentByUserId(ClaimsPrincipal User);
     }
 }
