@@ -26,5 +26,11 @@ namespace KoiVeterinaryServiceCenter.DataAccess.Repository
         {
             _context.DoctorSchedules.UpdateRange(doctorSchedules);
         }
+
+        public async Task<DoctorSchedules> GetDoctorScheduleById(Guid doctorSchedulesId)
+        {
+            return await _context.DoctorSchedules
+                .FirstOrDefaultAsync(ds => ds.DoctorSchedulesId == doctorSchedulesId);
+        }
     }
 }

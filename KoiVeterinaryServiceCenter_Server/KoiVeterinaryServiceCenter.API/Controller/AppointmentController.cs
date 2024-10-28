@@ -93,5 +93,13 @@ namespace KoiVeterinaryServiceCenter.API.Controller
             var responseDto = await _appointmentService.GetAppointmentByUserId(User);
             return StatusCode(responseDto.StatusCode, responseDto);
         }
+
+        [HttpGet("meetlink/user")]
+        [Authorize]
+        public async Task<ActionResult<ResponseDTO>> GetAppointmentMeetLinkByUserId()
+        {
+            var responseDto = await _appointmentService.GetAppointmentMeetLinkByUserId(User);
+            return StatusCode(responseDto.StatusCode, responseDto);
+        }
     }
 }

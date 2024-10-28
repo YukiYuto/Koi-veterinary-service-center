@@ -38,8 +38,7 @@ namespace KoiVeterinaryServiceCenter.Services.Services
                     PaymentTransactionId = createTransactionDTO.PaymentTransactionId,
                     Amount = createTransactionDTO.Amount,
                     TransactionDateTime = DateTime.Now,
-                    TransactionStatus = createTransactionDTO.TransactionStatus,
-                    Status = createTransactionDTO.Status
+                    //TransactionStatus = createTransactionDTO.TransactionStatus,
                 };
 
                 await _unitOfWork.TransactionsRepository.AddAsync(transaction);
@@ -100,9 +99,9 @@ namespace KoiVeterinaryServiceCenter.Services.Services
                                 transactions = transactions.Where(x => x.TransactionDateTime == transactionDateTime).ToList();
                             }
                             break;
-                        case "transactionstatus":
+                        /*case "transactionstatus":
                             transactions = transactions.Where(x => x.TransactionStatus == filterQuery).ToList();
-                            break;
+                            break;*/
                         default:
                             break;
                     }
