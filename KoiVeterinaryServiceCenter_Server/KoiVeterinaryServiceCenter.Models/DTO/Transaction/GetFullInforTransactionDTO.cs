@@ -10,7 +10,7 @@ namespace KoiVeterinaryServiceCenter.Models.DTO.Transaction
     {
         public string DoctorName { get; set; }
         public string Position { get; set; }
-        public string DoctorUrl { get; set; }
+        public string DoctorAvatarUrl { get; set; }
         public string NameService { get; set; }
         public double Price { get; set; }
         public double TravelFee { get; set; }

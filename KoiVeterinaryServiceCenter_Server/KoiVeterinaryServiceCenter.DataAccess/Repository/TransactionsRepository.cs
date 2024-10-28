@@ -26,7 +26,9 @@ namespace KoiVeterinaryServiceCenter.DataAccess.Repository
                 .Include(tr => tr.Appointment)
                 .ThenInclude(ap => ap.Slot)
                 .ThenInclude(sl => sl.DoctorSchedules)
-                .ThenInclude(ds => ds.Doctor).FirstOrDefaultAsync(tr => tr.TransactionId == transactionId);
+                .ThenInclude(ds => ds.Doctor)
+                .ThenInclude(d => d.ApplicationUser)
+                .FirstOrDefaultAsync(tr => tr.TransactionId == transactionId);
         }
     }
 }
