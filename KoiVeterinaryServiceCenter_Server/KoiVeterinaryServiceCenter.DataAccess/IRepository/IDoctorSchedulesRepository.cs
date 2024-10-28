@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using KoiVeterinaryServiceCenter.Model.Domain;
+﻿using KoiVeterinaryServiceCenter.Models.Domain;
 
 namespace KoiVeterinaryServiceCenter.DataAccess.IRepository
 {

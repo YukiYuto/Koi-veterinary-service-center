@@ -46,10 +46,10 @@ public class PaymentService : IPaymentService
                 };
             }
             var totalPrice = Convert.ToInt32(appointment.TotalAmount);
-
+            var service = await _unitOfWork.ServiceRepository.GetServiceById(appointment.ServiceId);
             var items = new List<ItemData>()
             {
-                new ItemData( name: appointment.Service.ServiceName, quantity: 1, price: totalPrice)
+                new ItemData( name: service.ServiceName, quantity: 1, price: totalPrice)
             };
 
 

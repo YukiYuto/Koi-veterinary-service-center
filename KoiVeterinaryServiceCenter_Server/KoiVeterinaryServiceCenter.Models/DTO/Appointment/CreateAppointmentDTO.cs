@@ -14,6 +14,5 @@ namespace KoiVeterinaryServiceCenter.Models.DTO.Appointment
         public int BookingStatus { get; set; } = 0;
         public double TotalAmount { get; set; }
         public string? Description { get; set; }
-
     }
 }
