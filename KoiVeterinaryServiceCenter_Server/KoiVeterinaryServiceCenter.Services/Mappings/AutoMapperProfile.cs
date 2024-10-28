@@ -38,11 +38,7 @@ public class AutoMapperProfile : Profile
         .ForMember(dest => dest.Price, opt => opt.MapFrom(src => src.Service.Price))
         .ForMember(dest => dest.TravelFee, opt => opt.MapFrom(src => src.Service.TreavelFree))
         .ForMember(dest => dest.CreatedTime, opt => opt.MapFrom(src => src.Service.CreatedTime)).ReverseMap();
-        CreateMap<DoctorSchedules, GetDoctorSchedulesDTO>()
-            .ForMember(dest => dest.DoctorSchedulesId, opt => opt.MapFrom(src => src.DoctorSchedulesId))
-            .ForMember(dest => dest.DoctorId, opt => opt.MapFrom((src) => src.DoctorId))
-            .ForMember(dest => dest.DoctorName, opt => opt.MapFrom(src => src.Doctor.ApplicationUser.FullName))
-            .ForMember(dest => dest.SchedulesDate, opt => opt.MapFrom(src => src.SchedulesDate)).ReverseMap();
+        CreateMap<DoctorSchedules, GetDoctorSchedulesDTO>().ReverseMap();
         CreateMap<Service, GetServiceDTO>().ReverseMap();
         CreateMap<DoctorSchedules, GetDoctorSchedulesIdDTO>().ReverseMap();
         CreateMap<Transaction, GetTransactionDTO>().ReverseMap();

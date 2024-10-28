@@ -1,6 +1,8 @@
 ﻿using KoiVeterinaryServiceCenter.Models.DTO.Appointment;
 using KoiVeterinaryServiceCenter.Models.DTO;
 using KoiVeterinaryServiceCenter.Services.IServices;
+using KoiVeterinaryServiceCenter.Utility.Constants;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -28,6 +30,7 @@ namespace KoiVeterinaryServiceCenter.API.Controller
         /// <param name="pageSize">Number of items per page.</param>
         /// <returns>A list of appointments.</returns>
         [HttpGet]
+        [Authorize(Roles = StaticUserRoles.AdminStaff)]
         public async Task<ActionResult<ResponseDTO>> GetAllAppointments(
             [FromQuery] string? filterOn,
             [FromQuery] string? filterQuery,
@@ -46,6 +49,7 @@ namespace KoiVeterinaryServiceCenter.API.Controller
         /// <param name="appointmentId">The ID of the appointment.</param>
         /// <returns>The appointment details.</returns>
         [HttpGet("{appointmentId:guid}")]
+        [Authorize]
         public async Task<ActionResult<ResponseDTO>> GetAppointment([FromRoute] Guid appointmentId)
         {
             var responseDto = await _appointmentService.GetAppointment(User, appointmentId);
@@ -58,26 +62,13 @@ namespace KoiVeterinaryServiceCenter.API.Controller
         /// <param name="createAppointmentDto">The appointment details.</param>
         /// <returns>The created appointment details.</returns>
         [HttpPost]
+        [Authorize]
         public async Task<ActionResult<ResponseDTO>> CreateAppointment([FromBody] CreateAppointmentDTO createAppointmentDto)
         {
             var responseDto = await _appointmentService.CreateAppointment(User, createAppointmentDto);
             return StatusCode(responseDto.StatusCode, responseDto);
         }
 
-        /// <summary>
-        /// Update an existing appointment.
-        /// </summary>
-        /// <param name="updateAppointmentDto">The updated appointment details.</param>
-        /// <returns>The updated appointment details.</returns>
-        [HttpPut("{appointmentId:guid}")]
-        public async Task<ActionResult<ResponseDTO>> UpdateAppointment(
-            [FromRoute] Guid appointmentId,
-            [FromBody] UpdateAppointmentDTO updateAppointmentDto)
-        {
-            updateAppointmentDto.AppointmentId = appointmentId; // Assigning the route ID to the DTO
-            var responseDto = await _appointmentService.UpdateAppointment(User, updateAppointmentDto);
-            return StatusCode(responseDto.StatusCode, responseDto);
-        }
 
         /// <summary>
         /// Delete an appointment by its ID.
@@ -85,9 +76,21 @@ namespace KoiVeterinaryServiceCenter.API.Controller
         /// <param name="appointmentId">The ID of the appointment to delete.</param>
         /// <returns>Confirmation of deletion.</returns>
         [HttpDelete("{appointmentId:guid}")]
-        public async Task<ActionResult<ResponseDTO>> DeleteAppointment([FromRoute] Guid appointmentId)
+        public async Task<ActionResult<ResponseDTO>> CancelAppointment([FromRoute] Guid appointmentId)
         {
             var responseDto = await _appointmentService.DeleteAppointment(User, appointmentId);
+            return StatusCode(responseDto.StatusCode, responseDto);
+        }
+        
+        /// <summary>
+        /// Get all appointments for the logged-in user.
+        /// </summary>
+        /// <returns>A list of appointments for the logged-in user.</returns>
+        [HttpGet("user")]
+        [Authorize]
+        public async Task<ActionResult<ResponseDTO>> GetAppointmentsByUserId()
+        {
+            var responseDto = await _appointmentService.GetAppointmentByUserId(User);
             return StatusCode(responseDto.StatusCode, responseDto);
         }
     }

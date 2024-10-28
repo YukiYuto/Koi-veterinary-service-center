@@ -70,6 +70,6 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
             .WithMany()
             .HasForeignKey(pt => pt.AppointmentNumber)
             .HasPrincipalKey(a => a.AppointmentNumber)
-            .OnDelete(DeleteBehavior.Restrict); // Hoặc DeleteBehavior.NoAction
+            .OnDelete(DeleteBehavior.Restrict);
     }
 }

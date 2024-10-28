@@ -20,13 +20,13 @@ public class Slot : BaseEntity<string, string, int>
             switch (IsBooked)
             {
                 case 0:
-                    return "Peding";
+                    return "Free";
                 case 1:
-                    return "Booked";
+                    return "Pending";
                 case 2:
-                    return "Cancel";
+                    return "Booked";
                 default:
-                    return "Peding";
+                    return "Free";
             }
         }
     }

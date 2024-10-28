@@ -37,4 +37,11 @@ public class AppointmentRepository : Repository<Appointment>, IAppointmentReposi
         // Truy vấn để lấy số AppointmentNumber lớn nhất hiện có
         return await _context.Appointments.MaxAsync(a => (long?)a.AppointmentNumber) ?? 0;
     }
+    
+    public async Task<IEnumerable<Appointment>> GetAppointmentsByUserId(string userId)
+    {
+        return await _context.Appointments
+            .Where(a => a.CustomerId == userId)
+            .ToListAsync();
+    }
 }
