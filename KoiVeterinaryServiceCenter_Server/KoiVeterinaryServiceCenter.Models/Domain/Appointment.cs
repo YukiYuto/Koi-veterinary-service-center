@@ -16,7 +16,7 @@ public class Appointment
     public virtual Service Service { get; set; } = null!; // Liên kết đến Service
     public string? Description { get; set; }
     public double TotalAmount { get; set; }
-    public DateTime CreateTime { get; set; } = DateTime.Now;
+    public DateOnly CreateTime { get; set; }
     
     public long AppointmentNumber { get; set; }
     public int BookingStatus { get; set; }
