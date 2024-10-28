@@ -154,7 +154,12 @@ public class PaymentService : IPaymentService
 
                 await _unitOfWork.TransactionsRepository.AddAsync(transaction);
                 await _unitOfWork.SaveAsync();
+
+                appointment.BookingStatus = 1;
+                _unitOfWork.AppointmentRepository.Update(appointment);
+                await _unitOfWork.SaveAsync();
             }
+
             return new ResponseDTO()
             {
                 Message = "Update status successfully",
@@ -194,8 +199,15 @@ public class PaymentService : IPaymentService
             }
 
             var paymentCancelInfor = await _payOS.cancelPaymentLink(paymentTransactions.AppointmentNumber, cancellationReason);
-            paymentTransactions.Status = paymentCancelInfor.status + " - " + cancellationReason;
+            paymentTransactions.Status = paymentCancelInfor.status;
+            paymentTransactions.Reason = cancellationReason;
             _unitOfWork.PaymentTransactionsRepository.Update(paymentTransactions);
+            await _unitOfWork.SaveAsync();
+
+            Appointment appointment = await _unitOfWork.AppointmentRepository.GetAppointmentByAppmointNumer(paymentTransactions.AppointmentNumber);
+            appointment.BookingStatus = 2;
+
+            _unitOfWork.AppointmentRepository.Update(appointment);
             await _unitOfWork.SaveAsync();
             return new ResponseDTO()
             {
