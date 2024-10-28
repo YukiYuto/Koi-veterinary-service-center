@@ -8,4 +8,5 @@ public interface IAppointmentRepository : IRepository<Appointment>
     void UpdateRange(IEnumerable<Appointment> appointments);
     Task<Appointment> GetAppointmentById(Guid appointmentId);
     Task<Appointment> GetAppointmentByAppmointNumer(long appointmentNumber);
+    Task<long> GetMaxAppointmentNumberAsync();
 }

@@ -204,7 +204,12 @@ namespace KoiVeterinaryServiceCenter.Services.Services
                         StatusCode = 404
                     };
                 }
-                
+
+                // Lấy số AppointmentNumber lớn nhất hiện có và tăng nó lên 1
+                long maxAppointmentNumber = await _unitOfWork.AppointmentRepository
+                    .GetMaxAppointmentNumberAsync();
+
+
                 //Map DTO qua entity Level
                 Appointment appointments = new Appointment()
                 {
@@ -212,7 +217,10 @@ namespace KoiVeterinaryServiceCenter.Services.Services
                     ServiceId = createAppointmentDto.ServiceId,
                     TotalAmount = createAppointmentDto.TotalAmount,
                     BookingStatus = 0,
-                    Description = createAppointmentDto.Description
+                    Description = createAppointmentDto.Description,
+                    CustomerId = createAppointmentDto.CustomerId,
+                    CreateTime = DateTime.Now,
+                    AppointmentNumber = maxAppointmentNumber + 1
                 };
 
                 //thêm appointment mới
