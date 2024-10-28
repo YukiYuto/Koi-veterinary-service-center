@@ -12,7 +12,6 @@ public class GetServiceDTO : BaseEntity<string, string, int>
 {
     public Guid ServiceId { get; set; }
     public string ServiceName { get; set; } = null!;
-    public long ServiceNumber { get; set; }
     public double Price { get; set; }
     public double TreavelFree { get; set; }
     public string ServiceUrl { get; set; } = null!;

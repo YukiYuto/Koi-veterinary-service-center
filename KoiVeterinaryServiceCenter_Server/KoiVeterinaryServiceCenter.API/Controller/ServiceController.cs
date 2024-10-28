@@ -1,12 +1,9 @@
-﻿using System.Security.Claims;
-using KoiVeterinaryServiceCenter.DataAccess.IRepository;
-using KoiVeterinaryServiceCenter.Model.DTO;
 using KoiVeterinaryServiceCenter.Model.DTO.Service;
 using KoiVeterinaryServiceCenter.Models.DTO;
 using KoiVeterinaryServiceCenter.Services.IServices;
 using KoiVeterinaryServiceCenter.Utility.Constants;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
+
 using Microsoft.AspNetCore.Mvc;
 
 namespace KoiVeterinaryServiceCenter.API.Controllers

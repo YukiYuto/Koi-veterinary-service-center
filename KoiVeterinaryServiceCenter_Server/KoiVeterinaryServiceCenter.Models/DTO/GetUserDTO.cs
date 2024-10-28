@@ -16,5 +16,6 @@ namespace KoiVeterinaryServiceCenter.Models.DTO
         public string Country { get; set; }
         public string UserName { get; set; }
         public string Gender { get; set; }
+        public string AvatarUrl { get; set; }
     }
 }

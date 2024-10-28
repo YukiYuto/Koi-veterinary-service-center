@@ -13,7 +13,6 @@ namespace KoiVeterinaryServiceCenter.Services.IServices
         string? filterOn,
         string? filterQuery,
         string? sortBy,
-        bool? isAscending,
         int pageNumber = 0,
         int pageSize = 0
     );
