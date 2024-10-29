@@ -149,6 +149,7 @@ public class PaymentService : IPaymentService
                     AppointmentId = appointment.AppointmentId,
                     PaymentTransactionId = paymentTransactionId,
                     Amount = paymentTransactions.Amount,
+                    TransactionMethod = "Tranfer",
                     TransactionDateTime = DateTime.Now
                 };
 
