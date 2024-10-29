@@ -51,7 +51,7 @@ public class AutoMapperProfile : Profile
             .ForMember(dest => dest.NameService, opt => opt.MapFrom(src => src.Appointment.Service.ServiceName))
             .ForMember(dest => dest.Price, opt => opt.MapFrom(src => src.Appointment.Service.Price))
             .ForMember(dest => dest.TravelFee, opt => opt.MapFrom(src => src.Appointment.Service.TreavelFree))
-            .ForMember(dest => dest.ScheduleDate, opt => opt.MapFrom(src => src.Appointment.Slot.SchedulesDate))
+            .ForMember(dest => dest.ScheduleDate, opt => opt.MapFrom(src => src.Appointment.Slot.DoctorSchedules.SchedulesDate))
             .ForMember(dest => dest.StartTime, opt => opt.MapFrom(src => src.Appointment.Slot.StartTime))
             .ForMember(dest => dest.EndTime, opt => opt.MapFrom(src => src.Appointment.Slot.EndTime))
             .ForMember(dest => dest.TransactionDateTime, opt => opt.MapFrom(src => src.TransactionDateTime)).ReverseMap();
