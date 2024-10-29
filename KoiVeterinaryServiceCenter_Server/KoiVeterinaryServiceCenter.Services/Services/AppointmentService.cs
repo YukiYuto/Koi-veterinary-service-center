@@ -279,34 +279,43 @@ namespace KoiVeterinaryServiceCenter.Services.Services
 
 
         // Xóa appointment
-        public async Task<ResponseDTO> DeleteAppointment(ClaimsPrincipal User, Guid appointmentId)
+        public async Task<ResponseDTO> DeleteAppointment(string customerId)
         {
             try
             {
-                // kiểm tra xem có appointment không
-                var appointmentID =
-                    await _unitOfWork.AppointmentRepository.GetAsync(c => c.AppointmentId == appointmentId);
-                // kiểm tra xem có null không
-                if (appointmentID == null)
+                var appointments = await _unitOfWork.AppointmentRepository
+                    .GetAllAsync(c => c.CustomerId == customerId && c.BookingStatus == 0);
+
+                // Kiểm tra nếu không có appointment nào  
+                if (appointments == null || !appointments.Any())
                 {
                     return new ResponseDTO
                     {
-                        Message = "Appointment not found",
+                        Message = "No appointments found for this customer with status 0",
                         Result = null,
                         IsSuccess = false,
                         StatusCode = 404
                     };
                 }
 
-                // cập nhật status của appointment là 1
-                appointmentID.BookingStatus = 1;
+                // Xóa theo lô  
+                const int batchSize = 10;
+                var totalAppointments = appointments.ToList();
 
-                _unitOfWork.AppointmentRepository.Update(appointmentID);
-                await _unitOfWork.SaveAsync();
+                for (int i = 0; i < totalAppointments.Count; i += batchSize)
+                {
+                    var batch = totalAppointments.Skip(i).Take(batchSize);
+                    foreach (var appointment in batch)
+                    {
+                        _unitOfWork.AppointmentRepository.Remove(appointment);
+                    }
+
+                    await _unitOfWork.SaveAsync();
+                }
 
                 return new ResponseDTO
                 {
-                    Message = "Appointment deleted successfully",
+                    Message = "Deleted successfully",
                     Result = null,
                     IsSuccess = true,
                     StatusCode = 200
@@ -316,7 +325,7 @@ namespace KoiVeterinaryServiceCenter.Services.Services
             {
                 return new ResponseDTO
                 {
-                    Message = e.Message,
+                    Message = "An error occurred while deleting appointments: " + e.Message,
                     Result = null,
                     IsSuccess = false,
                     StatusCode = 500
@@ -324,6 +333,11 @@ namespace KoiVeterinaryServiceCenter.Services.Services
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="User"></param>
+        /// <returns></returns>
         public async Task<ResponseDTO> GetAppointmentByUserId(ClaimsPrincipal User)
         {
             try
