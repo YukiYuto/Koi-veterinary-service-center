@@ -75,13 +75,13 @@ namespace KoiVeterinaryServiceCenter.API.Controller
         /// </summary>
         /// <param name="appointmentId">The ID of the appointment to delete.</param>
         /// <returns>Confirmation of deletion.</returns>
-        [HttpDelete("{appointmentId:guid}")]
-        public async Task<ActionResult<ResponseDTO>> CancelAppointment([FromRoute] Guid appointmentId)
+        [HttpDelete("{customerId:guid}")]
+        public async Task<ActionResult<ResponseDTO>> DeleteAppointment([FromRoute] string customerId)
         {
-            var responseDto = await _appointmentService.DeleteAppointment(User, appointmentId);
+            var responseDto = await _appointmentService.DeleteAppointment(customerId);
             return StatusCode(responseDto.StatusCode, responseDto);
         }
-        
+
         /// <summary>
         /// Get all appointments for the logged-in user.
         /// </summary>
