@@ -3,7 +3,6 @@ using KoiVeterinaryServiceCenter.Model.Domain;
 using KoiVeterinaryServiceCenter.Model.DTO.Service;
 using KoiVeterinaryServiceCenter.Models.Domain;
 using KoiVeterinaryServiceCenter.Models.DTO.Appointment;
-using KoiVeterinaryServiceCenter.Models.DTO.AppointmentPet;
 using KoiVeterinaryServiceCenter.Models.DTO.Doctor;
 using KoiVeterinaryServiceCenter.Models.DTO.DoctorSchedules;
 using KoiVeterinaryServiceCenter.Models.DTO.DoctorServices;
@@ -71,5 +70,20 @@ public class AutoMapperProfile : Profile
             .ForMember(dest => dest.Breed, opt => opt.MapFrom(src => src.Pet.Breed))
             .ForMember(dest => dest.ServiceName, opt => opt.MapFrom(src => src.Service.ServiceName))
             .ForMember(dest => dest.Price, opt => opt.MapFrom(src => src.Service.Price)).ReverseMap();
+        CreateMap<Slot, DoctorFullInfoDTO>()
+            .ForMember(dest => dest.DoctorId, opt => opt.MapFrom(src => src.DoctorSchedules.Doctor.DoctorId))
+            .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.DoctorSchedules.Doctor.UserId))
+            .ForMember(dest => dest.FullName, opt => opt.MapFrom(src => src.DoctorSchedules.Doctor.ApplicationUser.FullName))
+            .ForMember(dest => dest.Gender, opt => opt.MapFrom(src => src.DoctorSchedules.Doctor.ApplicationUser.Gender))
+            .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.DoctorSchedules.Doctor.ApplicationUser.Email))
+            .ForMember(dest => dest.PhoneNumber, opt => opt.MapFrom(src => src.DoctorSchedules.Doctor.ApplicationUser.PhoneNumber))
+            .ForMember(dest => dest.BirthDate, opt => opt.MapFrom(src => src.DoctorSchedules.Doctor.ApplicationUser.BirthDate))
+            .ForMember(dest => dest.AvatarUrl, opt => opt.MapFrom(src => src.DoctorSchedules.Doctor.ApplicationUser.AvatarUrl))
+            .ForMember(dest => dest.Country, opt => opt.MapFrom(src => src.DoctorSchedules.Doctor.ApplicationUser.Country))
+            .ForMember(dest => dest.Address, opt => opt.MapFrom(src => src.DoctorSchedules.Doctor.ApplicationUser.Address))
+            .ForMember(dest => dest.Specialization, opt => opt.MapFrom(src => src.DoctorSchedules.Doctor.Specialization))
+            .ForMember(dest => dest.Experience, opt => opt.MapFrom(src => src.DoctorSchedules.Doctor.Experience))
+            .ForMember(dest => dest.Degree, opt => opt.MapFrom(src => src.DoctorSchedules.Doctor.Degree))
+            .ForMember(dest => dest.Position, opt => opt.MapFrom(src => src.DoctorSchedules.Doctor.Position)).ReverseMap();
     }
 }

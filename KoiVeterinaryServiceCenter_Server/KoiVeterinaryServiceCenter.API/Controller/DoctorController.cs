@@ -1,5 +1,7 @@
-﻿using KoiVeterinaryServiceCenter.Models.DTO;
+﻿using System.Runtime.ConstrainedExecution;
+using KoiVeterinaryServiceCenter.Models.DTO;
 using KoiVeterinaryServiceCenter.Models.DTO.Doctor;
+using KoiVeterinaryServiceCenter.Models.DTO.Slot;
 using KoiVeterinaryServiceCenter.Services.IServices;
 using KoiVeterinaryServiceCenter.Utility.Constants;
 using Microsoft.AspNetCore.Authorization;
@@ -37,6 +39,13 @@ namespace KoiVeterinaryServiceCenter.API.Controllers
             return StatusCode(responseDto.StatusCode, responseDto);
         }
 
+        [HttpGet("get-by-slot")]
+        public async Task<ActionResult<ResponseDTO>> GetAllDoctorBySlot([FromQuery] GetAllDoctorBySlotDTO getAllDoctorBySlotDTO)
+        {
+            var responseDto = await _doctorService.GetAllDoctorBySlot(User, getAllDoctorBySlotDTO);
+            return StatusCode(responseDto.StatusCode, responseDto);
+        }
+
         /// <summary>
         /// Get doctor by ID
         /// </summary>
@@ -46,7 +55,7 @@ namespace KoiVeterinaryServiceCenter.API.Controllers
         [Route("{doctorId:guid}")]
         public async Task<ActionResult<ResponseDTO>> GetDoctorById([FromRoute] Guid doctorId)
         {
-            var responseDto = await _doctorService.GetDoctorById(doctorId);
+            var responseDto = await _doctorService.GetDoctorById(User, doctorId);
             return StatusCode(responseDto.StatusCode, responseDto);
         }
 
@@ -54,15 +63,14 @@ namespace KoiVeterinaryServiceCenter.API.Controllers
         [Authorize(Roles = StaticUserRoles.AdminDoctor)]
         public async Task<ActionResult<ResponseDTO>> UpdateDoctor([FromBody] UpdateDoctorDTO updateDoctorDTO)
         {
-            var responseDto = await _doctorService.UpdateDoctorById(updateDoctorDTO);
+            var responseDto = await _doctorService.UpdateDoctorById(User, updateDoctorDTO);
             return StatusCode(responseDto.StatusCode, responseDto);
         }
 
         [HttpPut("{doctorId:guid}/soft-delete")]
-        [Authorize(Roles = StaticUserRoles.Admin)]
         public async Task<ActionResult<ResponseDTO>> DeleteDoctorById([FromRoute] Guid doctorId)
         {
-            var responseDto = await _doctorService.DeleteDoctorById(doctorId);
+            var responseDto = await _doctorService.DeleteDoctorById(User, doctorId);
             return StatusCode(responseDto.StatusCode, responseDto);
         }
 
@@ -70,7 +78,7 @@ namespace KoiVeterinaryServiceCenter.API.Controllers
         [Authorize(Roles = StaticUserRoles.AdminStaff)]
         public async Task<ActionResult<ResponseDTO>> CreateGoogleMeetLink([FromBody] GoogleMeetLinkDTO googleMeetLinkDTO)
         {
-            var responseDto = await _doctorService.CreateGoogleMeetLink(googleMeetLinkDTO);
+            var responseDto = await _doctorService.CreateGoogleMeetLink(User, googleMeetLinkDTO);
             return StatusCode(responseDto.StatusCode, responseDto);
         }
 
@@ -78,7 +86,7 @@ namespace KoiVeterinaryServiceCenter.API.Controllers
         [Authorize(Roles = StaticUserRoles.AdminStaff)]
         public async Task<ActionResult<ResponseDTO>> UpdateGoogleMeetLink([FromBody] GoogleMeetLinkDTO googleMeetLinkDTO)
         {
-            var responseDto = await _doctorService.UpdateGoogleMeetLink(googleMeetLinkDTO);
+            var responseDto = await _doctorService.UpdateGoogleMeetLink(User, googleMeetLinkDTO);
             return StatusCode(responseDto.StatusCode, responseDto);
         }
     }
