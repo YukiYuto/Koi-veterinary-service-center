@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace KoiVeterinaryServiceCenter.DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20241030062157_ModifyDB_BaseEntity")]
-    partial class ModifyDB_BaseEntity
+    [Migration("20241030163404_ModifyDB_Pool")]
+    partial class ModifyDB_Pool
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -209,7 +209,7 @@ namespace KoiVeterinaryServiceCenter.DataAccess.Migrations
                             Address = "123 Admin St",
                             AvatarUrl = "https://example.com/avatar.png",
                             BirthDate = new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ConcurrencyStamp = "26b9b54d-bd28-4d51-aeb4-aec8aaccbe6c",
+                            ConcurrencyStamp = "46b5b3cd-9917-4e57-8971-58585ed50dff",
                             Country = "Country",
                             Email = "admin@gmail.com",
                             EmailConfirmed = true,
@@ -218,10 +218,10 @@ namespace KoiVeterinaryServiceCenter.DataAccess.Migrations
                             LockoutEnabled = true,
                             NormalizedEmail = "ADMIN@GMAIL.COM",
                             NormalizedUserName = "ADMIN@GMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEO4v0VfF8ElSmXdZ/4R7L7TXYpf0ieyYn54mUlBddCFoIRrfnG/Wsf2mO2H8SynbMQ==",
+                            PasswordHash = "AQAAAAIAAYagAAAAELcifF0b9vhcZRgu4dkfZWjJIu28j118+iunowJp2ULg7COklJr7q+jJ0DFSb92qSw==",
                             PhoneNumber = "1234567890",
                             PhoneNumberConfirmed = true,
-                            SecurityStamp = "cb3b2e94-0dc4-426e-8fb1-651b7772091e",
+                            SecurityStamp = "c72efcf8-f2bd-4834-ad66-9f288193e332",
                             TwoFactorEnabled = false,
                             UserName = "admin@gmail.com"
                         });
@@ -466,7 +466,7 @@ namespace KoiVeterinaryServiceCenter.DataAccess.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("31b56f0d-0108-4c09-b00e-56e3cedd59db"),
+                            Id = new Guid("4d192307-5ccc-46d5-9625-265fcd0d1a05"),
                             BodyContent = "Dear [UserFullName],<br><br>Welcome to Koi Veterinary Service Center! We are thrilled to have you as part of our community dedicated to the care and well-being of your beloved pets.",
                             CallToAction = "<a href=\"{{VerificationLink}}\">Verify Your Email</a>",
                             Category = "Appointment",
@@ -483,7 +483,7 @@ namespace KoiVeterinaryServiceCenter.DataAccess.Migrations
                         },
                         new
                         {
-                            Id = new Guid("aec0b0bf-d850-4903-bccc-4954fba457b2"),
+                            Id = new Guid("6c011e86-b136-4d81-8bc3-1e93770e78db"),
                             BodyContent = "Hi [UserFullName],<br><br>We received a request to reset your password. Click the link below to reset your password.",
                             CallToAction = "https://cursuslms.xyz/sign-in/verify-email?userId=user.Id&token=Uri.EscapeDataString(token)",
                             Category = "Security",
@@ -500,7 +500,7 @@ namespace KoiVeterinaryServiceCenter.DataAccess.Migrations
                         },
                         new
                         {
-                            Id = new Guid("9589244e-3c5e-4260-aaff-0831c3d81bf9"),
+                            Id = new Guid("395d2dcb-e52b-4841-9ddd-b3469160a129"),
                             BodyContent = "<p>Thank you for registering your Cursus account. Click here to go back the page</p>",
                             CallToAction = "<a href=\"{{Login}}\">Login now</a>",
                             Category = "Verify",
@@ -540,6 +540,9 @@ namespace KoiVeterinaryServiceCenter.DataAccess.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("PetUrl")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Species")
                         .HasColumnType("nvarchar(max)");
 
@@ -566,6 +569,21 @@ namespace KoiVeterinaryServiceCenter.DataAccess.Migrations
 
                     b.Property<Guid>("DiseaseId")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("CreatedTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UpdatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("UpdatedTime")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("PetId", "DiseaseId");
 

@@ -152,23 +152,8 @@ namespace KoiVeterinaryServiceCenter.Services.Services
                 }
 
                 GetAppointmentDTO appointmentDto;
-                try
-                {
-                    appointmentDto = _mapper.Map<GetAppointmentDTO>(AppointmentId);
-                }
-                catch (AutoMapperMappingException e)
-                {
-                    // Log the mapping error
-                    // Consider logging e.Message or e.InnerException for more details
-                    return new ResponseDTO()
-                    {
-                        Result = null,
-                        Message = "Failed to map Appointment to GetAppointmentDTO",
-                        IsSuccess = false,
-                        StatusCode = 500
-                    };
-                }
-
+                appointmentDto = _mapper.Map<GetAppointmentDTO>(AppointmentId);
+                
                 return new ResponseDTO()
                 {
                     Result = appointmentDto,

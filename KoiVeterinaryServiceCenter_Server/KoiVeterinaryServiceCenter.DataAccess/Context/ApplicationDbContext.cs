@@ -26,6 +26,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     public DbSet<Service> Services { get; set; }
 
     public DbSet<Appointment> Appointments { get; set; }
+    public DbSet<AppointmentDeposit> AppointmentDeposits { get; set; }
     public DbSet<Slot> Slots { get; set; }
     public DbSet<Transaction> Transactions { get; set; }
 
@@ -35,7 +36,6 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     public DbSet<Disease> Diseases { get; set; }
     public DbSet<PetDisease> PetDiseases { get; set; }
     public DbSet<PetService> PetServices { get; set; }
-    public DbSet<AppointmentPet> AppointmentPets { get; set; }
     public DbSet<Pool> Notifications { get; set; }
  
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -102,22 +102,6 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
             .HasOne(ps => ps.Service)
             .WithMany(s => s.PetServices)
             .HasForeignKey(ps => ps.ServiceId);
-        
-        // Thiết lập khóa chính hỗn hợp cho bảng trung gian AppointmentPet
-        modelBuilder.Entity<AppointmentPet>()
-            .HasKey(ap => new { ap.AppointmentId, ap.PetId });
-        // Thiết lập quan hệ với Appointment
-        modelBuilder.Entity<AppointmentPet>()
-            .HasOne(ap => ap.Appointment)
-            .WithMany(a => a.AppointmentPets)
-            .HasForeignKey(ap => ap.AppointmentId)
-            .OnDelete(DeleteBehavior.NoAction);
-        // Thiết lập quan hệ với Pet
-        modelBuilder.Entity<AppointmentPet>()
-            .HasOne(ap => ap.Pet)
-            .WithMany(p => p.AppointmentPets)
-            .HasForeignKey(ap => ap.PetId)
-            .OnDelete(DeleteBehavior.NoAction);
         
     }
 }
