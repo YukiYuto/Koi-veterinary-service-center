@@ -1,6 +1,8 @@
 ﻿using KoiVeterinaryServiceCenter.DataAccess.Context;
 using KoiVeterinaryServiceCenter.DataAccess.IRepository;
 using KoiVeterinaryServiceCenter.Models.Domain;
+using KoiVeterinaryServiceCenter.Services.IRepositories;
+using KoiVeterinaryServiceCenter.Services.Repositories;
 using Microsoft.AspNetCore.Identity;
 
 namespace KoiVeterinaryServiceCenter.DataAccess.Repository;
@@ -18,6 +20,8 @@ public class UnitOfWork : IUnitOfWork
     public IDoctorServicesRepository DoctorServicesRepository { get; set; }
 
     public IPostRepository PostRepository { get; set; }
+
+    public IPetDiseaseRepository petDiseaseRepository { get; set; }
 
     public IDoctorRatingRepository DoctorRatingRepository { get; set; }
     public IPaymentTransactionsRepository PaymentTransactionsRepository { get; set; }
@@ -39,6 +43,7 @@ public class UnitOfWork : IUnitOfWork
         PaymentTransactionsRepository = new PaymentTransactionsRepository(_context);
         TransactionsRepository = new TransactionsRepository(_context);
         PetRepository = new PetRepository(_context);
+        petDiseaseRepository = new PetDiseaseRepository(_context);
     }
     public async Task<int> SaveAsync()
     {

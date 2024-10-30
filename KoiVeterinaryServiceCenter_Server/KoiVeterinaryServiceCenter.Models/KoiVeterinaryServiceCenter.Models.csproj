@@ -15,8 +15,4 @@
       <ProjectReference Include="..\KoiVeterinaryServiceCenter.Utility\KoiVeterinaryServiceCenter.Utility.csproj" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="DTO\Pet Disease\" />
-    </ItemGroup>
-
 </Project>

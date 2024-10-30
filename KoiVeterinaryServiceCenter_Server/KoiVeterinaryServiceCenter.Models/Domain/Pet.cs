@@ -16,5 +16,5 @@ public class Pet
     [NotMapped]public virtual ICollection<PetService> PetServices { get; set; }
     [NotMapped]public virtual ICollection<AppointmentPet> AppointmentPets { get; set; }
 
-    public string? PetUrl { get; set; }
+
 }
