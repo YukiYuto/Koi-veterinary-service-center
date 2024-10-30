@@ -26,7 +26,14 @@ public class UnitOfWork : IUnitOfWork
     public IDoctorRatingRepository DoctorRatingRepository { get; set; }
     public IPaymentTransactionsRepository PaymentTransactionsRepository { get; set; }
     public ITransactionsRepository TransactionsRepository { get; set; }
+
+    public IPoolRepository PoolRepository { get; set; }
+    public IPetServiceRepository PetServiceRepository { get; set; }
+
     public IPetRepository PetRepository { get; set; }
+
+    public IPetDiseaseRepository PetDiseaseRepository { get; set; }
+
     public UnitOfWork(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
     {
         _context = context;
@@ -42,8 +49,13 @@ public class UnitOfWork : IUnitOfWork
         PostRepository =    new PostRepository(_context);
         PaymentTransactionsRepository = new PaymentTransactionsRepository(_context);
         TransactionsRepository = new TransactionsRepository(_context);
+
+        PoolRepository = new PoolRepository(_context);
+        PetServiceRepository = new PetServiceRepository(_context);
+
         PetRepository = new PetRepository(_context);
         petDiseaseRepository = new PetDiseaseRepository(_context);
+
     }
     public async Task<int> SaveAsync()
     {
