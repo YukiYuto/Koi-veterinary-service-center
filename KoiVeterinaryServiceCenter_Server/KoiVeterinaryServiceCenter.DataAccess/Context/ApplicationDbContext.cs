@@ -29,6 +29,8 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     public DbSet<Slot> Slots { get; set; }
     public DbSet<Transaction> Transactions { get; set; }
 
+   
+
     public DbSet<EmailTemplate> EmailTemplates { get; set; }
     public DbSet<PaymentTransactions> PaymentTransactions { get; set; }
     public DbSet<Pet> Pets { get; set; }
