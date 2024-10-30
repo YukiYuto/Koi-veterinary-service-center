@@ -36,7 +36,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     public DbSet<PetDisease> PetDiseases { get; set; }
     public DbSet<PetService> PetServices { get; set; }
     public DbSet<AppointmentPet> AppointmentPets { get; set; }
-    
+    public DbSet<Pool> Notifications { get; set; }
  
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
