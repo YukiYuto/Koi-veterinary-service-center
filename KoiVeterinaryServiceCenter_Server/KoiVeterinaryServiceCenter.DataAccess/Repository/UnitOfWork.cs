@@ -40,6 +40,7 @@ public class UnitOfWork : IUnitOfWork
         PaymentTransactionsRepository = new PaymentTransactionsRepository(_context);
         TransactionsRepository = new TransactionsRepository(_context);
         PoolRepository = new PoolRepository(_context);
+        PetServiceRepository = new PetServiceRepository(_context);
     }
     public async Task<int> SaveAsync()
     {
