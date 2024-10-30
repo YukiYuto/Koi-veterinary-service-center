@@ -50,6 +50,10 @@ public static class ServiceCollectionExtensions
         services.AddScoped<IDoctorRatingService, DoctorRatingService>();
         // Resgistering ITransactionsService with its implementation TransactionsService
         services.AddScoped<ITransactionsService, TransactionsService>();
+        // Resgistering IPoolService with its implementation PoolService
+        services.AddScoped<IPoolService, PoolService>();
+        // Resgistering IPoolService with its implementation PoolService
+        services.AddScoped<IPetServiceService, PetServiceService>();
         return services;
     }
 }

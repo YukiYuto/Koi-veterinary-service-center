@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace KoiVeterinaryServiceCenter.Models.Domain;
 
-public class Disease
+public class Disease : BaseEntity<string, string, int>
 {
     [Key]public Guid DiseaseId { get; set; }
     public string Name { get; set; } = null!;
