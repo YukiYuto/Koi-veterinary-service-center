@@ -1,4 +1,6 @@
-﻿namespace KoiVeterinaryServiceCenter.DataAccess.IRepository;
+﻿using KoiVeterinaryServiceCenter.Services.IRepositories;
+
+namespace KoiVeterinaryServiceCenter.DataAccess.IRepository;
 
 public interface IUnitOfWork
 {
@@ -22,6 +24,9 @@ public interface IUnitOfWork
     IPetServiceRepository PetServiceRepository { get; }
 
     IPetRepository PetRepository { get; }
+
+    IPetDiseaseRepository PetDiseaseRepository { get; }
+
 
     Task<int> SaveAsync();
 }

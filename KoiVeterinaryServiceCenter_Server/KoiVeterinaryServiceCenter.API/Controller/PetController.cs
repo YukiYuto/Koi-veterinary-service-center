@@ -14,7 +14,7 @@ namespace KoiVeterinaryServiceCenter.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize] 
+    
     public class PetController : ControllerBase
     {
         private readonly IPetService _petService;
@@ -84,22 +84,7 @@ namespace KoiVeterinaryServiceCenter.API.Controllers
             return StatusCode(response.StatusCode, response);
         }
 
-        //[HttpPost("upload-avatar")]
-        //public async Task<IActionResult> UploadPetAvatar(IFormFile file)
-        //{
-        //    if (file == null || file.Length == 0)
-        //        return BadRequest(new ResponseDTO
-        //        {
-        //            IsSuccess = false,
-        //            Message = "Invalid file.",
-        //            StatusCode = 400
-        //        });
-
-        //    var user = HttpContext.User;
-        //    var response = await _petService.UploadPetAvatar(file, user);
-
-        //    return StatusCode(response.StatusCode, response);
-        //}
+       
         [HttpPost("avatar")]
         
         public async Task<ActionResult<ResponseDTO>> UploadPostAvatar(IFormFile file)

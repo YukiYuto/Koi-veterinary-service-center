@@ -45,7 +45,7 @@ public static class ServiceCollectionExtensions
         // Registering IPostService with its implementation PostService
         services.AddScoped<IPostService, PostService>();
         //registing Pet
-        services.AddScoped<IPetService, PetService>();
+        services.AddScoped<IPetService, PetsService>();
         // Resgistering IDoctorRatingService with its implementation DoctorRatingService
         services.AddScoped<IDoctorRatingService, DoctorRatingService>();
         // Resgistering ITransactionsService with its implementation TransactionsService

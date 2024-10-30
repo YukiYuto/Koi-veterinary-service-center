@@ -12,12 +12,12 @@ using System.Threading.Tasks;
 
 namespace KoiVeterinaryServiceCenter.Services.Services
 {
-    public class PetService : IPetService
+    public class PetsService : IPetService
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IFirebaseService _firebaseService;
 
-        public PetService(IFirebaseService firebaseService, IUnitOfWork unitOfWork)
+        public PetsService(IFirebaseService firebaseService, IUnitOfWork unitOfWork)
         {
             _firebaseService = firebaseService;
             _unitOfWork = unitOfWork;
@@ -250,7 +250,7 @@ namespace KoiVeterinaryServiceCenter.Services.Services
             }
 
             // Upload image lên Firebase và nhận URL công khai
-            var responseDto = await _firebaseService.UploadImagePet(file, StaticFirebaseFolders.PostAvatars);
+            var responseDto = await _firebaseService.UploadImagePet(file, StaticFirebaseFolders.PetAvatars);
 
             if (!responseDto.IsSuccess)
             {
