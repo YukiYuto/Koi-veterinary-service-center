@@ -4,6 +4,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using AutoMapper;
 using KoiVeterinaryServiceCenter.DataAccess.IRepository;
 using KoiVeterinaryServiceCenter.Models.Domain;
 using KoiVeterinaryServiceCenter.Models.DTO;
@@ -16,9 +17,11 @@ namespace KoiVeterinaryServiceCenter.Services.Services
     public class PetServiceService : IPetServiceService
     {
         private readonly IUnitOfWork _unitOfWork;
-        public PetServiceService(IUnitOfWork unitOfWork)
+        private readonly IMapper _mapper;
+        public PetServiceService(IUnitOfWork unitOfWork, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
+            _mapper = mapper;
         }
         public async Task<ResponseDTO> CreatePetService(ClaimsPrincipal User, CreatePetServiceDTO createPetServiceDTO)
         {
@@ -53,7 +56,7 @@ namespace KoiVeterinaryServiceCenter.Services.Services
             }
         }
 
-        public Task<ResponseDTO> DeletePetService(ClaimsPrincipal User, Guid poolId)
+        public Task<ResponseDTO> DeletePetService(ClaimsPrincipal User, Guid petServiceId)
         {
             throw new NotImplementedException();
         }
@@ -63,9 +66,56 @@ namespace KoiVeterinaryServiceCenter.Services.Services
             throw new NotImplementedException();
         }
 
-        public Task<ResponseDTO> GetPetService(ClaimsPrincipal User, Guid poolId)
+        public async Task<ResponseDTO> GetPetServiceById(ClaimsPrincipal User, Guid petServiceId)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var petService = await _unitOfWork.PetServiceRepository.GetById(petServiceId);
+                if (petService is null)
+                {
+                    return new ResponseDTO()
+                    {
+                        Message = "Cannot found pet service",
+                        IsSuccess = false,
+                        StatusCode = 404,
+                        Result = null
+                    };
+                }
+
+                GetPetServiceFullInfoDTO getPetServiceFullInfoDTO;
+                try
+                {
+                    getPetServiceFullInfoDTO = _mapper.Map<GetPetServiceFullInfoDTO>(petService);
+                }
+                catch (AutoMapperMappingException e)
+                {
+                    return new ResponseDTO()
+                    {
+                        Message = e.Message,
+                        IsSuccess = false,
+                        StatusCode = 500,
+                        Result = null
+                    };
+                }
+
+                return new ResponseDTO()
+                {
+                    Message = "Get pet service successfully",
+                    IsSuccess = true,
+                    StatusCode = 200,
+                    Result = getPetServiceFullInfoDTO
+                };
+            }
+            catch (Exception e)
+            {
+                return new ResponseDTO()
+                {
+                    Message = e.Message,
+                    IsSuccess = false,
+                    StatusCode = 500,
+                    Result = null
+                };
+            }
         }
 
         public async Task<ResponseDTO> UpdatePetService(ClaimsPrincipal User, UpdatePetServiceDTO updatePetServiceDTO)

@@ -16,6 +16,13 @@ namespace KoiVeterinaryServiceCenter.API.Controller
             _petServiceService = petServiceService;
         }
 
+        [HttpGet("{petServiceId:guid}")]
+        public async Task<ActionResult<ResponseDTO>> GetPetServiceById([FromRoute] Guid petServiceId)
+        {
+            var responseDto = await _petServiceService.GetPetServiceById(User, petServiceId);
+            return StatusCode(responseDto.StatusCode, responseDto);
+        }
+
         [HttpPost]
         public async Task<ActionResult<ResponseDTO>> CreatePetService([FromBody] CreatePetServiceDTO createPetServiceDTO)
         {

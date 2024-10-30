@@ -21,8 +21,8 @@ namespace KoiVeterinaryServiceCenter.Services.IServices
                 int pageSize
             );
         Task<ResponseDTO> CreatePetService(ClaimsPrincipal User, CreatePetServiceDTO createPetServiceDTO);
-        Task<ResponseDTO> GetPetService(ClaimsPrincipal User, Guid poolId);
+        Task<ResponseDTO> GetPetServiceById(ClaimsPrincipal User, Guid petServiceId);
         Task<ResponseDTO> UpdatePetService(ClaimsPrincipal User, UpdatePetServiceDTO updatePetServiceDTO);
-        Task<ResponseDTO> DeletePetService(ClaimsPrincipal User, Guid poolId);
+        Task<ResponseDTO> DeletePetService(ClaimsPrincipal User, Guid petServiceId);
     }
 }

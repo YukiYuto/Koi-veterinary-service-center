@@ -20,7 +20,7 @@ namespace KoiVeterinaryServiceCenter.DataAccess.Repository
 
         public async Task<PetService> GetById(Guid petId)
         {
-            return await _context.PetServices.Include(ps => ps.Pet).ThenInclude(pe => pe.PetDiseases).Include(ps => ps.Service)
+            return await _context.PetServices.Include(ps => ps.Pet).Include(ps => ps.Service)
                 .FirstOrDefaultAsync(ps => ps.PetId == petId);
         }
 
