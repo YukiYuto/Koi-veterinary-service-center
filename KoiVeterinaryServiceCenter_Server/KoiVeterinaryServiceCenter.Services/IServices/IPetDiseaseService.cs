@@ -26,6 +26,6 @@ namespace KoiVeterinaryServiceCenter.Services.IServices
 
         Task<ResponseDTO> UpdatePetDisease(ClaimsPrincipal user, UpdatePetDiseaseDTO petDiseaseDTO);
 
-        Task<ResponseDTO> DeletePetDisease(ClaimsPrincipal user, Guid petId, Guid diseaseId);
+        
     }
 }
