@@ -9,6 +9,6 @@ public class Disease
     public string Name { get; set; } = null!;
     public string? Description { get; set; }
     public string Symptoms { get; set; } = null!;
-    
+    public string Medication { get; set; } = null!;
     [NotMapped]public virtual ICollection<PetDisease> PetDiseases { get; set; }
 }
