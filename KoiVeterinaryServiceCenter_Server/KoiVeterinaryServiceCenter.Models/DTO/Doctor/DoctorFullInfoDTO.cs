@@ -21,5 +21,7 @@ namespace KoiVeterinaryServiceCenter.Models.DTO.Doctor
         public string Specialization { get; set; }
         public string Experience { get; set; }
         public string Degree { get; set; }
+
+        public string Position { get; set; }
     }
 }
