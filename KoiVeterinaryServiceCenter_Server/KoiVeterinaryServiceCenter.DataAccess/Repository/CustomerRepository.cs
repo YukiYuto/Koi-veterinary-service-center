@@ -1,44 +1,37 @@
 ﻿using KoiVeterinaryServiceCenter.DataAccess.Context;
 using KoiVeterinaryServiceCenter.DataAccess.IRepository;
-using KoiVeterinaryServiceCenter.Model.Domain;
+using KoiVeterinaryServiceCenter.Models.Domain;
 using Microsoft.EntityFrameworkCore;
 
-namespace KoiVeterinaryServiceCenter.DataAccess.Repository
+namespace KoiVeterinaryServiceCenter.DataAccess.Repository;
+
+public class CustomerRepository : Repository<ApplicationUser>, ICustomerRepository
 {
+    private readonly ApplicationDbContext _context;
 
-    public class CustomerRepository : Repository<Customer>, ICustomerRepository
+    public CustomerRepository(ApplicationDbContext context) : base(context)
     {
-        private readonly ApplicationDbContext _context;
+        _context = context;
+    }
 
-        public CustomerRepository(ApplicationDbContext context) : base(context)
-        {
-            _context = context;
-        }
+    public async Task<ApplicationUser?> GetById(string id)
+    {
+        return await _context.ApplicationUsers.FirstOrDefaultAsync(x => x.Id == id);
+    }
 
-        public async Task<Customer?> GetById(Guid id)
-        {
-            return await _context.Customers.Include("ApplicationUser").FirstOrDefaultAsync(x => x.CustomerId == id);
-        }
+    public void Update(ApplicationUser customer)
+    {
+        _context.ApplicationUsers.Update(customer);
+    }
 
-        public async Task<Customer?> GetByUserId(string id)
-        {
-            return await _context.Customers.Include("ApplicationUser").FirstOrDefaultAsync(x => x.UserId == id);
-        }
+    public void UpdateRange(IEnumerable<ApplicationUser> customers)
+    {
+        _context.ApplicationUsers.UpdateRange(customers);
+    }
 
-        public void Update(Customer customer)
-        {
-            _context.Customers.Update(customer);
-        }
-        
-        public void UpdateRange(IEnumerable<Customer> customers)
-        {
-            _context.Customers.UpdateRange(customers);
-        }
-
-        public async Task<Customer> AddAsync(Customer customer)
-        {
-            var enityEntry = await _context.Customers.AddAsync(customer);
-            return enityEntry.Entity;
-        }
+    public async Task<ApplicationUser> AddAsync(ApplicationUser customer)
+    {
+        var enityEntry = await _context.ApplicationUsers.AddAsync(customer);
+        return enityEntry.Entity;
     }
 }

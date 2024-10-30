@@ -1,6 +1,6 @@
 ﻿using KoiVeterinaryServiceCenter.DataAccess.Context;
 using KoiVeterinaryServiceCenter.DataAccess.IRepository;
-using KoiVeterinaryServiceCenter.Model.Domain;
+using KoiVeterinaryServiceCenter.Models.Domain;
 using Microsoft.EntityFrameworkCore;
 
 namespace KoiVeterinaryServiceCenter.DataAccess.Repository;
@@ -27,5 +27,13 @@ public class SlotRepository : Repository<Slot>,ISlotRepository
     public async Task<Slot> GetSlotById(Guid slotId)
     {
         return await _context.Slots.FirstOrDefaultAsync(x => x.SlotId == slotId);
+    }
+
+    public async Task<IEnumerable<Slot>> GetAllSlotWithDoctor()
+    {
+        return await _context.Slots
+        .Include(s => s.DoctorSchedules)
+        .ThenInclude(ds => ds.Doctor)
+        .ToListAsync();
     }
 }

@@ -2,7 +2,7 @@
 using System.Security.Claims;
 using System.Text;
 using KoiVeterinaryServiceCenter.DataAccess.IRepository;
-using KoiVeterinaryServiceCenter.Model.Domain;
+using KoiVeterinaryServiceCenter.Models.Domain;
 using KoiVeterinaryServiceCenter.Services.IServices;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
@@ -14,26 +14,36 @@ public class TokenService : ITokenService
 {
     private readonly UserManager<ApplicationUser> _userManager;
     private readonly IConfiguration _configuration;
-    private readonly IUnitOfWork _unitOfWork;
+    private readonly IRedisService _redisService;
 
-    public TokenService(UserManager<ApplicationUser> userManager, IConfiguration configuration, IUnitOfWork unitOfWork)
+    public TokenService(UserManager<ApplicationUser> userManager, IConfiguration configuration, IUnitOfWork unitOfWork, IRedisService redis)
     {
         _userManager = userManager;
         _configuration = configuration;
-        _unitOfWork = unitOfWork;
+        _redisService = redis;
     }
 
-
-    //Create AccessToken
+    /// <summary>
+    /// This method for create Access token
+    /// </summary>
+    /// <param name="user"></param>
+    /// <returns></returns>
     public async Task<string> GenerateJwtAccessTokenAsync(ApplicationUser user)
     {
         var userRoles = await _userManager.GetRolesAsync(user);
 
         var authClaims = new List<Claim>
-        {
-            new Claim(ClaimTypes.Name, user.UserName),
-            new Claim(ClaimTypes.NameIdentifier, user.Id)
-        };
+    {
+        new Claim(ClaimTypes.Name, user.UserName),
+        new Claim(ClaimTypes.NameIdentifier, user.Id),
+        new Claim("FullName", user.FullName),  // Thêm FullName vào claims
+        new Claim("Email", user.Email),        // Thêm Email vào claims
+        new Claim("PhoneNumber", user.PhoneNumber), // Thêm PhoneNumber vào claims
+        new Claim("Address", user.Address),    // Thêm Address vào claims
+        new Claim("Country", user.Country),    // Thêm Country vào claims
+        new Claim("Gender", user.Gender.ToString()), // Thêm Gender vào claims
+        new Claim("AvatarUrl", user.AvatarUrl)
+    };
 
         foreach (var role in userRoles)
         {
@@ -47,8 +57,8 @@ public class TokenService : ITokenService
             issuer: _configuration["JWT:ValidIssuer"],
             audience: _configuration["JWT:ValidAudience"],
             notBefore: DateTime.Now,
-            expires: DateTime.Now.AddMinutes(60),//Expiration time is 1h
-            claims: authClaims,//list of rights
+            expires: DateTime.Now.AddMinutes(60), //Expiration time is 1h
+            claims: authClaims,
             signingCredentials: signingCredentials
         );
 
@@ -58,14 +68,18 @@ public class TokenService : ITokenService
     }
 
 
-    //Create RefreshToken
+    /// <summary>
+    /// Create Refresh Token
+    /// </summary>
+    /// <param name="user"></param>
+    /// <returns></returns>
     public async Task<string> GenerateJwtRefreshTokenAsync(ApplicationUser user)
     {
         // Create a list of claims containing user information
         var authClaims = new List<Claim>()
-    {
-        new Claim(ClaimTypes.NameIdentifier, user.Id),
-    };
+        {
+            new Claim(ClaimTypes.NameIdentifier, user.Id),
+        };
 
         // Create cryptographic objects for tokens
         var authSecret = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:Secret"]));
@@ -84,30 +98,14 @@ public class TokenService : ITokenService
         // Token generation successful
         var refreshToken = new JwtSecurityTokenHandler().WriteToken(tokenObject);
 
-        // Create expiration time
-        var expires = DateTime.Now.AddDays(3);
-
-        // Create object to save in database
-        var tokenEntity = new RefreshTokens
-        {
-            RefeshTokensId = Guid.NewGuid(),
-            UserId = user.Id,
-            RefreshToken = refreshToken,
-            Expires = expires,
-            CreatedBy = user.UserName,
-            CreatedTime = DateTime.Now,
-            UpdatedBy = user.UserName,
-            UpdatedTime = DateTime.Now,
-            Status = 1
-        };
-
-        // Lưu token vào database
-        await _unitOfWork.RefreshTokens.AddTokenAsync(tokenEntity);
-        await _unitOfWork.SaveAsync();
-
         return refreshToken;
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="token"></param>
+    /// <returns></returns>
     public async Task<ClaimsPrincipal> GetPrincipalFromToken(string token)
     {
         var tokenHandler = new JwtSecurityTokenHandler();
@@ -135,49 +133,43 @@ public class TokenService : ITokenService
     }
 
 
-    //Store RefreshToken
+
+
+
+    /// <summary>
+    /// This method for store refresh token on redis cloud
+    /// </summary>
+    /// <param name="userId"></param>
+    /// <param name="refreshToken"></param>
+    /// <returns></returns>
     public async Task<bool> StoreRefreshToken(string userId, string refreshToken)
     {
-        var existingToken = await _unitOfWork.RefreshTokens.GetTokenByUserIdAsync(userId);
-        if (existingToken != null)
-        {
-            _unitOfWork.RefreshTokens.RemoveTokenAsync(existingToken);
-        }
-
-        var tokenEntity = new RefreshTokens
-        {
-            UserId = userId,
-            RefreshToken = refreshToken,
-            Expires = DateTime.Now.AddDays(3), 
-            CreatedBy = userId,
-            CreatedTime = DateTime.Now,
-            UpdatedBy = userId,
-            UpdatedTime = DateTime.Now,
-            Status = 1 
-        };
-
-        await _unitOfWork.RefreshTokens.AddTokenAsync(tokenEntity);
-        await _unitOfWork.SaveAsync();
-
+        string redisKey = $"userId:{userId}:refreshToken";
+        var result = await _redisService.StoreString(redisKey, refreshToken);
         return true;
     }
 
+    /// <summary>
+    /// This method for get refresh token from redis cloud
+    /// </summary>
+    /// <param name="userId"></param>
+    /// <returns></returns>
     public async Task<string> RetrieveRefreshToken(string userId)
     {
-        var tokenEntity = await _unitOfWork.RefreshTokens.GetTokenByUserIdAsync(userId);
-        return tokenEntity?.RefreshToken;
+        string redisKey = $"userId:{userId}:refreshToken";
+        var result = await _redisService.RetrieveString(redisKey);
+        return result;
     }
 
+    /// <summary>
+    /// This method for delete refresh token on redis cloud
+    /// </summary>
+    /// <param name="userId"></param>
+    /// <returns></returns>
     public async Task<bool> DeleteRefreshToken(string userId)
     {
-        var existingToken = await _unitOfWork.RefreshTokens.GetTokenByUserIdAsync(userId);
-        if (existingToken != null)
-        {
-            _unitOfWork.RefreshTokens.RemoveTokenAsync(existingToken);
-            await _unitOfWork.SaveAsync();
-            return true;
-        }
-
-        return false;
+        string redisKey = $"userId:{userId}:refreshToken";
+        var result = await _redisService.DeleteString(redisKey);
+        return result;
     }
 }

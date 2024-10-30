@@ -1,8 +1,10 @@
 ﻿using System.Security.Claims;
 using AutoMapper;
 using KoiVeterinaryServiceCenter.DataAccess.IRepository;
-using KoiVeterinaryServiceCenter.Model.Domain;
-using KoiVeterinaryServiceCenter.Model.DTO;
+using KoiVeterinaryServiceCenter.Model.DTO.Slot;
+using KoiVeterinaryServiceCenter.Models.Domain;
+using KoiVeterinaryServiceCenter.Models.DTO;
+using KoiVeterinaryServiceCenter.Models.DTO.Slot;
 using KoiVeterinaryServiceCenter.Services.IServices;
 
 namespace KoiVeterinaryServiceCenter.Services.Services;
@@ -17,11 +19,134 @@ public class SlotService : ISlotService
         _unitOfWork = unitOfWork;
         _mapper = mapper;
     }
-    
-    public Task<ResponseDTO> GetLevels(ClaimsPrincipal User, string? filterOn, string? filterQuery, string? sortBy, bool? isAscending,
-        int pageNumber = 0, int pageSize = 0)
+
+    public async Task<ResponseDTO> GetSlots
+    (
+    ClaimsPrincipal User,
+    string? filterOn,
+    string? filterQuery,
+    string? sortBy,
+    bool? isAscending,
+    int pageNumber = 1,
+    int pageSize = 10
+    )
     {
-        throw new NotImplementedException();
+        try
+        {
+            var slots = await _unitOfWork.SlotRepository.GetAllSlotWithDoctor();
+
+            // Kiểm tra nếu danh sách slots là null hoặc rỗng  
+            if (!slots.Any())
+            {
+                return new ResponseDTO()
+                {
+                    Message = "There are no slots",
+                    IsSuccess = true,
+                    StatusCode = 404,
+                    Result = null
+                };
+            }
+
+            var listSlots = slots.ToList();
+
+            // Filter Query  
+            if (!string.IsNullOrEmpty(filterOn) && !string.IsNullOrEmpty(filterQuery))
+            {
+                switch (filterOn.Trim().ToLower())
+                {
+                    case "isbooked":
+                        if (int.TryParse(filterQuery, out int isBooked))
+                        {
+                            listSlots = listSlots.Where(x => x.IsBooked == isBooked).ToList();
+                        }
+                        break;
+
+                    case "starttime":
+                        if (TimeSpan.TryParse(filterQuery, out TimeSpan startTime))
+                        {
+                            listSlots = listSlots.Where(x => x.StartTime == startTime).ToList();
+                        }
+                        break;
+
+                    case "endtime":
+                        if (TimeSpan.TryParse(filterQuery, out TimeSpan endTime))
+                        {
+                            listSlots = listSlots.Where(x => x.EndTime == endTime).ToList();
+                        }
+                        break;
+
+                    default:
+                        break;
+                }
+            }
+
+            // Sort Query  
+            if (!string.IsNullOrEmpty(sortBy))
+            {
+                switch (sortBy.Trim().ToLower())
+                {
+                    case "starttime":
+                        listSlots = isAscending == true
+                            ? listSlots.OrderBy(x => x.StartTime).ToList()
+                            : listSlots.OrderByDescending(x => x.StartTime).ToList();
+                        break;
+
+                    case "endtime":
+                        listSlots = isAscending == true
+                            ? listSlots.OrderBy(x => x.EndTime).ToList()
+                            : listSlots.OrderByDescending(x => x.EndTime).ToList();
+                        break;
+
+                    default:
+                        // If no valid `sortBy` value is provided, default to sorting by StartTime descending  
+                        listSlots = listSlots.OrderByDescending(x => x.StartTime).ToList();
+                        break;
+                }
+            }
+            else
+            {
+                // If no `sortBy` is specified, default to sorting by StartTime descending  
+                listSlots = listSlots.OrderByDescending(x => x.StartTime).ToList();
+            }
+
+            // Pagination  
+            if (pageNumber > 0 && pageSize > 0)
+            {
+                var skipResult = (pageNumber - 1) * pageSize;
+                listSlots = listSlots.Skip(skipResult).Take(pageSize).ToList();
+            }
+
+            var slotDto = listSlots.Select(slots => new GetSlotDTO()
+            {
+                SlotId = slots.SlotId,
+                DoctorId = slots.DoctorSchedules.DoctorId,
+                DoctorSchedulesId = slots.DoctorSchedulesId,
+                StartTime = slots.StartTime,
+                EndTime = slots.EndTime,
+                IsBooked = slots.IsBooked,
+                
+                CreatedTime = slots.CreatedTime,
+                CreatedBy = slots.CreatedBy,
+            }).ToList();
+
+            return new ResponseDTO()
+            {
+                Message = "Slots retrieved successfully.",
+                Result = slotDto,
+                IsSuccess = true,
+                StatusCode = 200
+            };
+        }
+        catch (Exception e)
+        {
+            return new ResponseDTO()
+            {
+                Message = e.Message,
+                Result = null,
+                IsSuccess = false,
+                StatusCode = 500
+            };
+        }
     }
 
     public async Task<ResponseDTO> GetSlot(ClaimsPrincipal User, Guid SlotId)
@@ -54,7 +179,7 @@ public class SlotService : ISlotService
                 return new ResponseDTO()
                 {
                     Result = null,
-                    Message = "Failed to map Level to GetLevelDTO",
+                    Message = "Failed to map slot to GetSlotDTO",
                     IsSuccess = false,
                     StatusCode = 500
                 };
@@ -84,25 +209,32 @@ public class SlotService : ISlotService
     {
         try
         {
-            var userId = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
-            
             //Map DTO qua entity Level
-            var slots = new Slot()
+            Slot slots = new Slot()
             {
-                DoctorId = createSlotDto.DoctorId ?? Guid.Empty,
+                DoctorSchedulesId = createSlotDto.DoctorSchedulesId,
                 StartTime = createSlotDto.StartTime,
                 EndTime = createSlotDto.EndTime,
-                AppointmentDate = createSlotDto.AppointmentDate,
-                IsBooked = createSlotDto.IsBooked,
+                IsBooked = 0,
                 CreatedTime = DateTime.Now,
                 UpdatedTime = null,
                 CreatedBy = User.Identity.Name,
                 UpdatedBy = ""
             };
 
-            //thêm level mới
+            //thêm slot mới
             await _unitOfWork.SlotRepository.AddAsync(slots);
-            await _unitOfWork.SaveAsync();
+            var save = await _unitOfWork.SaveAsync();
+            if (save <= 0)
+            {
+                return new ResponseDTO
+                {
+                    Message = "Failed to save slot",
+                    Result = null,
+                    IsSuccess = false,
+                    StatusCode = 400
+                };
+            }
 
             return new ResponseDTO()
             {
@@ -142,11 +274,12 @@ public class SlotService : ISlotService
                     StatusCode = 404
                 };
             }
-            
+
             // Nếu có DoctorId, truy vấn Doctor từ database
             if (updateSlotDto.DoctorId.HasValue)
             {
-                var doctor = await _unitOfWork.DoctorRepository.GetAsync(d => d.DoctorId == updateSlotDto.DoctorId.Value);
+                var doctor =
+                    await _unitOfWork.DoctorRepository.GetAsync(d => d.DoctorId == updateSlotDto.DoctorId.Value);
 
                 if (doctor == null)
                 {
@@ -161,10 +294,9 @@ public class SlotService : ISlotService
             }
 
             // cập nhật thông tin danh mục
-            slotID.DoctorId = updateSlotDto.DoctorId ?? Guid.Empty;
             slotID.StartTime = updateSlotDto.StartTime;
             slotID.EndTime = updateSlotDto.EndTime;
-            slotID.IsBooked = updateSlotDto.IsBooked;
+            slotID.IsBooked = 2;
             slotID.UpdatedBy = User.Identity.Name;
             slotID.UpdatedTime = DateTime.Now;
 
@@ -178,7 +310,7 @@ public class SlotService : ISlotService
             {
                 return new ResponseDTO
                 {
-                    Message = "Failed to update level",
+                    Message = "Failed to update slot",
                     Result = null,
                     IsSuccess = false,
                     StatusCode = 400
@@ -187,7 +319,7 @@ public class SlotService : ISlotService
 
             return new ResponseDTO
             {
-                Message = "Level updated successfully",
+                Message = "Slot updated successfully",
                 Result = slotID,
                 IsSuccess = true,
                 StatusCode = 200
@@ -223,6 +355,7 @@ public class SlotService : ISlotService
                 };
             }
 
+            slotID.IsBooked = 2;
             _unitOfWork.SlotRepository.Remove(slotID);
             await _unitOfWork.SaveAsync();
 

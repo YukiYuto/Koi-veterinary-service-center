@@ -1,0 +1,49 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.10.35013.160
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KoiVeterinaryServiceCenter.API", "KoiVeterinaryServiceCenter.API\KoiVeterinaryServiceCenter.API.csproj", "{0788BE9C-1BE0-43F9-90A6-C07C3869C080}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KoiVeterinaryServiceCenter.DataAccess", "KoiVeterinaryServiceCenter.DataAccess\KoiVeterinaryServiceCenter.DataAccess.csproj", "{13565D1C-F1D0-40B0-A6C1-F9A4AD284E09}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KoiVeterinaryServiceCenter.Models", "KoiVeterinaryServiceCenter.Models\KoiVeterinaryServiceCenter.Models.csproj", "{318CBC01-2319-46F0-B2C8-F77D281CEE19}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KoiVeterinaryServiceCenter.Services", "KoiVeterinaryServiceCenter.Services\KoiVeterinaryServiceCenter.Services.csproj", "{3AB90304-F821-4965-9AA8-A8AF41DC1E08}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KoiVeterinaryServiceCenter.Utility", "KoiVeterinaryServiceCenter.Utility\KoiVeterinaryServiceCenter.Utility.csproj", "{8F290C05-C888-4649-94A2-3E125F5CDC6B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0788BE9C-1BE0-43F9-90A6-C07C3869C080}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0788BE9C-1BE0-43F9-90A6-C07C3869C080}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0788BE9C-1BE0-43F9-90A6-C07C3869C080}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0788BE9C-1BE0-43F9-90A6-C07C3869C080}.Release|Any CPU.Build.0 = Release|Any CPU
+		{13565D1C-F1D0-40B0-A6C1-F9A4AD284E09}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{13565D1C-F1D0-40B0-A6C1-F9A4AD284E09}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{13565D1C-F1D0-40B0-A6C1-F9A4AD284E09}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{13565D1C-F1D0-40B0-A6C1-F9A4AD284E09}.Release|Any CPU.Build.0 = Release|Any CPU
+		{318CBC01-2319-46F0-B2C8-F77D281CEE19}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{318CBC01-2319-46F0-B2C8-F77D281CEE19}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{318CBC01-2319-46F0-B2C8-F77D281CEE19}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{318CBC01-2319-46F0-B2C8-F77D281CEE19}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3AB90304-F821-4965-9AA8-A8AF41DC1E08}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3AB90304-F821-4965-9AA8-A8AF41DC1E08}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3AB90304-F821-4965-9AA8-A8AF41DC1E08}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3AB90304-F821-4965-9AA8-A8AF41DC1E08}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8F290C05-C888-4649-94A2-3E125F5CDC6B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8F290C05-C888-4649-94A2-3E125F5CDC6B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8F290C05-C888-4649-94A2-3E125F5CDC6B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8F290C05-C888-4649-94A2-3E125F5CDC6B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {871F4B31-A013-49BE-B897-9F805A968547}
+	EndGlobalSection
+EndGlobal

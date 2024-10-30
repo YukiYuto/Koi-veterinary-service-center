@@ -1,12 +1,11 @@
-﻿using KoiVeterinaryServiceCenter.Model.Domain;
+﻿using KoiVeterinaryServiceCenter.Models.Domain;
 
 namespace KoiVeterinaryServiceCenter.DataAccess.IRepository;
 
-public interface ICustomerRepository : IRepository<Customer>
+public interface ICustomerRepository : IRepository<ApplicationUser>
 {
-    void Update(Customer customer);
-    void UpdateRange(IEnumerable<Customer> customers);
-    Task<Customer?> GetById(Guid id);
-    Task<Customer> AddAsync(Customer customer);
-    Task<Customer?> GetByUserId(string id);
+    void Update(ApplicationUser customer);
+    void UpdateRange(IEnumerable<ApplicationUser> customers);
+    Task<ApplicationUser?> GetById(string id);
+    Task<ApplicationUser> AddAsync(ApplicationUser customer);
 }

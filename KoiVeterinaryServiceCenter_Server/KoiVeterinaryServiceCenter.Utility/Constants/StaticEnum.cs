@@ -1,45 +1,38 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace KoiVeterinaryServiceCenter.Utility.Constants;
 
-namespace KoiVeterinaryServiceCenter.Utility.Constants
+public static class StaticEnum
 {
-    public static class StaticEnum
+    public enum ContentType
     {
-        public enum ContentType
-        {
-            Json,
-            MultipartFormData,
-        }
+        Json,
+        MultipartFormData,
+    }
 
-        public enum ApiType
-        {
-            GET,
-            POST,
-            PUT,
-            DELETE
-        }
+    public enum ApiType
+    {
+        GET,
+        POST,
+        PUT,
+        DELETE
+    }
 
-        public enum TransactionType
-        {
-            Purchase,
-            Payout,
-            Income
-        }
+    public enum TransactionType
+    {
+        Purchase,
+        Payout,
+        Income
+    }
 
-        public enum StripeAccountType
-        {
-            express,
-            standard,
-            custom
-        }
+    public enum StripeAccountType
+    {
+        express,
+        standard,
+        custom
+    }
 
-        public enum StripeAccountLinkType
-        {
-            account_onboarding,
-            account_update
-        }
+    public enum StripeAccountLinkType
+    {
+        account_onboarding,
+        account_update
     }
 }
