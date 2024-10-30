@@ -30,6 +30,8 @@ public class UnitOfWork : IUnitOfWork
     public IPoolRepository PoolRepository { get; set; }
     public IPetServiceRepository PetServiceRepository { get; set; }
 
+    public IDiseaseRepository diseaseRepository { get; set; }
+
     public IPetRepository PetRepository { get; set; }
 
     public IPetDiseaseRepository PetDiseaseRepository { get; set; }
@@ -52,6 +54,7 @@ public class UnitOfWork : IUnitOfWork
 
         PoolRepository = new PoolRepository(_context);
         PetServiceRepository = new PetServiceRepository(_context);
+        diseaseRepository = new DiseaseRepository(_context);
 
         PetRepository = new PetRepository(_context);
         petDiseaseRepository = new PetDiseaseRepository(_context);
