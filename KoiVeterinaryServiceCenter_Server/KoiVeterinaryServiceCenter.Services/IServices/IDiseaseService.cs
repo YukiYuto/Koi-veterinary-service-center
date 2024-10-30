@@ -1,5 +1,5 @@
 ﻿using KoiVeterinaryServiceCenter.Models.DTO;
-using KoiVeterinaryServiceCenter.Models.DTO.Disease;
+
 using System;
 using System.Collections.Generic;
 using System.Security.Claims;
