@@ -6,10 +6,11 @@ using System.Threading.Tasks;
 
 namespace KoiVeterinaryServiceCenter.Models.DTO.Pool
 {
-    public class UpdatePoolDTO
+    public class GetPoolDTO
     {
         public Guid PoolId { get; set; }
-        public float Size { get; set; }
-        public string? Decription { get; set; }
+        public string CustomerId { get; set; }
+        public string? Name { get; set; }
+        public float? Size { get; set; }
     }
 }

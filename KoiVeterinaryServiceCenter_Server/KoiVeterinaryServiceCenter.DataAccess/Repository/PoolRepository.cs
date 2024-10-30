@@ -20,7 +20,7 @@ namespace KoiVeterinaryServiceCenter.DataAccess.Repository
 
         public async Task<Pool> GetById(Guid poolId)
         {
-            return await _context.Pool.FirstOrDefaultAsync(po => po.PoolId == poolId);
+            return await _context.Pool.Include(po => po.Customer).FirstOrDefaultAsync(po => po.PoolId == poolId);
         }
 
         public void Update(Pool pool)

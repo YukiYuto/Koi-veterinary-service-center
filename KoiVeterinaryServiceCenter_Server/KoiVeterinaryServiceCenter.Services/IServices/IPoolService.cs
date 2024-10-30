@@ -23,7 +23,7 @@ namespace KoiVeterinaryServiceCenter.Services.IServices
             );
         Task<ResponseDTO> CreatePool(ClaimsPrincipal User, CreatePoolDTO createPoolDTO);
         Task<ResponseDTO> GetPoolById(ClaimsPrincipal User, Guid poolId);
-        void UpdatePool(ClaimsPrincipal User, UpdatePoolDTO updatePoolDTO);
-        void DeletePoolById(ClaimsPrincipal User, Guid poolId);
+        Task<ResponseDTO> UpdatePool(ClaimsPrincipal User, UpdatePoolDTO updatePoolDTO);
+        Task<ResponseDTO> DeletePoolById(ClaimsPrincipal User, Guid poolId);
     }
 }

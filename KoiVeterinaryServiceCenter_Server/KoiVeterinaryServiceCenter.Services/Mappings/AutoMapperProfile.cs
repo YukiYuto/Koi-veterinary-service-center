@@ -6,6 +6,7 @@ using KoiVeterinaryServiceCenter.Models.DTO.Appointment;
 using KoiVeterinaryServiceCenter.Models.DTO.Doctor;
 using KoiVeterinaryServiceCenter.Models.DTO.DoctorSchedules;
 using KoiVeterinaryServiceCenter.Models.DTO.DoctorServices;
+using KoiVeterinaryServiceCenter.Models.DTO.Pool;
 using KoiVeterinaryServiceCenter.Models.DTO.Transaction;
 
 namespace KoiVeterinaryServiceCenter.Services.Mappings;
@@ -55,5 +56,12 @@ public class AutoMapperProfile : Profile
             .ForMember(dest => dest.StartTime, opt => opt.MapFrom(src => src.Appointment.Slot.StartTime))
             .ForMember(dest => dest.EndTime, opt => opt.MapFrom(src => src.Appointment.Slot.EndTime))
             .ForMember(dest => dest.TransactionDateTime, opt => opt.MapFrom(src => src.TransactionDateTime)).ReverseMap();
+        CreateMap<Pool, GetPoolFullInfo>()
+            .ForMember(dest => dest.PoolName, opt => opt.MapFrom(src => src.Name))
+            .ForMember(dest => dest.CustomerName, opt => opt.MapFrom(src => src.Customer.FullName))
+            .ForMember(dest => dest.Gender, opt => opt.MapFrom(src => src.Customer.Gender))
+            .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.Customer.Email))
+            .ForMember(dest => dest.PhoneNumber, opt => opt.MapFrom(src => src.Customer.PhoneNumber)).ReverseMap();
+        CreateMap<Pool, GetPoolDTO>().ReverseMap();
     }
 }
