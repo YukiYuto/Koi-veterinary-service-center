@@ -29,5 +29,12 @@ namespace KoiVeterinaryServiceCenter.API.Controller
             var responseDto = await _poolService.CreatePool(User, createPoolDTO);
             return StatusCode(responseDto.StatusCode, responseDto);
         }
+
+        [HttpPut]
+        public async Task<ActionResult<ResponseDTO>> UpdatePool(UpdatePoolDTO updatePoolDTO)
+        {
+            var responseDto = await _poolService.UpdatePool(User, updatePoolDTO);
+            return StatusCode(responseDto.StatusCode, responseDto);
+        }
     }
 }

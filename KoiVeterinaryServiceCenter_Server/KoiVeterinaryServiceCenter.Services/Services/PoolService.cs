@@ -57,7 +57,7 @@ namespace KoiVeterinaryServiceCenter.Services.Services
             }
         }
 
-        public void DeletePoolById(ClaimsPrincipal User, Guid poolId)
+        public Task<ResponseDTO> DeletePoolById(ClaimsPrincipal User, Guid poolId)
         {
             throw new NotImplementedException();
         }
@@ -119,9 +119,43 @@ namespace KoiVeterinaryServiceCenter.Services.Services
             }
         }
 
-        public void UpdatePool(ClaimsPrincipal User, UpdatePoolDTO updatePoolDTO)
+        public async Task<ResponseDTO> UpdatePool(ClaimsPrincipal User, UpdatePoolDTO updatePoolDTO)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var pool = await _unitOfWork.PoolRepository.GetById(updatePoolDTO.PoolId);
+                if (pool is null)
+                {
+                    return new ResponseDTO()
+                    {
+                        Message = "Cannot found pool",
+                        IsSuccess = false,
+                        StatusCode = 404,
+                        Result = null
+                    };
+                }
+                pool.Size = updatePoolDTO.Size;
+                _unitOfWork.PoolRepository.Update(pool);
+                await _unitOfWork.SaveAsync();
+
+                return new ResponseDTO()
+                {
+                    Message = "Update pool successfully",
+                    IsSuccess = true,
+                    StatusCode = 200,
+                    Result = null
+                };
+            }
+            catch (Exception e)
+            {
+                return new ResponseDTO()
+                {
+                    Message = e.Message,
+                    IsSuccess = false,
+                    StatusCode = 500,
+                    Result = null
+                };
+            }
         }
     }
 }
