@@ -23,6 +23,7 @@ public class UnitOfWork : IUnitOfWork
     public IPaymentTransactionsRepository PaymentTransactionsRepository { get; set; }
     public ITransactionsRepository TransactionsRepository { get; set; }
     public IPoolRepository PoolRepository { get; set; }
+    public IPetServiceRepository PetServiceRepository { get; set; }
     public UnitOfWork(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
     {
         _context = context;
@@ -39,6 +40,7 @@ public class UnitOfWork : IUnitOfWork
         PaymentTransactionsRepository = new PaymentTransactionsRepository(_context);
         TransactionsRepository = new TransactionsRepository(_context);
         PoolRepository = new PoolRepository(_context);
+        PetServiceRepository = new PetServiceRepository(_context);
     }
     public async Task<int> SaveAsync()
     {
