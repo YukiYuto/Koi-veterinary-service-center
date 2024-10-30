@@ -18,5 +18,6 @@ public interface IUnitOfWork
     IPaymentTransactionsRepository PaymentTransactionsRepository { get; }
     ITransactionsRepository TransactionsRepository { get; }
     IPoolRepository PoolRepository { get; }
+    IPetServiceRepository PetServiceRepository { get; }
     Task<int> SaveAsync();
 }

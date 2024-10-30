@@ -23,6 +23,7 @@ public class UnitOfWork : IUnitOfWork
     public IPaymentTransactionsRepository PaymentTransactionsRepository { get; set; }
     public ITransactionsRepository TransactionsRepository { get; set; }
     public IPoolRepository PoolRepository { get; set; }
+    public IPetServiceRepository PetServiceRepository { get; set; }
     public UnitOfWork(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
     {
         _context = context;
