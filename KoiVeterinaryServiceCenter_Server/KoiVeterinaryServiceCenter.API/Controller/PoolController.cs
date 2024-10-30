@@ -1,4 +1,5 @@
-﻿using KoiVeterinaryServiceCenter.Models.DTO;
+﻿using System.Security.Claims;
+using KoiVeterinaryServiceCenter.Models.DTO;
 using KoiVeterinaryServiceCenter.Models.DTO.Pool;
 using KoiVeterinaryServiceCenter.Services.IServices;
 using Microsoft.AspNetCore.Http;
@@ -14,6 +15,21 @@ namespace KoiVeterinaryServiceCenter.API.Controller
         public PoolController(IPoolService poolService)
         {
             _poolService = poolService;
+        }
+
+        [HttpGet]
+        public async Task<ActionResult<ResponseDTO>> GetAll
+            (
+                [FromQuery] string? filterOn,
+                [FromQuery] string? filterQuery,
+                [FromQuery] string? sortBy,
+                [FromQuery] bool? isAscending,
+                [FromQuery] int pageNumber,
+                [FromQuery] int pageSize
+            )
+        {
+            var responseDto = await _poolService.GetAll(User, filterOn, filterQuery, sortBy, isAscending, pageNumber, pageSize);
+            return StatusCode(responseDto.StatusCode, responseDto);
         }
 
         [HttpGet("{poolId:guid}")]

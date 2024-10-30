@@ -62,5 +62,6 @@ public class AutoMapperProfile : Profile
             .ForMember(dest => dest.Gender, opt => opt.MapFrom(src => src.Customer.Gender))
             .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.Customer.Email))
             .ForMember(dest => dest.PhoneNumber, opt => opt.MapFrom(src => src.Customer.PhoneNumber)).ReverseMap();
+        CreateMap<Pool, GetPoolDTO>().ReverseMap();
     }
 }
