@@ -19,8 +19,6 @@ public class Appointment
     public double TotalAmount { get; set; }
     public DateOnly CreateTime { get; set; }
     
-    [NotMapped] public virtual ICollection<AppointmentPet> AppointmentPets { get; set; } = null!;
-
 
     public long AppointmentNumber { get; set; }
     public int BookingStatus { get; set; }
