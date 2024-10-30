@@ -4,6 +4,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using AutoMapper;
 using KoiVeterinaryServiceCenter.DataAccess.IRepository;
 using KoiVeterinaryServiceCenter.Models.Domain;
 using KoiVeterinaryServiceCenter.Models.DTO;
@@ -15,9 +16,11 @@ namespace KoiVeterinaryServiceCenter.Services.Services
     public class PoolService : IPoolService
     {
         private readonly IUnitOfWork _unitOfWork;
-        public PoolService(IUnitOfWork unitOfWork)
+        private readonly IMapper _mapper;
+        public PoolService(IUnitOfWork unitOfWork, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
+            _mapper = mapper;
         }
 
         public async Task<ResponseDTO> CreatePool(ClaimsPrincipal User, CreatePoolDTO createPoolDTO)
@@ -64,9 +67,56 @@ namespace KoiVeterinaryServiceCenter.Services.Services
             throw new NotImplementedException();
         }
 
-        public Task<ResponseDTO> GetPoolById(ClaimsPrincipal User, Guid poolId)
+        public async Task<ResponseDTO> GetPoolById(ClaimsPrincipal User, Guid poolId)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var pool = await _unitOfWork.PoolRepository.GetById(poolId);
+                if (pool is null)
+                {
+                    return new ResponseDTO()
+                    {
+                        Message = "Get pool successfully",
+                        IsSuccess = true,
+                        StatusCode = 404,
+                        Result = null
+                    };
+                }
+
+                GetPoolFullInfo getPoolFullInfo;
+                try
+                {
+                    getPoolFullInfo = _mapper.Map<GetPoolFullInfo>(pool);
+                }
+                catch (AutoMapperMappingException e)
+                {
+                    return new ResponseDTO()
+                    {
+                        Message = e.Message,
+                        IsSuccess = false,
+                        StatusCode = 500,
+                        Result = null
+                    };
+                }
+
+                return new ResponseDTO()
+                {
+                    Message = "Get pool successfully",
+                    IsSuccess = true,
+                    StatusCode = 200,
+                    Result = getPoolFullInfo
+                };
+            }
+            catch (Exception e)
+            {
+                return new ResponseDTO()
+                {
+                    Message = e.Message,
+                    IsSuccess = false,
+                    StatusCode = 500,
+                    Result = null
+                };
+            }
         }
 
         public void UpdatePool(ClaimsPrincipal User, UpdatePoolDTO updatePoolDTO)

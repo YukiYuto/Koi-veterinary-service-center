@@ -16,6 +16,13 @@ namespace KoiVeterinaryServiceCenter.API.Controller
             _poolService = poolService;
         }
 
+        [HttpGet("{poolId:guid}")]
+        public async Task<ActionResult<ResponseDTO>> GetPoolById(Guid poolId)
+        {
+            var responseDto = await _poolService.GetPoolById(User, poolId);
+            return StatusCode(responseDto.StatusCode, responseDto);
+        }
+
         [HttpPost]
         public async Task<ActionResult<ResponseDTO>> CreatePool(CreatePoolDTO createPoolDTO)
         {
