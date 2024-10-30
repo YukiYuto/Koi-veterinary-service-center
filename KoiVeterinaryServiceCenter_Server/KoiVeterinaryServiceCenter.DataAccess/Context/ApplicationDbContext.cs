@@ -13,30 +13,23 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     }
 
     public DbSet<ApplicationUser> ApplicationUsers { get; set; }
-
-    
-
     public DbSet<Doctor> Doctors { get; set; }
     public DbSet<DoctorRating> DoctorRatings { get; set; }
     public DbSet<DoctorSchedules> DoctorSchedules { get; set; }
     public DbSet<DoctorServices> DoctorServices { get; set; }
-
     public DbSet<Post> Posts { get; set; }
-
     public DbSet<Service> Services { get; set; }
-
     public DbSet<Appointment> Appointments { get; set; }
     public DbSet<AppointmentDeposit> AppointmentDeposits { get; set; }
     public DbSet<Slot> Slots { get; set; }
     public DbSet<Transaction> Transactions { get; set; }
-
     public DbSet<EmailTemplate> EmailTemplates { get; set; }
     public DbSet<PaymentTransactions> PaymentTransactions { get; set; }
     public DbSet<Pet> Pets { get; set; }
     public DbSet<Disease> Diseases { get; set; }
     public DbSet<PetDisease> PetDiseases { get; set; }
-    public DbSet<PetService> PetServices { get; set; }
     public DbSet<Pool> Pools { get; set; }
+
  
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
