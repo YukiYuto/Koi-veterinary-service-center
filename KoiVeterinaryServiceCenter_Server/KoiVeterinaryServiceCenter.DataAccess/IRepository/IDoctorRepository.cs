@@ -14,5 +14,6 @@ namespace KoiVeterinaryServiceCenter.DataAccess.IRepository
         Task<Doctor?> GetById(Guid id);
         Task<Doctor> AddAsync(Doctor doctor);
         Task<Doctor?> GetByUserId(string id);
+        Task<Doctor> GetDoctorById(Guid doctorId);
     }
 }

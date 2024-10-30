@@ -1,6 +1,6 @@
 ﻿using KoiVeterinaryServiceCenter.DataAccess.Context;
 using KoiVeterinaryServiceCenter.DataAccess.IRepository;
-using KoiVeterinaryServiceCenter.Model.Domain;
+using KoiVeterinaryServiceCenter.Models.Domain;
 
 namespace KoiVeterinaryServiceCenter.DataAccess.Repository;
 

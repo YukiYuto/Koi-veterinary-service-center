@@ -1,6 +1,6 @@
 ﻿using KoiVeterinaryServiceCenter.DataAccess.Context;
 using KoiVeterinaryServiceCenter.DataAccess.IRepository;
-using KoiVeterinaryServiceCenter.Model.Domain;
+using KoiVeterinaryServiceCenter.Models.Domain;
 using Microsoft.EntityFrameworkCore;
 
 namespace KoiVeterinaryServiceCenter.DataAccess.Repository
@@ -25,6 +25,12 @@ namespace KoiVeterinaryServiceCenter.DataAccess.Repository
         public void UpdateRange(IEnumerable<DoctorSchedules> doctorSchedules)
         {
             _context.DoctorSchedules.UpdateRange(doctorSchedules);
+        }
+
+        public async Task<DoctorSchedules> GetDoctorScheduleById(Guid doctorSchedulesId)
+        {
+            return await _context.DoctorSchedules
+                .FirstOrDefaultAsync(ds => ds.DoctorSchedulesId == doctorSchedulesId);
         }
     }
 }

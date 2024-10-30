@@ -7,7 +7,8 @@ using System.Threading.Tasks;
 using AutoMapper;
 using KoiVeterinaryServiceCenter.DataAccess.IRepository;
 using KoiVeterinaryServiceCenter.Model.Domain;
-using KoiVeterinaryServiceCenter.Model.DTO;
+using KoiVeterinaryServiceCenter.Models.DTO;
+using KoiVeterinaryServiceCenter.Models.DTO.Doctor;
 using KoiVeterinaryServiceCenter.Services.IServices;
 using Microsoft.IdentityModel.Tokens;
 
@@ -190,6 +191,7 @@ namespace KoiVeterinaryServiceCenter.Services.Services
                     Specialization = doctor.Specialization,
                     Experience = doctor.Experience,
                     Degree = doctor.Degree,
+                    Position =doctor.Position
                 };
 
                 //Solve return (has object doctorInfoDto) if the function successfully
@@ -246,6 +248,7 @@ namespace KoiVeterinaryServiceCenter.Services.Services
                 doctorToUpdate.Specialization = updateDoctorDTO.Specialization;
                 doctorToUpdate.Experience = updateDoctorDTO.Experience;
                 doctorToUpdate.Degree = updateDoctorDTO.Degree;
+                doctorToUpdate.Position = updateDoctorDTO?.Position;
 
                 //Update to database and save it
                 _unitOfWork.DoctorRepository.Update(doctorToUpdate);
@@ -323,6 +326,57 @@ namespace KoiVeterinaryServiceCenter.Services.Services
                     Result = null
                 };
             }
+        }
+
+        public async Task<ResponseDTO> CreateGoogleMeetLink(GoogleMeetLinkDTO googleMeetLinkDTO)
+        {
+            var doctor = await _unitOfWork.DoctorRepository.GetAsync(d => d.DoctorId == googleMeetLinkDTO.doctorId);
+            if (doctor is null)
+            {
+                return new ResponseDTO()
+                {
+                    IsSuccess = false,
+                    StatusCode = 404,
+                    Message = "Doctor not found"
+                };
+            }
+
+            doctor.GoogleMeetLink = googleMeetLinkDTO.GoogleMeetLink;
+            _unitOfWork.DoctorRepository.Update(doctor);
+            await _unitOfWork.SaveAsync();
+
+            return new ResponseDTO() {
+                IsSuccess = true,
+                StatusCode = 201,
+                Result = doctor,
+                Message = "Google meet link created successfully"
+            };
+        }
+
+        public async Task<ResponseDTO> UpdateGoogleMeetLink(GoogleMeetLinkDTO googleMeetLinkDTO)
+        {
+            var doctor = await _unitOfWork.DoctorRepository.GetAsync(d => d.DoctorId == googleMeetLinkDTO.doctorId);
+            if (doctor is null)
+            {
+                return new ResponseDTO()
+                {
+                    IsSuccess = false,
+                    StatusCode = 404,
+                    Message = "Doctor not found"
+                };
+            }
+
+            doctor.GoogleMeetLink = googleMeetLinkDTO.GoogleMeetLink;
+            _unitOfWork.DoctorRepository.Update(doctor);
+            await _unitOfWork.SaveAsync();
+
+            return new ResponseDTO()
+            {
+                IsSuccess = true,
+                StatusCode = 200,
+                Result = doctor,
+                Message = "Google meet link updated successfully"
+            };
         }
     }
 }

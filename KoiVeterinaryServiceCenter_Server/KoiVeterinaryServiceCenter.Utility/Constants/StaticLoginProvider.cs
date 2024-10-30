@@ -1,13 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace KoiVeterinaryServiceCenter.Utility.Constants;
 
-namespace KoiVeterinaryServiceCenter.Utility.Constants
+public static class StaticLoginProvider
 {
-    public static class StaticLoginProvider
-    {
-        public const string Google = "GOOGLE";
-    }
+    public const string Google = "GOOGLE";
 }

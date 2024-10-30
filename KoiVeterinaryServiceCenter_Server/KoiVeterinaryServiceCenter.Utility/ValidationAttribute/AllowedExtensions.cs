@@ -1,36 +1,30 @@
-﻿using Microsoft.AspNetCore.Http;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Http;
 
-namespace KoiVeterinaryServiceCenter.Utility.ValidationAttribute
+namespace KoiVeterinaryServiceCenter.Utility.ValidationAttribute;
+
+public class AllowedExtensions : System.ComponentModel.DataAnnotations.ValidationAttribute
 {
-    public class AllowedExtensions : System.ComponentModel.DataAnnotations.ValidationAttribute
+    private readonly string[] _extensions;
+
+    public AllowedExtensions(string[] extensions)
     {
-        private readonly string[] _extensions;
+        _extensions = extensions;
+    }
 
-        public AllowedExtensions(string[] extensions)
+    protected override ValidationResult? IsValid(object? value, ValidationContext validationContext)
+    {
+        var file = value as IFormFile;
+
+        if (file != null)
         {
-            _extensions = extensions;
-        }
-
-        protected override ValidationResult? IsValid(object? value, ValidationContext validationContext)
-        {
-            var file = value as IFormFile;
-
-            if (file != null)
+            var extension = Path.GetExtension(file.FileName);
+            if (!_extensions.Contains(extension.ToLower()))
             {
-                var extension = Path.GetExtension(file.FileName);
-                if (!_extensions.Contains(extension.ToLower()))
-                {
-                    return new ValidationResult("This photo extension is not allowed!");
-                }
+                return new ValidationResult("This photo extension is not allowed!");
             }
-
-            return ValidationResult.Success;
         }
+
+        return ValidationResult.Success;
     }
 }

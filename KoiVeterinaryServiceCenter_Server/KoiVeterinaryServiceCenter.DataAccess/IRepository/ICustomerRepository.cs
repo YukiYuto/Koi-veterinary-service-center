@@ -1,4 +1,4 @@
-﻿using KoiVeterinaryServiceCenter.Model.Domain;
+﻿using KoiVeterinaryServiceCenter.Models.Domain;
 
 namespace KoiVeterinaryServiceCenter.DataAccess.IRepository;
 

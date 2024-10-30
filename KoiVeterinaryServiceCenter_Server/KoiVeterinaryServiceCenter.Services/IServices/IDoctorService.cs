@@ -4,7 +4,8 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
-using KoiVeterinaryServiceCenter.Model.DTO;
+using KoiVeterinaryServiceCenter.Models.DTO;
+using KoiVeterinaryServiceCenter.Models.DTO.Doctor;
 
 namespace KoiVeterinaryServiceCenter.Services.IServices
 {
@@ -22,5 +23,7 @@ namespace KoiVeterinaryServiceCenter.Services.IServices
         Task<ResponseDTO> GetDoctorById(Guid id);
         Task<ResponseDTO> UpdateDoctorById(UpdateDoctorDTO updateDoctorDTO);
         Task<ResponseDTO> DeleteDoctorById(Guid id);
+        Task<ResponseDTO> CreateGoogleMeetLink(GoogleMeetLinkDTO googleMeetLinkDTO);
+        Task<ResponseDTO> UpdateGoogleMeetLink(GoogleMeetLinkDTO googleMeetLinkDTO);
     }
 }
