@@ -22,7 +22,7 @@ namespace KoiVeterinaryServiceCenter.Services.IServices
                 int pageNumber,
                 int pageSize
             );
-        Task<ResponseDTO> CreateTransaction(ClaimsIdentity User, CreateTransactionDTO createTransactionDTO);
+        Task<ResponseDTO> CreateTransaction(ClaimsPrincipal User, CreateTransactionDTO createTransactionDTO);
         Task<ResponseDTO> GetById(ClaimsPrincipal User, Guid transactionId);
     }
 }

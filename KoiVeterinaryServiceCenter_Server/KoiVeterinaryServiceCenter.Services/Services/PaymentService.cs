@@ -10,6 +10,8 @@ using System.Security.Claims;
 using KoiVeterinaryServiceCenter.Utility.Constants;
 using StackExchange.Redis;
 using KoiVeterinaryServiceCenter.Models.DTO;
+using KoiVeterinaryServiceCenter.Models.Domain;
+using Transaction = KoiVeterinaryServiceCenter.Models.Domain.Transaction;
 
 public class PaymentService : IPaymentService
 {
@@ -31,35 +33,31 @@ public class PaymentService : IPaymentService
 
     public async Task<ResponseDTO> CreatePayOSPaymentLink(ClaimsPrincipal User, CreatePaymentLinkDTO createPaymentLink)
     {
-        /*try
+        try
         {
-            OrderItems order = await _unitOfWork.OrderItemsRepository.GetById(createPaymentLink.OrderCode);
-            if (order is null)
+            var appointment = await _unitOfWork.AppointmentRepository.GetAppointmentByAppmointNumer(createPaymentLink.AppointmentNumber);
+            if (appointment is null)
             {
                 return new ResponseDTO()
                 {
-                    Message = "Order is not exist",
+                    Message = "Appointment is not exist",
                     IsSuccess = false,
                     StatusCode = 404,
                     Result = null
                 };
             }
-
-
+            var totalPrice = Convert.ToInt32(appointment.TotalAmount);
+            var service = await _unitOfWork.ServiceRepository.GetServiceById(appointment.ServiceId);
             var items = new List<ItemData>()
             {
-                new ItemData( name: order.ProductName, quantity: 1, price: order.Price)
+                new ItemData( name: service.ServiceName, quantity: 1, price: totalPrice)
             };
 
 
             var paymentData = new PaymentData(
-                orderCode: createPaymentLink.OrderCode,
-                amount: order.Price,
-                buyerName: createPaymentLink.BuyerName,
-                buyerEmail: createPaymentLink.BuyerEmail,
-                buyerPhone: createPaymentLink.BuyerPhone,
-                buyerAddress: createPaymentLink.BuyerAddress,
-                description: order.Description,
+                orderCode: createPaymentLink.AppointmentNumber,
+                amount: totalPrice,
+                description: "",
                 items: items,
                 cancelUrl: createPaymentLink.CancelUrl,
                 returnUrl: createPaymentLink.ReturnUrl
@@ -79,13 +77,9 @@ public class PaymentService : IPaymentService
 
             PaymentTransactions paymentTransactions = new PaymentTransactions()
             {
-                OrderCode = createPaymentLink.OrderCode,
+                AppointmentNumber = createPaymentLink.AppointmentNumber,
                 Amount = result.amount,
-                Description = result.description,
-                BuyerName = createPaymentLink.BuyerName,
-                BuyerEmail = createPaymentLink.BuyerEmail,
-                BuyerPhone = createPaymentLink.BuyerPhone,
-                BuyerAddress = createPaymentLink.BuyerAddress,
+                Description = result.description.Trim(),
                 CancelUrl = paymentData.cancelUrl,
                 ReturnUrl = paymentData.returnUrl,
                 ExpiredAt = paymentData.expiredAt,
@@ -101,7 +95,11 @@ public class PaymentService : IPaymentService
                 Message = "Create payment link successfully",
                 IsSuccess = true,
                 StatusCode = 200,
-                Result = result
+                Result = new
+                {
+                    result,
+                    PaymentTransactionId = paymentTransactions.PaymentTransactionId
+                }
             };
         }
         catch (Exception e)
@@ -113,8 +111,7 @@ public class PaymentService : IPaymentService
                 StatusCode = 500,
                 Result = null
             };
-        }*/
-        return null;
+        }
     }
 
     public async Task<ResponseDTO> UpdatePayOSPaymentStatus(ClaimsPrincipal User, Guid paymentTransactionId)
@@ -142,6 +139,27 @@ public class PaymentService : IPaymentService
 
             _unitOfWork.PaymentTransactionsRepository.Update(paymentTransactions);
             await _unitOfWork.SaveAsync();
+
+            if(paymentTransactions.Status.Equals(StaticPayment.paymentStatusSucess))
+            {
+                var appointment = await _unitOfWork.AppointmentRepository.GetAppointmentByAppmointNumer(paymentTransactions.AppointmentNumber);
+                Transaction transaction = new Transaction()
+                {
+                    CustomerId = appointment.CustomerId,
+                    AppointmentId = appointment.AppointmentId,
+                    PaymentTransactionId = paymentTransactionId,
+                    Amount = paymentTransactions.Amount,
+                    TransactionMethod = "Tranfer",
+                    TransactionDateTime = DateTime.Now
+                };
+
+                await _unitOfWork.TransactionsRepository.AddAsync(transaction);
+                await _unitOfWork.SaveAsync();
+
+                appointment.BookingStatus = 1;
+                _unitOfWork.AppointmentRepository.Update(appointment);
+                await _unitOfWork.SaveAsync();
+            }
 
             return new ResponseDTO()
             {
@@ -182,8 +200,15 @@ public class PaymentService : IPaymentService
             }
 
             var paymentCancelInfor = await _payOS.cancelPaymentLink(paymentTransactions.AppointmentNumber, cancellationReason);
-            paymentTransactions.Status = paymentCancelInfor.status + " - " + cancellationReason;
+            paymentTransactions.Status = paymentCancelInfor.status;
+            paymentTransactions.Reason = cancellationReason;
             _unitOfWork.PaymentTransactionsRepository.Update(paymentTransactions);
+            await _unitOfWork.SaveAsync();
+
+            Appointment appointment = await _unitOfWork.AppointmentRepository.GetAppointmentByAppmointNumer(paymentTransactions.AppointmentNumber);
+            appointment.BookingStatus = 2;
+
+            _unitOfWork.AppointmentRepository.Update(appointment);
             await _unitOfWork.SaveAsync();
             return new ResponseDTO()
             {

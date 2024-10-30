@@ -24,6 +24,8 @@ public static class ServiceCollectionExtensions
         services.AddScoped<IAuthService, AuthService>();
         // Registering IDoctorService with its implementation DoctorService
         services.AddScoped<ITokenService, TokenService>();
+        // Registering IDoctorSchedulesService with its implementation DoctorService
+        services.AddScoped<IDoctorSchedulesService, DoctorSchedulesService>();
         // Registering ISlotService with its implementation SlotService
         services.AddScoped<ISlotService, SlotService>();
         // Registering IAppointmentService with its implementation AppointmentService
@@ -32,8 +34,6 @@ public static class ServiceCollectionExtensions
         services.AddScoped<IDoctorService, DoctorService>();
         // Registering IEmailService with its implementation EmailService
         services.AddScoped<IEmailService, EmailService>();
-        // Registering IDoctorSchedulesService with its implementation DoctorSchedulesService
-        services.AddScoped<IDoctorSchedulesService, DoctorSchedulesService>();
         // Registering IServiceService with its implementation ServiceService
         services.AddScoped<IServicesService, ServiceService>();
         // Registering IDoctorService with its implementation DoctorService
@@ -42,10 +42,12 @@ public static class ServiceCollectionExtensions
         services.AddScoped<IRedisService, RedisService>();
         // Registering IPaymentService with its implementation PaymentService
         services.AddScoped<IPaymentService, PaymentService>();
-        // Regis
+        // Registering IPostService with its implementation PostService
         services.AddScoped<IPostService, PostService>();
-        //Regis
+        // Resgistering IDoctorRatingService with its implementation DoctorRatingService
         services.AddScoped<IDoctorRatingService, DoctorRatingService>();
+        // Resgistering ITransactionsService with its implementation TransactionsService
+        services.AddScoped<ITransactionsService, TransactionsService>();
         return services;
     }
 }

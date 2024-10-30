@@ -2,9 +2,11 @@
 using KoiVeterinaryServiceCenter.Model.Domain;
 using KoiVeterinaryServiceCenter.Model.DTO.Service;
 using KoiVeterinaryServiceCenter.Models.Domain;
+using KoiVeterinaryServiceCenter.Models.DTO.Appointment;
 using KoiVeterinaryServiceCenter.Models.DTO.Doctor;
 using KoiVeterinaryServiceCenter.Models.DTO.DoctorSchedules;
 using KoiVeterinaryServiceCenter.Models.DTO.DoctorServices;
+using KoiVeterinaryServiceCenter.Models.DTO.Transaction;
 
 namespace KoiVeterinaryServiceCenter.Services.Mappings;
 
@@ -36,12 +38,22 @@ public class AutoMapperProfile : Profile
         .ForMember(dest => dest.Price, opt => opt.MapFrom(src => src.Service.Price))
         .ForMember(dest => dest.TravelFee, opt => opt.MapFrom(src => src.Service.TreavelFree))
         .ForMember(dest => dest.CreatedTime, opt => opt.MapFrom(src => src.Service.CreatedTime)).ReverseMap();
-        CreateMap<DoctorSchedules, GetDoctorSchedulesDTO>()
-            .ForMember(dest => dest.DoctorSchedulesId, opt => opt.MapFrom(src => src.DoctorSchedulesId))
-            .ForMember(dest => dest.DoctorId, opt => opt.MapFrom((src) => src.DoctorId))
-            .ForMember(dest => dest.DoctorName, opt => opt.MapFrom(src => src.Doctor.ApplicationUser.FullName))
-            .ForMember(dest => dest.SchedulesDate, opt => opt.MapFrom(src => src.SchedulesDate)).ReverseMap();
+        CreateMap<DoctorSchedules, GetDoctorSchedulesDTO>().ReverseMap();
         CreateMap<Service, GetServiceDTO>().ReverseMap();
         CreateMap<DoctorSchedules, GetDoctorSchedulesIdDTO>().ReverseMap();
+        CreateMap<Transaction, GetTransactionDTO>().ReverseMap();
+        CreateMap<Appointment, CreateAppointmentDTO>().ReverseMap();
+        CreateMap<Appointment, GetAppointmentDTO>().ReverseMap();
+        CreateMap<Transaction, GetFullInforTransactionDTO>()
+            .ForMember(dest => dest.DoctorName, opt => opt.MapFrom(src => src.Appointment.Slot.DoctorSchedules.Doctor.ApplicationUser.FullName))
+            .ForMember(dest => dest.Position, opt => opt.MapFrom(src => src.Appointment.Slot.DoctorSchedules.Doctor.Position))
+            .ForMember(dest => dest.DoctorAvatarUrl, opt => opt.MapFrom(src => src.Appointment.Slot.DoctorSchedules.Doctor.ApplicationUser.AvatarUrl))
+            .ForMember(dest => dest.NameService, opt => opt.MapFrom(src => src.Appointment.Service.ServiceName))
+            .ForMember(dest => dest.Price, opt => opt.MapFrom(src => src.Appointment.Service.Price))
+            .ForMember(dest => dest.TravelFee, opt => opt.MapFrom(src => src.Appointment.Service.TreavelFree))
+            .ForMember(dest => dest.ScheduleDate, opt => opt.MapFrom(src => src.Appointment.Slot.SchedulesDate))
+            .ForMember(dest => dest.StartTime, opt => opt.MapFrom(src => src.Appointment.Slot.StartTime))
+            .ForMember(dest => dest.EndTime, opt => opt.MapFrom(src => src.Appointment.Slot.EndTime))
+            .ForMember(dest => dest.TransactionDateTime, opt => opt.MapFrom(src => src.TransactionDateTime)).ReverseMap();
     }
 }

@@ -12,8 +12,7 @@ public class Transaction
     public Guid PaymentTransactionId { get; set; }
     public double Amount { get; set; }
     public DateTime TransactionDateTime { get; set; }
-    public string TransactionStatus { get; set; } = null!;
-    public string Status { get; set; } = null!;
+    public string TransactionMethod { get; set; } = null!;
 
     [ForeignKey("CustomerId")] public virtual ApplicationUser ApplicationUser { get; set; } = null!;
     [ForeignKey("AppointmentId")] public virtual Appointment Appointment { get; set; }

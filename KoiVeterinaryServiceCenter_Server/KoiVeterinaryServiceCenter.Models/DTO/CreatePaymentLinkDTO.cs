@@ -3,16 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using KoiVeterinaryServiceCenter.Model.Domain;
 
 namespace KoiVeterinaryServiceCenter.Model.DTO
 {
     public class CreatePaymentLinkDTO
     {
-        public int OrderCode { get; set; }
-        public string BuyerName { get; set; }
-        public string? BuyerEmail { get; set; }
-        public string BuyerPhone { get; set; }
-        public string BuyerAddress { get; set; }
+        public long AppointmentNumber { get; set; }
+        public string CustomerId { get; set; }
         public string CancelUrl { get; set; }
         public string ReturnUrl { get; set; }
     }

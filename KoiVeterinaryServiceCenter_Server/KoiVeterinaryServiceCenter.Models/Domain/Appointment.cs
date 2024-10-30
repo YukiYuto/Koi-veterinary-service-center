@@ -7,16 +7,21 @@ namespace KoiVeterinaryServiceCenter.Models.Domain;
 public class Appointment
 {
     [Key] public Guid AppointmentId { get; set; }
+    public string CustomerId { get; set; } = null!;
     public Guid SlotId { get; set; }
-    [ForeignKey("SlotId")]
-    public virtual Slot Slot { get; set; } = null!; // Liên kết đến Slot
+    [ForeignKey("SlotId")] public virtual Slot Slot { get; set; } = null!; // Liên kết đến Slot
     public Guid ServiceId { get; set; }
+
     [ForeignKey("ServiceId")] // Đảm bảo có mối quan hệ với Service
     public virtual Service Service { get; set; } = null!; // Liên kết đến Service
+
     public string? Description { get; set; }
     public double TotalAmount { get; set; }
-    public DateTime CreateTime { get; set; } = DateTime.Now;
+    public DateOnly CreateTime { get; set; }
     
+    [NotMapped] public virtual ICollection<AppointmentPet> AppointmentPets { get; set; } = null!;
+
+
     public long AppointmentNumber { get; set; }
     public int BookingStatus { get; set; }
 
@@ -27,11 +32,13 @@ public class Appointment
             switch (BookingStatus)
             {
                 case 0:
-                    return "Booked"; // Đã book
+                    return "Peding";
                 case 1:
-                    return "Cancelled"; // Đã hủy
+                    return "Booked";
+                case 2:
+                    return "Cancel";
                 default:
-                    return "Booked"; // Default là Booked
+                    return "Peding";
             }
         }
     }

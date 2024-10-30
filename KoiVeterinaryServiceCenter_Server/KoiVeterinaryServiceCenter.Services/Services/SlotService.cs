@@ -55,7 +55,7 @@ public class SlotService : ISlotService
                 switch (filterOn.Trim().ToLower())
                 {
                     case "isbooked":
-                        if (bool.TryParse(filterQuery, out bool isBooked))
+                        if (int.TryParse(filterQuery, out int isBooked))
                         {
                             listSlots = listSlots.Where(x => x.IsBooked == isBooked).ToList();
                         }
@@ -124,6 +124,7 @@ public class SlotService : ISlotService
                 StartTime = slots.StartTime,
                 EndTime = slots.EndTime,
                 IsBooked = slots.IsBooked,
+                
                 CreatedTime = slots.CreatedTime,
                 CreatedBy = slots.CreatedBy,
             }).ToList();
@@ -214,7 +215,7 @@ public class SlotService : ISlotService
                 DoctorSchedulesId = createSlotDto.DoctorSchedulesId,
                 StartTime = createSlotDto.StartTime,
                 EndTime = createSlotDto.EndTime,
-                IsBooked = true,
+                IsBooked = 0,
                 CreatedTime = DateTime.Now,
                 UpdatedTime = null,
                 CreatedBy = User.Identity.Name,
@@ -295,7 +296,7 @@ public class SlotService : ISlotService
             // cập nhật thông tin danh mục
             slotID.StartTime = updateSlotDto.StartTime;
             slotID.EndTime = updateSlotDto.EndTime;
-            slotID.IsBooked = updateSlotDto.IsBooked;
+            slotID.IsBooked = 2;
             slotID.UpdatedBy = User.Identity.Name;
             slotID.UpdatedTime = DateTime.Now;
 
@@ -354,7 +355,7 @@ public class SlotService : ISlotService
                 };
             }
 
-            slotID.IsBooked = false;
+            slotID.IsBooked = 2;
             _unitOfWork.SlotRepository.Remove(slotID);
             await _unitOfWork.SaveAsync();
 

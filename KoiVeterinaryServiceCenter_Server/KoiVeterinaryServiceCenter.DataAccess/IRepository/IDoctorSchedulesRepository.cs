@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using KoiVeterinaryServiceCenter.Model.Domain;
+﻿using KoiVeterinaryServiceCenter.Models.Domain;
 
 namespace KoiVeterinaryServiceCenter.DataAccess.IRepository
 {
@@ -12,5 +7,6 @@ namespace KoiVeterinaryServiceCenter.DataAccess.IRepository
         void Update(DoctorSchedules doctorSchedules);
         void UpdateRange(IEnumerable<DoctorSchedules> doctorSchedules);
         Task<DoctorSchedules?> GetDocterScheduleById(Guid doctorScheduleId);
+        Task<DoctorSchedules> GetDoctorScheduleById(Guid doctorSchedulesId);
     }
 }

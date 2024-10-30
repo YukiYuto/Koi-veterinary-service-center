@@ -31,7 +31,12 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
 
     public DbSet<EmailTemplate> EmailTemplates { get; set; }
     public DbSet<PaymentTransactions> PaymentTransactions { get; set; }
-    
+    public DbSet<Pet> Pets { get; set; }
+    public DbSet<Disease> Diseases { get; set; }
+    public DbSet<PetDisease> PetDiseases { get; set; }
+    public DbSet<PetService> PetServices { get; set; }
+    public DbSet<AppointmentPet> AppointmentPets { get; set; }
+    public DbSet<Pool> Notifications { get; set; }
  
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -46,13 +51,11 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
         // Thiết lập khóa chính hỗn hợp cho bảng trung gian DoctorService
         modelBuilder.Entity<DoctorServices>()
             .HasKey(ds => new { ds.DoctorId, ds.ServiceId });
-
         // Thiết lập quan hệ với Doctor
         modelBuilder.Entity<DoctorServices>()
             .HasOne(ds => ds.Doctor)
             .WithMany(d => d.DoctorServices)
             .HasForeignKey(ds => ds.DoctorId);
-
         // Thiết lập quan hệ với Service
         modelBuilder.Entity<DoctorServices>()
             .HasOne(ds => ds.Service)
@@ -70,6 +73,51 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
             .WithMany()
             .HasForeignKey(pt => pt.AppointmentNumber)
             .HasPrincipalKey(a => a.AppointmentNumber)
-            .OnDelete(DeleteBehavior.Restrict); // Hoặc DeleteBehavior.NoAction
+            .OnDelete(DeleteBehavior.Restrict);
+        
+        // Thiết lập khóa chính hỗn hợp cho bảng trung gian DoctorService
+        modelBuilder.Entity<PetDisease>()
+            .HasKey(pd => new { pd.PetId, pd.DiseaseId });
+        // Thiết lập quan hệ với Pet
+        modelBuilder.Entity<PetDisease>()
+            .HasOne(pd => pd.Pet)
+            .WithMany(p => p.PetDiseases)
+            .HasForeignKey(pd => pd.PetId);
+        // Thiết lập quan hệ với Disease
+        modelBuilder.Entity<PetDisease>()
+            .HasOne(pd => pd.Disease)
+            .WithMany(d => d.PetDiseases)
+            .HasForeignKey(pd => pd.DiseaseId);
+        
+        //Thiết lập khóa chính hỗn hợp cho bảng trung gian PetService
+        modelBuilder.Entity<PetService>()
+            .HasKey(ps => new { ps.PetId, ps.ServiceId });
+        //Thiết lập với bảng trung gian PetService
+        modelBuilder.Entity<PetService>()
+            .HasOne(ps => ps.Pet)
+            .WithMany(p => p.PetServices)
+            .HasForeignKey(ps => ps.PetId);
+        // Thiết lập quan hệ với PetService
+        modelBuilder.Entity<PetService>()
+            .HasOne(ps => ps.Service)
+            .WithMany(s => s.PetServices)
+            .HasForeignKey(ps => ps.ServiceId);
+        
+        // Thiết lập khóa chính hỗn hợp cho bảng trung gian AppointmentPet
+        modelBuilder.Entity<AppointmentPet>()
+            .HasKey(ap => new { ap.AppointmentId, ap.PetId });
+        // Thiết lập quan hệ với Appointment
+        modelBuilder.Entity<AppointmentPet>()
+            .HasOne(ap => ap.Appointment)
+            .WithMany(a => a.AppointmentPets)
+            .HasForeignKey(ap => ap.AppointmentId)
+            .OnDelete(DeleteBehavior.NoAction);
+        // Thiết lập quan hệ với Pet
+        modelBuilder.Entity<AppointmentPet>()
+            .HasOne(ap => ap.Pet)
+            .WithMany(p => p.AppointmentPets)
+            .HasForeignKey(ap => ap.PetId)
+            .OnDelete(DeleteBehavior.NoAction);
+        
     }
 }

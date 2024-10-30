@@ -26,4 +26,22 @@ public class AppointmentRepository : Repository<Appointment>, IAppointmentReposi
     {
         return await _context.Appointments.FirstOrDefaultAsync(x => x.AppointmentId == appointmentId);
     }
+
+    public async Task<Appointment> GetAppointmentByAppmointNumer(long appointmentNumber)
+    {
+        return await _context.Appointments.FirstOrDefaultAsync(x => x.AppointmentNumber == appointmentNumber);
+    }
+
+    public async Task<long> GetMaxAppointmentNumberAsync()
+    {
+        // Truy vấn để lấy số AppointmentNumber lớn nhất hiện có
+        return await _context.Appointments.MaxAsync(a => (long?)a.AppointmentNumber) ?? 0;
+    }
+    
+    public async Task<IEnumerable<Appointment>> GetAppointmentsByUserId(string userId)
+    {
+        return await _context.Appointments
+            .Where(a => a.CustomerId == userId)
+            .ToListAsync();
+    }
 }

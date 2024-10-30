@@ -13,4 +13,5 @@ public class Service : BaseEntity<string, string, int>
     public double TreavelFree { get; set; }
     public string? ServiceUrl { get; set; }
     [NotMapped] public virtual ICollection<DoctorServices> DoctorServices { get; set; } = null!;
+    [NotMapped] public virtual ICollection<PetService> PetServices { get; set; } = null!;
 }

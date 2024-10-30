@@ -13,10 +13,10 @@ public class ApplicationDbContextSeed
             new
             {
                 Id = Guid.NewGuid(),
-                TemplateName = "WelcomeEmail",
+                TemplateName = "Appointment booked",
                 SenderName = "Koi Veterinary Service Center",
                 SenderEmail = "koiveterinaryservice@gmail.com",
-                Category = "Welcome",
+                Category = "Appointment",
                 SubjectLine = "Welcome to Koi Veterinary Service Center!",
                 PreHeaderText = "Thank you for signing up!",
                 PersonalizationTags = "{FirstName}, {LastName}",

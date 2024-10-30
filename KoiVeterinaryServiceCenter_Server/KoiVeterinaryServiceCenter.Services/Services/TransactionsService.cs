@@ -27,7 +27,7 @@ namespace KoiVeterinaryServiceCenter.Services.Services
             _mapper = mapper;
         }
 
-        public async Task<ResponseDTO> CreateTransaction(ClaimsIdentity User, CreateTransactionDTO createTransactionDTO)
+        public async Task<ResponseDTO> CreateTransaction(ClaimsPrincipal User, CreateTransactionDTO createTransactionDTO)
         {
             try
             {
@@ -38,8 +38,7 @@ namespace KoiVeterinaryServiceCenter.Services.Services
                     PaymentTransactionId = createTransactionDTO.PaymentTransactionId,
                     Amount = createTransactionDTO.Amount,
                     TransactionDateTime = DateTime.Now,
-                    TransactionStatus = createTransactionDTO.TransactionStatus,
-                    Status = createTransactionDTO.Status
+                    //TransactionStatus = createTransactionDTO.TransactionStatus,
                 };
 
                 await _unitOfWork.TransactionsRepository.AddAsync(transaction);
@@ -70,7 +69,8 @@ namespace KoiVeterinaryServiceCenter.Services.Services
         {
             try
             {
-                var transactions = await _unitOfWork.TransactionsRepository.GetAllAsync();
+                List<Transaction> transactions = _unitOfWork.TransactionsRepository.GetAllAsync()
+                    .GetAwaiter().GetResult().ToList();
                 if (transactions is null)
                 {
                     return new ResponseDTO()
@@ -99,9 +99,9 @@ namespace KoiVeterinaryServiceCenter.Services.Services
                                 transactions = transactions.Where(x => x.TransactionDateTime == transactionDateTime).ToList();
                             }
                             break;
-                        case "transactionstatus":
+                        /*case "transactionstatus":
                             transactions = transactions.Where(x => x.TransactionStatus == filterQuery).ToList();
-                            break;
+                            break;*/
                         default:
                             break;
                     }
@@ -126,7 +126,7 @@ namespace KoiVeterinaryServiceCenter.Services.Services
                 if (pageNumber > 0 && pageSize > 0)
                 {
                     var skipResult = (pageNumber - 1) * pageSize;
-                    transactions = transactions.Skip(skipResult).Take(pageSize);
+                    transactions = transactions.Skip(skipResult).Take(pageSize).ToList();
                 }
 
                 if (transactions.IsNullOrEmpty())
@@ -140,12 +140,27 @@ namespace KoiVeterinaryServiceCenter.Services.Services
                     };
                 }
 
+                List<GetTransactionDTO> transactionsList = new List<GetTransactionDTO>();
+                try
+                {
+                    transactionsList = _mapper.Map<List<GetTransactionDTO>>(transactions);
+                }
+                catch (AutoMapperMappingException ex)
+                {
+                    return new ResponseDTO()
+                    {
+                        Message = ex.Message,
+                        IsSuccess = false,
+                        StatusCode = 500,
+                        Result = null
+                    };
+                }
                 return new ResponseDTO()
                 {
                     Message = "Get all transactions successfully",
                     IsSuccess = true,
                     StatusCode = 200,
-                    Result = transactions
+                    Result = transactionsList
                 };
             }
             catch (Exception e)
@@ -164,7 +179,7 @@ namespace KoiVeterinaryServiceCenter.Services.Services
         {
             try
             {
-                var transaction = _unitOfWork.TransactionsRepository.GetTransactionById(transactionId);
+                var transaction = await _unitOfWork.TransactionsRepository.GetTransactionFullInfoById(transactionId);
 
                 if (transaction is null)
                 {
@@ -177,10 +192,10 @@ namespace KoiVeterinaryServiceCenter.Services.Services
                     };
                 }
 
-                GetTransactionDTO getTransactionDTO;
+                GetFullInforTransactionDTO getTransactionDTO;
                 try
                 {
-                    getTransactionDTO = _mapper.Map<GetTransactionDTO>(transaction);
+                    getTransactionDTO = _mapper.Map<GetFullInforTransactionDTO>(transaction);
                 }
                 catch (AutoMapperMappingException e)
                 {
