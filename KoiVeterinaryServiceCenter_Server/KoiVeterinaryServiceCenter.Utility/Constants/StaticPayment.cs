@@ -11,5 +11,6 @@ namespace KoiVeterinaryServiceCenter.Utility.Constants
         public const string payDeposit30PerCent = " (30% of total price)";
         public const string paymentStatusDefault = "PENDING";
         public const string paymentStatusSucess = "PAID";
+        public const string TranferMethod = "Tranfer";
     }
 }
