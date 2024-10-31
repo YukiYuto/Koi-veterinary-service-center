@@ -244,8 +244,8 @@ public class PaymentService : IPaymentService
                     Result = null
                 };
             }
-            long orderCode = (long)paymentTransaction.AppointmentNumber;
-            var appointment = await _unitOfWork.AppointmentRepository.GetAppointmentByAppmointNumer(orderCode);
+            long orderCode = (long)paymentTransaction.AppointmentDepositNumber;
+            var appointment = await _unitOfWork.AppointmentRepository.GetAsync(x => x.AppointmentDepositNumbe == orderCode);
             if (appointment is null)
             {
                 return new ResponseDTO()
@@ -289,6 +289,8 @@ public class PaymentService : IPaymentService
                 };
                 await _unitOfWork.TransactionsRepository.AddAsync(transaction);
                 appointmentDeposit.DepositStatus = 1;
+                appointment.BookingStatus = 1;
+                _unitOfWork.AppointmentRepository.Update(appointment);
                 _unitOfWork.AppointmentDepositRepository.Update(appointmentDeposit);
                 await _unitOfWork.SaveAsync();
             }
@@ -371,7 +373,7 @@ public class PaymentService : IPaymentService
             CreatePaymentResult result = await _payOS.createPaymentLink(paymentData);
             PaymentTransactions paymentTransactions = new PaymentTransactions()
             {
-                AppointmentNumber = null,
+                AppointmentNumber = appointment.AppointmentNumber,
                 AppointmentDepositNumber = deposit.AppointmentDepositNumber,
                 Amount = totalPrice,
                 Description = result.description.Trim(),
@@ -430,7 +432,7 @@ public class PaymentService : IPaymentService
 
                 var item = new List<ItemData>()
             {
-                new ItemData(name: service.ServiceName + StaticPayment.payDeposit30PerCent, quantity: 1, price: totalPrice)
+                new ItemData(name: service.ServiceName + StaticPayment.payDeposit70PerCent, quantity: 1, price: totalPrice)
             };
 
                 var paymentData = new PaymentData(
@@ -457,6 +459,7 @@ public class PaymentService : IPaymentService
                 PaymentTransactions paymentTransactions = new PaymentTransactions()
                 {
                     AppointmentNumber = appointment.AppointmentNumber,
+                    AppointmentDepositNumber = appointment.AppointmentDepositNumbe,
                     Amount = totalPrice,
                     Description = result.description.Trim(),
                     CancelUrl = paymentData.cancelUrl,
@@ -495,7 +498,7 @@ public class PaymentService : IPaymentService
 
     public async Task<ResponseDTO> UpdatePayOSPaymentStatusForDepositPart2(ClaimsPrincipal User, Guid paymentTransacId)
     {
-        /*try
+        try
         {
             var paymentTransaction = await _unitOfWork.PaymentTransactionsRepository.GetById(paymentTransacId);
             if (paymentTransaction is null)
@@ -508,8 +511,8 @@ public class PaymentService : IPaymentService
                     Result = null
                 };
             }
-
-            var appointment = await _unitOfWork.AppointmentRepository.GetAppointmentByAppmointNumer(paymentTransaction.AppointmentNumber);
+            long orderCode = (long) paymentTransaction.AppointmentNumber;
+            var appointment = await _unitOfWork.AppointmentRepository.GetAppointmentByAppmointNumer(orderCode);
             if (paymentTransaction is null)
             {
                 return new ResponseDTO()
@@ -521,7 +524,7 @@ public class PaymentService : IPaymentService
                 };
             }
 
-            var paymentStatus = _payOS.getPaymentLinkInformation(paymentTransaction.AppointmentNumber);
+            var paymentStatus = _payOS.getPaymentLinkInformation(orderCode);
             if (paymentStatus != null)
             {
                 paymentTransaction.Status = paymentStatus.Result.status;
@@ -563,7 +566,6 @@ public class PaymentService : IPaymentService
                 StatusCode = 500,
                 Result = null
             };
-        }*/
-        return null;
+        }
     }
 }

@@ -52,7 +52,7 @@ namespace KoiVeterinaryServiceCenter.API.Controllers
         [HttpPut("{paymentTransactionId:guid}/update-payment-status-for-appointment-deposit-part2")]
         public async Task<ActionResult<ResponseDTO>> UpdatePaymentStatusForAppointmentDepositPart2([FromRoute] Guid paymentTransactionId)
         {
-            var responseDto = await _paymentService.UpdatePayOSPaymentStatusForDepositPart1(User, paymentTransactionId);
+            var responseDto = await _paymentService.UpdatePayOSPaymentStatusForDepositPart2(User, paymentTransactionId);
             return StatusCode(responseDto.StatusCode, responseDto);
         }
 
