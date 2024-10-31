@@ -11,6 +11,8 @@ using KoiVeterinaryServiceCenter.Models.Domain;
 using KoiVeterinaryServiceCenter.Models.DTO;
 using KoiVeterinaryServiceCenter.Models.DTO.Pool;
 using KoiVeterinaryServiceCenter.Services.IServices;
+using KoiVeterinaryServiceCenter.Utility.Constants;
+using Microsoft.AspNetCore.Http;
 using Microsoft.IdentityModel.Tokens;
 
 namespace KoiVeterinaryServiceCenter.Services.Services
@@ -19,16 +21,17 @@ namespace KoiVeterinaryServiceCenter.Services.Services
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
-
-        public PoolService(IUnitOfWork unitOfWork, IMapper mapper)
+        private readonly IFirebaseService _firebaseService;
+        public PoolService(IUnitOfWork unitOfWork, IMapper mapper, IFirebaseService firebaseService)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
+            _firebaseService = firebaseService;
         }
 
         public async Task<ResponseDTO> CreatePool(ClaimsPrincipal User, CreatePoolDTO createPoolDTO)
         {
-            /*try
+            try
             {
                 Pool pool = new Pool()
                 {
@@ -57,7 +60,7 @@ namespace KoiVeterinaryServiceCenter.Services.Services
                     StatusCode = 500,
                     Result = null
                 };
-            }*/
+            }
             return null;
         }
 
@@ -204,106 +207,132 @@ namespace KoiVeterinaryServiceCenter.Services.Services
             }
         }
 
-        public Task<ResponseDTO> GetPoolById(ClaimsPrincipal User, Guid poolId)
+        public async Task<ResponseDTO> GetPoolById(ClaimsPrincipal User, Guid poolId)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var pool = await _unitOfWork.PoolRepository.GetById(poolId);
+                if (pool is null)
+                {
+                    return new ResponseDTO()
+                    {
+                        Message = "Cannot found pool",
+                        IsSuccess = false,
+                        StatusCode = 404,
+                        Result = null
+                    };
+                }
+
+                GetPoolFullInfo getPoolFullInfo;
+                try
+                {
+                    getPoolFullInfo = _mapper.Map<GetPoolFullInfo>(pool);
+                }
+                catch (AutoMapperMappingException e)
+                {
+                    return new ResponseDTO()
+                    {
+                        Message = e.Message,
+                        IsSuccess = false,
+                        StatusCode = 500,
+                        Result = null
+                    };
+                }
+
+                return new ResponseDTO()
+                {
+                    Message = "Get pool successfully",
+                    IsSuccess = true,
+                    StatusCode = 200,
+                    Result = getPoolFullInfo
+                };
+            }
+            catch (Exception e)
+            {
+                return new ResponseDTO()
+                {
+                    Message = e.Message,
+                    IsSuccess = false,
+                    StatusCode = 500,
+                    Result = null
+                };
+            }
         }
 
         public async Task<ResponseDTO> UpdatePool(ClaimsPrincipal User, UpdatePoolDTO updatePoolDTO)
         {
-            /*try
-            public async Task<ResponseDTO> GetPoolById(ClaimsPrincipal User, Guid poolId)
+            try
             {
-                try
-                {
-                    var pool = await _unitOfWork.PoolRepository.GetById(poolId);
-                    if (pool is null)
-                    {
-                        return new ResponseDTO()
-                        {
-                            Message = "Cannot found pool",
-                            IsSuccess = false,
-                            StatusCode = 404,
-                            Result = null
-                        };
-                    }
-
-                    GetPoolFullInfo getPoolFullInfo;
-                    try
-                    {
-                        getPoolFullInfo = _mapper.Map<GetPoolFullInfo>(pool);
-                    }
-                    catch (AutoMapperMappingException e)
-                    {
-                        return new ResponseDTO()
-                        {
-                            Message = e.Message,
-                            IsSuccess = false,
-                            StatusCode = 500,
-                            Result = null
-                        };
-                    }
-
-                    return new ResponseDTO()
-                    {
-                        Message = "Get pool successfully",
-                        IsSuccess = true,
-                        StatusCode = 200,
-                        Result = getPoolFullInfo
-                    };
-                }
-                catch (Exception e)
+                var pool = await _unitOfWork.PoolRepository.GetById(updatePoolDTO.PoolId);
+                if (pool is null)
                 {
                     return new ResponseDTO()
                     {
-                        Message = e.Message,
+                        Message = "Cannot found pool",
                         IsSuccess = false,
-                        StatusCode = 500,
+                        StatusCode = 404,
                         Result = null
                     };
                 }
+                pool.Size = updatePoolDTO.Size;
+                _unitOfWork.PoolRepository.Update(pool);
+                await _unitOfWork.SaveAsync();
+
+                return new ResponseDTO()
+                {
+                    Message = "Update pool successfully",
+                    IsSuccess = true,
+                    StatusCode = 200,
+                    Result = null
+                };
+            }
+            catch (Exception e)
+            {
+                return new ResponseDTO()
+                {
+                    Message = e.Message,
+                    IsSuccess = false,
+                    StatusCode = 500,
+                    Result = null
+                };
+            }
+        }
+
+
+        public async Task<ResponseDTO> UploadPoolAvatar(IFormFile file, ClaimsPrincipal user)
+        {
+            if (file == null)
+            {
+                return new ResponseDTO()
+                {
+                    IsSuccess = false,
+                    StatusCode = 400,
+                    Message = "No file uploaded."
+                };
             }
 
-            public async Task<ResponseDTO> UpdatePool(ClaimsPrincipal User, UpdatePoolDTO updatePoolDTO)
-            {
-                try
-                {
-                    var pool = await _unitOfWork.PoolRepository.GetById(updatePoolDTO.PoolId);
-                    if (pool is null)
-                    {
-                        return new ResponseDTO()
-                        {
-                            Message = "Cannot found pool",
-                            IsSuccess = false,
-                            StatusCode = 404,
-                            Result = null
-                        };
-                    }
-                    pool.Size = updatePoolDTO.Size;
-                    _unitOfWork.PoolRepository.Update(pool);
-                    await _unitOfWork.SaveAsync();
+            // Upload image lên Firebase và nhận URL công khai
+            var responseDto = await _firebaseService.UploadImagePool(file, StaticFirebaseFolders.PoolAvatars);
 
-                    return new ResponseDTO()
-                    {
-                        Message = "Update pool successfully",
-                        IsSuccess = true,
-                        StatusCode = 200,
-                        Result = null
-                    };
-                }
-                catch (Exception e)
+            if (!responseDto.IsSuccess)
+            {
+                return new ResponseDTO()
                 {
-                    return new ResponseDTO()
-                    {
-                        Message = e.Message,
-                        IsSuccess = false,
-                        StatusCode = 500,
-                        Result = null
-                    };
-                }
+                    Message = "Image upload failed!",
+                    Result = null,
+                    IsSuccess = false,
+                    StatusCode = 400 // Bad Request
+                };
             }
-        }*/
-            return null;
+
+            // Trả về link công khai của hình ảnh
+            return new ResponseDTO()
+            {
+                Message = "Upload post image successfully!",
+                Result = responseDto.Result, // Đảm bảo đây là URL công khai của ảnh đã upload
+                IsSuccess = true,
+                StatusCode = 200 // OK
+            };
         }
     }
 }

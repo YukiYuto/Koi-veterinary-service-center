@@ -37,14 +37,14 @@ namespace KoiVeterinaryServiceCenter.Services.Repositories
 
         public async Task<List<PetDisease>> GetByPetId(Guid petId)
         {
-            return await _context.PetDiseases
+            return await _context.PetDiseases.Include(x => x.Disease).Include(x => x.Pet)
                 .Where(pd => pd.PetId == petId)
                 .ToListAsync();
         }
 
         public async Task<List<PetDisease>> GetByDiseaseId(Guid diseaseId)
         {
-            return await _context.PetDiseases
+            return await _context.PetDiseases.Include(x => x.Disease).Include(x => x.Pet)
                 .Where(pd => pd.DiseaseId == diseaseId)
                 .ToListAsync();
         }

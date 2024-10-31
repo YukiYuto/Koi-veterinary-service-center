@@ -11,5 +11,6 @@ namespace KoiVeterinaryServiceCenter.Models.DTO.Pool
         public Guid PoolId { get; set; }
         public string Size { get; set; }
         public string? Decription { get; set; }
+        public string? PoolUrl { get; set; }
     }
 }
