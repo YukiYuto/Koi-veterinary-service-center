@@ -28,6 +28,8 @@ public interface IUnitOfWork
 
     IPetDiseaseRepository PetDiseaseRepository { get; }
 
+    IDiseaseRepository diseaseRepository { get; }
+
 
     Task<int> SaveAsync();
 }
