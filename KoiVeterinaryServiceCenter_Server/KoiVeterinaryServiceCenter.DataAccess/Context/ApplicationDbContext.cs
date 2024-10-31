@@ -96,6 +96,11 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
             .HasOne(ps => ps.Service)
             .WithMany(s => s.PetServices)
             .HasForeignKey(ps => ps.ServiceId);
-
+        // 
+        modelBuilder.Entity<DoctorRating>()
+       .HasOne(d => d.Appointment)
+       .WithOne()
+       .HasForeignKey<DoctorRating>(dr => dr.AppointmentId)
+       .OnDelete(DeleteBehavior.NoAction); // Thay đổi ở đây  
     }
 }

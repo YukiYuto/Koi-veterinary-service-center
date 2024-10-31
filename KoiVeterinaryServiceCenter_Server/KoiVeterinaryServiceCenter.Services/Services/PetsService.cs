@@ -28,7 +28,7 @@ namespace KoiVeterinaryServiceCenter.Services.Services
 
         public async Task<ResponseDTO> CreatePet(ClaimsPrincipal user, CreatePetDTO createPetDTO)
         {
-            var pet = new Pet
+            /*var pet = new Pet
             {
                 PetId = Guid.NewGuid(),
                 Name = createPetDTO.Name,
@@ -48,7 +48,8 @@ namespace KoiVeterinaryServiceCenter.Services.Services
                 Message = "Pet created successfully",
                 StatusCode = 200,
                 Result = pet
-            };
+            };*/
+            return null;
         }
 
         public async Task<ResponseDTO> GetAllPets(
@@ -60,7 +61,7 @@ namespace KoiVeterinaryServiceCenter.Services.Services
             int pageNumber,
             int pageSize)
         {
-            try
+            /*try
             {
                 var pets = await _unitOfWork.PetRepository.GetAllAsync();
 
@@ -126,12 +127,13 @@ namespace KoiVeterinaryServiceCenter.Services.Services
                     Message = ex.Message,
                     StatusCode = 500
                 };
-            }
+            }*/
+            return null;
         }
 
         public async Task<ResponseDTO> GetPetById(Guid petId)
         {
-            var pet = await _unitOfWork.PetRepository.GetByIdAsync(petId);
+            /*var pet = await _unitOfWork.PetRepository.GetByIdAsync(petId);
 
             if (pet == null)
             {
@@ -161,7 +163,8 @@ namespace KoiVeterinaryServiceCenter.Services.Services
                 Message = "Pet retrieved successfully",
                 StatusCode = 200,
                 Result = petDto
-            };
+            };*/
+            return null;
         }
 
         public async Task<ResponseDTO> GetPetsByCustomerId(ClaimsPrincipal user, string customerId)
@@ -178,10 +181,6 @@ namespace KoiVeterinaryServiceCenter.Services.Services
                 };
             }
 
-           
-            
-
-
 
             return new ResponseDTO
             {
@@ -194,33 +193,34 @@ namespace KoiVeterinaryServiceCenter.Services.Services
 
         public async Task<ResponseDTO> UpdatePet(ClaimsPrincipal user, UpdatePetDTO updatePetDTO)
         {
-            var pet = await _unitOfWork.PetRepository.GetByIdAsync(updatePetDTO.PetId);
+            /* var pet = await _unitOfWork.PetRepository.GetByIdAsync(updatePetDTO.PetId);
 
-            if (pet == null)
-            {
-                return new ResponseDTO
-                {
-                    IsSuccess = false,
-                    Message = "Pet not found",
-                    StatusCode = 404
-                };
-            }
+             if (pet == null)
+             {
+                 return new ResponseDTO
+                 {
+                     IsSuccess = false,
+                     Message = "Pet not found",
+                     StatusCode = 404
+                 };
+             }
 
-            pet.Name = updatePetDTO.Name ?? pet.Name;
-            pet.Species = updatePetDTO.Species ?? pet.Species;
-            pet.Breed = updatePetDTO.Breed ?? pet.Breed;
-            pet.PetUrl = updatePetDTO.PetUrl ?? pet.PetUrl;
+             pet.Name = updatePetDTO.Name ?? pet.Name;
+             pet.Species = updatePetDTO.Species ?? pet.Species;
+             pet.Breed = updatePetDTO.Breed ?? pet.Breed;
+             pet.PetUrl = updatePetDTO.PetUrl ?? pet.PetUrl;
 
-            _unitOfWork.PetRepository.Update(pet);
-            await _unitOfWork.SaveAsync();
+             _unitOfWork.PetRepository.Update(pet);
+             await _unitOfWork.SaveAsync();
 
-            return new ResponseDTO
-            {
-                IsSuccess = true,
-                Message = "Pet updated successfully",
-                StatusCode = 200,
-                Result = pet
-            };
+             return new ResponseDTO
+             {
+                 IsSuccess = true,
+                 Message = "Pet updated successfully",
+                 StatusCode = 200,
+                 Result = pet
+             };*/
+            return null;
         }
 
         public async Task<ResponseDTO> DeletePet(ClaimsPrincipal user, Guid petId)
