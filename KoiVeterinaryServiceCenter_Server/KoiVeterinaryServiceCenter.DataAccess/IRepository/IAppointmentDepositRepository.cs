@@ -4,7 +4,7 @@ namespace KoiVeterinaryServiceCenter.DataAccess.IRepository;
 
 public interface IAppointmentDepositRepository : IRepository<AppointmentDeposit>
 {
-    void Update(Slot slot);
+    void Update(AppointmentDeposit appointmentDeposit);
     Task<AppointmentDeposit> GetAppointmentDepositByAppointmentId(Guid AppointmentId);
-    Task<IEnumerable<AppointmentDeposit>> GetAllSlotWithDoctor();
+    Task<long> GenerateUniqueNumberAsync();
 }

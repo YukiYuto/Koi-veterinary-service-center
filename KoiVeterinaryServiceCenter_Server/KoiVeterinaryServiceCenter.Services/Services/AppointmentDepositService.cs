@@ -1,13 +1,24 @@
 ﻿using System.Security.Claims;
+using AutoMapper;
+using KoiVeterinaryServiceCenter.DataAccess.IRepository;
+using KoiVeterinaryServiceCenter.Models.Domain;
 using KoiVeterinaryServiceCenter.Models.DTO;
-using KoiVeterinaryServiceCenter.Models.DTO.Appointment;
-using KoiVeterinaryServiceCenter.Models.DTO.AppointmentPet;
+using KoiVeterinaryServiceCenter.Models.DTO.AppointmentDeposit;
 using KoiVeterinaryServiceCenter.Services.IServices;
 
 namespace KoiVeterinaryServiceCenter.Services.Services;
 
 public class AppointmentDepositService : IAppointmentDepositService
 {
+    private readonly IUnitOfWork _unitOfWork;
+    private readonly IMapper _mapper;
+
+    public AppointmentDepositService(IUnitOfWork unitOfWork, IMapper mapper)
+    {
+        _unitOfWork = unitOfWork;
+        _mapper = mapper;
+    }
+
     public Task<ResponseDTO> GetAppointmentDeposits
     (ClaimsPrincipal User,
         string? filterOn,
@@ -25,45 +36,106 @@ public class AppointmentDepositService : IAppointmentDepositService
         throw new NotImplementedException();
     }
 
-    public Task<ResponseDTO> CreateAppointmentDeposit(ClaimsPrincipal User,
-        CreateAppointmentDepositDTO createAppointmentDepositDto)
+    public async Task<ResponseDTO> GetAppointmentDepositByAppointmentId(ClaimsPrincipal User, Guid appointmentId)
     {
-        /*var user = User.FindFirst(ClaimTypes.NameIdentifier)!.Value;
-        if (user != createAppointmentDepositDto.CustomerId)
+        try
         {
+            var appointment =
+                await _unitOfWork.AppointmentDepositRepository.GetAsync(ad => ad.AppointmentId == appointmentId);
+            if (appointment == null)
+            {
+                return new ResponseDTO()
+                {
+                    Message = "Appointment was not found",
+                    IsSuccess = false,
+                    StatusCode = 404,
+                    Result = null
+                };
+            }
+
+            var appointmentDepositDto = _mapper.Map<GetAppointmentDepositDTO>(appointment);
+            // Trả về kết quả thành công
             return new ResponseDTO()
             {
-                Result = "",
-                Message = "You do not have permission to create this appointment.",
-                IsSuccess = false,
-                StatusCode = 403
+                Message = "Appointment deposit found successfully",
+                IsSuccess = true,
+                StatusCode = 200,
+                Result = appointmentDepositDto
             };
         }
+        catch (Exception e)
         {
             return new ResponseDTO()
             {
-                Result = "",
-                Message = "You do not have permission to create this appointment.",
+                Message = e.Message,
                 IsSuccess = false,
-                StatusCode = 403
+                StatusCode = 500,
+                Result = null
             };
-        }*/
-        return null;
-
+        }
     }
 
-    public Task<ResponseDTO> DeleteAppointmentDeposit(string appointmentDepositId)
-    {
-        throw new NotImplementedException();
-    }
 
-    public Task<ResponseDTO> GetAppointmentByUserId(ClaimsPrincipal User)
+    public async Task<ResponseDTO> CreateAppointmentDeposit(ClaimsPrincipal User,
+        CreateAppointmentDepositDTO createAppointmentDepositDto)
     {
-        throw new NotImplementedException();
-    }
+        try
+        {
+            var appointment =
+                await _unitOfWork.AppointmentRepository.GetAsync(
+                    a => a.AppointmentId == createAppointmentDepositDto.AppointmentId);
+            if (appointment == null)
+            {
+                return new ResponseDTO
+                {
+                    Message = "Appointment not found",
+                    IsSuccess = false,
+                    StatusCode = 404,
+                    Result = null
+                };
+            }
 
-    public Task<ResponseDTO> GetAppointmentMeetLinkByUserId(ClaimsPrincipal User)
-    {
-        throw new NotImplementedException();
+            long appointmentDepositNumber = appointment.AppointmentNumber + 1;
+
+            var appointmentDeposit = new AppointmentDeposit
+            {
+                AppointmentId = createAppointmentDepositDto.AppointmentId,
+                DepositAmount = createAppointmentDepositDto.DepositAmount,
+                DepositStatus = 0,
+                DepositTime = DateTime.Now,
+                AppointmentDepositNumber = appointmentDepositNumber
+            };
+
+            await _unitOfWork.AppointmentDepositRepository.AddAsync(appointmentDeposit);
+            await _unitOfWork.SaveAsync();
+
+            // Cập nhật AppointmentDepositNumber vào bảng Appointment
+            var appointmentToUpdate =
+                await _unitOfWork.AppointmentRepository.GetAppointmentById(createAppointmentDepositDto.AppointmentId);
+            if (appointmentToUpdate != null)
+            {
+                appointmentToUpdate.AppointmentDepositNumbe = appointmentDepositNumber;
+                _unitOfWork.AppointmentRepository.Update(appointmentToUpdate);
+                await _unitOfWork.SaveAsync();
+            }
+
+            return new ResponseDTO
+            {
+                Message = "Appointment deposit created successfully",
+                IsSuccess = true,
+                StatusCode = 201,
+                Result = appointmentDeposit
+            };
+        }
+        catch (Exception e)
+        {
+            return new ResponseDTO
+            {
+                Message = e.Message,
+                IsSuccess = false,
+                StatusCode = 500,
+                Result = null
+            };
+        }
     }
 }

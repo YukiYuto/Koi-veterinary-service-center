@@ -1,7 +1,7 @@
 ﻿using System.Security.Claims;
 using KoiVeterinaryServiceCenter.Models.DTO;
 using KoiVeterinaryServiceCenter.Models.DTO.Appointment;
-using KoiVeterinaryServiceCenter.Models.DTO.AppointmentPet;
+using KoiVeterinaryServiceCenter.Models.DTO.AppointmentDeposit;
 
 namespace KoiVeterinaryServiceCenter.Services.IServices;
 
@@ -17,9 +17,8 @@ public interface IAppointmentDepositService
         int pageSize = 0
     );
 
-    Task<ResponseDTO> GetAppointmentDepositById(ClaimsPrincipal User, Guid appointmentId);
+    Task<ResponseDTO> GetAppointmentDepositById(ClaimsPrincipal User, Guid appointmentDepositId);
+    Task<ResponseDTO> GetAppointmentDepositByAppointmentId(ClaimsPrincipal User, Guid appointmentId);
     Task<ResponseDTO> CreateAppointmentDeposit(ClaimsPrincipal User, CreateAppointmentDepositDTO createAppointmentDepositDto);
-    Task<ResponseDTO> DeleteAppointmentDeposit(string appointmentDepositId);
-    Task<ResponseDTO> GetAppointmentByUserId(ClaimsPrincipal User);
-    Task<ResponseDTO> GetAppointmentMeetLinkByUserId(ClaimsPrincipal User);
+
 }

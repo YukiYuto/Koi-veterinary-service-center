@@ -17,10 +17,6 @@ public class AppointmentRepository : Repository<Appointment>, IAppointmentReposi
     {
         _context.Appointments.Update(appointment);
     }
-    public void UpdateRange(IEnumerable<Appointment> appointments)
-    {
-        _context.Appointments.UpdateRange(appointments);
-    }
 
     public async Task<Appointment> GetAppointmentById(Guid appointmentId)
     {
@@ -31,17 +27,25 @@ public class AppointmentRepository : Repository<Appointment>, IAppointmentReposi
     {
         return await _context.Appointments.FirstOrDefaultAsync(x => x.AppointmentNumber == appointmentNumber);
     }
-
-    public async Task<long> GetMaxAppointmentNumberAsync()
-    {
-        // Truy vấn để lấy số AppointmentNumber lớn nhất hiện có
-        return await _context.Appointments.MaxAsync(a => (long?)a.AppointmentNumber) ?? 0;
-    }
-    
     public async Task<IEnumerable<Appointment>> GetAppointmentsByUserId(string userId)
     {
         return await _context.Appointments
             .Where(a => a.CustomerId == userId)
             .ToListAsync();
+    }
+
+    public async Task<long> GenerateUniqueNumberAsync()
+    {
+        long nextNumber = 1;
+        while (true)
+        {
+            // Kiểm tra xem số hiệu đã tồn tại trong bảng Appointment hay AppointmentDeposit chưa
+            if (!(await _context.Appointments.AnyAsync(a => a.AppointmentNumber == nextNumber)) &&
+                !(await _context.AppointmentDeposits.AnyAsync(ad => ad.AppointmentDepositNumber == nextNumber)))
+            {
+                return nextNumber;
+            }
+            nextNumber++;
+        }
     }
 }
