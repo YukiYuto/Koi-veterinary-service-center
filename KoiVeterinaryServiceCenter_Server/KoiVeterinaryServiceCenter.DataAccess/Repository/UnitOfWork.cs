@@ -22,8 +22,6 @@ public class UnitOfWork : IUnitOfWork
 
     public IPostRepository PostRepository { get; set; }
 
-    public IPetDiseaseRepository petDiseaseRepository { get; set; }
-
     public IDoctorRatingRepository DoctorRatingRepository { get; set; }
     public IPaymentTransactionsRepository PaymentTransactionsRepository { get; set; }
     public ITransactionsRepository TransactionsRepository { get; set; }
@@ -59,7 +57,7 @@ public class UnitOfWork : IUnitOfWork
         diseaseRepository = new DiseaseRepository(_context);
 
         PetRepository = new PetRepository(_context);
-        petDiseaseRepository = new PetDiseaseRepository(_context);
+        PetDiseaseRepository = new PetDiseaseRepository(_context);
 
     }
     public async Task<int> SaveAsync()
