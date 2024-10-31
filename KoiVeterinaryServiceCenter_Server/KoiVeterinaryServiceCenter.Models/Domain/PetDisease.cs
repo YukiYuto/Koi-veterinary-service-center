@@ -2,7 +2,7 @@
 
 namespace KoiVeterinaryServiceCenter.Models.Domain;
 
-public class PetDisease
+public class PetDisease : BaseEntity<string, string, int>
 {
     public Guid PetId { get; set; }
     public Guid DiseaseId { get; set; }

@@ -8,6 +8,7 @@ public interface IUnitOfWork
     ICustomerRepository CustomerRepository { get; }
     ISlotRepository SlotRepository { get; }
     IAppointmentRepository AppointmentRepository { get; }
+    IAppointmentDepositRepository AppointmentDepositRepository { get; }
     IDoctorSchedulesRepository DoctorSchedulesRepository { get; }
     IEmailTemplateRepository EmailTemplateRepository { get; }
     IServiceRepository ServiceRepository { get; }

@@ -150,6 +150,58 @@ namespace KoiVeterinaryServiceCenter.Services.Services
             }
         }
 
+        public async Task<ResponseDTO> GetPoolByCustomerId(ClaimsPrincipal User, string customerId)
+        {
+            try
+            {
+                var pool = await _unitOfWork.PoolRepository.GetAllAsync(x => x.CustomerId == customerId);
+                if (pool is null)
+                {
+                    return new ResponseDTO()
+                    {
+                        Message = "Cannot found pool",
+                        IsSuccess = false,
+                        StatusCode = 404,
+                        Result = null
+                    };
+                }
+
+                List<GetPoolDTO> getPoolDTO;
+                try
+                {
+                    getPoolDTO = _mapper.Map<List<GetPoolDTO>>(pool);
+                }
+                catch (AutoMapperMappingException e)
+                {
+                    return new ResponseDTO()
+                    {
+                        Message = e.Message,
+                        IsSuccess = false,
+                        StatusCode = 500,
+                        Result = null
+                    };
+                }
+
+                return new ResponseDTO()
+                {
+                    Message = "Get pool successfully",
+                    IsSuccess = true,
+                    StatusCode = 200,
+                    Result = getPoolDTO
+                };
+            }
+            catch (Exception e)
+            {
+                return new ResponseDTO()
+                {
+                    Message = e.Message,
+                    IsSuccess = false,
+                    StatusCode = 500,
+                    Result = null
+                };
+            }
+        }
+
         public async Task<ResponseDTO> GetPoolById(ClaimsPrincipal User, Guid poolId)
         {
             try
@@ -240,6 +292,8 @@ namespace KoiVeterinaryServiceCenter.Services.Services
                 };
             }
         }
+
+
         public async Task<ResponseDTO> UploadPoolAvatar(IFormFile file, ClaimsPrincipal user)
         {
             if (file == null)

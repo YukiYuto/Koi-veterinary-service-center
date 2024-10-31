@@ -9,7 +9,6 @@ public class Pool : BaseEntity<string, string, int>
     public string? Name { get; set; }
     public string CustomerId { get; set; } = null!;
     public float Size { get; set; }
-
-   
+    
     [ForeignKey("CustomerId")] public virtual ApplicationUser Customer { get; set; } = null!;
 }
