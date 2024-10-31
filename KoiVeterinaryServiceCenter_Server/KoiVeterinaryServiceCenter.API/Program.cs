@@ -143,7 +143,7 @@ app.Use(async (context, next) =>
 // Đặt UseCors ngay sau middleware này
 app.UseCors("CorsPolicy");
 // Apply database migrations
-ApplyMigration();
+//ApplyMigration();
 
 // Apply CORS policy
 app.UseCors("AllowSpecificOrigin");

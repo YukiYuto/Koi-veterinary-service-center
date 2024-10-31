@@ -1,8 +1,18 @@
-﻿namespace KoiVeterinaryServiceCenter.Models.DTO.Auth;
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace KoiVeterinaryServiceCenter.Models.DTO.Auth;
 
 public class ChangePasswordDTO
 {
-    public string oldPassword { get; set; }
-    public string newPassword { get; set; }
-    public string confirmPassword { get; set; }
+    [Required]
+    [DataType(DataType.Password)]
+    public string OldPassword { get; set; } = null!;
+
+    [Required]
+    [DataType(DataType.Password)]
+    public string NewPassword { get; set; } = null!;
+
+    [Required]
+    [DataType(DataType.Password)]
+    public string ConfirmNewPassword { get; set; } = null!;
 }
