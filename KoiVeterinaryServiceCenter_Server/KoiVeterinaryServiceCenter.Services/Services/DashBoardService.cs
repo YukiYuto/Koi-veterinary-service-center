@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -22,7 +23,7 @@ namespace KoiVeterinaryServiceCenter.Services.Services
             _mapper = mapper;
         }
 
-        public async Task<ResponseDTO> RevenuaOfMonthList(int month, int year)
+        public async Task<ResponseDTO> RevenuaOfMonthList(ClaimsPrincipal User, int month, int year)
         {
             try
             {
@@ -95,7 +96,7 @@ namespace KoiVeterinaryServiceCenter.Services.Services
             }
         }
 
-        public async Task<ResponseDTO> TotalRevenueOfMonth(int month, int year)
+        public async Task<ResponseDTO> TotalRevenueOfMonth(ClaimsPrincipal User, int month, int year)
         {
             try
             {
@@ -122,7 +123,7 @@ namespace KoiVeterinaryServiceCenter.Services.Services
             }
         }
 
-        public async Task<ResponseDTO> TotalRevenueOfDay(DateOnly date)
+        public async Task<ResponseDTO> TotalRevenueOfDay(ClaimsPrincipal User, DateOnly date)
         {
             try
             {

@@ -18,7 +18,21 @@ namespace KoiVeterinaryServiceCenter.API.Controller
         [HttpGet]
         public async Task<ActionResult<ResponseDTO>> GetRevenueList([FromQuery] int month, [FromQuery] int year)
         {
-            var responseDto = await _dashBoardService.RevenuaOfMonthList(month, year);
+            var responseDto = await _dashBoardService.RevenuaOfMonthList(User, month, year);
+            return StatusCode(responseDto.StatusCode, responseDto);
+        }
+
+        [HttpGet("revenueOfMonth")]
+        public async Task<ActionResult<ResponseDTO>> TotalRevenueOfMonth([FromQuery] int month, [FromQuery] int year)
+        {
+            var responseDto = await _dashBoardService.TotalRevenueOfMonth(User, month, year);
+            return StatusCode(responseDto.StatusCode, responseDto);
+        }
+
+        [HttpGet("revenueOfDay")]
+        public async Task<ActionResult<ResponseDTO>> TotalRevenueOfDay([FromQuery] DateOnly date)
+        {
+            var responseDto = await _dashBoardService.TotalRevenueOfDay(User, date);
             return StatusCode(responseDto.StatusCode, responseDto);
         }
     }
