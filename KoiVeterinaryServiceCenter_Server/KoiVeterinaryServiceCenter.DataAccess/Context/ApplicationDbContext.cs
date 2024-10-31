@@ -31,7 +31,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     public DbSet<PetService> PetServices { get; set; }
     public DbSet<Pool> Pools { get; set; }
 
- 
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
@@ -55,7 +55,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
             .HasOne(ds => ds.Service)
             .WithMany(s => s.DoctorServices)
             .HasForeignKey(ds => ds.ServiceId);
-        
+
         // Cấu hình index trên cột AppointmentNumber và chỉ định tính duy nhất
         modelBuilder.Entity<Appointment>()
             .HasIndex(a => a.AppointmentNumber)
@@ -68,7 +68,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
             .HasForeignKey(pt => pt.AppointmentNumber)
             .HasPrincipalKey(a => a.AppointmentNumber)
             .OnDelete(DeleteBehavior.Restrict);
-        
+
         // Thiết lập khóa chính hỗn hợp cho bảng trung gian DoctorService
         modelBuilder.Entity<PetDisease>()
             .HasKey(pd => new { pd.PetId, pd.DiseaseId });
@@ -82,7 +82,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
             .HasOne(pd => pd.Disease)
             .WithMany(d => d.PetDiseases)
             .HasForeignKey(pd => pd.DiseaseId);
-        
+
         //Thiết lập khóa chính hỗn hợp cho bảng trung gian PetService
         modelBuilder.Entity<PetService>()
             .HasKey(ps => new { ps.PetId, ps.ServiceId });
@@ -96,6 +96,6 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
             .HasOne(ps => ps.Service)
             .WithMany(s => s.PetServices)
             .HasForeignKey(ps => ps.ServiceId);
-        
+
     }
 }

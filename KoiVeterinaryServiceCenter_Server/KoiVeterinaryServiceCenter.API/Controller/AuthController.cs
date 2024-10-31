@@ -1,4 +1,5 @@
-﻿using KoiVeterinaryServiceCenter.Models.Domain;
+﻿using System.Security.Claims;
+using KoiVeterinaryServiceCenter.Models.Domain;
 using KoiVeterinaryServiceCenter.Models.DTO;
 using KoiVeterinaryServiceCenter.Models.DTO.Auth;
 using KoiVeterinaryServiceCenter.Services.IServices;
@@ -207,6 +208,20 @@ public class AuthController : ControllerBase
         [FromQuery] string token)
     {
         var responseDto = await _authService.VerifyEmail(userId, token);
+        return StatusCode(responseDto.StatusCode, responseDto);
+    }
+    
+    [HttpPost]
+    [Route("change-password")]
+    [Authorize]
+    public async Task<ActionResult<ResponseDTO>> ChangePassword(ChangePasswordDTO changePasswordDto)
+    {
+        // Lấy Id người dùng hiện tại.
+        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+        var responseDto = await _authService.ChangePassword(userId, changePasswordDto.OldPassword,
+            changePasswordDto.NewPassword, changePasswordDto.ConfirmNewPassword);
+
         return StatusCode(responseDto.StatusCode, responseDto);
     }
 }

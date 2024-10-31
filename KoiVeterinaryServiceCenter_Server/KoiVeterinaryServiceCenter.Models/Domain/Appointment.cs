@@ -14,7 +14,8 @@ public class Appointment
 
     [ForeignKey("ServiceId")] // Đảm bảo có mối quan hệ với Service
     public virtual Service Service { get; set; } = null!; // Liên kết đến Service
-
+    public Guid PetId { get; set; }
+    
     public string? Description { get; set; }
     public double TotalAmount { get; set; }
     public DateOnly CreateTime { get; set; }
