@@ -2,7 +2,6 @@
 using KoiVeterinaryServiceCenter.Services.IServices;
 using Microsoft.Extensions.Configuration;
 using Net.payOS.Types;
-using KoiVeterinaryServiceCenter.Model.DTO;
 using AutoMapper;
 using KoiVeterinaryServiceCenter.DataAccess.IRepository;
 using KoiVeterinaryServiceCenter.Model.Domain;
@@ -12,6 +11,7 @@ using StackExchange.Redis;
 using KoiVeterinaryServiceCenter.Models.DTO;
 using KoiVeterinaryServiceCenter.Models.Domain;
 using Transaction = KoiVeterinaryServiceCenter.Models.Domain.Transaction;
+using KoiVeterinaryServiceCenter.Models.DTO.Payment;
 
 public class PaymentService : IPaymentService
 {
@@ -140,7 +140,7 @@ public class PaymentService : IPaymentService
             _unitOfWork.PaymentTransactionsRepository.Update(paymentTransactions);
             await _unitOfWork.SaveAsync();
 
-            if(paymentTransactions.Status.Equals(StaticPayment.paymentStatusSucess))
+            if (paymentTransactions.Status.Equals(StaticPayment.paymentStatusSucess))
             {
                 var appointment = await _unitOfWork.AppointmentRepository.GetAppointmentByAppmointNumer(paymentTransactions.AppointmentNumber);
                 Transaction transaction = new Transaction()
@@ -229,5 +229,104 @@ public class PaymentService : IPaymentService
             };
         }
 
+    }
+    public Task<ResponseDTO> UpdatePayOSPaymentStatusForDepositPart1(ClaimsPrincipal User, Guid paymentTransacId)
+    {
+        throw new NotImplementedException(); throw new NotImplementedException();
+    }
+
+    public async Task<ResponseDTO> CreatePayOSLinkForDepositPart1(ClaimsPrincipal User, CreatePaymentLinkDTO createPaymentLinkDTO)
+    {
+        try
+        {
+            Appointment appointment = await _unitOfWork.AppointmentRepository.GetAppointmentByAppmointNumer(createPaymentLinkDTO.AppointmentNumber);
+            if (appointment is null)
+            {
+                return new ResponseDTO()
+                {
+                    Message = "The appointment number is not exist",
+                    IsSuccess = false,
+                    StatusCode = 404,
+                    Result = null
+                };
+            }
+            var deposit = await _unitOfWork.AppointmentDepositRepository.GetAsync(x => x.AppointmentDepositNumber == appointment.AppointmentDepositNumbe);
+            if (deposit is null)
+            {
+                return new ResponseDTO()
+                {
+                    Message = "The appointment has not deposit",
+                    IsSuccess = false,
+                    StatusCode = 404,
+                    Result = null
+                };
+            }
+
+            var totalPrice = Convert.ToInt32(deposit.DepositAmount);
+            var service = await _unitOfWork.ServiceRepository.GetServiceById(appointment.ServiceId);
+
+            var item = new List<ItemData>()
+            {
+                new ItemData(name: service.ServiceName + StaticPayment.payDeposit30PerCent, quantity: 1, price: totalPrice)
+            };
+
+            var paymentData = new PaymentData(
+                orderCode: deposit.AppointmentDepositNumber,
+                amount: totalPrice,
+                description: "",
+                items: item,
+                cancelUrl: createPaymentLinkDTO.CancelUrl,
+                returnUrl: createPaymentLinkDTO.ReturnUrl
+            );
+
+            if (paymentData is null)
+            {
+                return new ResponseDTO()
+                {
+                    Message = "Payment is missing data",
+                    IsSuccess = false,
+                    StatusCode = 500,
+                    Result = null
+                };
+            }
+
+            CreatePaymentResult result = await _payOS.createPaymentLink(paymentData);
+            PaymentTransactions paymentTransactions = new PaymentTransactions()
+            {
+                AppointmentNumber = deposit.AppointmentDepositNumber,
+                Amount = totalPrice,
+                Description = result.description.Trim(),
+                CancelUrl = paymentData.cancelUrl,
+                ReturnUrl = paymentData.returnUrl,
+                ExpiredAt = paymentData.expiredAt,
+                Signature = paymentData.signature,
+                CreatedAt = DateTime.Now,
+                Status = StaticPayment.paymentStatusDefault
+            };
+
+            await _unitOfWork.PaymentTransactionsRepository.AddAsync(paymentTransactions);
+            await _unitOfWork.SaveAsync();
+            return new ResponseDTO()
+            {
+                Message = "Create payment link successfully",
+                IsSuccess = true,
+                StatusCode = 200,
+                Result = new
+                {
+                    result,
+                    PaymentTransactionId = paymentTransactions.PaymentTransactionId
+                }
+            };
+        }
+        catch (Exception e)
+        {
+            return new ResponseDTO()
+            {
+                Message = e.Message,
+                IsSuccess = false,
+                StatusCode = 500,
+                Result = null
+            };
+        }
     }
 }

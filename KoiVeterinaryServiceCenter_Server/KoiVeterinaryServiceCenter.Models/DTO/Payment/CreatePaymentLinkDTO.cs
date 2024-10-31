@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using KoiVeterinaryServiceCenter.Model.Domain;
 
-namespace KoiVeterinaryServiceCenter.Model.DTO
+namespace KoiVeterinaryServiceCenter.Models.DTO.Payment
 {
     public class CreatePaymentLinkDTO
     {
