@@ -28,8 +28,8 @@ public class AppointmentDepositService : IAppointmentDepositService
     public Task<ResponseDTO> CreateAppointmentDeposit(ClaimsPrincipal User,
         CreateAppointmentDepositDTO createAppointmentDepositDto)
     {
-        var user = User.FindFirst(ClaimTypes.NameIdentifier)!.Value;
-        if (user != createAppointmentDepositDto.)
+        /*var user = User.FindFirst(ClaimTypes.NameIdentifier)!.Value;
+        if (user != createAppointmentDepositDto.CustomerId)
         {
             return new ResponseDTO()
             {
@@ -39,7 +39,17 @@ public class AppointmentDepositService : IAppointmentDepositService
                 StatusCode = 403
             };
         }
-        
+        {
+            return new ResponseDTO()
+            {
+                Result = "",
+                Message = "You do not have permission to create this appointment.",
+                IsSuccess = false,
+                StatusCode = 403
+            };
+        }*/
+        return null;
+
     }
 
     public Task<ResponseDTO> DeleteAppointmentDeposit(string appointmentDepositId)
