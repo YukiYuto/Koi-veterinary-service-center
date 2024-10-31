@@ -387,10 +387,14 @@ namespace KoiVeterinaryServiceCenter.Services.Services
             try
             {
 
-                var slots = _unitOfWork.SlotRepository.GetAllAsync(includeProperties: "DoctorSchedules.Doctor.ApplicationUser,DoctorSchedules.Doctor")
-                    .GetAwaiter().GetResult().Where(s => s.StartTime <= getDoctorBySlotDTO.StartTime &&
-                                      s.EndTime >= getDoctorBySlotDTO.EndTime &&
-                                      s.DoctorSchedules.SchedulesDate == getDoctorBySlotDTO.SchedulesDate).ToList();
+                var serviceId = getDoctorBySlotDTO.ServiceId;
+                var slots = _unitOfWork.SlotRepository.GetAllAsync(includeProperties: "DoctorSchedules.Doctor.ApplicationUser,DoctorSchedules.Doctor.DoctorServices")
+                    .GetAwaiter().GetResult()
+                    .Where(s => s.StartTime >= getDoctorBySlotDTO.StartTime &&
+                                s.EndTime <= getDoctorBySlotDTO.EndTime &&
+                                s.DoctorSchedules.SchedulesDate == getDoctorBySlotDTO.SchedulesDate &&
+                                s.DoctorSchedules.Doctor.DoctorServices.Any(ds => ds.ServiceId == serviceId))
+                    .ToList();
                 if (slots.IsNullOrEmpty())
                 {
                     return new ResponseDTO()

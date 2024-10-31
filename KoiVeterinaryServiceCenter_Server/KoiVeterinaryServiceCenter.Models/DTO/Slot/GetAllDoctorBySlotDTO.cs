@@ -8,6 +8,7 @@ namespace KoiVeterinaryServiceCenter.Models.DTO.Slot
 {
     public class GetAllDoctorBySlotDTO
     {
+        public Guid ServiceId { get; set; }
         public TimeSpan StartTime { get; set; }
         public TimeSpan EndTime { get; set; }
         public DateOnly SchedulesDate { get; set; }
