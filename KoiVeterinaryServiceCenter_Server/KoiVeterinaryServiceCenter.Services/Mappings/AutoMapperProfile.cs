@@ -96,6 +96,5 @@ public class AutoMapperProfile : Profile
             .ForMember(dest => dest.appointmentDepositNumber, opt => opt.MapFrom(src => src.AppointmentDepositNumber))
             .ForMember(dest => dest.depositStatus, opt => opt.MapFrom(src => src.DepositStatus));
         CreateMap<Transaction, GetRevenueOfMonthDTO>().ReverseMap();
-
     }
 }
