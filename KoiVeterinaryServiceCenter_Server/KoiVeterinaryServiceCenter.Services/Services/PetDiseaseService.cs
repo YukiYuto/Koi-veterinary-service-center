@@ -25,15 +25,17 @@ namespace KoiVeterinaryServiceCenter.Services.Services
         {
             try
             {
-               PetDisease petDisease = new PetDisease()
+                PetDisease petDisease = new PetDisease()
                 {
                     PetId = petDiseaseDTO.PetId,
-                    DiseaseId = petDiseaseDTO.DiseaseId
+                    DiseaseId = petDiseaseDTO.DiseaseId,
+                    Status = 0,
+                    CreatedTime = DateTime.Now,
+                    CreatedBy = user.Identity?.Name
                 };
 
                 await _unitOfWork.PetDiseaseRepository.AddAsync(petDisease);
                 await _unitOfWork.SaveAsync();
-
                 return new ResponseDTO
                 {
                     Message = "Added pet disease successfully",
