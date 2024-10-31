@@ -201,12 +201,12 @@ namespace KoiVeterinaryServiceCenter.DataAccess.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "BestZedAndYasuo",
+                            Id = "AdminId",
                             AccessFailedCount = 0,
                             Address = "123 Admin St",
                             AvatarUrl = "https://example.com/avatar.png",
                             BirthDate = new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ConcurrencyStamp = "06022319-045f-48f0-b399-a5ebb378442d",
+                            ConcurrencyStamp = "d0176da9-d793-41e5-85bb-1acc77c31acc",
                             Country = "Country",
                             Email = "admin@gmail.com",
                             EmailConfirmed = true,
@@ -215,12 +215,58 @@ namespace KoiVeterinaryServiceCenter.DataAccess.Migrations
                             LockoutEnabled = true,
                             NormalizedEmail = "ADMIN@GMAIL.COM",
                             NormalizedUserName = "ADMIN@GMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEF+ReWyalLxPqzFvvXXQyOtdSrR0MMhQbt3z+eKx7CUixuQXIAIBH3c+CDneTJzHuA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEC5HsIulJ0RUJnFlVZBeK0tiSmo4k9JucvkRthmwHU4TyjCcKvhgEIoH0gHPzaWnyQ==",
                             PhoneNumber = "1234567890",
                             PhoneNumberConfirmed = true,
-                            SecurityStamp = "094619b7-909b-4cc0-bd07-6906173790ee",
+                            SecurityStamp = "fbf546a5-1bf1-45c1-aad5-13fc40d0b3b1",
                             TwoFactorEnabled = false,
                             UserName = "admin@gmail.com"
+                        },
+                        new
+                        {
+                            Id = "StaffId",
+                            AccessFailedCount = 0,
+                            Address = "123 Staff St",
+                            AvatarUrl = "https://example.com/avatarStaff.png",
+                            BirthDate = new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ConcurrencyStamp = "bf6ce091-6296-47f9-8ad6-b1bcbbfb06c6",
+                            Country = "Country",
+                            Email = "staff1@gmail.com",
+                            EmailConfirmed = true,
+                            FullName = "Staff_1 User",
+                            Gender = "Male",
+                            LockoutEnabled = true,
+                            NormalizedEmail = "STAFF1@GMAIL.COM",
+                            NormalizedUserName = "STAFF1@GMAIL.COM",
+                            PasswordHash = "AQAAAAIAAYagAAAAENuBGYxMGs7wHWxXgeuxQhl2duf5FSlB2PGqTyRDkNoLe8nEyql41hC+F2WQjUUPVA==",
+                            PhoneNumber = "0123456789",
+                            PhoneNumberConfirmed = true,
+                            SecurityStamp = "85f227fb-60b0-443d-8154-df26eca9257d",
+                            TwoFactorEnabled = false,
+                            UserName = "staff1@gmail.com"
+                        },
+                        new
+                        {
+                            Id = "StaffId2",
+                            AccessFailedCount = 0,
+                            Address = "456 Staff St",
+                            AvatarUrl = "https://example.com/avatarStaff2.png",
+                            BirthDate = new DateTime(1991, 2, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ConcurrencyStamp = "e192cb7b-919f-49c9-b0f7-82df088298c3",
+                            Country = "Country",
+                            Email = "staff2@gmail.com",
+                            EmailConfirmed = true,
+                            FullName = "Staff_2 User",
+                            Gender = "Female",
+                            LockoutEnabled = true,
+                            NormalizedEmail = "STAFF2@GMAIL.COM",
+                            NormalizedUserName = "STAFF2@GMAIL.COM",
+                            PasswordHash = "AQAAAAIAAYagAAAAEG3gPhxvue7YoUUvSXs0vcffNXEyl6v6Kr4gtOkU3no5F/BVhqEF51OnVGPfmKLbNA==",
+                            PhoneNumber = "0987654321",
+                            PhoneNumberConfirmed = true,
+                            SecurityStamp = "5209bdff-e7d0-49c2-be67-8ba4a861004b",
+                            TwoFactorEnabled = false,
+                            UserName = "staff2@gmail.com"
                         });
                 });
 
@@ -229,6 +275,9 @@ namespace KoiVeterinaryServiceCenter.DataAccess.Migrations
                     b.Property<Guid>("AppointmentId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<long?>("AppointmentDepositNumbe")
+                        .HasColumnType("bigint");
 
                     b.Property<long>("AppointmentNumber")
                         .HasColumnType("bigint");
@@ -265,6 +314,75 @@ namespace KoiVeterinaryServiceCenter.DataAccess.Migrations
                     b.HasIndex("SlotId");
 
                     b.ToTable("Appointments");
+                });
+
+            modelBuilder.Entity("KoiVeterinaryServiceCenter.Models.Domain.AppointmentDeposit", b =>
+                {
+                    b.Property<Guid>("DepositId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<long>("AppointmentDepositNumber")
+                        .HasColumnType("bigint");
+
+                    b.Property<Guid>("AppointmentId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<double>("DepositAmount")
+                        .HasColumnType("float");
+
+                    b.Property<int>("DepositStatus")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("DepositTime")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("DepositId");
+
+                    b.HasIndex("AppointmentId");
+
+                    b.ToTable("AppointmentDeposits");
+                });
+
+            modelBuilder.Entity("KoiVeterinaryServiceCenter.Models.Domain.Disease", b =>
+                {
+                    b.Property<Guid>("DiseaseId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("CreatedTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Medication")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Symptoms")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UpdatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("UpdatedTime")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("DiseaseId");
+
+                    b.ToTable("Diseases");
                 });
 
             modelBuilder.Entity("KoiVeterinaryServiceCenter.Models.Domain.DoctorRating", b =>
@@ -407,7 +525,7 @@ namespace KoiVeterinaryServiceCenter.DataAccess.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("ad044150-d65c-47bf-839e-cd5c9bacdd23"),
+                            Id = new Guid("c9db7772-0d05-43cd-8b8c-7d9a0d360e9e"),
                             BodyContent = "Dear [UserFullName],<br><br>Welcome to Koi Veterinary Service Center! We are thrilled to have you as part of our community dedicated to the care and well-being of your beloved pets.",
                             CallToAction = "<a href=\"{{VerificationLink}}\">Verify Your Email</a>",
                             Category = "Appointment",
@@ -424,7 +542,7 @@ namespace KoiVeterinaryServiceCenter.DataAccess.Migrations
                         },
                         new
                         {
-                            Id = new Guid("dac495ce-c300-48c8-b5ef-a20185f18450"),
+                            Id = new Guid("b56a8215-083a-460a-9e7a-aee781d8bac7"),
                             BodyContent = "Hi [UserFullName],<br><br>We received a request to reset your password. Click the link below to reset your password.",
                             CallToAction = "https://cursuslms.xyz/sign-in/verify-email?userId=user.Id&token=Uri.EscapeDataString(token)",
                             Category = "Security",
@@ -433,15 +551,15 @@ namespace KoiVeterinaryServiceCenter.DataAccess.Migrations
                             PersonalizationTags = "[UserFullName], [ResetPasswordLink]",
                             PreHeaderText = "Reset your password to regain access",
                             RecipientType = "Customer",
-                            SenderEmail = "cursusservicetts@gmail.com",
-                            SenderName = "Cursus Team",
+                            SenderEmail = "koiveterinaryservice@gmail.com",
+                            SenderName = "Koi Veterinary Service Center",
                             Status = 1,
                             SubjectLine = "Reset Your Password",
                             TemplateName = "ForgotPasswordEmail"
                         },
                         new
                         {
-                            Id = new Guid("d4891a92-f40d-42ec-82a4-45e783f3f1d9"),
+                            Id = new Guid("0f269e06-03e9-45f9-b71c-52c54845e69d"),
                             BodyContent = "<p>Thank you for registering your Cursus account. Click here to go back the page</p>",
                             CallToAction = "<a href=\"{{Login}}\">Login now</a>",
                             Category = "Verify",
@@ -450,12 +568,140 @@ namespace KoiVeterinaryServiceCenter.DataAccess.Migrations
                             PersonalizationTags = "{FirstName}, {LinkLogin}",
                             PreHeaderText = "User Account Verified!",
                             RecipientType = "Customer",
-                            SenderEmail = "cursusservicetts@gmail.com",
-                            SenderName = "Cursus Team",
+                            SenderEmail = "koiveterinaryservice@gmail.com",
+                            SenderName = "Koi Veterinary Service Center",
                             Status = 1,
                             SubjectLine = "Cursus Verify Email",
                             TemplateName = "SendVerifyEmail"
                         });
+                });
+
+            modelBuilder.Entity("KoiVeterinaryServiceCenter.Models.Domain.Pet", b =>
+                {
+                    b.Property<Guid>("PetId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Breed")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("CreatedTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("CustomerId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PetUrl")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Species")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UpdatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("UpdatedTime")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("PetId");
+
+                    b.HasIndex("CustomerId");
+
+                    b.ToTable("Pets");
+                });
+
+            modelBuilder.Entity("KoiVeterinaryServiceCenter.Models.Domain.PetDisease", b =>
+                {
+                    b.Property<Guid>("PetId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("DiseaseId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("CreatedTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UpdatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("UpdatedTime")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("PetId", "DiseaseId");
+
+                    b.HasIndex("DiseaseId");
+
+                    b.ToTable("PetDiseases");
+                });
+
+            modelBuilder.Entity("KoiVeterinaryServiceCenter.Models.Domain.PetService", b =>
+                {
+                    b.Property<Guid>("PetId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("ServiceId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("PetId", "ServiceId");
+
+                    b.HasIndex("ServiceId");
+
+                    b.ToTable("PetServices");
+                });
+
+            modelBuilder.Entity("KoiVeterinaryServiceCenter.Models.Domain.Pool", b =>
+                {
+                    b.Property<Guid>("PoolId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("CreatedTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("CustomerId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<float>("Size")
+                        .HasColumnType("real");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UpdatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("UpdatedTime")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("PoolId");
+
+                    b.HasIndex("CustomerId");
+
+                    b.ToTable("Pools");
                 });
 
             modelBuilder.Entity("KoiVeterinaryServiceCenter.Models.Domain.Post", b =>
@@ -659,6 +905,13 @@ namespace KoiVeterinaryServiceCenter.DataAccess.Migrations
                             ConcurrencyStamp = "ADMIN",
                             Name = "ADMIN",
                             NormalizedName = "ADMIN"
+                        },
+                        new
+                        {
+                            Id = "8sa7c7bb-b4dc-480d-a660-82301a5eb327",
+                            ConcurrencyStamp = "STAFF",
+                            Name = "STAFF",
+                            NormalizedName = "STAFF"
                         });
                 });
 
@@ -751,7 +1004,7 @@ namespace KoiVeterinaryServiceCenter.DataAccess.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = "BestZedAndYasuo",
+                            UserId = "AdminId",
                             RoleId = "8fa7c7bb-daa5-a660-bf02-82301a5eb327"
                         });
                 });
@@ -836,6 +1089,17 @@ namespace KoiVeterinaryServiceCenter.DataAccess.Migrations
                     b.Navigation("Slot");
                 });
 
+            modelBuilder.Entity("KoiVeterinaryServiceCenter.Models.Domain.AppointmentDeposit", b =>
+                {
+                    b.HasOne("KoiVeterinaryServiceCenter.Models.Domain.Appointment", "Appointment")
+                        .WithMany()
+                        .HasForeignKey("AppointmentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Appointment");
+                });
+
             modelBuilder.Entity("KoiVeterinaryServiceCenter.Models.Domain.DoctorRating", b =>
                 {
                     b.HasOne("KoiVeterinaryServiceCenter.Model.Domain.Doctor", "Doctor")
@@ -856,6 +1120,66 @@ namespace KoiVeterinaryServiceCenter.DataAccess.Migrations
                         .IsRequired();
 
                     b.Navigation("Doctor");
+                });
+
+            modelBuilder.Entity("KoiVeterinaryServiceCenter.Models.Domain.Pet", b =>
+                {
+                    b.HasOne("KoiVeterinaryServiceCenter.Models.Domain.ApplicationUser", "Customer")
+                        .WithMany()
+                        .HasForeignKey("CustomerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Customer");
+                });
+
+            modelBuilder.Entity("KoiVeterinaryServiceCenter.Models.Domain.PetDisease", b =>
+                {
+                    b.HasOne("KoiVeterinaryServiceCenter.Models.Domain.Disease", "Disease")
+                        .WithMany("PetDiseases")
+                        .HasForeignKey("DiseaseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("KoiVeterinaryServiceCenter.Models.Domain.Pet", "Pet")
+                        .WithMany("PetDiseases")
+                        .HasForeignKey("PetId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Disease");
+
+                    b.Navigation("Pet");
+                });
+
+            modelBuilder.Entity("KoiVeterinaryServiceCenter.Models.Domain.PetService", b =>
+                {
+                    b.HasOne("KoiVeterinaryServiceCenter.Models.Domain.Pet", "Pet")
+                        .WithMany("PetServices")
+                        .HasForeignKey("PetId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("KoiVeterinaryServiceCenter.Models.Domain.Service", "Service")
+                        .WithMany("PetServices")
+                        .HasForeignKey("ServiceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Pet");
+
+                    b.Navigation("Service");
+                });
+
+            modelBuilder.Entity("KoiVeterinaryServiceCenter.Models.Domain.Pool", b =>
+                {
+                    b.HasOne("KoiVeterinaryServiceCenter.Models.Domain.ApplicationUser", "Customer")
+                        .WithMany()
+                        .HasForeignKey("CustomerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Customer");
                 });
 
             modelBuilder.Entity("KoiVeterinaryServiceCenter.Models.Domain.Slot", b =>
@@ -950,14 +1274,28 @@ namespace KoiVeterinaryServiceCenter.DataAccess.Migrations
                     b.Navigation("DoctorServices");
                 });
 
+            modelBuilder.Entity("KoiVeterinaryServiceCenter.Models.Domain.Disease", b =>
+                {
+                    b.Navigation("PetDiseases");
+                });
+
             modelBuilder.Entity("KoiVeterinaryServiceCenter.Models.Domain.DoctorSchedules", b =>
                 {
                     b.Navigation("Slots");
                 });
 
+            modelBuilder.Entity("KoiVeterinaryServiceCenter.Models.Domain.Pet", b =>
+                {
+                    b.Navigation("PetDiseases");
+
+                    b.Navigation("PetServices");
+                });
+
             modelBuilder.Entity("KoiVeterinaryServiceCenter.Models.Domain.Service", b =>
                 {
                     b.Navigation("DoctorServices");
+
+                    b.Navigation("PetServices");
                 });
 #pragma warning restore 612, 618
         }

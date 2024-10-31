@@ -88,6 +88,48 @@ public class FirebaseService : IFirebaseService
         };
     }
 
+    public async Task<ResponseDTO> UploadImagePet(IFormFile file, string folder)
+    {
+        if (file is null || file.Length == 0)
+        {
+            return new ResponseDTO()
+            {
+                IsSuccess = false,
+                StatusCode = 400,
+                Message = "File is empty!"
+            };
+        }
+
+        var fileName = $"{Guid.NewGuid()}_{file.FileName}"; // Create a unique file name
+        var filePath = $"{folder}/{fileName}"; // Full path for the file in Firebase
+
+        // Initialize the stream from the file
+        await using (var stream = file.OpenReadStream())
+        {
+            // Upload the file to Firebase
+            var result = await _storageClient.UploadObjectAsync(
+                _bucketName,
+                filePath,
+                file.ContentType, // File MIME type
+                stream,
+                new UploadObjectOptions
+                {
+                    PredefinedAcl = PredefinedObjectAcl.PublicRead // Make the file publicly accessible
+                }
+            );
+        }
+
+        // Create the public URL for the uploaded image
+        string publicUrl = $"https://storage.googleapis.com/{_bucketName}/{filePath}";
+
+        return new ResponseDTO()
+        {
+            IsSuccess = true,
+            StatusCode = 200,
+            Result = publicUrl, // Return the public URL
+            Message = "Upload image successfully!"
+        };
+    }
     public async Task<ResponseDTO> UploadImagePost(IFormFile file, string folder)
     {
         if (file is null || file.Length == 0)

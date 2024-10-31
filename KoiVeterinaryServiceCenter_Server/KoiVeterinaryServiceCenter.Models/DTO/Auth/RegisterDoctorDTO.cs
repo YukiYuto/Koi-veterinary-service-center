@@ -51,6 +51,7 @@ public class RegisterDoctorDTO
 
     [Required(ErrorMessage = "Degree is required")]
     public string Degree { get; set; } = null!;
+  
     [Required(ErrorMessage = "Position is required")]
     public string Position { get; set; } = null!;
 }
