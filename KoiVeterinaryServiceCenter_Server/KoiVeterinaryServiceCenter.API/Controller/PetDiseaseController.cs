@@ -32,18 +32,18 @@ namespace KoiVeterinaryServiceCenter.API.Controller
         }
 
         [HttpPost]
-        public async Task<ActionResult<ResponseDTO>> AddPetDisease([FromBody] CreatePetDiseaseDTO createPetDiseaseDTO)
+        public async Task<ActionResult<ResponseDTO>> CreatePetDisease([FromBody] CreatePetDiseaseDTO createPetDiseaseDTO)
         {
-            var responseDto = await _petDiseaseService.AddPetDisease(User, createPetDiseaseDTO);
+            var responseDto = await _petDiseaseService.CreatePetDisease(User, createPetDiseaseDTO);
             return StatusCode(responseDto.StatusCode, responseDto);
         }
 
-        [HttpPut]
-        public async Task<ActionResult<ResponseDTO>> UpdatePetDisease([FromBody] UpdatePetDiseaseDTO updatePetDiseaseDTO)
-        {
-            var responseDto = await _petDiseaseService.UpdatePetDisease(User, updatePetDiseaseDTO);
-            return StatusCode(responseDto.StatusCode, responseDto);
-        }
+        //[HttpPut]
+        //public async Task<ActionResult<ResponseDTO>> UpdatePetDisease([FromBody] UpdatePetDiseaseDTO updatePetDiseaseDTO)
+        //{
+        //    var responseDto = await _petDiseaseService.UpdatePetDisease(User, updatePetDiseaseDTO);
+        //    return StatusCode(responseDto.StatusCode, responseDto);
+        //}
     }
 }
 

@@ -7,5 +7,7 @@
         public string? Description { get; set; }
         public string Symptoms { get; set; }
         public string Medication { get; set; }
+
+        public DateTime? CreatedTime { get; set; }
     }
 }

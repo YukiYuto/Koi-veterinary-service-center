@@ -1,11 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using AutoMapper;
 using KoiVeterinaryServiceCenter.DataAccess.IRepository;
 using KoiVeterinaryServiceCenter.Models.Domain;
 using KoiVeterinaryServiceCenter.Models.DTO;
-using KoiVeterinaryServiceCenter.Models.DTO.PetService;
 using KoiVeterinaryServiceCenter.Services.IServices;
 
 namespace KoiVeterinaryServiceCenter.Services.Services
@@ -21,17 +21,22 @@ namespace KoiVeterinaryServiceCenter.Services.Services
             _mapper = mapper;
         }
 
-        public async Task<ResponseDTO> AddPetDisease(ClaimsPrincipal user, CreatePetDiseaseDTO petDiseaseDTO)
+        public async Task<ResponseDTO> CreatePetDisease(ClaimsPrincipal user, CreatePetDiseaseDTO petDiseaseDTO)
         {
             try
             {
-                var petDisease = _mapper.Map<PetDisease>(petDiseaseDTO);
+               PetDisease petDisease = new PetDisease()
+                {
+                    PetId = petDiseaseDTO.PetId,
+                    DiseaseId = petDiseaseDTO.DiseaseId
+                };
+
                 await _unitOfWork.PetDiseaseRepository.AddAsync(petDisease);
                 await _unitOfWork.SaveAsync();
 
                 return new ResponseDTO
                 {
-                    Message = "Pet disease added successfully",
+                    Message = "Added pet disease successfully",
                     IsSuccess = true,
                     StatusCode = 200,
                     Result = null
@@ -49,21 +54,19 @@ namespace KoiVeterinaryServiceCenter.Services.Services
             }
         }
 
-        public Task<ResponseDTO> GetAllPetDiseases(ClaimsPrincipal user, string? filterOn, string? filterQuery, string? sortBy, bool? isAscending, int pageNumber, int pageSize)
-        {
-            throw new NotImplementedException();
-        }
-
-        public async Task<ResponseDTO> GetPetDiseasesByDiseaseId(Guid diseaseId)
+        public async Task<ResponseDTO> GetAllPetDiseases(ClaimsPrincipal user, string? filterOn, string? filterQuery, string? sortBy, bool? isAscending, int pageNumber, int pageSize)
         {
             try
             {
-                var petDiseases = await _unitOfWork.PetDiseaseRepository.GetByDiseaseId(diseaseId);
-                var petDiseaseDTOs = _mapper.Map<IEnumerable<GetPetDiseaseDTO>>(petDiseases);
+                var petDiseases = await _unitOfWork.PetDiseaseRepository.GetAllAsync();
 
+                // Optional: Implement filtering and sorting logic here based on parameters
+                // For example, filter on `filterOn` and `filterQuery`, sort on `sortBy`
+
+                var petDiseaseDTOs = _mapper.Map<List<GetPetDiseaseDTO>>(petDiseases);
                 return new ResponseDTO
                 {
-                    Message = "Pet diseases retrieved successfully",
+                    Message = "Retrieved all pet diseases successfully",
                     IsSuccess = true,
                     StatusCode = 200,
                     Result = petDiseaseDTOs
@@ -86,11 +89,21 @@ namespace KoiVeterinaryServiceCenter.Services.Services
             try
             {
                 var petDiseases = await _unitOfWork.PetDiseaseRepository.GetByPetId(petId);
-                var petDiseaseDTOs = _mapper.Map<IEnumerable<GetPetDiseaseDTO>>(petDiseases);
+                if (petDiseases == null || petDiseases.Count == 0)
+                {
+                    return new ResponseDTO
+                    {
+                        Message = "No diseases found for this pet",
+                        IsSuccess = false,
+                        StatusCode = 404,
+                        Result = null
+                    };
+                }
 
+                var petDiseaseDTOs = _mapper.Map<List<GetPetDiseaseDTO>>(petDiseases);
                 return new ResponseDTO
                 {
-                    Message = "Pet diseases retrieved successfully",
+                    Message = "Retrieved pet diseases successfully",
                     IsSuccess = true,
                     StatusCode = 200,
                     Result = petDiseaseDTOs
@@ -108,32 +121,29 @@ namespace KoiVeterinaryServiceCenter.Services.Services
             }
         }
 
-        public async Task<ResponseDTO> UpdatePetDisease(ClaimsPrincipal user, UpdatePetDiseaseDTO petDiseaseDTO)
+        public async Task<ResponseDTO> GetPetDiseasesByDiseaseId(Guid diseaseId)
         {
             try
             {
-                var petDisease = await _unitOfWork.PetDiseaseRepository.GetById(petDiseaseDTO.PetId, petDiseaseDTO.DiseaseId);
-                if (petDisease == null)
+                var petDiseases = await _unitOfWork.PetDiseaseRepository.GetByDiseaseId(diseaseId);
+                if (petDiseases == null || petDiseases.Count == 0)
                 {
                     return new ResponseDTO
                     {
-                        Message = "Pet disease not found",
+                        Message = "No pets found with this disease",
                         IsSuccess = false,
                         StatusCode = 404,
                         Result = null
                     };
                 }
 
-                _mapper.Map(petDiseaseDTO, petDisease);
-                _unitOfWork.PetDiseaseRepository.Update(petDisease);
-                await _unitOfWork.SaveAsync();
-
+                var petDiseaseDTOs = _mapper.Map<List<GetPetDiseaseDTO>>(petDiseases);
                 return new ResponseDTO
                 {
-                    Message = "Pet disease updated successfully",
+                    Message = "Retrieved pets with this disease successfully",
                     IsSuccess = true,
                     StatusCode = 200,
-                    Result = null
+                    Result = petDiseaseDTOs
                 };
             }
             catch (Exception e)
@@ -147,5 +157,45 @@ namespace KoiVeterinaryServiceCenter.Services.Services
                 };
             }
         }
+
+        //public async Task<ResponseDTO> UpdatePetDisease(ClaimsPrincipal user, UpdatePetDiseaseDTO petDiseaseDTO)
+        //{
+        //    try
+        //    {
+        //        var petDisease = await _unitOfWork.PetDiseaseRepository.GetByDiseaseId(petDiseaseDTO.Id);
+        //        if (petDisease == null)
+        //        {
+        //            return new ResponseDTO
+        //            {
+        //                Message = "Pet disease not found",
+        //                IsSuccess = false,
+        //                StatusCode = 404,
+        //                Result = null
+        //            };
+        //        }
+
+        //        petDisease.DiseaseId = petDiseaseDTO.DiseaseId; // Update as needed
+        //        _unitOfWork.PetDiseaseRepository.Update(petDisease);
+        //        await _unitOfWork.SaveAsync();
+
+        //        return new ResponseDTO
+        //        {
+        //            Message = "Updated pet disease successfully",
+        //            IsSuccess = true,
+        //            StatusCode = 200,
+        //            Result = null
+        //        };
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        return new ResponseDTO
+        //        {
+        //            Message = e.Message,
+        //            IsSuccess = false,
+        //            StatusCode = 500,
+        //            Result = null
+        //        };
+        //    }
+        }
     }
-}
+
