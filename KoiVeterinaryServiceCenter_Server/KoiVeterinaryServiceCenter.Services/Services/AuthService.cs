@@ -549,6 +549,53 @@ public class AuthService : IAuthService
         }
     }
 
+    public async Task<ResponseDTO> ChangePassword(string userId, string oldPassword, string newPassword,
+        string confirmNewPassword)
+    {
+        // Lấy id của người dùng
+        var user = await _userManager.FindByIdAsync(userId);
+        if (user == null)
+        {
+            return new ResponseDTO { IsSuccess = false, Message = "User not found." };
+        }
+
+        // Thực hiện xác thực mật khẩu và thay đổi mật khẩu
+
+        // Kiểm tra sự trùng khớp của mật khẩu mới và xác nhận mật khẩu mới 
+        if (newPassword != confirmNewPassword)
+        {
+            return new ResponseDTO
+                { IsSuccess = false, Message = "New password and confirm new password not match." };
+        }
+
+        // Không cho phép thay đổi mật khẩu cũ
+        if (newPassword == oldPassword)
+        {
+            return new ResponseDTO
+                { IsSuccess = false, Message = "New password cannot be the same as the old password." };
+        }
+
+        // Thực hiện thay đổi mật khẩu
+        var result = await _userManager.ChangePasswordAsync(user, oldPassword, newPassword);
+        if (result.Succeeded)
+        {
+            return new ResponseDTO 
+                { 
+                    Result = result,
+                    IsSuccess = true,
+                    Message = "Password changed successfully." 
+                };
+        }
+        else
+        {
+            return new ResponseDTO
+            {
+                IsSuccess = false,
+                Message = "Password change failed. Please ensure the old password is correct."
+            };
+        }
+    }
+
 
     /// <summary>
     /// This method for check email exist or not

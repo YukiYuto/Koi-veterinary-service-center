@@ -2,11 +2,10 @@
 
 namespace KoiVeterinaryServiceCenter.Models.Domain;
 
-public class PetDisease
+public class PetDisease : BaseEntity<string, string, int>
 {
     public Guid PetId { get; set; }
     public Guid DiseaseId { get; set; }
-    
     [ForeignKey("PetId")] public virtual Pet Pet { get; set; } = null!;
     [ForeignKey("DiseaseId")] public virtual Disease Disease { get; set; } = null!;
 }

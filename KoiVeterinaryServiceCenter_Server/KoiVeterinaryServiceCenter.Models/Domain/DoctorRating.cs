@@ -10,6 +10,9 @@ public class DoctorRating : BaseEntity<string, string, int>
     public Guid DoctorId { get; set; }
     [ForeignKey("DoctorId")] public virtual Doctor Doctor { get; set; } = null!;
 
+    public Guid AppointmentId {  get; set; }
+    [ForeignKey("AppointmentId")] public virtual Appointment Appointment { get; set; }
+
     [Range(1, 5)]
     public int Rating { get; set; }
     public string? Feedback { get; set; }

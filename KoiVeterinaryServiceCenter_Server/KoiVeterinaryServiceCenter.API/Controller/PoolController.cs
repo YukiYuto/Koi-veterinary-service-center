@@ -2,6 +2,9 @@
 using KoiVeterinaryServiceCenter.Models.DTO;
 using KoiVeterinaryServiceCenter.Models.DTO.Pool;
 using KoiVeterinaryServiceCenter.Services.IServices;
+using KoiVeterinaryServiceCenter.Services.Services;
+using KoiVeterinaryServiceCenter.Utility.Constants;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -39,6 +42,13 @@ namespace KoiVeterinaryServiceCenter.API.Controller
             return StatusCode(responseDto.StatusCode, responseDto);
         }
 
+        [HttpGet("{customerId:guid}/customer")]
+        public async Task<ActionResult<ResponseDTO>> GetPoolByCustomerId(string customerId)
+        {
+            var responseDto = await _poolService.GetPoolByCustomerId(User, customerId);
+            return StatusCode(responseDto.StatusCode, responseDto);
+        }
+
         [HttpPost]
         public async Task<ActionResult<ResponseDTO>> CreatePool(CreatePoolDTO createPoolDTO)
         {
@@ -50,6 +60,13 @@ namespace KoiVeterinaryServiceCenter.API.Controller
         public async Task<ActionResult<ResponseDTO>> UpdatePool(UpdatePoolDTO updatePoolDTO)
         {
             var responseDto = await _poolService.UpdatePool(User, updatePoolDTO);
+            return StatusCode(responseDto.StatusCode, responseDto);
+        }
+        [HttpPost("avatar")]
+       
+        public async Task<ActionResult<ResponseDTO>> UploadPoolAvatar(IFormFile file)
+        {
+            var responseDto = await _poolService.UploadPoolAvatar(file, User);
             return StatusCode(responseDto.StatusCode, responseDto);
         }
     }

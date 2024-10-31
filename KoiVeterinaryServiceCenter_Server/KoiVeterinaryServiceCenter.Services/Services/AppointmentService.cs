@@ -4,12 +4,7 @@ using KoiVeterinaryServiceCenter.Models.Domain;
 using KoiVeterinaryServiceCenter.Models.DTO.Appointment;
 using KoiVeterinaryServiceCenter.Models.DTO;
 using KoiVeterinaryServiceCenter.Services.IServices;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Security.Claims;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 
 namespace KoiVeterinaryServiceCenter.Services.Services
@@ -152,23 +147,8 @@ namespace KoiVeterinaryServiceCenter.Services.Services
                 }
 
                 GetAppointmentDTO appointmentDto;
-                try
-                {
-                    appointmentDto = _mapper.Map<GetAppointmentDTO>(AppointmentId);
-                }
-                catch (AutoMapperMappingException e)
-                {
-                    // Log the mapping error
-                    // Consider logging e.Message or e.InnerException for more details
-                    return new ResponseDTO()
-                    {
-                        Result = null,
-                        Message = "Failed to map Appointment to GetAppointmentDTO",
-                        IsSuccess = false,
-                        StatusCode = 500
-                    };
-                }
-
+                appointmentDto = _mapper.Map<GetAppointmentDTO>(AppointmentId);
+                
                 return new ResponseDTO()
                 {
                     Result = appointmentDto,
@@ -222,7 +202,7 @@ namespace KoiVeterinaryServiceCenter.Services.Services
                         StatusCode = 404
                     };
                 }
-
+                
                 var slot = await _unitOfWork.SlotRepository.GetAsync(c => c.SlotId == createAppointmentDto.SlotId);
                 if (slot == null)
                 {
@@ -235,22 +215,33 @@ namespace KoiVeterinaryServiceCenter.Services.Services
                     };
                 }
 
+                var pet = await _unitOfWork.PetRepository.GetAsync(p => p.PetId == createAppointmentDto.PetId);
+                if (pet == null)
+                {
+                    return new ResponseDTO()
+                    {
+                        Result = "",
+                        Message = "pet was not found",
+                        IsSuccess = true,
+                        StatusCode = 404
+                    };
+                }
+
                 // Lấy số AppointmentNumber lớn nhất hiện có và tăng nó lên 1
-                long maxAppointmentNumber = await _unitOfWork.AppointmentRepository
-                    .GetMaxAppointmentNumberAsync();
-
-
+                long appointmentNumber = await _unitOfWork.AppointmentRepository.GenerateUniqueNumberAsync();
+                
                 //Map DTO qua entity Level
                 Appointment appointments = new Appointment()
                 {
                     SlotId = createAppointmentDto.SlotId,
                     ServiceId = createAppointmentDto.ServiceId,
+                    PetId = createAppointmentDto.PetId,
                     TotalAmount = createAppointmentDto.TotalAmount,
                     BookingStatus = 0,
                     Description = createAppointmentDto.Description,
                     CustomerId = createAppointmentDto.CustomerId,
-                    CreateTime = createAppointmentDto.CreateTime,
-                    AppointmentNumber = maxAppointmentNumber + 1
+                    AppointmentDate = createAppointmentDto.AppointmentDate,
+                    AppointmentNumber = appointmentNumber
                 };
 
                 //thêm appointment mới
@@ -355,42 +346,27 @@ namespace KoiVeterinaryServiceCenter.Services.Services
                     };
                 }
 
-                // Lấy danh sách các cuộc hẹn của người dùng
-                var appointments = await _unitOfWork.AppointmentRepository.GetAppointmentsByUserId(loggedInUserId);
+                // Gọi hàm GetAppointmentsAsync để lấy danh sách các cuộc hẹn  
+                var appointmentDtos = await _unitOfWork.AppointmentRepository.GetAppointmentsWithDetails(loggedInUserId);
 
-                if (appointments == null || !appointments.Any())
+                // Lọc chỉ những cuộc hẹn có BookingStatus là 1 (Booked)  
+                var bookedAppointments = appointmentDtos?.Where(a => a.BookingStatus == 1).ToList();
+
+                if (bookedAppointments == null || !bookedAppointments.Any())
                 {
                     return new ResponseDTO()
                     {
-                        Message = "No appointments found for this user.",
+                        Message = "No booked appointments found for this user.",
                         Result = null,
                         IsSuccess = false,
                         StatusCode = 404
                     };
                 }
 
-                // Tạo danh sách các DTO
-                var appointmentDtos = new List<GetAppointmentDTO>();
-
-                foreach (var appointment in appointments)
-                {
-                    var customer = await _userManager.FindByIdAsync(appointment.CustomerId);
-                    var appointmentDto = _mapper.Map<GetAppointmentDTO>(appointment);
-
-                    // Nếu tìm thấy customer, gán thêm CustomerName vào DTO
-                    if (customer != null)
-                    {
-                        appointmentDto.CustomerName = customer.FullName; // Gán FullName vào DTO
-                    }
-
-                    // Thêm DTO vào danh sách
-                    appointmentDtos.Add(appointmentDto);
-                }
-
                 return new ResponseDTO()
                 {
-                    Message = "Appointments retrieved successfully.",
-                    Result = appointmentDtos,
+                    Message = "Booked appointments retrieved successfully.",
+                    Result = bookedAppointments,
                     IsSuccess = true,
                     StatusCode = 200
                 };
