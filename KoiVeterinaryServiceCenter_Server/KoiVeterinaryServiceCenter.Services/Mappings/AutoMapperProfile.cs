@@ -3,6 +3,7 @@ using KoiVeterinaryServiceCenter.Model.Domain;
 using KoiVeterinaryServiceCenter.Model.DTO.Service;
 using KoiVeterinaryServiceCenter.Models.Domain;
 using KoiVeterinaryServiceCenter.Models.DTO.Appointment;
+using KoiVeterinaryServiceCenter.Models.DTO.DashBoard;
 using KoiVeterinaryServiceCenter.Models.DTO.Doctor;
 using KoiVeterinaryServiceCenter.Models.DTO.DoctorSchedules;
 using KoiVeterinaryServiceCenter.Models.DTO.DoctorServices;
@@ -85,5 +86,6 @@ public class AutoMapperProfile : Profile
             .ForMember(dest => dest.Experience, opt => opt.MapFrom(src => src.DoctorSchedules.Doctor.Experience))
             .ForMember(dest => dest.Degree, opt => opt.MapFrom(src => src.DoctorSchedules.Doctor.Degree))
             .ForMember(dest => dest.Position, opt => opt.MapFrom(src => src.DoctorSchedules.Doctor.Position)).ReverseMap();
+        CreateMap<Transaction, GetRevenueOfMonthDTO>().ReverseMap();
     }
 }
