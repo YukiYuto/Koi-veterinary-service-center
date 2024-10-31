@@ -116,7 +116,7 @@ public class PaymentService : IPaymentService
 
     public async Task<ResponseDTO> UpdatePayOSPaymentStatus(ClaimsPrincipal User, Guid paymentTransactionId)
     {
-        /*try
+        try
         {
             PaymentTransactions paymentTransactions = await _unitOfWork.PaymentTransactionsRepository.GetById(paymentTransactionId);
             if (paymentTransactions is null)
@@ -129,8 +129,8 @@ public class PaymentService : IPaymentService
                     Result = null
                 };
             }
-
-            var paymentStatus = _payOS.getPaymentLinkInformation(paymentTransactions.AppointmentNumber);
+            long orderNumber = (long) paymentTransactions.AppointmentNumber;
+            var paymentStatus = _payOS.getPaymentLinkInformation(orderNumber);
 
             if (paymentStatus != null)
             {
@@ -142,7 +142,7 @@ public class PaymentService : IPaymentService
 
             if (paymentTransactions.Status.Equals(StaticPayment.paymentStatusSucess))
             {
-                var appointment = await _unitOfWork.AppointmentRepository.GetAppointmentByAppmointNumer(paymentTransactions.AppointmentNumber);
+                var appointment = await _unitOfWork.AppointmentRepository.GetAppointmentByAppmointNumer(orderNumber);
                 Transaction transaction = new Transaction()
                 {
                     CustomerId = appointment.CustomerId,
@@ -179,13 +179,12 @@ public class PaymentService : IPaymentService
                 StatusCode = 500,
                 Result = null
             };
-        }*/
-        return null;
+        }
     }
 
     public async Task<ResponseDTO> CancelPayOSPaymentLink(ClaimsPrincipal User, Guid paymentTransactionId, string cancellationReason)
     {
-        /*try
+        try
         {
             PaymentTransactions paymentTransactions = await _unitOfWork.PaymentTransactionsRepository.GetById(paymentTransactionId);
 
@@ -199,14 +198,14 @@ public class PaymentService : IPaymentService
                     Result = null
                 };
             }
-
-            var paymentCancelInfor = await _payOS.cancelPaymentLink(paymentTransactions.AppointmentNumber, cancellationReason);
+            long orderCode = (long) paymentTransactions.AppointmentNumber;
+            var paymentCancelInfor = await _payOS.cancelPaymentLink(orderCode, cancellationReason);
             paymentTransactions.Status = paymentCancelInfor.status;
             paymentTransactions.Reason = cancellationReason;
             _unitOfWork.PaymentTransactionsRepository.Update(paymentTransactions);
             await _unitOfWork.SaveAsync();
 
-            Appointment appointment = await _unitOfWork.AppointmentRepository.GetAppointmentByAppmointNumer(paymentTransactions.AppointmentNumber);
+            Appointment appointment = await _unitOfWork.AppointmentRepository.GetAppointmentByAppmointNumer(orderCode);
             appointment.BookingStatus = 2;
 
             _unitOfWork.AppointmentRepository.Update(appointment);
@@ -228,13 +227,11 @@ public class PaymentService : IPaymentService
                 StatusCode = 500,
                 Result = null
             };
-        }*/
-        return null;
-
+        }
     }
     public async Task<ResponseDTO> UpdatePayOSPaymentStatusForDepositPart1(ClaimsPrincipal User, Guid paymentTransacId)
     {
-        /*try
+        try
         {
             var paymentTransaction = await _unitOfWork.PaymentTransactionsRepository.GetById(paymentTransacId);
             if (paymentTransaction is null)
@@ -247,9 +244,9 @@ public class PaymentService : IPaymentService
                     Result = null
                 };
             }
-
-            var appointment = await _unitOfWork.AppointmentRepository.GetAppointmentByAppmointNumer(paymentTransaction.AppointmentNumber);
-            if (paymentTransaction is null)
+            long orderCode = (long)paymentTransaction.AppointmentDepositNumber;
+            var appointment = await _unitOfWork.AppointmentRepository.GetAsync(x => x.AppointmentDepositNumbe == orderCode);
+            if (appointment is null)
             {
                 return new ResponseDTO()
                 {
@@ -259,8 +256,8 @@ public class PaymentService : IPaymentService
                     Result = null
                 };
             }
-            var appointmentDeposit = await _unitOfWork.AppointmentDepositRepository.GetAsync(x => x.AppointmentDepositNumber == appointment.AppointmentDepositNumbe);
-            if (paymentTransaction is null)
+            var appointmentDeposit = await _unitOfWork.AppointmentDepositRepository.GetAsync(x => x.AppointmentId == appointment.AppointmentId);
+            if (appointmentDeposit is null)
             {
                 return new ResponseDTO()
                 {
@@ -271,7 +268,7 @@ public class PaymentService : IPaymentService
                 };
             }
 
-            var paymentStatus = _payOS.getPaymentLinkInformation(paymentTransaction.AppointmentNumber);
+            var paymentStatus = _payOS.getPaymentLinkInformation(orderCode);
             if (paymentStatus != null)
             {
                 paymentTransaction.Status = paymentStatus.Result.status;
@@ -292,6 +289,8 @@ public class PaymentService : IPaymentService
                 };
                 await _unitOfWork.TransactionsRepository.AddAsync(transaction);
                 appointmentDeposit.DepositStatus = 1;
+                appointment.BookingStatus = 1;
+                _unitOfWork.AppointmentRepository.Update(appointment);
                 _unitOfWork.AppointmentDepositRepository.Update(appointmentDeposit);
                 await _unitOfWork.SaveAsync();
             }
@@ -313,8 +312,7 @@ public class PaymentService : IPaymentService
                 StatusCode = 500,
                 Result = null
             };
-        }*/
-        return null;
+        }
     }
 
     public async Task<ResponseDTO> CreatePayOSLinkForDepositPart1(ClaimsPrincipal User, CreatePaymentLinkDTO createPaymentLinkDTO)
@@ -332,7 +330,7 @@ public class PaymentService : IPaymentService
                     Result = null
                 };
             }
-            var deposit = await _unitOfWork.AppointmentDepositRepository.GetAsync(x => x.AppointmentDepositNumber == appointment.AppointmentDepositNumbe);
+            var deposit = await _unitOfWork.AppointmentDepositRepository.GetAsync(x => x.AppointmentId == appointment.AppointmentId);
             if (deposit is null)
             {
                 return new ResponseDTO()
@@ -375,7 +373,8 @@ public class PaymentService : IPaymentService
             CreatePaymentResult result = await _payOS.createPaymentLink(paymentData);
             PaymentTransactions paymentTransactions = new PaymentTransactions()
             {
-                AppointmentNumber = deposit.AppointmentDepositNumber,
+                AppointmentNumber = appointment.AppointmentNumber,
+                AppointmentDepositNumber = deposit.AppointmentDepositNumber,
                 Amount = totalPrice,
                 Description = result.description.Trim(),
                 CancelUrl = paymentData.cancelUrl,
@@ -433,7 +432,7 @@ public class PaymentService : IPaymentService
 
                 var item = new List<ItemData>()
             {
-                new ItemData(name: service.ServiceName + StaticPayment.payDeposit30PerCent, quantity: 1, price: totalPrice)
+                new ItemData(name: service.ServiceName + StaticPayment.payDeposit70PerCent, quantity: 1, price: totalPrice)
             };
 
                 var paymentData = new PaymentData(
@@ -460,6 +459,7 @@ public class PaymentService : IPaymentService
                 PaymentTransactions paymentTransactions = new PaymentTransactions()
                 {
                     AppointmentNumber = appointment.AppointmentNumber,
+                    AppointmentDepositNumber = appointment.AppointmentDepositNumbe,
                     Amount = totalPrice,
                     Description = result.description.Trim(),
                     CancelUrl = paymentData.cancelUrl,
@@ -498,7 +498,7 @@ public class PaymentService : IPaymentService
 
     public async Task<ResponseDTO> UpdatePayOSPaymentStatusForDepositPart2(ClaimsPrincipal User, Guid paymentTransacId)
     {
-        /*try
+        try
         {
             var paymentTransaction = await _unitOfWork.PaymentTransactionsRepository.GetById(paymentTransacId);
             if (paymentTransaction is null)
@@ -511,8 +511,8 @@ public class PaymentService : IPaymentService
                     Result = null
                 };
             }
-
-            var appointment = await _unitOfWork.AppointmentRepository.GetAppointmentByAppmointNumer(paymentTransaction.AppointmentNumber);
+            long orderCode = (long) paymentTransaction.AppointmentNumber;
+            var appointment = await _unitOfWork.AppointmentRepository.GetAppointmentByAppmointNumer(orderCode);
             if (paymentTransaction is null)
             {
                 return new ResponseDTO()
@@ -524,7 +524,7 @@ public class PaymentService : IPaymentService
                 };
             }
 
-            var paymentStatus = _payOS.getPaymentLinkInformation(paymentTransaction.AppointmentNumber);
+            var paymentStatus = _payOS.getPaymentLinkInformation(orderCode);
             if (paymentStatus != null)
             {
                 paymentTransaction.Status = paymentStatus.Result.status;
@@ -566,7 +566,6 @@ public class PaymentService : IPaymentService
                 StatusCode = 500,
                 Result = null
             };
-        }*/
-        return null;
+        }
     }
 }
