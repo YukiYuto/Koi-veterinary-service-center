@@ -18,7 +18,7 @@ public class Appointment
     
     public string? Description { get; set; }
     public double TotalAmount { get; set; }
-    public DateOnly CreateTime { get; set; }
+    public DateOnly AppointmentDate { get; set; }
     
     public long? AppointmentDepositNumbe { get; set; }
     public long AppointmentNumber { get; set; }
