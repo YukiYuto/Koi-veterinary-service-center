@@ -25,5 +25,6 @@ namespace KoiVeterinaryServiceCenter.Services.IServices
         Task<ResponseDTO> GetPoolById(ClaimsPrincipal User, Guid poolId);
         Task<ResponseDTO> UpdatePool(ClaimsPrincipal User, UpdatePoolDTO updatePoolDTO);
         Task<ResponseDTO> DeletePoolById(ClaimsPrincipal User, Guid poolId);
+        Task<ResponseDTO> GetPoolByCustomerId(ClaimsPrincipal User, string customerId);
     }
 }
