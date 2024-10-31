@@ -7,8 +7,10 @@ using System.Threading.Tasks;
 using AutoMapper;
 using KoiVeterinaryServiceCenter.DataAccess.IRepository;
 using KoiVeterinaryServiceCenter.Model.Domain;
+using KoiVeterinaryServiceCenter.Models.Domain;
 using KoiVeterinaryServiceCenter.Models.DTO;
 using KoiVeterinaryServiceCenter.Models.DTO.Doctor;
+using KoiVeterinaryServiceCenter.Models.DTO.Slot;
 using KoiVeterinaryServiceCenter.Services.IServices;
 using Microsoft.IdentityModel.Tokens;
 
@@ -24,7 +26,7 @@ namespace KoiVeterinaryServiceCenter.Services.Services
             _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
-        
+
         //Get all doctor then filter query and sort query after that pagination is excuted
         public async Task<ResponseDTO> GetAll(ClaimsPrincipal User, string? filterOn, string? filterQuery, string? sortBy, bool? isAscending, int pageNumber, int pageSize)
         {
@@ -155,7 +157,7 @@ namespace KoiVeterinaryServiceCenter.Services.Services
 
 
         //Get doctor by id
-        public async Task<ResponseDTO> GetDoctorById(Guid id)
+        public async Task<ResponseDTO> GetDoctorById(ClaimsPrincipal User, Guid id)
         {
             try
             {
@@ -191,7 +193,7 @@ namespace KoiVeterinaryServiceCenter.Services.Services
                     Specialization = doctor.Specialization,
                     Experience = doctor.Experience,
                     Degree = doctor.Degree,
-                    Position =doctor.Position
+                    Position = doctor.Position
                 };
 
                 //Solve return (has object doctorInfoDto) if the function successfully
@@ -216,7 +218,7 @@ namespace KoiVeterinaryServiceCenter.Services.Services
         }
 
         //Use Doctor ID to find and update information's the Doctor
-        public async Task<ResponseDTO> UpdateDoctorById(UpdateDoctorDTO updateDoctorDTO)
+        public async Task<ResponseDTO> UpdateDoctorById(ClaimsPrincipal User, UpdateDoctorDTO updateDoctorDTO)
         {
             try
             {
@@ -279,7 +281,7 @@ namespace KoiVeterinaryServiceCenter.Services.Services
 
 
         //Use doctor ID to find then set lockoutEnabled is false (Its mean lockout account's doctor)
-        public async Task<ResponseDTO> DeleteDoctorById(Guid doctorId)
+        public async Task<ResponseDTO> DeleteDoctorById(ClaimsPrincipal User, Guid doctorId)
         {
             try
             {
@@ -297,7 +299,7 @@ namespace KoiVeterinaryServiceCenter.Services.Services
                         Result = null
                     };
                 }
-                
+
                 //Set lockEnabled is false (deleted)
                 doctorToDelete.ApplicationUser.LockoutEnabled = false;
 
@@ -328,7 +330,7 @@ namespace KoiVeterinaryServiceCenter.Services.Services
             }
         }
 
-        public async Task<ResponseDTO> CreateGoogleMeetLink(GoogleMeetLinkDTO googleMeetLinkDTO)
+        public async Task<ResponseDTO> CreateGoogleMeetLink(ClaimsPrincipal User, GoogleMeetLinkDTO googleMeetLinkDTO)
         {
             var doctor = await _unitOfWork.DoctorRepository.GetAsync(d => d.DoctorId == googleMeetLinkDTO.doctorId);
             if (doctor is null)
@@ -345,7 +347,8 @@ namespace KoiVeterinaryServiceCenter.Services.Services
             _unitOfWork.DoctorRepository.Update(doctor);
             await _unitOfWork.SaveAsync();
 
-            return new ResponseDTO() {
+            return new ResponseDTO()
+            {
                 IsSuccess = true,
                 StatusCode = 201,
                 Result = doctor,
@@ -353,7 +356,7 @@ namespace KoiVeterinaryServiceCenter.Services.Services
             };
         }
 
-        public async Task<ResponseDTO> UpdateGoogleMeetLink(GoogleMeetLinkDTO googleMeetLinkDTO)
+        public async Task<ResponseDTO> UpdateGoogleMeetLink(ClaimsPrincipal User, GoogleMeetLinkDTO googleMeetLinkDTO)
         {
             var doctor = await _unitOfWork.DoctorRepository.GetAsync(d => d.DoctorId == googleMeetLinkDTO.doctorId);
             if (doctor is null)
@@ -377,6 +380,62 @@ namespace KoiVeterinaryServiceCenter.Services.Services
                 Result = doctor,
                 Message = "Google meet link updated successfully"
             };
+        }
+
+        public async Task<ResponseDTO> GetAllDoctorBySlot(ClaimsPrincipal User, GetAllDoctorBySlotDTO getDoctorBySlotDTO)
+        {
+            try
+            {
+
+                var slots = _unitOfWork.SlotRepository.GetAllAsync(includeProperties: "DoctorSchedules.Doctor.ApplicationUser,DoctorSchedules.Doctor")
+                    .GetAwaiter().GetResult().Where(s => s.StartTime <= getDoctorBySlotDTO.StartTime &&
+                                      s.EndTime >= getDoctorBySlotDTO.EndTime &&
+                                      s.DoctorSchedules.SchedulesDate == getDoctorBySlotDTO.SchedulesDate).ToList();
+                if (slots.IsNullOrEmpty())
+                {
+                    return new ResponseDTO()
+                    {
+                        Message = "There are no doctors available in the slot",
+                        IsSuccess = false,
+                        StatusCode = 404,
+                        Result = null
+                    };
+                }
+
+                List<DoctorFullInfoDTO> doctorList;
+                try
+                {
+                    doctorList = _mapper.Map<List<DoctorFullInfoDTO>>(slots);
+                }
+                catch (AutoMapperMappingException e)
+                {
+                    return new ResponseDTO()
+                    {
+                        Message = e.Message,
+                        IsSuccess = false,
+                        StatusCode = 500,
+                        Result = null
+                    };
+                }
+
+                return new ResponseDTO()
+                {
+                    Message = "Get all doctor by slot successfully",
+                    IsSuccess = true,
+                    StatusCode = 200,
+                    Result = doctorList
+                };
+            }
+            catch (Exception e)
+            {
+                return new ResponseDTO()
+                {
+                    Message = e.Message,
+                    IsSuccess = false,
+                    StatusCode = 500,
+                    Result = null
+                };
+            }
         }
     }
 }
