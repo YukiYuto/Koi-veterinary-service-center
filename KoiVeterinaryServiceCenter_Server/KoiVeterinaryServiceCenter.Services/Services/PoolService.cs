@@ -19,6 +19,7 @@ namespace KoiVeterinaryServiceCenter.Services.Services
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
+
         public PoolService(IUnitOfWork unitOfWork, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
@@ -27,7 +28,7 @@ namespace KoiVeterinaryServiceCenter.Services.Services
 
         public async Task<ResponseDTO> CreatePool(ClaimsPrincipal User, CreatePoolDTO createPoolDTO)
         {
-            try
+            /*try
             {
                 Pool pool = new Pool()
                 {
@@ -56,7 +57,8 @@ namespace KoiVeterinaryServiceCenter.Services.Services
                     StatusCode = 500,
                     Result = null
                 };
-            }
+            }*/
+            return null;
         }
 
         public Task<ResponseDTO> DeletePoolById(ClaimsPrincipal User, Guid poolId)
@@ -64,7 +66,8 @@ namespace KoiVeterinaryServiceCenter.Services.Services
             throw new NotImplementedException();
         }
 
-        public async Task<ResponseDTO> GetAll(ClaimsPrincipal User, string? filterOn, string? filterQuery, string? sortBy, bool? isAscending, int pageNumber, int pageSize)
+        public async Task<ResponseDTO> GetAll(ClaimsPrincipal User, string? filterOn, string? filterQuery,
+            string? sortBy, bool? isAscending, int pageNumber, int pageSize)
         {
             try
             {
@@ -80,6 +83,7 @@ namespace KoiVeterinaryServiceCenter.Services.Services
                         Result = null
                     };
                 }
+
                 if (!string.IsNullOrEmpty(filterOn) && !string.IsNullOrEmpty(filterQuery))
                 {
                     switch (filterOn.Trim().ToLower())
@@ -97,12 +101,14 @@ namespace KoiVeterinaryServiceCenter.Services.Services
                     pools = sortBy.Trim().ToLower() switch
                     {
                         "name" => isAscending == true
-                        ? pools.OrderBy(x => x.Name).ToList()
-                        : pools.OrderByDescending(x => x.Name).ToList(),
+                            ? pools.OrderBy(x => x.Name).ToList()
+                            : pools.OrderByDescending(x => x.Name).ToList(),
 
                         _ => pools
                     };
-                };
+                }
+
+                ;
 
                 if (pageNumber > 0 && pageSize > 0)
                 {
@@ -200,7 +206,7 @@ namespace KoiVeterinaryServiceCenter.Services.Services
 
         public async Task<ResponseDTO> UpdatePool(ClaimsPrincipal User, UpdatePoolDTO updatePoolDTO)
         {
-            try
+            /*try
             {
                 var pool = await _unitOfWork.PoolRepository.GetById(updatePoolDTO.PoolId);
                 if (pool is null)
@@ -235,6 +241,8 @@ namespace KoiVeterinaryServiceCenter.Services.Services
                     Result = null
                 };
             }
+        }*/
+            return null;
         }
     }
 }

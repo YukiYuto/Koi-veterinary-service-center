@@ -240,7 +240,7 @@ namespace KoiVeterinaryServiceCenter.Services.Services
                     BookingStatus = 0,
                     Description = createAppointmentDto.Description,
                     CustomerId = createAppointmentDto.CustomerId,
-                    CreateTime = createAppointmentDto.CreateTime,
+                    AppointmentDate = createAppointmentDto.AppointmentDate,
                     AppointmentNumber = appointmentNumber
                 };
 
@@ -346,42 +346,27 @@ namespace KoiVeterinaryServiceCenter.Services.Services
                     };
                 }
 
-                // Lấy danh sách các cuộc hẹn của người dùng
-                var appointments = await _unitOfWork.AppointmentRepository.GetAppointmentsByUserId(loggedInUserId);
+                // Gọi hàm GetAppointmentsAsync để lấy danh sách các cuộc hẹn  
+                var appointmentDtos = await _unitOfWork.AppointmentRepository.GetAppointmentsWithDetails(loggedInUserId);
 
-                if (appointments == null || !appointments.Any())
+                // Lọc chỉ những cuộc hẹn có BookingStatus là 1 (Booked)  
+                var bookedAppointments = appointmentDtos?.Where(a => a.BookingStatus == 1).ToList();
+
+                if (bookedAppointments == null || !bookedAppointments.Any())
                 {
                     return new ResponseDTO()
                     {
-                        Message = "No appointments found for this user.",
+                        Message = "No booked appointments found for this user.",
                         Result = null,
                         IsSuccess = false,
                         StatusCode = 404
                     };
                 }
 
-                // Tạo danh sách các DTO
-                var appointmentDtos = new List<GetAppointmentDTO>();
-
-                foreach (var appointment in appointments)
-                {
-                    var customer = await _userManager.FindByIdAsync(appointment.CustomerId);
-                    var appointmentDto = _mapper.Map<GetAppointmentDTO>(appointment);
-
-                    // Nếu tìm thấy customer, gán thêm CustomerName vào DTO
-                    if (customer != null)
-                    {
-                        appointmentDto.CustomerName = customer.FullName; // Gán FullName vào DTO
-                    }
-
-                    // Thêm DTO vào danh sách
-                    appointmentDtos.Add(appointmentDto);
-                }
-
                 return new ResponseDTO()
                 {
-                    Message = "Appointments retrieved successfully.",
-                    Result = appointmentDtos,
+                    Message = "Booked appointments retrieved successfully.",
+                    Result = bookedAppointments,
                     IsSuccess = true,
                     StatusCode = 200
                 };
