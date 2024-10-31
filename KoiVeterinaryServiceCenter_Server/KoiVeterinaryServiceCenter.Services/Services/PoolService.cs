@@ -11,6 +11,8 @@ using KoiVeterinaryServiceCenter.Models.Domain;
 using KoiVeterinaryServiceCenter.Models.DTO;
 using KoiVeterinaryServiceCenter.Models.DTO.Pool;
 using KoiVeterinaryServiceCenter.Services.IServices;
+using KoiVeterinaryServiceCenter.Utility.Constants;
+using Microsoft.AspNetCore.Http;
 using Microsoft.IdentityModel.Tokens;
 
 namespace KoiVeterinaryServiceCenter.Services.Services
@@ -19,11 +21,12 @@ namespace KoiVeterinaryServiceCenter.Services.Services
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
-
-        public PoolService(IUnitOfWork unitOfWork, IMapper mapper)
+        private readonly IFirebaseService _firebaseService;
+        public PoolService(IUnitOfWork unitOfWork, IMapper mapper, IFirebaseService firebaseService)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
+            _firebaseService = firebaseService;
         }
 
         public async Task<ResponseDTO> CreatePool(ClaimsPrincipal User, CreatePoolDTO createPoolDTO)
@@ -203,6 +206,7 @@ namespace KoiVeterinaryServiceCenter.Services.Services
                 };
             }
         }
+
         public async Task<ResponseDTO> GetPoolById(ClaimsPrincipal User, Guid poolId)
         {
             try
@@ -293,7 +297,42 @@ namespace KoiVeterinaryServiceCenter.Services.Services
                 };
             }
         }
+
+
+        public async Task<ResponseDTO> UploadPoolAvatar(IFormFile file, ClaimsPrincipal user)
+        {
+            if (file == null)
+            {
+                return new ResponseDTO()
+                {
+                    IsSuccess = false,
+                    StatusCode = 400,
+                    Message = "No file uploaded."
+                };
+            }
+
+            // Upload image lên Firebase và nhận URL công khai
+            var responseDto = await _firebaseService.UploadImagePool(file, StaticFirebaseFolders.PoolAvatars);
+
+            if (!responseDto.IsSuccess)
+            {
+                return new ResponseDTO()
+                {
+                    Message = "Image upload failed!",
+                    Result = null,
+                    IsSuccess = false,
+                    StatusCode = 400 // Bad Request
+                };
+            }
+
+            // Trả về link công khai của hình ảnh
+            return new ResponseDTO()
+            {
+                Message = "Upload post image successfully!",
+                Result = responseDto.Result, // Đảm bảo đây là URL công khai của ảnh đã upload
+                IsSuccess = true,
+                StatusCode = 200 // OK
+            };
+        }
     }
 }
-
-
