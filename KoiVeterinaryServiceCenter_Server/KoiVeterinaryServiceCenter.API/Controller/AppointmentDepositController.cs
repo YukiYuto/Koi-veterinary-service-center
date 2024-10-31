@@ -26,10 +26,18 @@ namespace KoiVeterinaryServiceCenter.API.Controller
         }
         
         [HttpGet("{appointmentId}")]
-        //[Authorize]
+        [Authorize]
         public async Task<ActionResult<ResponseDTO>> GetAppointmentDepositByAppointmentId(Guid appointmentId)
         {
             var responseDto = await _appointmentDepositService.GetAppointmentDepositByAppointmentId(User, appointmentId);
+            return StatusCode(responseDto.StatusCode, responseDto);
+        }
+        
+        [HttpDelete("{appointmentDepositId}")]
+        [Authorize]
+        public async Task<ActionResult<ResponseDTO>> DeleteAppointmentDeposit(Guid appointmentDepositId)
+        {
+            var responseDto = await _appointmentDepositService.DeleteAppointmentDeposit(User, appointmentDepositId);
             return StatusCode(responseDto.StatusCode, responseDto);
         }
     }

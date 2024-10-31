@@ -138,4 +138,60 @@ public class AppointmentDepositService : IAppointmentDepositService
             };
         }
     }
+
+    public async Task<ResponseDTO> DeleteAppointmentDeposit(ClaimsPrincipal User, Guid appointmentDepositId)
+    {
+        try
+        {
+            var appointmentDeposit =
+                await _unitOfWork.AppointmentDepositRepository.GetAsync(ad => ad.DepositId == appointmentDepositId);
+            if (appointmentDeposit == null)
+            {
+                return new ResponseDTO()
+                {
+                    Result = "",
+                    StatusCode = 404,
+                    Message = "Appointment deposit not found",
+                    IsSuccess = false
+                };
+            }
+            
+            var appointmentId = appointmentDeposit.AppointmentId;
+            var appointment = await _unitOfWork.AppointmentRepository.GetAsync(a => a.AppointmentId == appointmentId);
+            if (appointment == null)
+            {
+                return new ResponseDTO()
+                {
+                    Result = "",
+                    StatusCode = 404,
+                    Message = "Appointment not found",
+                    IsSuccess = false
+                };
+            }
+            
+            //Xóa AppointmentDeposit
+            _unitOfWork.AppointmentDepositRepository.Remove(appointmentDeposit);
+            //Xóa Appointment
+            _unitOfWork.AppointmentRepository.Remove(appointment);
+            await _unitOfWork.SaveAsync();
+
+            return new ResponseDTO()
+            {
+                Result = "",
+                StatusCode = 200,
+                Message = "Appointment deposit deleted successfully",
+                IsSuccess = true
+            };
+        }
+        catch (Exception e)
+        {
+            return new ResponseDTO()
+            {
+                Result = "",
+                StatusCode = 500,
+                Message = e.Message,
+                IsSuccess = false
+            };
+        }
+    }
 }
