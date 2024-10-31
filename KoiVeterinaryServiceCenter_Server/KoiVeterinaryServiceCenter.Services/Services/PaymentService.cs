@@ -116,7 +116,7 @@ public class PaymentService : IPaymentService
 
     public async Task<ResponseDTO> UpdatePayOSPaymentStatus(ClaimsPrincipal User, Guid paymentTransactionId)
     {
-        try
+        /*try
         {
             PaymentTransactions paymentTransactions = await _unitOfWork.PaymentTransactionsRepository.GetById(paymentTransactionId);
             if (paymentTransactions is null)
@@ -179,12 +179,13 @@ public class PaymentService : IPaymentService
                 StatusCode = 500,
                 Result = null
             };
-        }
+        }*/
+        return null;
     }
 
     public async Task<ResponseDTO> CancelPayOSPaymentLink(ClaimsPrincipal User, Guid paymentTransactionId, string cancellationReason)
     {
-        try
+        /*try
         {
             PaymentTransactions paymentTransactions = await _unitOfWork.PaymentTransactionsRepository.GetById(paymentTransactionId);
 
@@ -227,12 +228,13 @@ public class PaymentService : IPaymentService
                 StatusCode = 500,
                 Result = null
             };
-        }
+        }*/
+        return null;
 
     }
     public async Task<ResponseDTO> UpdatePayOSPaymentStatusForDepositPart1(ClaimsPrincipal User, Guid paymentTransacId)
     {
-        try
+        /*try
         {
             var paymentTransaction = await _unitOfWork.PaymentTransactionsRepository.GetById(paymentTransacId);
             if (paymentTransaction is null)
@@ -311,7 +313,8 @@ public class PaymentService : IPaymentService
                 StatusCode = 500,
                 Result = null
             };
-        }
+        }*/
+        return null;
     }
 
     public async Task<ResponseDTO> CreatePayOSLinkForDepositPart1(ClaimsPrincipal User, CreatePaymentLinkDTO createPaymentLinkDTO)
@@ -495,7 +498,7 @@ public class PaymentService : IPaymentService
 
     public async Task<ResponseDTO> UpdatePayOSPaymentStatusForDepositPart2(ClaimsPrincipal User, Guid paymentTransacId)
     {
-        try
+        /*try
         {
             var paymentTransaction = await _unitOfWork.PaymentTransactionsRepository.GetById(paymentTransacId);
             if (paymentTransaction is null)
@@ -563,6 +566,7 @@ public class PaymentService : IPaymentService
                 StatusCode = 500,
                 Result = null
             };
-        }
+        }*/
+        return null;
     }
 }
