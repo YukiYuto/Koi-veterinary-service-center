@@ -215,6 +215,18 @@ namespace KoiVeterinaryServiceCenter.Services.Services
                     };
                 }
 
+                var pet = await _unitOfWork.PetRepository.GetAsync(p => p.PetId == createAppointmentDto.PetId);
+                if (pet == null)
+                {
+                    return new ResponseDTO()
+                    {
+                        Result = "",
+                        Message = "pet was not found",
+                        IsSuccess = true,
+                        StatusCode = 404
+                    };
+                }
+
                 // Lấy số AppointmentNumber lớn nhất hiện có và tăng nó lên 1
                 long appointmentNumber = await _unitOfWork.AppointmentRepository.GenerateUniqueNumberAsync();
                 

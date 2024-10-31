@@ -13,8 +13,10 @@ namespace KoiVeterinaryServiceCenter.Model.Domain
     {
         [Key]
         public Guid PaymentTransactionId { get; set; }
-        public long AppointmentNumber { get; set; }
+        public long? AppointmentNumber { get; set; }
         [ForeignKey("AppointmentNumber")] public virtual Appointment Appointment { get; set; }
+
+        public long? AppointmentDepositNumber { get; set; }
         public int Amount { get; set; }
         public string Description { get; set; }
         public string CancelUrl { get; set; }
