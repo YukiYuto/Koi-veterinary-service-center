@@ -203,6 +203,12 @@ namespace KoiVeterinaryServiceCenter.Services.Services
                 };
             }
         }
+
+        public Task<ResponseDTO> GetPoolById(ClaimsPrincipal User, Guid poolId)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<ResponseDTO> UpdatePool(ClaimsPrincipal User, UpdatePoolDTO updatePoolDTO)
         {
             /*try
@@ -300,3 +306,4 @@ namespace KoiVeterinaryServiceCenter.Services.Services
             return null;
         }
     }
+}
