@@ -1,21 +1,22 @@
 ﻿using KoiVeterinaryServiceCenter.DataAccess.Context;
 using KoiVeterinaryServiceCenter.DataAccess.IRepository;
 using KoiVeterinaryServiceCenter.Models.Domain;
+using Microsoft.EntityFrameworkCore;
 
 namespace KoiVeterinaryServiceCenter.DataAccess.Repository;
 
 public class AppointmentDepositRepository : Repository<AppointmentDeposit>, IAppointmentDepositRepository
 {
-    private readonly IUnitOfWork _unitOfWork;
-    
-    public AppointmentDepositRepository(ApplicationDbContext context, IUnitOfWork unitOfWork) : base(context)
+    private readonly ApplicationDbContext _context;
+
+    public AppointmentDepositRepository(ApplicationDbContext context) : base(context)
     {
-        _unitOfWork = unitOfWork;
+        _context = context;
     }
 
-    public void Update(Slot slot)
+    public void Update(AppointmentDeposit appointmentDeposit)
     {
-        throw new NotImplementedException();
+        _context.AppointmentDeposits.Update(appointmentDeposit);
     }
 
     public Task<AppointmentDeposit> GetAppointmentDepositByAppointmentId(Guid AppointmentId)
@@ -23,8 +24,20 @@ public class AppointmentDepositRepository : Repository<AppointmentDeposit>, IApp
         throw new NotImplementedException();
     }
 
-    public Task<IEnumerable<AppointmentDeposit>> GetAllSlotWithDoctor()
+
+    public async Task<long> GenerateUniqueNumberAsync()
     {
-        throw new NotImplementedException();
+        long nextNumber = 1;
+        while (true)
+        {
+            // Kiểm tra xem số hiệu đã tồn tại trong bảng AppointmentDeposit chưa
+            var existsInDeposits = await _context.AppointmentDeposits.AnyAsync(ad => ad.AppointmentDepositNumber == nextNumber);
+            if (!existsInDeposits)
+            {
+                return nextNumber;
+            }
+
+            nextNumber++;
+        }
     }
 }

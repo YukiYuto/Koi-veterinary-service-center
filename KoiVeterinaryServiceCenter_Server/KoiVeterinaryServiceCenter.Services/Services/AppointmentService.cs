@@ -4,12 +4,7 @@ using KoiVeterinaryServiceCenter.Models.Domain;
 using KoiVeterinaryServiceCenter.Models.DTO.Appointment;
 using KoiVeterinaryServiceCenter.Models.DTO;
 using KoiVeterinaryServiceCenter.Services.IServices;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Security.Claims;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 
 namespace KoiVeterinaryServiceCenter.Services.Services
@@ -207,7 +202,7 @@ namespace KoiVeterinaryServiceCenter.Services.Services
                         StatusCode = 404
                     };
                 }
-
+                
                 var slot = await _unitOfWork.SlotRepository.GetAsync(c => c.SlotId == createAppointmentDto.SlotId);
                 if (slot == null)
                 {
@@ -221,10 +216,8 @@ namespace KoiVeterinaryServiceCenter.Services.Services
                 }
 
                 // Lấy số AppointmentNumber lớn nhất hiện có và tăng nó lên 1
-                long maxAppointmentNumber = await _unitOfWork.AppointmentRepository
-                    .GetMaxAppointmentNumberAsync();
-
-
+                long appointmentNumber = await _unitOfWork.AppointmentRepository.GenerateUniqueNumberAsync();
+                
                 //Map DTO qua entity Level
                 Appointment appointments = new Appointment()
                 {
@@ -235,7 +228,7 @@ namespace KoiVeterinaryServiceCenter.Services.Services
                     Description = createAppointmentDto.Description,
                     CustomerId = createAppointmentDto.CustomerId,
                     CreateTime = createAppointmentDto.CreateTime,
-                    AppointmentNumber = maxAppointmentNumber + 1
+                    AppointmentNumber = appointmentNumber
                 };
 
                 //thêm appointment mới

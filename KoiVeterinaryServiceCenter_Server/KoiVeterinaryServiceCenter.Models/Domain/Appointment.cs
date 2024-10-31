@@ -19,7 +19,7 @@ public class Appointment
     public double TotalAmount { get; set; }
     public DateOnly CreateTime { get; set; }
     
-
+    public long? AppointmentDepositNumbe { get; set; }
     public long AppointmentNumber { get; set; }
     public int BookingStatus { get; set; }
 
@@ -30,13 +30,13 @@ public class Appointment
             switch (BookingStatus)
             {
                 case 0:
-                    return "Peding";
+                    return "Pending";
                 case 1:
                     return "Booked";
                 case 2:
                     return "Cancel";
                 default:
-                    return "Peding";
+                    return "Pending";
             }
         }
     }
