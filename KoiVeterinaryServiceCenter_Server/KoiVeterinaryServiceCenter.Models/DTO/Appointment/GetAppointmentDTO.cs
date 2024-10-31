@@ -11,7 +11,9 @@ namespace KoiVeterinaryServiceCenter.Models.DTO.Appointment
         public Guid AppointmentId { get; set; }
         public Guid SlotId { get; set; }
         public Guid ServiceId { get; set; }
-        public string BookingStatus { get; set; }
+        public Guid PetId { get; set; }
+        public int BookingStatus { get; set; }
+        public string BookingStatusDescription { get; set; }
         public double TotalAmount { get; set; }
         public DateOnly CreateTime { get; set; }
         public string Description { get; set; }
