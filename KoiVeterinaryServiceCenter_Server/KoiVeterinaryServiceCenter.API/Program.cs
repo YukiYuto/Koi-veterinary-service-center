@@ -24,7 +24,7 @@ builder.Services.AddHttpClient();
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
 {
     options.UseSqlServer(
-        builder.Configuration.GetConnectionString(StaticConnectionString.SQLDB_DefaultConnection));
+        builder.Configuration.GetConnectionString(StaticConnectionString.SQLDB_DefaultConnectionAzure));
 });
 
 // Register AutoMapper
@@ -143,7 +143,7 @@ app.Use(async (context, next) =>
 // Đặt UseCors ngay sau middleware này
 app.UseCors("CorsPolicy");
 // Apply database migrations
-ApplyMigration();
+//ApplyMigration();
 
 // Apply CORS policy
 app.UseCors("AllowSpecificOrigin");

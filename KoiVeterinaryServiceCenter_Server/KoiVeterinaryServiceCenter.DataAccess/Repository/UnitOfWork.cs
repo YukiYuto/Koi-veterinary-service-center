@@ -14,6 +14,7 @@ public class UnitOfWork : IUnitOfWork
     public ICustomerRepository CustomerRepository { get; set; }
     public ISlotRepository SlotRepository { get; set; }
     public IAppointmentRepository AppointmentRepository { get; set; }
+    public IAppointmentDepositRepository AppointmentDepositRepository { get; set; }
     public IEmailTemplateRepository EmailTemplateRepository { get; set; }
     public IDoctorSchedulesRepository DoctorSchedulesRepository { get; set; }
     public IServiceRepository ServiceRepository { get; set; }
@@ -43,6 +44,7 @@ public class UnitOfWork : IUnitOfWork
         CustomerRepository = new CustomerRepository(_context);
         SlotRepository = new SlotRepository(_context);
         AppointmentRepository = new AppointmentRepository(_context);
+        AppointmentDepositRepository = new AppointmentDepositRepository(_context);
         EmailTemplateRepository = new EmailTemplateRepository(_context);
         DoctorSchedulesRepository = new DoctorSchedulesRepository(_context);
         DoctorRatingRepository = new DoctorRatingRepository(_context);

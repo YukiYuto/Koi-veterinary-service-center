@@ -18,4 +18,5 @@ public interface IAuthService
     Task<ResponseDTO> SendVerifyEmail(string email, string confirmationLink);
     Task<ResponseDTO> VerifyEmail(string userId, string token);
     Task<ResponseDTO> FetchUserByToken(string token);
+    Task<ResponseDTO> ChangePassword(string userId, string oldPassword, string newPassword, string confirmNewPassword);
 }

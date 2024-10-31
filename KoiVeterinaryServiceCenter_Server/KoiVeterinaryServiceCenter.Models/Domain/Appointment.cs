@@ -14,14 +14,13 @@ public class Appointment
 
     [ForeignKey("ServiceId")] // Đảm bảo có mối quan hệ với Service
     public virtual Service Service { get; set; } = null!; // Liên kết đến Service
-
+    public Guid PetId { get; set; }
+    
     public string? Description { get; set; }
     public double TotalAmount { get; set; }
     public DateOnly CreateTime { get; set; }
     
-    [NotMapped] public virtual ICollection<AppointmentPet> AppointmentPets { get; set; } = null!;
-
-
+    public long? AppointmentDepositNumbe { get; set; }
     public long AppointmentNumber { get; set; }
     public int BookingStatus { get; set; }
 
@@ -32,13 +31,13 @@ public class Appointment
             switch (BookingStatus)
             {
                 case 0:
-                    return "Peding";
+                    return "Pending";
                 case 1:
                     return "Booked";
                 case 2:
                     return "Cancel";
                 default:
-                    return "Peding";
+                    return "Pending";
             }
         }
     }

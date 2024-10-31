@@ -1,9 +1,12 @@
 ﻿using AutoMapper;
+using Google.Apis.Storage.v1;
 using KoiVeterinaryServiceCenter.Model.Domain;
 using KoiVeterinaryServiceCenter.Model.DTO.Service;
 using KoiVeterinaryServiceCenter.Models.Domain;
 using KoiVeterinaryServiceCenter.Models.DTO;
 using KoiVeterinaryServiceCenter.Models.DTO.Appointment;
+using KoiVeterinaryServiceCenter.Models.DTO.AppointmentDeposit;
+using KoiVeterinaryServiceCenter.Models.DTO.DashBoard;
 using KoiVeterinaryServiceCenter.Models.DTO.Doctor;
 using KoiVeterinaryServiceCenter.Models.DTO.DoctorSchedules;
 using KoiVeterinaryServiceCenter.Models.DTO.DoctorServices;
@@ -55,7 +58,7 @@ public class AutoMapperProfile : Profile
             .ForMember(dest => dest.NameService, opt => opt.MapFrom(src => src.Appointment.Service.ServiceName))
             .ForMember(dest => dest.Price, opt => opt.MapFrom(src => src.Appointment.Service.Price))
             .ForMember(dest => dest.TravelFee, opt => opt.MapFrom(src => src.Appointment.Service.TreavelFree))
-            .ForMember(dest => dest.ScheduleDate, opt => opt.MapFrom(src => src.Appointment.Slot.SchedulesDate))
+            .ForMember(dest => dest.ScheduleDate, opt => opt.MapFrom(src => src.Appointment.Slot.DoctorSchedules.SchedulesDate))
             .ForMember(dest => dest.StartTime, opt => opt.MapFrom(src => src.Appointment.Slot.StartTime))
             .ForMember(dest => dest.EndTime, opt => opt.MapFrom(src => src.Appointment.Slot.EndTime))
             .ForMember(dest => dest.TransactionDateTime, opt => opt.MapFrom(src => src.TransactionDateTime)).ReverseMap();
@@ -89,5 +92,28 @@ public class AutoMapperProfile : Profile
             .ForMember(dest => dest.PetId, opt => opt.MapFrom(src => src.PetId))
             .ForMember(dest => dest.DiseaseId, opt => opt.MapFrom(src => src.DiseaseId))
             .ReverseMap();
+        CreateMap<Slot, DoctorFullInfoDTO>()
+            .ForMember(dest => dest.DoctorId, opt => opt.MapFrom(src => src.DoctorSchedules.Doctor.DoctorId))
+            .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.DoctorSchedules.Doctor.UserId))
+            .ForMember(dest => dest.FullName, opt => opt.MapFrom(src => src.DoctorSchedules.Doctor.ApplicationUser.FullName))
+            .ForMember(dest => dest.Gender, opt => opt.MapFrom(src => src.DoctorSchedules.Doctor.ApplicationUser.Gender))
+            .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.DoctorSchedules.Doctor.ApplicationUser.Email))
+            .ForMember(dest => dest.PhoneNumber, opt => opt.MapFrom(src => src.DoctorSchedules.Doctor.ApplicationUser.PhoneNumber))
+            .ForMember(dest => dest.BirthDate, opt => opt.MapFrom(src => src.DoctorSchedules.Doctor.ApplicationUser.BirthDate))
+            .ForMember(dest => dest.AvatarUrl, opt => opt.MapFrom(src => src.DoctorSchedules.Doctor.ApplicationUser.AvatarUrl))
+            .ForMember(dest => dest.Country, opt => opt.MapFrom(src => src.DoctorSchedules.Doctor.ApplicationUser.Country))
+            .ForMember(dest => dest.Address, opt => opt.MapFrom(src => src.DoctorSchedules.Doctor.ApplicationUser.Address))
+            .ForMember(dest => dest.Specialization, opt => opt.MapFrom(src => src.DoctorSchedules.Doctor.Specialization))
+            .ForMember(dest => dest.Experience, opt => opt.MapFrom(src => src.DoctorSchedules.Doctor.Experience))
+            .ForMember(dest => dest.Degree, opt => opt.MapFrom(src => src.DoctorSchedules.Doctor.Degree))
+            .ForMember(dest => dest.Position, opt => opt.MapFrom(src => src.DoctorSchedules.Doctor.Position)).ReverseMap();
+        CreateMap<AppointmentDeposit, GetAppointmentDepositDTO>()
+            .ForMember(dest => dest.appointmentDepositId, opt => opt.MapFrom(src => src.DepositId))
+            .ForMember(dest => dest.appointmentId, opt => opt.MapFrom(src => src.AppointmentId))
+            .ForMember(dest => dest.depositAmount, opt => opt.MapFrom(src => src.DepositAmount))
+            .ForMember(dest => dest.depositTime, opt => opt.MapFrom(src => src.DepositTime))
+            .ForMember(dest => dest.appointmentDepositNumber, opt => opt.MapFrom(src => src.AppointmentDepositNumber))
+            .ForMember(dest => dest.depositStatus, opt => opt.MapFrom(src => src.DepositStatus));
+        CreateMap<Transaction, GetRevenueOfMonthDTO>().ReverseMap();
     }
 }

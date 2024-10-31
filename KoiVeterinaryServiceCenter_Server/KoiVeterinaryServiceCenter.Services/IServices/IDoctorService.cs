@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using KoiVeterinaryServiceCenter.Models.DTO;
 using KoiVeterinaryServiceCenter.Models.DTO.Doctor;
+using KoiVeterinaryServiceCenter.Models.DTO.Slot;
 
 namespace KoiVeterinaryServiceCenter.Services.IServices
 {
@@ -20,10 +21,11 @@ namespace KoiVeterinaryServiceCenter.Services.IServices
                 int pageNumber,
                 int pageSize
             );
-        Task<ResponseDTO> GetDoctorById(Guid id);
-        Task<ResponseDTO> UpdateDoctorById(UpdateDoctorDTO updateDoctorDTO);
-        Task<ResponseDTO> DeleteDoctorById(Guid id);
-        Task<ResponseDTO> CreateGoogleMeetLink(GoogleMeetLinkDTO googleMeetLinkDTO);
-        Task<ResponseDTO> UpdateGoogleMeetLink(GoogleMeetLinkDTO googleMeetLinkDTO);
+        Task<ResponseDTO> GetDoctorById(ClaimsPrincipal User, Guid id);
+        Task<ResponseDTO> UpdateDoctorById(ClaimsPrincipal User, UpdateDoctorDTO updateDoctorDTO);
+        Task<ResponseDTO> DeleteDoctorById(ClaimsPrincipal User, Guid id);
+        Task<ResponseDTO> CreateGoogleMeetLink(ClaimsPrincipal User, GoogleMeetLinkDTO googleMeetLinkDTO);
+        Task<ResponseDTO> UpdateGoogleMeetLink(ClaimsPrincipal User, GoogleMeetLinkDTO googleMeetLinkDTO);
+        Task<ResponseDTO> GetAllDoctorBySlot(ClaimsPrincipal User, GetAllDoctorBySlotDTO getDoctorBySlotDTO);
     }
 }

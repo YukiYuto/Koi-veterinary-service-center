@@ -146,11 +146,11 @@ namespace KoiVeterinaryServiceCenter.Services.Services
             }
         }
 
-        public async Task<ResponseDTO> GetPoolById(ClaimsPrincipal User, Guid poolId)
+        public async Task<ResponseDTO> GetPoolByCustomerId(ClaimsPrincipal User, string customerId)
         {
             try
             {
-                var pool = await _unitOfWork.PoolRepository.GetById(poolId);
+                var pool = await _unitOfWork.PoolRepository.GetAllAsync(x => x.CustomerId == customerId);
                 if (pool is null)
                 {
                     return new ResponseDTO()
@@ -162,10 +162,10 @@ namespace KoiVeterinaryServiceCenter.Services.Services
                     };
                 }
 
-                GetPoolFullInfo getPoolFullInfo;
+                List<GetPoolDTO> getPoolDTO;
                 try
                 {
-                    getPoolFullInfo = _mapper.Map<GetPoolFullInfo>(pool);
+                    getPoolDTO = _mapper.Map<List<GetPoolDTO>>(pool);
                 }
                 catch (AutoMapperMappingException e)
                 {
@@ -183,7 +183,7 @@ namespace KoiVeterinaryServiceCenter.Services.Services
                     Message = "Get pool successfully",
                     IsSuccess = true,
                     StatusCode = 200,
-                    Result = getPoolFullInfo
+                    Result = getPoolDTO
                 };
             }
             catch (Exception e)
@@ -198,43 +198,95 @@ namespace KoiVeterinaryServiceCenter.Services.Services
             }
         }
 
-        public async Task<ResponseDTO> UpdatePool(ClaimsPrincipal User, UpdatePoolDTO updatePoolDTO)
-        {
-            try
+            public async Task<ResponseDTO> GetPoolById(ClaimsPrincipal User, Guid poolId)
             {
-                var pool = await _unitOfWork.PoolRepository.GetById(updatePoolDTO.PoolId);
-                if (pool is null)
+                try
+                {
+                    var pool = await _unitOfWork.PoolRepository.GetById(poolId);
+                    if (pool is null)
+                    {
+                        return new ResponseDTO()
+                        {
+                            Message = "Cannot found pool",
+                            IsSuccess = false,
+                            StatusCode = 404,
+                            Result = null
+                        };
+                    }
+
+                    GetPoolFullInfo getPoolFullInfo;
+                    try
+                    {
+                        getPoolFullInfo = _mapper.Map<GetPoolFullInfo>(pool);
+                    }
+                    catch (AutoMapperMappingException e)
+                    {
+                        return new ResponseDTO()
+                        {
+                            Message = e.Message,
+                            IsSuccess = false,
+                            StatusCode = 500,
+                            Result = null
+                        };
+                    }
+
+                    return new ResponseDTO()
+                    {
+                        Message = "Get pool successfully",
+                        IsSuccess = true,
+                        StatusCode = 200,
+                        Result = getPoolFullInfo
+                    };
+                }
+                catch (Exception e)
                 {
                     return new ResponseDTO()
                     {
-                        Message = "Cannot found pool",
+                        Message = e.Message,
                         IsSuccess = false,
-                        StatusCode = 404,
+                        StatusCode = 500,
                         Result = null
                     };
                 }
-                pool.Size = updatePoolDTO.Size;
-                _unitOfWork.PoolRepository.Update(pool);
-                await _unitOfWork.SaveAsync();
-
-                return new ResponseDTO()
-                {
-                    Message = "Update pool successfully",
-                    IsSuccess = true,
-                    StatusCode = 200,
-                    Result = null
-                };
             }
-            catch (Exception e)
+
+            public async Task<ResponseDTO> UpdatePool(ClaimsPrincipal User, UpdatePoolDTO updatePoolDTO)
             {
-                return new ResponseDTO()
+                try
                 {
-                    Message = e.Message,
-                    IsSuccess = false,
-                    StatusCode = 500,
-                    Result = null
-                };
+                    var pool = await _unitOfWork.PoolRepository.GetById(updatePoolDTO.PoolId);
+                    if (pool is null)
+                    {
+                        return new ResponseDTO()
+                        {
+                            Message = "Cannot found pool",
+                            IsSuccess = false,
+                            StatusCode = 404,
+                            Result = null
+                        };
+                    }
+                    pool.Size = updatePoolDTO.Size;
+                    _unitOfWork.PoolRepository.Update(pool);
+                    await _unitOfWork.SaveAsync();
+
+                    return new ResponseDTO()
+                    {
+                        Message = "Update pool successfully",
+                        IsSuccess = true,
+                        StatusCode = 200,
+                        Result = null
+                    };
+                }
+                catch (Exception e)
+                {
+                    return new ResponseDTO()
+                    {
+                        Message = e.Message,
+                        IsSuccess = false,
+                        StatusCode = 500,
+                        Result = null
+                    };
+                }
             }
         }
     }
-}
