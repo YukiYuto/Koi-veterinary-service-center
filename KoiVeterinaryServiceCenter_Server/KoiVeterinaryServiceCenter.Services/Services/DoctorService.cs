@@ -191,6 +191,7 @@ namespace KoiVeterinaryServiceCenter.Services.Services
                     Specialization = doctor.Specialization,
                     Experience = doctor.Experience,
                     Degree = doctor.Degree,
+                    Position =doctor.Position
                 };
 
                 //Solve return (has object doctorInfoDto) if the function successfully
@@ -247,6 +248,7 @@ namespace KoiVeterinaryServiceCenter.Services.Services
                 doctorToUpdate.Specialization = updateDoctorDTO.Specialization;
                 doctorToUpdate.Experience = updateDoctorDTO.Experience;
                 doctorToUpdate.Degree = updateDoctorDTO.Degree;
+                doctorToUpdate.Position = updateDoctorDTO?.Position;
 
                 //Update to database and save it
                 _unitOfWork.DoctorRepository.Update(doctorToUpdate);

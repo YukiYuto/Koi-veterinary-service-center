@@ -24,7 +24,7 @@ builder.Services.AddHttpClient();
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
 {
     options.UseSqlServer(
-        builder.Configuration.GetConnectionString(StaticConnectionString.SQLDB_DefaultConnectionAzure));
+        builder.Configuration.GetConnectionString(StaticConnectionString.SQLDB_DefaultConnection));
 });
 
 // Register AutoMapper
@@ -42,7 +42,7 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddDefaultTokenProviders();
 
-// Configure authentication and authorization
+// Configure authentication and authorizations
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;

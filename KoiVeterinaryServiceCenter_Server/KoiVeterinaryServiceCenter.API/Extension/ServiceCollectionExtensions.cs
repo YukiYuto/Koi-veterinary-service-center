@@ -44,10 +44,16 @@ public static class ServiceCollectionExtensions
         services.AddScoped<IPaymentService, PaymentService>();
         // Registering IPostService with its implementation PostService
         services.AddScoped<IPostService, PostService>();
+        //registing Pet
+        services.AddScoped<IPetService, PetsService>();
         // Resgistering IDoctorRatingService with its implementation DoctorRatingService
         services.AddScoped<IDoctorRatingService, DoctorRatingService>();
         // Resgistering ITransactionsService with its implementation TransactionsService
         services.AddScoped<ITransactionsService, TransactionsService>();
+        // Resgistering IPoolService with its implementation PoolService
+        services.AddScoped<IPoolService, PoolService>();
+        // Resgistering IPoolService with its implementation PoolService
+        services.AddScoped<IPetServiceService, PetServiceService>();
         return services;
     }
 }
