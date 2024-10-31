@@ -72,14 +72,14 @@ public class AutoMapperProfile : Profile
         CreateMap<PetService, GetPetServiceFullInfoDTO>()
             .ForMember(dest => dest.PetName, opt => opt.MapFrom(src => src.Pet.Name))
             .ForMember(dest => dest.Species, opt => opt.MapFrom(src => src.Pet.Species))
-            .ForMember(dest => dest.Breed, opt => opt.MapFrom(src => src.Pet.Description))
+            .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.Pet.Description))
             .ForMember(dest => dest.ServiceName, opt => opt.MapFrom(src => src.Service.ServiceName))
             .ForMember(dest => dest.Price, opt => opt.MapFrom(src => src.Service.Price)).ReverseMap();
         CreateMap<Pet, GetPetDTO>()
             .ForMember(dest =>dest.PetId,opt => opt.MapFrom(src =>src.PetId))
              .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name))
             .ForMember(dest => dest.Species, opt => opt.MapFrom(src => src.Species))
-            .ForMember(dest => dest.Breed, opt => opt.MapFrom(src => src.Description))
+            .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.Description))
             .ForMember(dest => dest.PetUrl, opt => opt.MapFrom(src => src.PetUrl)).ReverseMap();
         CreateMap<PetDisease, GetPetDiseaseDTO>()
            .ForMember(dest => dest.PetId, opt => opt.MapFrom(src => src.PetId))

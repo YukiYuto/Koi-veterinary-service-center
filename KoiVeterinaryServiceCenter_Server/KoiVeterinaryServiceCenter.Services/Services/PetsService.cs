@@ -28,12 +28,12 @@ namespace KoiVeterinaryServiceCenter.Services.Services
 
         public async Task<ResponseDTO> CreatePet(ClaimsPrincipal user, CreatePetDTO createPetDTO)
         {
-            /*var pet = new Pet
+            var pet = new Pet
             {
                 PetId = Guid.NewGuid(),
                 Name = createPetDTO.Name,
                 Species = createPetDTO.Species,
-                Breed = createPetDTO.Breed,
+                Description = createPetDTO.Description,
                 PetUrl= createPetDTO.PetUrl,
                 CustomerId= createPetDTO.CustomerId
              
@@ -48,7 +48,7 @@ namespace KoiVeterinaryServiceCenter.Services.Services
                 Message = "Pet created successfully",
                 StatusCode = 200,
                 Result = pet
-            };*/
+            };
             return null;
         }
 
@@ -61,7 +61,7 @@ namespace KoiVeterinaryServiceCenter.Services.Services
             int pageNumber,
             int pageSize)
         {
-            /*try
+            try
             {
                 var pets = await _unitOfWork.PetRepository.GetAllAsync();
 
@@ -72,8 +72,8 @@ namespace KoiVeterinaryServiceCenter.Services.Services
                         "name" => pets.Where(p => p.Name.Contains(filterQuery, StringComparison.OrdinalIgnoreCase)).ToList(),
                         "species" => pets.Where(p => p.Species != null &&
                                                      p.Species.Contains(filterQuery, StringComparison.OrdinalIgnoreCase)).ToList(),
-                        "breed" => pets.Where(p => p.Breed != null &&
-                                                   p.Breed.Contains(filterQuery, StringComparison.OrdinalIgnoreCase)).ToList(),
+                        "Description" => pets.Where(p => p.Description != null &&
+                                                   p.Description.Contains(filterQuery, StringComparison.OrdinalIgnoreCase)).ToList(),
                         _ => pets
                     };
                 }
@@ -106,7 +106,7 @@ namespace KoiVeterinaryServiceCenter.Services.Services
                     PetId = p.PetId,
                     Name = p.Name,
                     Species = p.Species,
-                    Breed = p.Breed,
+                    Description = p.Description,
                    
                     PetUrl = p.PetUrl,
                 }).ToList();
@@ -127,13 +127,13 @@ namespace KoiVeterinaryServiceCenter.Services.Services
                     Message = ex.Message,
                     StatusCode = 500
                 };
-            }*/
+            }
             return null;
         }
 
         public async Task<ResponseDTO> GetPetById(Guid petId)
         {
-            /*var pet = await _unitOfWork.PetRepository.GetByIdAsync(petId);
+            var pet = await _unitOfWork.PetRepository.GetByIdAsync(petId);
 
             if (pet == null)
             {
@@ -150,7 +150,7 @@ namespace KoiVeterinaryServiceCenter.Services.Services
                 PetId = pet.PetId,
                 Name = pet.Name,
                 Species = pet.Species,
-                Breed = pet.Breed,
+                Description = pet.Description,
                
                 PetUrl= pet.PetUrl,
                
@@ -163,7 +163,7 @@ namespace KoiVeterinaryServiceCenter.Services.Services
                 Message = "Pet retrieved successfully",
                 StatusCode = 200,
                 Result = petDto
-            };*/
+            };
             return null;
         }
 
@@ -193,7 +193,7 @@ namespace KoiVeterinaryServiceCenter.Services.Services
 
         public async Task<ResponseDTO> UpdatePet(ClaimsPrincipal user, UpdatePetDTO updatePetDTO)
         {
-            /* var pet = await _unitOfWork.PetRepository.GetByIdAsync(updatePetDTO.PetId);
+             var pet = await _unitOfWork.PetRepository.GetByIdAsync(updatePetDTO.PetId);
 
              if (pet == null)
              {
@@ -207,7 +207,7 @@ namespace KoiVeterinaryServiceCenter.Services.Services
 
              pet.Name = updatePetDTO.Name ?? pet.Name;
              pet.Species = updatePetDTO.Species ?? pet.Species;
-             pet.Breed = updatePetDTO.Breed ?? pet.Breed;
+             pet.Description = updatePetDTO.Description ?? pet.Description;
              pet.PetUrl = updatePetDTO.PetUrl ?? pet.PetUrl;
 
              _unitOfWork.PetRepository.Update(pet);
@@ -219,7 +219,7 @@ namespace KoiVeterinaryServiceCenter.Services.Services
                  Message = "Pet updated successfully",
                  StatusCode = 200,
                  Result = pet
-             };*/
+             };
             return null;
         }
 
