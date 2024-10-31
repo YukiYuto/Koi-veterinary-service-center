@@ -223,6 +223,7 @@ namespace KoiVeterinaryServiceCenter.Services.Services
                 {
                     SlotId = createAppointmentDto.SlotId,
                     ServiceId = createAppointmentDto.ServiceId,
+                    PetId = createAppointmentDto.PetId,
                     TotalAmount = createAppointmentDto.TotalAmount,
                     BookingStatus = 0,
                     Description = createAppointmentDto.Description,
