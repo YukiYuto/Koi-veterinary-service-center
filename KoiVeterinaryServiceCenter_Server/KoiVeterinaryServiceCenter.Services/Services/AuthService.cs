@@ -549,6 +549,11 @@ public class AuthService : IAuthService
         }
     }
 
+    public Task<ResponseDTO> ChangePassword(ChangePasswordDTO changePasswordDto)
+    {
+        throw new NotImplementedException();
+    }
+
 
     /// <summary>
     /// This method for check email exist or not

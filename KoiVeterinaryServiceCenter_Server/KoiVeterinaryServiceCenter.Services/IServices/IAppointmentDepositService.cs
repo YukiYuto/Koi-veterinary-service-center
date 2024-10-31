@@ -20,5 +20,6 @@ public interface IAppointmentDepositService
     Task<ResponseDTO> GetAppointmentDepositById(ClaimsPrincipal User, Guid appointmentDepositId);
     Task<ResponseDTO> GetAppointmentDepositByAppointmentId(ClaimsPrincipal User, Guid appointmentId);
     Task<ResponseDTO> CreateAppointmentDeposit(ClaimsPrincipal User, CreateAppointmentDepositDTO createAppointmentDepositDto);
+    Task<ResponseDTO> DeleteAppointmentDeposit(ClaimsPrincipal User, Guid appointmentDepositId);
 
 }
