@@ -17,14 +17,14 @@ namespace KoiVeterinaryServiceCenter.DataAccess.Repository
         public async Task<Pet?> GetByIdAsync(Guid petId)
         {
             return await _context.Pets
-                .Include(p => p.Customer)
+               
                 .FirstOrDefaultAsync(p => p.PetId == petId);
         }
 
         public async Task<List<Pet>> GetAllPetsAsync()
         {
             return await _context.Pets
-                .Include(p => p.Customer)
+            
                 .ToListAsync();
         }
 
@@ -32,7 +32,7 @@ namespace KoiVeterinaryServiceCenter.DataAccess.Repository
         {
             return await _context.Pets
                 .Where(p => p.CustomerId == customerId)
-                .Include(p => p.Customer)
+               
                 .ToListAsync();
         }
 
