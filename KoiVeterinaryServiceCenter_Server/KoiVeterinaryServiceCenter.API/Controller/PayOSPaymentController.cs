@@ -34,18 +34,18 @@ namespace KoiVeterinaryServiceCenter.API.Controllers
             return StatusCode(responseDto.StatusCode, responseDto);
         }
 
-        [HttpPut("{paymentTransactionId:guid}/update-payment-status-for-appointment-deposit-part1")]
-        public async Task<ActionResult<ResponseDTO>> UpdatePaymentStatusForAppointmentDepositPart1([FromRoute] Guid paymentTransactionId)
-        {
-            var responseDto = await _paymentService.UpdatePayOSPaymentStatusForDepositPart1(User, paymentTransactionId);
-            return StatusCode(responseDto.StatusCode, responseDto);
-        }
-
         [HttpPost("create-payment-link-for-deposit-part-2")]
         public async Task<ActionResult<ResponseDTO>> CreatePayOSLinkForDepositPart2([FromBody] CreatePaymentLinkDTO createPaymentLinkDTO)
         {
             var responseDto = await _paymentService.CreatePayOSLinkForDepositPart2(User, createPaymentLinkDTO);
 
+            return StatusCode(responseDto.StatusCode, responseDto);
+        }
+
+        [HttpPut("{paymentTransactionId:guid}/update-payment-status-for-appointment-deposit-part1")]
+        public async Task<ActionResult<ResponseDTO>> UpdatePaymentStatusForAppointmentDepositPart1([FromRoute] Guid paymentTransactionId)
+        {
+            var responseDto = await _paymentService.UpdatePayOSPaymentStatusForDepositPart1(User, paymentTransactionId);
             return StatusCode(responseDto.StatusCode, responseDto);
         }
 
