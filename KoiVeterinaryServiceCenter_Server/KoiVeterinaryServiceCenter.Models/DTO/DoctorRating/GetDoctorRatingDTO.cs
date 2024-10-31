@@ -17,5 +17,6 @@ namespace KoiVeterinaryServiceCenter.Models.DTO.DoctorRating
         public int Rating { get; set; }
 
         public string? Feedback { get; set; }
+        public Guid AppointmentId { get; set; }
     }
 }

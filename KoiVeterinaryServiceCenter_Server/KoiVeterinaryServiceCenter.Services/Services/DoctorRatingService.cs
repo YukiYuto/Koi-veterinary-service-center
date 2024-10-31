@@ -79,6 +79,7 @@ namespace KoiVeterinaryServiceCenter.Services.Services
                         "doctorid" => ratings.Where(x => x.DoctorId.ToString().Contains(filterQuery)).ToList(),
                         "feedback" => ratings.Where(x => x.Feedback.Contains(filterQuery, StringComparison.CurrentCultureIgnoreCase)).ToList(),
                         "rating" when int.TryParse(filterQuery, out var ratingValue) => ratings.Where(x => x.Rating == ratingValue).ToList(),
+                        
                         _ => ratings
                     };
                 }
@@ -120,7 +121,8 @@ namespace KoiVeterinaryServiceCenter.Services.Services
                     DoctorRatingId = r.DoctorRatingId,
                     DoctorId = r.DoctorId,
                     Rating = r.Rating,
-                    Feedback = r.Feedback
+                    Feedback = r.Feedback,
+                    AppointmentId=r.AppointmentId
                 }).ToList();
 
                 return new ResponseDTO
@@ -170,7 +172,8 @@ namespace KoiVeterinaryServiceCenter.Services.Services
                     DoctorRatingId = r.DoctorRatingId,
                     DoctorId = r.DoctorId,
                     Rating = r.Rating,
-                    Feedback = r.Feedback
+                    Feedback = r.Feedback,
+                    AppointmentId = r.AppointmentId
                 }).ToList();
 
                 return new ResponseDTO
@@ -285,6 +288,7 @@ namespace KoiVeterinaryServiceCenter.Services.Services
 
                 doctorRating.Rating = updateDoctorRatingDTO.Rating;
                 doctorRating.Feedback = updateDoctorRatingDTO.Feedback;
+                doctorRating.AppointmentId= updateDoctorRatingDTO.AppointmentId;
 
                 _unitOfWork.DoctorRatingRepository.Update(doctorRating);
                 await _unitOfWork.SaveAsync();
