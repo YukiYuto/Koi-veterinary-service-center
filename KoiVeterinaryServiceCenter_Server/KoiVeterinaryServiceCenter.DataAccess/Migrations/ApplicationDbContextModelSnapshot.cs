@@ -206,7 +206,7 @@ namespace KoiVeterinaryServiceCenter.DataAccess.Migrations
                             Address = "123 Admin St",
                             AvatarUrl = "https://example.com/avatar.png",
                             BirthDate = new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ConcurrencyStamp = "ef539be4-be95-4b5b-8c89-fa1b1466c21a",
+                            ConcurrencyStamp = "8db5091a-96ac-438c-927b-258dd65b08ce",
                             Country = "Country",
                             Email = "admin@gmail.com",
                             EmailConfirmed = true,
@@ -215,10 +215,10 @@ namespace KoiVeterinaryServiceCenter.DataAccess.Migrations
                             LockoutEnabled = true,
                             NormalizedEmail = "ADMIN@GMAIL.COM",
                             NormalizedUserName = "ADMIN@GMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEElJkk36uEK9Y0rSPzsTZekmIEQN1mjCJvJh9CqrayipRL+p0QDdy4XabFlmeIDxLA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAELKamXATd2BJhTGoX9eP9U/a3SF4mZzgvI440CepvF3fLssi3UFce+/nyOIHrDhxrQ==",
                             PhoneNumber = "1234567890",
                             PhoneNumberConfirmed = true,
-                            SecurityStamp = "f317d0db-b93e-4b3f-9d68-d19f09ee6dc9",
+                            SecurityStamp = "af4a3907-18e2-4d59-a586-f8c06b11329b",
                             TwoFactorEnabled = false,
                             UserName = "admin@gmail.com"
                         });
@@ -473,7 +473,7 @@ namespace KoiVeterinaryServiceCenter.DataAccess.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("d000fc0d-8d4d-4dca-8743-5f642852bfd7"),
+                            Id = new Guid("d5e0a164-ba27-4b6a-9701-4ba308704cc7"),
                             BodyContent = "Dear [UserFullName],<br><br>Welcome to Koi Veterinary Service Center! We are thrilled to have you as part of our community dedicated to the care and well-being of your beloved pets.",
                             CallToAction = "<a href=\"{{VerificationLink}}\">Verify Your Email</a>",
                             Category = "Appointment",
@@ -490,7 +490,7 @@ namespace KoiVeterinaryServiceCenter.DataAccess.Migrations
                         },
                         new
                         {
-                            Id = new Guid("0840e235-a95a-43eb-8aaf-1e6311a3b95f"),
+                            Id = new Guid("eaefc834-4f89-459a-90a9-880ddf1054a1"),
                             BodyContent = "Hi [UserFullName],<br><br>We received a request to reset your password. Click the link below to reset your password.",
                             CallToAction = "https://cursuslms.xyz/sign-in/verify-email?userId=user.Id&token=Uri.EscapeDataString(token)",
                             Category = "Security",
@@ -507,7 +507,7 @@ namespace KoiVeterinaryServiceCenter.DataAccess.Migrations
                         },
                         new
                         {
-                            Id = new Guid("87e7084c-9575-4ff4-b581-e7c041ff049d"),
+                            Id = new Guid("c707e3cd-bd21-43d7-ad9d-dfcadc879b40"),
                             BodyContent = "<p>Thank you for registering your Cursus account. Click here to go back the page</p>",
                             CallToAction = "<a href=\"{{Login}}\">Login now</a>",
                             Category = "Verify",
@@ -633,6 +633,9 @@ namespace KoiVeterinaryServiceCenter.DataAccess.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<float>("Size")
+                        .HasColumnType("real");
+
                     b.Property<int>("Status")
                         .HasColumnType("int");
 
@@ -642,14 +645,11 @@ namespace KoiVeterinaryServiceCenter.DataAccess.Migrations
                     b.Property<DateTime?>("UpdatedTime")
                         .HasColumnType("datetime2");
 
-                    b.Property<float>("size")
-                        .HasColumnType("real");
-
                     b.HasKey("PoolId");
 
                     b.HasIndex("CustomerId");
 
-                    b.ToTable("Notifications");
+                    b.ToTable("Pools");
                 });
 
             modelBuilder.Entity("KoiVeterinaryServiceCenter.Models.Domain.Post", b =>
