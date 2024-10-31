@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using KoiVeterinaryServiceCenter.Models.Domain;
 using KoiVeterinaryServiceCenter.Models.DTO;
 using KoiVeterinaryServiceCenter.Models.DTO.Pool;
+using Microsoft.AspNetCore.Http;
 
 namespace KoiVeterinaryServiceCenter.Services.IServices
 {
@@ -25,5 +26,6 @@ namespace KoiVeterinaryServiceCenter.Services.IServices
         Task<ResponseDTO> GetPoolById(ClaimsPrincipal User, Guid poolId);
         Task<ResponseDTO> UpdatePool(ClaimsPrincipal User, UpdatePoolDTO updatePoolDTO);
         Task<ResponseDTO> DeletePoolById(ClaimsPrincipal User, Guid poolId);
+        Task<ResponseDTO> UploadPoolAvatar(IFormFile file, ClaimsPrincipal user);
     }
 }

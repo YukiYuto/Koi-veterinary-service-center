@@ -12,5 +12,7 @@ namespace KoiVeterinaryServiceCenter.Models.DTO.Pool
         public string CustomerId { get; set; }
         public string? Name { get; set; }
         public float? Size { get; set; }
+
+        public string? PoolUrl { get; set; }
     }
 }
