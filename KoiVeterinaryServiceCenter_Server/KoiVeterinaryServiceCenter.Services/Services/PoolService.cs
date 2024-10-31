@@ -150,7 +150,7 @@ namespace KoiVeterinaryServiceCenter.Services.Services
         {
             try
             {
-                var pool = await _unitOfWork.PoolRepository.GetAsync(x => x.CustomerId == customerId);
+                var pool = await _unitOfWork.PoolRepository.GetAllAsync(x => x.CustomerId == customerId);
                 if (pool is null)
                 {
                     return new ResponseDTO()
@@ -162,10 +162,10 @@ namespace KoiVeterinaryServiceCenter.Services.Services
                     };
                 }
 
-                GetPoolDTO getPoolDTO;
+                List<GetPoolDTO> getPoolDTO;
                 try
                 {
-                    getPoolDTO = _mapper.Map<GetPoolDTO>(pool);
+                    getPoolDTO = _mapper.Map<List<GetPoolDTO>>(pool);
                 }
                 catch (AutoMapperMappingException e)
                 {
@@ -183,7 +183,7 @@ namespace KoiVeterinaryServiceCenter.Services.Services
                     Message = "Get pool successfully",
                     IsSuccess = true,
                     StatusCode = 200,
-                    Result = null
+                    Result = getPoolDTO
                 };
             }
             catch (Exception e)
