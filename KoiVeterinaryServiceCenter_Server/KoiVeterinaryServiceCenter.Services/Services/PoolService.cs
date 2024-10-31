@@ -28,7 +28,7 @@ namespace KoiVeterinaryServiceCenter.Services.Services
 
         public async Task<ResponseDTO> CreatePool(ClaimsPrincipal User, CreatePoolDTO createPoolDTO)
         {
-            /*try
+            try
             {
                 Pool pool = new Pool()
                 {
@@ -57,7 +57,7 @@ namespace KoiVeterinaryServiceCenter.Services.Services
                     StatusCode = 500,
                     Result = null
                 };
-            }*/
+            }
             return null;
         }
 
@@ -203,100 +203,97 @@ namespace KoiVeterinaryServiceCenter.Services.Services
                 };
             }
         }
+        public async Task<ResponseDTO> GetPoolById(ClaimsPrincipal User, Guid poolId)
+        {
+            try
+            {
+                var pool = await _unitOfWork.PoolRepository.GetById(poolId);
+                if (pool is null)
+                {
+                    return new ResponseDTO()
+                    {
+                        Message = "Cannot found pool",
+                        IsSuccess = false,
+                        StatusCode = 404,
+                        Result = null
+                    };
+                }
+
+                GetPoolFullInfo getPoolFullInfo;
+                try
+                {
+                    getPoolFullInfo = _mapper.Map<GetPoolFullInfo>(pool);
+                }
+                catch (AutoMapperMappingException e)
+                {
+                    return new ResponseDTO()
+                    {
+                        Message = e.Message,
+                        IsSuccess = false,
+                        StatusCode = 500,
+                        Result = null
+                    };
+                }
+
+                return new ResponseDTO()
+                {
+                    Message = "Get pool successfully",
+                    IsSuccess = true,
+                    StatusCode = 200,
+                    Result = getPoolFullInfo
+                };
+            }
+            catch (Exception e)
+            {
+                return new ResponseDTO()
+                {
+                    Message = e.Message,
+                    IsSuccess = false,
+                    StatusCode = 500,
+                    Result = null
+                };
+            }
+        }
+
         public async Task<ResponseDTO> UpdatePool(ClaimsPrincipal User, UpdatePoolDTO updatePoolDTO)
         {
-            /*try
-            public async Task<ResponseDTO> GetPoolById(ClaimsPrincipal User, Guid poolId)
+            try
             {
-                try
-                {
-                    var pool = await _unitOfWork.PoolRepository.GetById(poolId);
-                    if (pool is null)
-                    {
-                        return new ResponseDTO()
-                        {
-                            Message = "Cannot found pool",
-                            IsSuccess = false,
-                            StatusCode = 404,
-                            Result = null
-                        };
-                    }
-
-                    GetPoolFullInfo getPoolFullInfo;
-                    try
-                    {
-                        getPoolFullInfo = _mapper.Map<GetPoolFullInfo>(pool);
-                    }
-                    catch (AutoMapperMappingException e)
-                    {
-                        return new ResponseDTO()
-                        {
-                            Message = e.Message,
-                            IsSuccess = false,
-                            StatusCode = 500,
-                            Result = null
-                        };
-                    }
-
-                    return new ResponseDTO()
-                    {
-                        Message = "Get pool successfully",
-                        IsSuccess = true,
-                        StatusCode = 200,
-                        Result = getPoolFullInfo
-                    };
-                }
-                catch (Exception e)
+                var pool = await _unitOfWork.PoolRepository.GetById(updatePoolDTO.PoolId);
+                if (pool is null)
                 {
                     return new ResponseDTO()
                     {
-                        Message = e.Message,
+                        Message = "Cannot found pool",
                         IsSuccess = false,
-                        StatusCode = 500,
+                        StatusCode = 404,
                         Result = null
                     };
                 }
-            }
+                pool.Size = updatePoolDTO.Size;
+                _unitOfWork.PoolRepository.Update(pool);
+                await _unitOfWork.SaveAsync();
 
-            public async Task<ResponseDTO> UpdatePool(ClaimsPrincipal User, UpdatePoolDTO updatePoolDTO)
+                return new ResponseDTO()
+                {
+                    Message = "Update pool successfully",
+                    IsSuccess = true,
+                    StatusCode = 200,
+                    Result = null
+                };
+            }
+            catch (Exception e)
             {
-                try
+                return new ResponseDTO()
                 {
-                    var pool = await _unitOfWork.PoolRepository.GetById(updatePoolDTO.PoolId);
-                    if (pool is null)
-                    {
-                        return new ResponseDTO()
-                        {
-                            Message = "Cannot found pool",
-                            IsSuccess = false,
-                            StatusCode = 404,
-                            Result = null
-                        };
-                    }
-                    pool.Size = updatePoolDTO.Size;
-                    _unitOfWork.PoolRepository.Update(pool);
-                    await _unitOfWork.SaveAsync();
-
-                    return new ResponseDTO()
-                    {
-                        Message = "Update pool successfully",
-                        IsSuccess = true,
-                        StatusCode = 200,
-                        Result = null
-                    };
-                }
-                catch (Exception e)
-                {
-                    return new ResponseDTO()
-                    {
-                        Message = e.Message,
-                        IsSuccess = false,
-                        StatusCode = 500,
-                        Result = null
-                    };
-                }
+                    Message = e.Message,
+                    IsSuccess = false,
+                    StatusCode = 500,
+                    Result = null
+                };
             }
-        }*/
-            return null;
         }
     }
+}
+
+
