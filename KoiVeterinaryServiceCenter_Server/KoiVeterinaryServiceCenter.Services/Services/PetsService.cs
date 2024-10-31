@@ -71,7 +71,7 @@ namespace KoiVeterinaryServiceCenter.Services.Services
                         "name" => pets.Where(p => p.Name.Contains(filterQuery, StringComparison.OrdinalIgnoreCase)).ToList(),
                         "species" => pets.Where(p => p.Species != null &&
                                                      p.Species.Contains(filterQuery, StringComparison.OrdinalIgnoreCase)).ToList(),
-                        "breed" => pets.Where(p => p.Description != null &&
+                        "description" => pets.Where(p => p.Description != null &&
                                                    p.Description.Contains(filterQuery, StringComparison.OrdinalIgnoreCase)).ToList(),
                         _ => pets
                     };
@@ -209,7 +209,6 @@ namespace KoiVeterinaryServiceCenter.Services.Services
 
              _unitOfWork.PetRepository.Update(pet);
              await _unitOfWork.SaveAsync();
-
             return new ResponseDTO
             {
                 IsSuccess = true,
@@ -217,7 +216,7 @@ namespace KoiVeterinaryServiceCenter.Services.Services
                 StatusCode = 200,
                 Result = pet
             };
-            return null;
+
         }
 
         public async Task<ResponseDTO> DeletePet(ClaimsPrincipal user, Guid petId)
