@@ -36,8 +36,8 @@ public class ApplicationDbContextSeed
             {
                 Id = Guid.NewGuid(),
                 TemplateName = "ForgotPasswordEmail",
-                SenderName = "Cursus Team",
-                SenderEmail = "cursusservicetts@gmail.com",
+                SenderName = "Koi Veterinary Service Center",
+                SenderEmail = "koiveterinaryservice@gmail.com",
                 Category = "Security",
                 SubjectLine = "Reset Your Password",
                 PreHeaderText = "Reset your password to regain access",
@@ -59,8 +59,8 @@ public class ApplicationDbContextSeed
             {
                 Id = Guid.NewGuid(),
                 TemplateName = "SendVerifyEmail",
-                SenderName = "Cursus Team",
-                SenderEmail = "cursusservicetts@gmail.com",
+                SenderName = "Koi Veterinary Service Center",
+                SenderEmail = "koiveterinaryservice@gmail.com",
                 Category = "Verify",
                 SubjectLine = "Cursus Verify Email",
                 PreHeaderText = "User Account Verified!",
@@ -89,7 +89,8 @@ public class ApplicationDbContextSeed
     {
         var customerRoleId = "8fa7c7bb-b4dc-480d-a660-e07a90855d5d";
         var doctorRoleId = "35446074-daa5-4973-bf02-82301a5eb327";
-        var adminRoleId = "8fa7c7bb-daa5-a660-bf02-82301a5eb327"; // Add admin role
+        var adminRoleId = "8fa7c7bb-daa5-a660-bf02-82301a5eb327";
+        var staffRoleId = "8sa7c7bb-b4dc-480d-a660-82301a5eb327";
 
         var roles = new List<IdentityRole>
         {
@@ -113,13 +114,20 @@ public class ApplicationDbContextSeed
                 ConcurrencyStamp = StaticUserRoles.Admin,
                 Name = StaticUserRoles.Admin,
                 NormalizedName = StaticUserRoles.Admin,
+            },
+            new IdentityRole
+            {
+                Id = staffRoleId,
+                ConcurrencyStamp = StaticUserRoles.Staff,
+                Name = StaticUserRoles.Staff,
+                NormalizedName = StaticUserRoles.Staff,
             }
         };
 
         modelBuilder.Entity<IdentityRole>().HasData(roles);
 
         // Seeding admin user
-        var adminUserId = "BestZedAndYasuo";
+        var adminUserId = "AdminId";
         var hasher = new PasswordHasher<ApplicationUser>();
         var adminUser = new ApplicationUser
         {
@@ -145,8 +153,62 @@ public class ApplicationDbContextSeed
             LockoutEnabled = true,
             AccessFailedCount = 0
         };
-
-        modelBuilder.Entity<ApplicationUser>().HasData(adminUser);
+        
+        // Seeding staff user
+        var staffUserId = "StaffId";
+        var staffUser = new ApplicationUser
+        {
+            Id = staffUserId,
+            Gender = "Male", // Set appropriate value
+            FullName = "Staff_1 User",
+            BirthDate = new DateTime(1990, 1, 1), // Set appropriate value
+            AvatarUrl = "https://example.com/avatarStaff.png", // Set appropriate value
+            Country = "Country", // Set appropriate value
+            Address = "123 Staff St",
+            UserName = "staff1@gmail.com",
+            NormalizedUserName = "STAFF1@GMAIL.COM",
+            Email = "staff1@gmail.com",
+            NormalizedEmail = "STAFF1@GMAIL.COM",
+            EmailConfirmed = true,
+            PasswordHash = hasher.HashPassword(null, "Staff123!"),
+            SecurityStamp = Guid.NewGuid().ToString(),
+            ConcurrencyStamp = Guid.NewGuid().ToString(),
+            PhoneNumber = "0123456789",
+            PhoneNumberConfirmed = true,
+            TwoFactorEnabled = false,
+            LockoutEnd = null,
+            LockoutEnabled = true,
+            AccessFailedCount = 0
+        };
+        
+        // Seeding second staff user
+        var staffUserId2 = "StaffId2";
+        var staffUser2 = new ApplicationUser
+        {
+            Id = staffUserId2,
+            Gender = "Female",
+            FullName = "Staff_2 User",
+            BirthDate = new DateTime(1991, 2, 2),
+            AvatarUrl = "https://example.com/avatarStaff2.png",
+            Country = "Country",
+            Address = "456 Staff St",
+            UserName = "staff2@gmail.com",
+            NormalizedUserName = "STAFF2@GMAIL.COM",
+            Email = "staff2@gmail.com",
+            NormalizedEmail = "STAFF2@GMAIL.COM",
+            EmailConfirmed = true,
+            PasswordHash = hasher.HashPassword(null, "Staff123!"),
+            SecurityStamp = Guid.NewGuid().ToString(),
+            ConcurrencyStamp = Guid.NewGuid().ToString(),
+            PhoneNumber = "0987654321",
+            PhoneNumberConfirmed = true,
+            TwoFactorEnabled = false,
+            LockoutEnd = null,
+            LockoutEnabled = true,
+            AccessFailedCount = 0
+        };
+        
+        modelBuilder.Entity<ApplicationUser>().HasData(adminUser, staffUser,staffUser2);
 
         // Assigning the admin role to the admin user
         modelBuilder.Entity<IdentityUserRole<string>>().HasData(new IdentityUserRole<string>
