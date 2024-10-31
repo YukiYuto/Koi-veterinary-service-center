@@ -1,4 +1,6 @@
-﻿using KoiVeterinaryServiceCenter.DataAccess.IRepository;
+﻿using AutoMapper;
+using FirebaseAdmin.Messaging;
+using KoiVeterinaryServiceCenter.DataAccess.IRepository;
 using KoiVeterinaryServiceCenter.Models.Domain;
 using KoiVeterinaryServiceCenter.Models.DTO;
 using KoiVeterinaryServiceCenter.Models.DTO.Pet;
@@ -16,6 +18,7 @@ namespace KoiVeterinaryServiceCenter.Services.Services
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IFirebaseService _firebaseService;
+        private readonly IMapper _mapper;
 
         public PetsService(IFirebaseService firebaseService, IUnitOfWork unitOfWork)
         {
@@ -31,7 +34,9 @@ namespace KoiVeterinaryServiceCenter.Services.Services
                 Name = createPetDTO.Name,
                 Species = createPetDTO.Species,
                 Breed = createPetDTO.Breed,
-                CustomerId = createPetDTO.CustomerId
+                PetUrl= createPetDTO.PetUrl,
+                CustomerId= createPetDTO.CustomerId
+             
             };
 
             await _unitOfWork.PetRepository.AddAsync(pet);
@@ -41,7 +46,7 @@ namespace KoiVeterinaryServiceCenter.Services.Services
             {
                 IsSuccess = true,
                 Message = "Pet created successfully",
-                StatusCode = 201,
+                StatusCode = 200,
                 Result = pet
             };
         }
@@ -101,7 +106,7 @@ namespace KoiVeterinaryServiceCenter.Services.Services
                     Name = p.Name,
                     Species = p.Species,
                     Breed = p.Breed,
-                    CustomerId = p.CustomerId,
+                   
                     PetUrl = p.PetUrl,
                 }).ToList();
 
@@ -144,7 +149,7 @@ namespace KoiVeterinaryServiceCenter.Services.Services
                 Name = pet.Name,
                 Species = pet.Species,
                 Breed = pet.Breed,
-                CustomerId = pet.CustomerId,
+               
                 PetUrl= pet.PetUrl,
                
                 
@@ -161,7 +166,7 @@ namespace KoiVeterinaryServiceCenter.Services.Services
 
         public async Task<ResponseDTO> GetPetsByCustomerId(ClaimsPrincipal user, string customerId)
         {
-            var pets = await _unitOfWork.PetRepository.GetPetbyCustomerId(customerId);
+            List<Pet> pets = await _unitOfWork.PetRepository.GetPetbyCustomerId(customerId);
 
             if (pets == null || !pets.Any())
             {
@@ -172,6 +177,11 @@ namespace KoiVeterinaryServiceCenter.Services.Services
                     StatusCode = 404
                 };
             }
+
+           
+            
+
+
 
             return new ResponseDTO
             {

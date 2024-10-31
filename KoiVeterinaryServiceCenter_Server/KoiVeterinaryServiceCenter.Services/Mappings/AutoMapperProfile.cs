@@ -3,12 +3,14 @@ using Google.Apis.Storage.v1;
 using KoiVeterinaryServiceCenter.Model.Domain;
 using KoiVeterinaryServiceCenter.Model.DTO.Service;
 using KoiVeterinaryServiceCenter.Models.Domain;
+using KoiVeterinaryServiceCenter.Models.DTO;
 using KoiVeterinaryServiceCenter.Models.DTO.Appointment;
 using KoiVeterinaryServiceCenter.Models.DTO.AppointmentDeposit;
 using KoiVeterinaryServiceCenter.Models.DTO.DashBoard;
 using KoiVeterinaryServiceCenter.Models.DTO.Doctor;
 using KoiVeterinaryServiceCenter.Models.DTO.DoctorSchedules;
 using KoiVeterinaryServiceCenter.Models.DTO.DoctorServices;
+using KoiVeterinaryServiceCenter.Models.DTO.Pet;
 using KoiVeterinaryServiceCenter.Models.DTO.PetService;
 using KoiVeterinaryServiceCenter.Models.DTO.Pool;
 using KoiVeterinaryServiceCenter.Models.DTO.Transaction;
@@ -73,6 +75,23 @@ public class AutoMapperProfile : Profile
             .ForMember(dest => dest.Breed, opt => opt.MapFrom(src => src.Pet.Breed))
             .ForMember(dest => dest.ServiceName, opt => opt.MapFrom(src => src.Service.ServiceName))
             .ForMember(dest => dest.Price, opt => opt.MapFrom(src => src.Service.Price)).ReverseMap();
+        CreateMap<Pet, GetPetDTO>()
+            .ForMember(dest =>dest.PetId,opt => opt.MapFrom(src =>src.PetId))
+             .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name))
+            .ForMember(dest => dest.Species, opt => opt.MapFrom(src => src.Species))
+            .ForMember(dest => dest.Breed, opt => opt.MapFrom(src => src.Breed))
+            .ForMember(dest => dest.PetUrl, opt => opt.MapFrom(src => src.PetUrl)).ReverseMap();
+        CreateMap<PetDisease, GetPetDiseaseDTO>()
+           .ForMember(dest => dest.PetId, opt => opt.MapFrom(src => src.PetId))
+           .ForMember(dest => dest.DiseaseId, opt => opt.MapFrom(src => src.DiseaseId))
+           .ForMember(dest => dest.DiseaseName, opt => opt.MapFrom(src => src.Disease.Name)) // Assuming Disease has a Name property
+           .ForMember(dest => dest.PetName, opt => opt.MapFrom(src => src.Pet.Name)) // Assuming Pet has a Name property
+           .ReverseMap();
+
+        CreateMap<PetDisease, CreatePetDiseaseDTO>()
+            .ForMember(dest => dest.PetId, opt => opt.MapFrom(src => src.PetId))
+            .ForMember(dest => dest.DiseaseId, opt => opt.MapFrom(src => src.DiseaseId))
+            .ReverseMap();
         CreateMap<Slot, DoctorFullInfoDTO>()
             .ForMember(dest => dest.DoctorId, opt => opt.MapFrom(src => src.DoctorSchedules.Doctor.DoctorId))
             .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.DoctorSchedules.Doctor.UserId))
@@ -96,6 +115,5 @@ public class AutoMapperProfile : Profile
             .ForMember(dest => dest.appointmentDepositNumber, opt => opt.MapFrom(src => src.AppointmentDepositNumber))
             .ForMember(dest => dest.depositStatus, opt => opt.MapFrom(src => src.DepositStatus));
         CreateMap<Transaction, GetRevenueOfMonthDTO>().ReverseMap();
-
     }
 }

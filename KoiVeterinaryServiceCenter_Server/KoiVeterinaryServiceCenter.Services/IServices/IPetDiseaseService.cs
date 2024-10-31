@@ -22,10 +22,10 @@ namespace KoiVeterinaryServiceCenter.Services.IServices
 
         Task<ResponseDTO> GetPetDiseasesByDiseaseId(Guid diseaseId);
 
-        Task<ResponseDTO> AddPetDisease(ClaimsPrincipal user, CreatePetDiseaseDTO petDiseaseDTO);
+        Task<ResponseDTO> CreatePetDisease(ClaimsPrincipal user, CreatePetDiseaseDTO petDiseaseDTO);
 
-        Task<ResponseDTO> UpdatePetDisease(ClaimsPrincipal user, UpdatePetDiseaseDTO petDiseaseDTO);
+        //Task<ResponseDTO> UpdatePetDisease(ClaimsPrincipal user, UpdatePetDiseaseDTO petDiseaseDTO);
 
-        Task<ResponseDTO> DeletePetDisease(ClaimsPrincipal user, Guid petId, Guid diseaseId);
+        
     }
 }
