@@ -18,7 +18,6 @@ namespace KoiVeterinaryServiceCenter.API.Controller
         }
         
         [HttpPost]
-        [Authorize]
         public async Task<ActionResult<ResponseDTO>> CreateAppointmentDeposit([FromBody] CreateAppointmentDepositDTO createAppointmentDepositDto)
         {
             var responseDto = await _appointmentDepositService.CreateAppointmentDeposit(User, createAppointmentDepositDto);
