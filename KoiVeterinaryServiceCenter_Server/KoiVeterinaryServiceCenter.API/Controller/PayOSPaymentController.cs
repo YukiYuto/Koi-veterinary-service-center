@@ -2,8 +2,8 @@
 using KoiVeterinaryServiceCenter.Services.IServices;
 using System.Threading.Tasks;
 using Net.payOS.Types;
-using KoiVeterinaryServiceCenter.Model.DTO;
 using KoiVeterinaryServiceCenter.Models.DTO;
+using KoiVeterinaryServiceCenter.Models.DTO.Payment;
 
 namespace KoiVeterinaryServiceCenter.API.Controllers
 {
@@ -21,16 +21,17 @@ namespace KoiVeterinaryServiceCenter.API.Controllers
         [HttpPost("create-payment-link")]
         public async Task<ActionResult<ResponseDTO>> CreatePaymentLink([FromBody] CreatePaymentLinkDTO createPaymentLinkDTO)
         {
-            try
-            {
                 var responseDto = await _paymentService.CreatePayOSPaymentLink(User, createPaymentLinkDTO);
 
                 return StatusCode(responseDto.StatusCode, responseDto);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(new { message = ex.Message });
-            }
+        }
+
+        [HttpPost("create-payment-link-for-deposit-part-1")]
+        public async Task<ActionResult<ResponseDTO>> CreatePayOSLinkForDepositPart1([FromBody] CreatePaymentLinkDTO createPaymentLinkDTO)
+        {
+            var responseDto = await _paymentService.CreatePayOSLinkForDepositPart1(User, createPaymentLinkDTO);
+
+            return StatusCode(responseDto.StatusCode, responseDto);
         }
 
         [HttpPut("{paymentTransactionId:guid}/update-payment-status")]
